@@ -8,7 +8,25 @@
 <body>
 <main layout:fragment="content">
 
-    <div>Welcome to Wine Guesser!</div>
+    <h2>Open new game lobby</h2>
+    <form action="gameSetup.html" method="get">
+        <input type="text" placeholder="Enter your username" th:value="#{apply.submit}"></input>
+        <br>
+        <br>
+        <button class="red" type="submit"> Open Lobby </button>
+    </form>
+    <br>
+    <br>
+    <h2>Join a already existing game lobby</h2>
+    <form action="#" th:action="@{/apply}" th:object="${applicationForm}" method="post">
+        <input type="text" placeholder="Enter your username" th:value="#{apply.submit}"></input>
+        <br>
+        <br>
+        <input type="text" placeholder="Enter the code to the lobby" th:value="#{apply.submit}"></input>
+        <br>
+        <br>
+        <button type="submit"> Join Lobby</button>
+    </form>
 
 </main>
 </body>

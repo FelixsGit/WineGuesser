@@ -1,4 +1,4 @@
 package toppar.wine_guesser.repository;
 
-public class PlayerRepository {
+public interface PlayerRepository {
 }

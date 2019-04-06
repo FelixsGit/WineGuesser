@@ -16,5 +16,4 @@ public class ApplicationController {
         return "home";
     }
 
-
 }
