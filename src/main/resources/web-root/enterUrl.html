@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <span th:unless="${pathToQRCode.byteAsString}">
+        <h2>Enter one of the url's on the wine that you plan to serve.</h2>
+        <h3>Url must be from http://www.bodegashop.com...</h3>
+        <br>
+        <form action="#" th:action="@{/enterUrl}" th:object="${enterUrlForm}" method="post">
+            <input type="text" placeholder="https://www.systembolaget.se..." th:field="*{wineUrl}"/>
+            <div>
+                <span class="error"
+                    th:if="${#fields.errors('wineUrl')}"
+                     th:errors="*{wineUrl}">
+                </span>
+            </div>
+            <br>
+            <button id="bot" type="submit">Continue</button>
+        </form>
+    </span>
+    <span th:if="${pathToQRCode.byteAsString}">
+        <h2>Here you can see a generated QR code containing the link to the url that you just entered.</h2>
+        <br>
+        <h3>Now please cover the corresponding bottle or poor the wine into a serving goblet.</h3>
+        <h3>Furthermore print out the QR code and paste it on the underside of the bottle/goblet</h3>
+        <br>
+        <img th:each="String : ${pathToQRCode.qrCodeList}"
+             th:src="*{'data:image/png;base64,'+String}">
+        <br>
+        <br>
+        <h3>If you have more wine that you plan to serve, click</h3>
+        <h3>the button below to repeat the process with another wine.</h3>
+        <br>
+        <form action="/enterUrl">
+            <button type="submit">Continue</button>
+        </form>
+    </span>
+</main>
+</body>
+</html>
