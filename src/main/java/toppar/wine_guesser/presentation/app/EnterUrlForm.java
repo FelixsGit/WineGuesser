@@ -1,32 +1,35 @@
 package toppar.wine_guesser.presentation.app;
 
-
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class EnterUrlForm {
 
-    private static final String URL_FORMAT_ERROR_MSG = "Must be an url";
 
-    @NotBlank
-    @NotNull
+    public List<String> getUrlList() {
+        return urlList;
+    }
+
+    public void setUrlList(List<String> urlList) {
+        this.urlList = urlList;
+    }
+
     @NotEmpty
-    @URL(message = URL_FORMAT_ERROR_MSG)
-    private String wineUrl;
+    private List<String> urlList;
 
-    public static String getUrlFormatErrorMsg() {
-        return URL_FORMAT_ERROR_MSG;
+    private String missing;
+
+    public String getMissing() {
+        return missing;
     }
 
-    public String getWineUrl() {
-        return wineUrl;
+    public void setMissing(String missing) {
+        this.missing = missing;
     }
-
-    public void setWineUrl(String wineUrl) {
-        this.wineUrl = wineUrl;
-    }
-
 }

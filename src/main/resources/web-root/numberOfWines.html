@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <h2>Enter the number of wines you plan to serve.</h2>
+    <form action=# th:action="@{/numberOfWines}" th:object="${numberOfWinesForm}" method="post">
+        <input type="text" placeholder="Enter number of wines" th:field="*{numberOfWines}"/>
+        <div>
+            <span class="error"
+                  th:if="${#fields.errors('numberOfWines')}"
+                  th:errors="*{numberOfWines}">
+            </span>
+        </div>
+        <br>
+        <br>
+        <button type="submit">Continue</button>
+    </form>
+
+</main>
+</body>
+</html>

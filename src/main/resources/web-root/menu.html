@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <form class="logoutButton" th:action="@{/logout}" method="post">
+        <button type="submit">Sing Out</button>
+    </form>
+
+    <h2>Open new lobby</h2>
+    <form action="/numberOfWines">
+        <button type="submit">Go to Setup</button>
+    </form>
+    <br>
+    <br>
+    <h2>Join a already existing lobby</h2>
+    <form action=# th:action="@{/home}" th:object="${joinGameLobbyForm}" method="post">
+        <input type="text" placeholder="Enter the code to the lobby" th:field="*{joinCode}"/>
+        <div>
+            <span class="error"
+                  th:if="${#fields.errors('joinCode')}"
+                  th:errors="*{joinCode}">
+            </span>
+        </div>
+        <br>
+        <br>
+        <button type="submit">Join Lobby</button>
+    </form>
+
+</main>
+</body>
+</html>

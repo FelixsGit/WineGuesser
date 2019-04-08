@@ -1,4 +1,4 @@
-package toppar.wine_guesser.application;
+package toppar.wine_guesser.util;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
