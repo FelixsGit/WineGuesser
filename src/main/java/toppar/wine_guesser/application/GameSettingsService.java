@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.GameSettings;
+import toppar.wine_guesser.domain.GameSettingsDTO;
+import toppar.wine_guesser.domain.GameSetup;
+import toppar.wine_guesser.domain.GameSetupDTO;
 import toppar.wine_guesser.repository.GameSettingsRepository;
 import toppar.wine_guesser.util.UrlScanner;
 import toppar.wine_guesser.util.ZXingHelper;
@@ -20,6 +23,16 @@ public class GameSettingsService {
     private GameSettingsRepository gameSettingsRepository;
     @Autowired
     private GameSetupService gameSetupService;
+
+    public List<String> getQrCodesByGameHost(String username){
+        GameSetupDTO gameSetupDTO  = gameSetupService.getGameSetupByGameHost(username);
+        List<GameSettings> gameSettingsDTOS = gameSettingsRepository.findAllByGameId(gameSetupDTO.getGameId());
+        List<String> qrCodes = new ArrayList<>();
+        for(int i = 0; i < gameSettingsDTOS.size(); i++){
+            qrCodes.add(gameSettingsDTOS.get(i).getQrCode());
+        }
+        return qrCodes;
+    }
 
 
     public List<String> createGameSettings(List<String> urlList, String gameHost){

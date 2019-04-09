@@ -26,13 +26,14 @@ public class ApplicationController {
     public static final String LOGIN_PAGE_URL = "/login";
     public static final String REGISTER_PAGE_URL = "/register";
     public static final String NUMBER_OF_WINES_PAGE_URL = "/numberOfWines";
+    public static final String PRINT_QR_CODES_PAGE_URL = "/printQrCodes";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
     public static final String LOGIN_OBJ_NAME = "login";
     public static final String JOIN_GAME_LOBBY_OBJ_NAME = "joinGameLobbyForm";
     public static final String ENTER_URL_OBJ_NAME = "enterUrlForm";
     public static final String NUMBER_OF_WINES_OBJ_NAME = "numberOfWines";
-    public static final String PATH_TO_QR_CODE_OBJ_NAME = "pathToQRCode";
+    public static final String PRINT_QR_CODES_OBJ_NAME = "printQrCodesForm";
 
 
     //////////////////////////////////////GET MAPPINGS/////////////////////////////////////////////////////
@@ -52,6 +53,18 @@ public class ApplicationController {
     @GetMapping(HOME_PAGE_URL)
     public String showHomePage(){
         return HOME_PAGE_URL;
+    }
+
+    @GetMapping(PRINT_QR_CODES_PAGE_URL)
+    public String showPrintQrCodesPage(Model model, HttpServletRequest request){
+        if(!model.containsAttribute(PRINT_QR_CODES_OBJ_NAME)){
+            model.addAttribute(new PrintQrCodesForm());
+        }
+        PrintQrCodesForm printQrCodesForm = new PrintQrCodesForm();
+        List<String> qrCodes = gameSettingsService.getQrCodesByGameHost(request.getUserPrincipal().getName());
+        printQrCodesForm.setQrCodes(qrCodes);
+        model.addAttribute(printQrCodesForm);
+        return PRINT_QR_CODES_PAGE_URL;
     }
 
     @GetMapping(LOGIN_PAGE_URL)
@@ -144,8 +157,7 @@ public class ApplicationController {
            model.addAttribute(missingDecData);
            return showEnterUrlView(model, request);
         }
-        model.addAttribute(missingDecData);
-        return showEnterUrlView(model, request);
+        return showPrintQrCodesPage(model, request);
     }
 
     @PostMapping(HOME_PAGE_URL)

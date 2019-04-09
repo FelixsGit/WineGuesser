@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <form class="logoutButton" th:action="@{/logout}" method="post">
+        <button type="submit">Sing Out</button>
+    </form>
+
+    <h2>Time to do some printing and pasting!</h2>
+    <h3>Here are the QR codes corresponding to the order of the wines that you entered</h3>
+    <h3>Your task now is to cover the bottle/poar the wine into the server goblet.</h3>
+    <h3>And paste the correct QR code on the now unidentifiable bottle/goblet.</h3>
+    <br>
+    <img th:each="String, var : ${printQrCodesForm.qrCodes}"
+         th:src="*{'data:image/png;base64,'+String}">
+    <br>
+    <br>
+    <h3>Alright I'm done, now mix the bottles/goblets.</h3>
+    <br>
+    <h3>No go to the next step</h3>
+    <br>
+    <form action="/enterServingOrder">
+        <button id="bot" type="submit">Continue</button>
+    </form>
+    <br>
+
+
+</main>
+</body>
+</html>
