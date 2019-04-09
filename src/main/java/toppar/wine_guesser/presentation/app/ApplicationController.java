@@ -9,11 +9,11 @@ import toppar.wine_guesser.application.GameSettingsService;
 import toppar.wine_guesser.application.GameSetupService;
 import toppar.wine_guesser.domain.GameSetupDTO;
 import toppar.wine_guesser.application.UserService;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ApplicationController {
@@ -29,10 +29,10 @@ public class ApplicationController {
     public static final String PRINT_QR_CODES_PAGE_URL = "/printQrCodes";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
-    public static final String LOGIN_OBJ_NAME = "login";
+    public static final String LOGIN_OBJ_NAME = "loginForm";
     public static final String JOIN_GAME_LOBBY_OBJ_NAME = "joinGameLobbyForm";
     public static final String ENTER_URL_OBJ_NAME = "enterUrlForm";
-    public static final String NUMBER_OF_WINES_OBJ_NAME = "numberOfWines";
+    public static final String NUMBER_OF_WINES_OBJ_NAME = "numberOfWinesForm";
     public static final String PRINT_QR_CODES_OBJ_NAME = "printQrCodesForm";
 
 
@@ -93,7 +93,7 @@ public class ApplicationController {
 
 
     @GetMapping(MENU_PAGE_URL)
-    public String showMenuView(Model model){
+    public String showMenuPage(Model model, HttpServletRequest request){
         if(!model.containsAttribute(JOIN_GAME_LOBBY_OBJ_NAME)){
             model.addAttribute(new JoinGameLobbyForm());
         }
@@ -101,10 +101,12 @@ public class ApplicationController {
     }
 
     @GetMapping(ENTER_URL_PAGE_URL)
-    public String showEnterUrlView(Model model, HttpServletRequest request){
+    public String showEnterUrlPage(Model model, HttpServletRequest request){
         if(!model.containsAttribute(ENTER_URL_OBJ_NAME) && !model.containsAttribute("missingDecData")){
             model.addAttribute(new EnterUrlForm());
-            model.addAttribute(new MissingDecData());
+            MissingDecData missingDecData = new MissingDecData();
+            missingDecData.setMissing("notMissing");
+            model.addAttribute(missingDecData);
         }
         GameSetupDTO gameSetupDTO = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName());
         int amountOfWines = Integer.parseInt(gameSetupDTO.getAmountOfWines());
@@ -119,7 +121,7 @@ public class ApplicationController {
     }
 
     @GetMapping(LOBBY_PAGE_URL)
-    public String showLobbyView(Model model){
+    public String showLobbyPage(Model model){
         return LOBBY_PAGE_URL;
     }
 
@@ -139,15 +141,18 @@ public class ApplicationController {
         if(bindingResult.hasErrors()){
             return showNumberOfWinesPage(model);
         }
-        gameSetupService.createGameSetup(numberOfWinesForm.getNumberOfWines(), request.getUserPrincipal().getName());
-        return showEnterUrlView(model, request);
+        gameSetupService.createGameSetup(numberOfWinesForm.getNumWines(), request.getUserPrincipal().getName());
+        return showEnterUrlPage(model, request);
     }
 
     @PostMapping(ENTER_URL_PAGE_URL)
     public String enterUrlToWine(@Valid @ModelAttribute EnterUrlForm enterUrlForm, BindingResult bindingResult, Model model,
                                  HttpServletRequest request){
         if(bindingResult.hasErrors()){
-            return showEnterUrlView(model, request);
+            MissingDecData missingDecData = new MissingDecData();
+            missingDecData.setMissing("notMissing");
+            model.addAttribute(missingDecData);
+            return showEnterUrlPage(model, request);
         }
         List<String> urlsThatMissDescriptions = gameSettingsService.createGameSettings(enterUrlForm.getUrlList(), request.getUserPrincipal().getName());
         MissingDecData missingDecData = new MissingDecData();
@@ -155,17 +160,17 @@ public class ApplicationController {
            missingDecData.setMissingList(urlsThatMissDescriptions);
            missingDecData.setMissing("missing");
            model.addAttribute(missingDecData);
-           return showEnterUrlView(model, request);
+           return showEnterUrlPage(model, request);
         }
         return showPrintQrCodesPage(model, request);
     }
 
-    @PostMapping(HOME_PAGE_URL)
-    public String joinExistingGameLobby(@Valid @ModelAttribute JoinGameLobbyForm joinGameLobbyForm, BindingResult bindingResult, Model model){
+    @PostMapping(MENU_PAGE_URL)
+    public String joinExistingGameLobby(@Valid @ModelAttribute JoinGameLobbyForm joinGameLobbyForm, BindingResult bindingResult, Model model, HttpServletRequest request){
         if(bindingResult.hasErrors()){
-            return showMenuView(model);
+            return showMenuPage(model, request);
         }
-        return showLobbyView(model);
+        return showLobbyPage(model);
     }
 
 }

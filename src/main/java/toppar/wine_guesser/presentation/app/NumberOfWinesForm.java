@@ -7,13 +7,13 @@ public class NumberOfWinesForm {
 
     @NotEmpty(message = "Please enter a amount")
     @Pattern(regexp="(^$|[2-9]{1})", message = "Must be between 1 and 10")
-    private String numberOfWines;
+    private String numWines;
 
-    public String getNumberOfWines() {
-        return numberOfWines;
+    public String getNumWines() {
+        return numWines;
     }
 
-    public void setNumberOfWines(String numberOfWines) {
-        this.numberOfWines = numberOfWines;
+    public void setNumWines(String numWines) {
+        this.numWines = numWines;
     }
 }

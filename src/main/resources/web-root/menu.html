@@ -9,7 +9,7 @@
 <main layout:fragment="content">
 
     <form class="logoutButton" th:action="@{/logout}" method="post">
-        <button type="submit">Sing Out</button>
+        <button type="submit">Sign Out</button>
     </form>
 
     <h2>Open new lobby</h2>
@@ -19,7 +19,7 @@
     <br>
     <br>
     <h2>Join a already existing lobby</h2>
-    <form action=# th:action="@{/home}" th:object="${joinGameLobbyForm}" method="post">
+    <form action=# th:action="@{/menu}" th:object="${joinGameLobbyForm}" method="post">
         <input type="text" placeholder="Enter the code to the lobby" th:field="*{joinCode}"/>
         <div>
             <span class="error"

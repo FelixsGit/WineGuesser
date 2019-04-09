@@ -9,7 +9,7 @@
 <main layout:fragment="content">
 
     <form class="logoutButton" th:action="@{/logout}" method="post">
-        <button type="submit">Sing Out</button>
+        <button type="submit">Sign Out</button>
     </form>
 
     <h2>Time to do some printing and pasting!</h2>
@@ -21,9 +21,9 @@
          th:src="*{'data:image/png;base64,'+String}">
     <br>
     <br>
-    <h3>Alright I'm done, now mix the bottles/goblets.</h3>
+    <h3>IMPORTANT: REMEMBER TO MIX THE BOTTELS/GOBLETS AFTER YOU stick the QR code on them!</h3>
     <br>
-    <h3>No go to the next step</h3>
+    <h3>If you are done, go to the next step</h3>
     <br>
     <form action="/enterServingOrder">
         <button id="bot" type="submit">Continue</button>

@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.GameSettings;
-import toppar.wine_guesser.domain.GameSettingsDTO;
-import toppar.wine_guesser.domain.GameSetup;
 import toppar.wine_guesser.domain.GameSetupDTO;
 import toppar.wine_guesser.repository.GameSettingsRepository;
 import toppar.wine_guesser.util.UrlScanner;
