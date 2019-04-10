@@ -11,6 +11,7 @@ import toppar.wine_guesser.util.UrlScanner;
 import toppar.wine_guesser.util.ZXingHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
@@ -21,6 +22,10 @@ public class GameSettingsService {
     private GameSettingsRepository gameSettingsRepository;
     @Autowired
     private GameSetupService gameSetupService;
+
+    private void deleteGameSettingsByGameId(String gameId){
+        gameSettingsRepository.removeAllByGameId(gameId);
+    }
 
     public List<String> getQrCodesByGameHost(String username){
         GameSetupDTO gameSetupDTO  = gameSetupService.getGameSetupByGameHost(username);
@@ -34,9 +39,10 @@ public class GameSettingsService {
 
 
     public List<String> createGameSettings(List<String> urlList, String gameHost){
+        String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();
+        deleteGameSettingsByGameId(gameId);
         List<String> qrCodes = generateQrCodesFromUrls(urlList);
         List<String> descriptions = retrieveAllDescriptionsFromUrlList(urlList);
-        String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();
         List<String> wineDescriptionMissing = new ArrayList<>();
         boolean anyWineMissingDescription = false;
         for(int i = 0; i < urlList.size(); i++){

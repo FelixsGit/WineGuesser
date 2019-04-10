@@ -8,13 +8,10 @@
 <body>
 <main layout:fragment="content">
 
-    <form class="logoutButton" th:action="@{/logout}" method="post">
-        <button type="submit">Sign Out</button>
-    </form>
-
-    <h2>Enter the number of wines you plan to serve.</h2>
+    <h3>Skriv in antalet viner som du planerar att servera.</h3>
+    <br>
     <form action=# th:action="@{/numberOfWines}" th:object="${numberOfWinesForm}" method="post">
-        <input type="text" placeholder="Enter number of wines" th:field="*{numWines}"/>
+        <input type="text" placeholder="Antal" th:field="*{numWines}"/>
         <div>
             <span class="error"
                   th:if="${#fields.errors('numWines')}"
@@ -23,7 +20,7 @@
         </div>
         <br>
         <br>
-        <button type="submit">Continue</button>
+        <button type="submit">Gå Vidare</button>
     </form>
 
 </main>

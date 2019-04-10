@@ -18,6 +18,6 @@ public interface GameSettingsRepository extends JpaRepository<GameSettings, Stri
 
     List<GameSettings> findAllByGameId(String gameId);
 
-
+    void removeAllByGameId(String gameId);
 
 }

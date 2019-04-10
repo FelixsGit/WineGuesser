@@ -5,8 +5,8 @@ import javax.validation.constraints.Pattern;
 
 public class NumberOfWinesForm {
 
-    @NotEmpty(message = "Please enter a amount")
-    @Pattern(regexp="(^$|[2-9]{1})", message = "Must be between 1 and 10")
+    @NotEmpty(message = "Skriv in ett antal")
+    @Pattern(regexp="(^$|[2-9]{1})", message = "Antal från 2 till 9")
     private String numWines;
 
     public String getNumWines() {

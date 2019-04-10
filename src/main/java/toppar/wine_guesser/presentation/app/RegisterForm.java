@@ -4,9 +4,9 @@ import javax.validation.constraints.NotEmpty;
 
 public class RegisterForm {
 
-    @NotEmpty
+    @NotEmpty(message = "Får inte vara tomt")
     private String username;
-    @NotEmpty
+    @NotEmpty(message = "Får inte vara tomt")
     private String password;
 
     public String getUsername() {

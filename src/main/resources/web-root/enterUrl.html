@@ -8,13 +8,9 @@
 <body>
 <main layout:fragment="content">
 
-    <form class="logoutButton" th:action="@{/logout}" method="post">
-        <button type="submit">Sign Out</button>
-    </form>
-
     <div th:if="${missingDecData.missing == 'notMissing'}">
-        <h2>Enter the links to the wines you plan to serve.</h2>
-        <h3>The urls must be to products from https://www.systembolaget.se or http://www.bodegashop.com</h3>
+        <h2>Skriv in fulla länkar till de viner som du planerar att servera</h2>
+        <h3>Länkarna måste vara från domänen https://www.systembolaget.se eller http://www.bodegashop.com</h3>
         <br>
         <form action="#" th:action="@{/enterUrl}" th:object="${enterUrlForm}" method="post">
             <div th:each="String, var : *{urlList}">
@@ -27,24 +23,24 @@
                 </div>
             </div>
             <br>
-        <button id="bot" type="submit">Continue</button>
+        <button id="bot" type="submit">Gå Vidare</button>
         </form>
     </div>
 
     <div th:if="${missingDecData.missing == 'missing'}">
-        <h2>Ops!</h2>
-        <h3>We could not find a description for one or more of the wines</h3>
-        <h3>that you entered. Namely: </h3>
+        <h3>oJ,0j,Oj!</h3>
+        <h3>Vi kunde inte hitta en beskrivning för en eller flera av de viner som</h3>
+        <h3>du länkade till. Nämligen: </h3>
         <br>
         <div th:each="String, var : *{missingDecData.missingList}">
-            <h1 th:href="${String}" th:text="${String}"></h1>
+            <h3 th:href="${String}" th:text="${String}"></h3>
         </div>
         <br>
         <br>
-        <h3>Please go back and choose another wine.</h3>
+        <h3>Du kan gå tillbaka och välja ett annat vin eller minska på antalet viner.</h3>
         <br>
         <form action="/numberOfWines">
-            <button id="bot" type="submit">Back</button>
+            <button id="bot" type="submit">Tillbaka</button>
         </form>
 
     </div>

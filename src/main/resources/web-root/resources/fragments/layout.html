@@ -4,10 +4,12 @@
     <title>Wine Guesser</title>
     <link rel="stylesheet" type="text/css" th:href="@{/resources/css/reset.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/resources/css/styles.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/nav.css}"/>
     <link href='https://fonts.googleapis.com/css?family=Cabin' rel='stylesheet'>
 </head>
 <body>
 <header th:replace="~{resources/fragments/header::header}"></header>
+<userBar th:replace="~{resources/fragments/userBar::userBar}"></userBar>
 <main layout:fragment="content"></main>
 
 </body>

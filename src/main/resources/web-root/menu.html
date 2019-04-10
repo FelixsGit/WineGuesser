@@ -8,19 +8,16 @@
 <body>
 <main layout:fragment="content">
 
-    <form class="logoutButton" th:action="@{/logout}" method="post">
-        <button type="submit">Sign Out</button>
-    </form>
-
-    <h2>Open new lobby</h2>
+    <h3>Öppna en ny lobby</h3>
     <form action="/numberOfWines">
-        <button type="submit">Go to Setup</button>
+        <button type="submit">Börja förbereda</button>
     </form>
     <br>
     <br>
-    <h2>Join a already existing lobby</h2>
+    <h3>Gå med i en redan existerande lobby.</h3>
+    <br>
     <form action=# th:action="@{/menu}" th:object="${joinGameLobbyForm}" method="post">
-        <input type="text" placeholder="Enter the code to the lobby" th:field="*{joinCode}"/>
+        <input type="text" placeholder="Kod" th:field="*{joinCode}"/>
         <div>
             <span class="error"
                   th:if="${#fields.errors('joinCode')}"
@@ -29,7 +26,7 @@
         </div>
         <br>
         <br>
-        <button type="submit">Join Lobby</button>
+        <button type="submit">Gå Med I Lobby</button>
     </form>
 
 </main>

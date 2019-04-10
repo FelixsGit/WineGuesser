@@ -1,12 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <header id="header" th:fragment="header">
-    <h1 th:text="'Wine Guesser'"></h1>
+    <div class="custom-padding">
+        <nav>
+            <div href="/home" class="logo">Gissa Vinet</div>
+
+            <div sec:authorize="isAuthenticated()">
+                <ul class="menu-area">
+                    <li><a href="/home">Hem</a></li>
+                    <li><a href="/menu">Meny</a></li>
+                    <li><a href="#">Om</a></li>
+                </ul>
+            </div>
+
+            <div sec:authorize="isAnonymous()">
+                <ul class="menu-area">
+                    <li><a href="/home">Hem</a></li>
+                    <li><a href="/login">Logga in</a></li>
+                    <li><a href="/register">Registrering</a></li>
+                    <li><a href="#">Om</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 </header>
 </body>
 </html>

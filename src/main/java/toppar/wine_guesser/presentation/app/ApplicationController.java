@@ -9,6 +9,9 @@ import toppar.wine_guesser.application.GameSettingsService;
 import toppar.wine_guesser.application.GameSetupService;
 import toppar.wine_guesser.domain.GameSetupDTO;
 import toppar.wine_guesser.application.UserService;
+import toppar.wine_guesser.domain.UserException;
+import toppar.wine_guesser.presentation.err.ErrorHandler;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -132,8 +135,19 @@ public class ApplicationController {
         if(bindingResult.hasErrors()){
             return showRegisterPage(model);
         }
-        userService.createUser(registerForm.getUsername(), registerForm.getPassword());
+        try {
+            userService.createUser(registerForm.getUsername(), registerForm.getPassword());
+        } catch (UserException e) {
+            controlErrorHandling(e, model);
+            return REGISTER_PAGE_URL;
+        }
         return showLoginPage(model);
+    }
+
+    private void controlErrorHandling(Exception e, Model model){
+        if(e.getMessage().toUpperCase().contains("ANVÄNDARNAMN")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.USERNAME_FAIL);
+        }
     }
 
     @PostMapping(NUMBER_OF_WINES_PAGE_URL)

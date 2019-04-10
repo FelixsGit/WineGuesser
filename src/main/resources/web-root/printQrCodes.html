@@ -8,25 +8,21 @@
 <body>
 <main layout:fragment="content">
 
-    <form class="logoutButton" th:action="@{/logout}" method="post">
-        <button type="submit">Sign Out</button>
-    </form>
-
-    <h2>Time to do some printing and pasting!</h2>
-    <h3>Here are the QR codes corresponding to the order of the wines that you entered</h3>
-    <h3>Your task now is to cover the bottle/poar the wine into the server goblet.</h3>
-    <h3>And paste the correct QR code on the now unidentifiable bottle/goblet.</h3>
+    <h3>Dags att göra lite utskrifter och klistring.</h3>
+    <h3>Här är QR koderna för dom vinera som du länkade till i ordning vänster till höger.</h3>
+    <h3>Nu ska du täcka alla vinflaskorna med något, eller hälla över vinet i serveringsglas.</h3>
+    <h3>Därefter ska du klistra på den länkande QR koden på den överensstämande vinflaskan/serveringsglaset.</h3>
     <br>
     <img th:each="String, var : ${printQrCodesForm.qrCodes}"
          th:src="*{'data:image/png;base64,'+String}">
     <br>
     <br>
-    <h3>IMPORTANT: REMEMBER TO MIX THE BOTTELS/GOBLETS AFTER YOU stick the QR code on them!</h3>
+    <h3>Glöm ej att blanda flaskorna noggrannt när du har gjort det som står ovan för alla dina viner.</h3>
     <br>
-    <h3>If you are done, go to the next step</h3>
+    <h3>Om du är klar med detta kan du gå vidare till nästa steg.</h3>
     <br>
     <form action="/enterServingOrder">
-        <button id="bot" type="submit">Continue</button>
+        <button id="bot" type="submit">Gå Vidare</button>
     </form>
     <br>
 

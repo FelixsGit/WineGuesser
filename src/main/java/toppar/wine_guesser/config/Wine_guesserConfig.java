@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -38,6 +39,11 @@ public class Wine_guesserConfig implements WebMvcConfigurer, ApplicationContextA
         this.applicationContext = applicationContext;
     }
 
+    @Bean
+    public SpringSecurityDialect springSecurityDialect(){
+        return new SpringSecurityDialect();
+    }
+
     /**
      * Create a <code>org.springframework.web.servlet .ViewResolver</code> bean
      * that delegates all views to thymeleaf's template engine. There is no need
@@ -59,20 +65,16 @@ public class Wine_guesserConfig implements WebMvcConfigurer, ApplicationContextA
      * thymeleaf template integration with Spring. All template resolution will
      * be delegated to the specified template resolver.
      */
-    @Bean(name = "bankTemplateEngine")
+    @Bean(name = "wine_guesserTemplateEngine")
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
-        // Enabling the SpringEL compiler with Spring 4.2.4 or newer can
-        // speed up execution in most scenarios, but might be incompatible
-        // with specific cases when expressions in one template are reused
-        // across different data types, so this flag is "false" by default
-        // for safer backwards compatibility.
         templateEngine.setEnableSpringELCompiler(true);
-        //Add the layout dialect, which enables reusing layout html pages.
+        templateEngine.addDialect(new SpringSecurityDialect());
         templateEngine.addDialect(new LayoutDialect());
         return templateEngine;
     }
+
 
     /**
      * Create a <code>org.thymeleaf.templateresolver.ITemplateResolver</code>

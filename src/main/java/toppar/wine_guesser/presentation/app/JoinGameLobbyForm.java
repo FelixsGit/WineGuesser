@@ -5,8 +5,8 @@ import javax.validation.constraints.Pattern;
 
 public class JoinGameLobbyForm {
 
-    @NotEmpty(message = "Please enter your join code")
-    @Pattern(regexp="(^$|[0-9]{6})", message = "Must be a positive 6 digit integer number")
+    @NotEmpty(message = "Skriv in en kod")
+    @Pattern(regexp="(^$|[0-9]{6})", message = "Måste vara en positivt 6 siffrigt heltal")
     private String joinCode;
 
     public String getJoinCode() {

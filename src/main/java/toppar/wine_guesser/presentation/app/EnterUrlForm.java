@@ -17,7 +17,7 @@ public class EnterUrlForm {
         this.urlList = urlList;
     }
 
-    private List<@URL(message="Must be a URL address")@NotEmpty@NotNull String> urlList;
+    private List<@URL(message="Måste vara en URL länk")@NotEmpty(message = "Får inte vara tomt")@NotNull(message = "Får inte vara tomt") String> urlList;
 
     private String missing;
 

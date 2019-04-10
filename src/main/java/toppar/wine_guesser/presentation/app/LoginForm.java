@@ -5,11 +5,11 @@ import javax.validation.constraints.NotNull;
 
 public class LoginForm {
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Får inte vara tomt")
+    @NotBlank(message = "Får inte vara tomt")
     private String username;
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Får inte vara tomt")
+    @NotBlank(message = "Får inte vara tomt")
     private String password;
 
     public String getUsername() {
