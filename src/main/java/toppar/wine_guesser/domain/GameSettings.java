@@ -9,6 +9,7 @@ public class GameSettings implements GameSettingsDTO{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long gameSettingsId;
+    private String gameHost;
     private String gameId;
     private String qrCode;
     private String url;
@@ -26,11 +27,20 @@ public class GameSettings implements GameSettingsDTO{
 
     }
 
-    public GameSettings(String gameId, String qrCode, String url, String description){
+    public GameSettings(String gameId, String gameHost, String qrCode, String url, String description){
         this.gameId = gameId;
+        this.gameHost = gameHost;
         this.qrCode = qrCode;
         this.url = url;
         this.description = description;
+    }
+
+    public String getGameHost() {
+        return gameHost;
+    }
+
+    public void setGameHost(String gameHost) {
+        this.gameHost = gameHost;
     }
 
     public String getGameId() {

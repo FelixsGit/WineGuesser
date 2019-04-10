@@ -23,8 +23,8 @@ public class GameSettingsService {
     @Autowired
     private GameSetupService gameSetupService;
 
-    private void deleteGameSettingsByGameId(String gameId){
-        gameSettingsRepository.removeAllByGameId(gameId);
+    private void deleteGameSettingsByGameHost(String gameHost){
+        gameSettingsRepository.removeAllByGameHost(gameHost);
     }
 
     public List<String> getQrCodesByGameHost(String username){
@@ -40,7 +40,7 @@ public class GameSettingsService {
 
     public List<String> createGameSettings(List<String> urlList, String gameHost){
         String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();
-        deleteGameSettingsByGameId(gameId);
+        deleteGameSettingsByGameHost(gameHost);
         List<String> qrCodes = generateQrCodesFromUrls(urlList);
         List<String> descriptions = retrieveAllDescriptionsFromUrlList(urlList);
         List<String> wineDescriptionMissing = new ArrayList<>();
@@ -53,7 +53,7 @@ public class GameSettingsService {
         }
         if(!anyWineMissingDescription){
             for(int i = 0; i < urlList.size(); i++){
-                gameSettingsRepository.save(new GameSettings(gameId, qrCodes.get(i), urlList.get(i), descriptions.get(i)));
+                gameSettingsRepository.save(new GameSettings(gameId, gameHost, qrCodes.get(i), urlList.get(i), descriptions.get(i)));
             }
         }
         return wineDescriptionMissing;

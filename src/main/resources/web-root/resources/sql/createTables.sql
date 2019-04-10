@@ -45,6 +45,7 @@ CREATE TABLE `game_setup` (
 
 CREATE TABLE `game_settings` (
   `gameSettingsId` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `gameHost` varchar(255) NOT NULL,
   `gameId` varchar(255) NOT NULL,
   `qrCode` varchar(8000) NOT NULL,
   `url` varchar(8000) NOT NULL,
