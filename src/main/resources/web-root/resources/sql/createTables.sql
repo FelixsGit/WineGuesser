@@ -21,9 +21,10 @@ SET time_zone = "+00:00";
 --
 -- Databas: `recruitmentdb`
 --
+DROP TABLE IF EXISTS `lobby`;
 DROP TABLE IF EXISTS `game_setup`;
 DROP TABLE IF EXISTS `game_settings`;
-DROP TABLE IF EXISTS `game_lobby`;
+DROP TABLE IF EXISTS `lobby_data`;
 DROP TABLE IF EXISTS `user`;
 -- --------------------------------------------------------
 
@@ -50,7 +51,7 @@ CREATE TABLE `game_settings` (
   `qrCode` varchar(8000) NOT NULL,
   `url` varchar(8000) NOT NULL,
   `description` varchar(8000) NOT NULL,
-  `servingOrder` INTEGER DEFAULT NULL
+  `servingOrder` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -58,13 +59,19 @@ CREATE TABLE `game_settings` (
 --
 -- Tabellstruktur `competence_profile`
 --
+CREATE TABLE `lobby` (
+  `lobbyId` BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  `gameId` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `game_lobby` (
-  `gameId` varchar(255) NOT NULL PRIMARY KEY,
-  `participant` varchar(255) DEFAULT NULL,
-  `score` INTEGER DEFAULT NULL,
-  `ready` BIT DEFAULT 0,
-  `done` BIT DEFAULT 0
+
+CREATE TABLE `lobby_data` (
+  `lobbyId` BIGINT NOT NULL,
+  `gameId` varchar(255) NOT NULL,
+  `participants` varchar(255) NOT NULL PRIMARY KEY,
+  `score` INTEGER DEFAULT 0,
+  `ready` INTEGER DEFAULT 0,
+  `done` INTEGER DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

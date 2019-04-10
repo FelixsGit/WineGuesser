@@ -10,6 +10,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 public class ZXingHelper {
 
+
     public static String getQRCodeImage(String text, int width, int height) {
         try {
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
@@ -22,5 +23,7 @@ public class ZXingHelper {
             return null;
         }
     }
+
+
 
 }

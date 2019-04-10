@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class ApplicationController {
@@ -30,6 +29,7 @@ public class ApplicationController {
     public static final String REGISTER_PAGE_URL = "/register";
     public static final String NUMBER_OF_WINES_PAGE_URL = "/numberOfWines";
     public static final String PRINT_QR_CODES_PAGE_URL = "/printQrCodes";
+    public static final String QR_OPTION_PAGE_URL = "/QR/wine/qrOption";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
     public static final String LOGIN_OBJ_NAME = "loginForm";
@@ -37,6 +37,8 @@ public class ApplicationController {
     public static final String ENTER_URL_OBJ_NAME = "enterUrlForm";
     public static final String NUMBER_OF_WINES_OBJ_NAME = "numberOfWinesForm";
     public static final String PRINT_QR_CODES_OBJ_NAME = "printQrCodesForm";
+    public static final String QR_OPTION_OBJ_NAME = "qrOptionForm";
+    public static final String SERVING_ORDER_OBJ_NAME = "servingOrderForm";
 
 
     //////////////////////////////////////GET MAPPINGS/////////////////////////////////////////////////////
@@ -47,6 +49,29 @@ public class ApplicationController {
     private GameSetupService gameSetupService;
     @Autowired
     private GameSettingsService gameSettingsService;
+
+    @GetMapping(LOBBY_PAGE_URL+"/{gameId}")
+    public String showLobbyPage(Model model, @PathVariable("gameId") String gameId){
+
+        return LOBBY_PAGE_URL;
+    }
+
+    @GetMapping("/QR/wine/{id}")
+    public String showQrOptionPage(Model model, @PathVariable("id") String id){
+        if(!model.containsAttribute(QR_OPTION_OBJ_NAME) || !model.containsAttribute(SERVING_ORDER_OBJ_NAME)){
+            QrOptionForm qrOptionForm = new QrOptionForm();
+            qrOptionForm.setId(id);
+            model.addAttribute(qrOptionForm);
+        }
+        QrOptionForm qrOptionForm = new QrOptionForm();
+        qrOptionForm.setId(id);
+        String url = gameSettingsService.getUrlFromWineId(id);
+        String parsedUrl = "Klicka Här För Att Kolla På Vinet På Webben";
+        qrOptionForm.setUrl(url);
+        qrOptionForm.setParsedUrl(parsedUrl);
+        model.addAttribute(qrOptionForm);
+        return "qrOption";
+    }
 
     @GetMapping(DEFAULT_PAGE_URL)
     public String showDefaultPage() {
@@ -65,6 +90,8 @@ public class ApplicationController {
         }
         PrintQrCodesForm printQrCodesForm = new PrintQrCodesForm();
         List<String> qrCodes = gameSettingsService.getQrCodesByGameHost(request.getUserPrincipal().getName());
+        GameSetupDTO gameSetupDTO = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName());
+        printQrCodesForm.setGameId(gameSetupDTO.getGameId());
         printQrCodesForm.setQrCodes(qrCodes);
         model.addAttribute(printQrCodesForm);
         return PRINT_QR_CODES_PAGE_URL;
@@ -123,12 +150,19 @@ public class ApplicationController {
         return ENTER_URL_PAGE_URL;
     }
 
-    @GetMapping(LOBBY_PAGE_URL)
-    public String showLobbyPage(Model model){
-        return LOBBY_PAGE_URL;
-    }
 
     //////////////////////////////////////POST MAPPINGS/////////////////////////////////////////////////////
+
+    @PostMapping(QR_OPTION_PAGE_URL)
+    public String enterServingOrder(@Valid @ModelAttribute QrOptionForm qrOptionForm, Model model, BindingResult bindingResult){
+        System.out.println(qrOptionForm.getId());
+        System.out.println(qrOptionForm.getOrderNum());
+        if(bindingResult.hasErrors()){
+            return showQrOptionPage(model, qrOptionForm.getId());
+        }
+        gameSettingsService.setServingOrderByWineId(qrOptionForm.getId(), qrOptionForm.getOrderNum());
+        return showDefaultPage();
+    }
 
     @PostMapping(REGISTER_PAGE_URL)
     public String registerNewUser(@Valid @ModelAttribute RegisterForm registerForm, BindingResult bindingResult, Model model){
@@ -184,7 +218,7 @@ public class ApplicationController {
         if(bindingResult.hasErrors()){
             return showMenuPage(model, request);
         }
-        return showLobbyPage(model);
+        return showDefaultPage();
     }
 
 }

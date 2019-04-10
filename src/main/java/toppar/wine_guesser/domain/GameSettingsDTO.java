@@ -8,4 +8,5 @@ public interface GameSettingsDTO {
     String getQrCode();
     String getUrl();
     String getDescription();
+    String getServingOrder();
 }

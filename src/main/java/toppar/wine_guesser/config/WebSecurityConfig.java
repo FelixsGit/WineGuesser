@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/login", "/register", "/home").permitAll();
-        http.authorizeRequests().antMatchers("/menu", "/lobby", "/enterUrl", "/numberOfWines", "/printQrCodes").fullyAuthenticated();
+        http.authorizeRequests().antMatchers("/menu", "/lobby", "/enterUrl", "/numberOfWines", "/printQrCodes", "/qrOption").fullyAuthenticated();
 
         // Config for Login/Logout
         http.authorizeRequests()

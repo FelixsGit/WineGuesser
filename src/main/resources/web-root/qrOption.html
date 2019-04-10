@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <h3>Här kan du välja om du vill skriva in serveringsnumret för detta vin,</h3>
+    <h3>eller om du vill kolla på vinet på webben.</h3>
+    <form action=# th:action="@{qrOption}" th:object="${qrOptionForm}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <input type="text" placeholder="Serveringsnummer" th:field="*{orderNum}"/>
+        <div>
+            <span class="error"
+                  th:if="${#fields.errors('orderNum')}"
+                  th:errors="*{orderNum}">
+             </span>
+        </div>
+        <br>
+        <br>
+        <button type="submit">Logga In</button>
+    </form>
+    <br>
+    <br>
+    <h3>Klicka på följande länk för att inspektera vinet på webben</h3>
+    <a th:href="@{${qrOptionForm.url}}" th:text="${qrOptionForm.parsedUrl}">
+
+
+</main>
+</body>
+</html>

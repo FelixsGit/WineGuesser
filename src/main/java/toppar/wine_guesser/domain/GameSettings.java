@@ -14,6 +14,7 @@ public class GameSettings implements GameSettingsDTO{
     private String qrCode;
     private String url;
     private String description;
+    private String servingOrder;
 
     @Override
     public long getGameSettingsId() {
@@ -27,12 +28,13 @@ public class GameSettings implements GameSettingsDTO{
 
     }
 
-    public GameSettings(String gameId, String gameHost, String qrCode, String url, String description){
+    public GameSettings(String gameId, String gameHost, String qrCode, String url, String description, String servingOrder){
         this.gameId = gameId;
         this.gameHost = gameHost;
         this.qrCode = qrCode;
         this.url = url;
         this.description = description;
+        this.servingOrder = servingOrder;
     }
 
     public String getGameHost() {
@@ -41,6 +43,15 @@ public class GameSettings implements GameSettingsDTO{
 
     public void setGameHost(String gameHost) {
         this.gameHost = gameHost;
+    }
+
+    @Override
+    public String getServingOrder() {
+        return servingOrder;
+    }
+
+    public void setServingOrder(String servingOrder) {
+        this.servingOrder = servingOrder;
     }
 
     public String getGameId() {
@@ -70,6 +81,7 @@ public class GameSettings implements GameSettingsDTO{
     public String getDescription() {
         return description;
     }
+
 
     public void setDescription(String description) {
         this.description = description;

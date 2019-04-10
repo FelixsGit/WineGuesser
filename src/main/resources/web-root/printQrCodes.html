@@ -10,19 +10,19 @@
 
     <h3>Dags att göra lite utskrifter och klistring.</h3>
     <h3>Här är QR koderna för dom vinera som du länkade till i ordning vänster till höger.</h3>
-    <h3>Nu ska du täcka alla vinflaskorna med något, eller hälla över vinet i serveringsglas.</h3>
-    <h3>Därefter ska du klistra på den länkande QR koden på den överensstämande vinflaskan/serveringsglaset.</h3>
+    <h3>Nu ska du täcka alla vinflaskorna med något, eller hälla över vinet i karaffer.</h3>
+    <h3>Därefter ska du klistra på den länkande QR koden på den överensstämande vinflaskan/karaffen.</h3>
     <br>
     <img th:each="String, var : ${printQrCodesForm.qrCodes}"
          th:src="*{'data:image/png;base64,'+String}">
     <br>
     <br>
-    <h3>Glöm ej att blanda flaskorna noggrannt när du har gjort det som står ovan för alla dina viner.</h3>
     <br>
-    <h3>Om du är klar med detta kan du gå vidare till nästa steg.</h3>
+    <h3>När du är klar med detta så kan du starta en lobby</h3>
     <br>
-    <form action="/enterServingOrder">
-        <button id="bot" type="submit">Gå Vidare</button>
+    <p></p>
+    <form th:action="@{'/lobby/' + ${printQrCodesForm.gameId}}">
+        <button type="submit">Starta Lobby</button>
     </form>
     <br>
 

@@ -9,9 +9,7 @@ import toppar.wine_guesser.domain.GameSetupDTO;
 import toppar.wine_guesser.repository.GameSettingsRepository;
 import toppar.wine_guesser.util.UrlScanner;
 import toppar.wine_guesser.util.ZXingHelper;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
@@ -37,6 +35,25 @@ public class GameSettingsService {
         return qrCodes;
     }
 
+    public String getUrlFromWineId(String wineId){
+        List<GameSettings> gameSettings = gameSettingsRepository.findAll();
+        for(int i = 0; i < gameSettings.size(); i++){
+            if(gameSettings.get(i).getUrl().contains(wineId)){
+                return gameSettings.get(i).getUrl();
+            }
+        }
+        return null;
+    }
+    public void setServingOrderByWineId(String wineId, String servingOrder){
+        String url = getUrlFromWineId(wineId);
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByUrl(url);
+        for(int i = 0; i < gameSettings.size(); i++){
+            if(gameSettings.get(i).getServingOrder() == null){
+                gameSettings.get(i).setServingOrder(servingOrder);
+            }
+        }
+    }
+
 
     public List<String> createGameSettings(List<String> urlList, String gameHost){
         String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();
@@ -53,7 +70,7 @@ public class GameSettingsService {
         }
         if(!anyWineMissingDescription){
             for(int i = 0; i < urlList.size(); i++){
-                gameSettingsRepository.save(new GameSettings(gameId, gameHost, qrCodes.get(i), urlList.get(i), descriptions.get(i)));
+                gameSettingsRepository.save(new GameSettings(gameId, gameHost, qrCodes.get(i), urlList.get(i), descriptions.get(i), null));
             }
         }
         return wineDescriptionMissing;
@@ -71,9 +88,21 @@ public class GameSettingsService {
     private List<String> generateQrCodesFromUrls(List<String> urlList){
         List<String> qrCodes = new ArrayList<>();
         for(int i = 0; i < urlList.size(); i ++){
-            qrCodes.add(ZXingHelper.getQRCodeImage(urlList.get(i), 160, 160));
+            qrCodes.add(ZXingHelper.getQRCodeImage(scrapUrlForWineIdAndAppendToNewUrl(urlList.get(i)), 160, 160));
         }
         return qrCodes;
     }
 
+    private String scrapUrlForWineIdAndAppendToNewUrl(String url){
+        StringBuilder sb = new StringBuilder(url);
+        sb.reverse();
+        for(int i = 0; i < sb.length(); i++){
+            if(!Character.isDigit(sb.charAt(i))){
+                sb.delete(i, url.length());
+                break;
+            }
+        }
+        return "http://192.168.0.100:8080/QR/wine/"+sb.reverse().toString();
+
+    }
 }
