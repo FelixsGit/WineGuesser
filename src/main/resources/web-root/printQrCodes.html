@@ -21,7 +21,7 @@
     <h3>När du är klar med detta så kan du starta en lobby</h3>
     <br>
     <p></p>
-    <form th:action="@{'/lobby/' + ${printQrCodesForm.gameId}}">
+    <form th:action="@{'/generateLobby/' + ${printQrCodesForm.gameId}}">
         <button type="submit">Starta Lobby</button>
     </form>
     <br>

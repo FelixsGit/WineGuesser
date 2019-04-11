@@ -4,4 +4,5 @@ public interface UserDTO {
 
     String getUsername();
     String getPassword();
+    String getActiveGame();
 }

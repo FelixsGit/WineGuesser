@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import toppar.wine_guesser.domain.AuthorizationException;
 import toppar.wine_guesser.domain.GameSettings;
+import toppar.wine_guesser.domain.GameSettingsDTO;
 import toppar.wine_guesser.domain.GameSetupDTO;
 import toppar.wine_guesser.repository.GameSettingsRepository;
 import toppar.wine_guesser.util.UrlScanner;
@@ -23,6 +25,12 @@ public class GameSettingsService {
 
     private void deleteGameSettingsByGameHost(String gameHost){
         gameSettingsRepository.removeAllByGameHost(gameHost);
+    }
+
+    public void checkForAuthority(String gameHost) throws AuthorizationException {
+        if(gameSettingsRepository.findAllByGameHost(gameHost) == null){
+            throw new AuthorizationException("Lobby Authorization denied");
+        }
     }
 
     public List<String> getQrCodesByGameHost(String username){

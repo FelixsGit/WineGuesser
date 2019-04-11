@@ -1,25 +1,22 @@
 package toppar.wine_guesser.repository;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import toppar.wine_guesser.domain.Lobby;
+import toppar.wine_guesser.domain.LobbyData;
 import toppar.wine_guesser.domain.User;
-import java.util.List;
 
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
-public interface UserRepository extends JpaRepository<User, String> {
-
-    User findUserByUsername(String username);
-
-    String findActiveGameByUsername(String username);
+public interface LobbyRepository extends JpaRepository<Lobby, String> {
 
     @Override
-    List<User> findAll();
+    Lobby save(Lobby lobby);
 
-    @Override
-    User save(User user);
+    long findLobbyIdByGameId(String gameId);
 
-
+    Lobby findLobbyByGameId(String gameId);
 }

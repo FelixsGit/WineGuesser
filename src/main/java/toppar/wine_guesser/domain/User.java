@@ -11,6 +11,7 @@ public class User implements UserDTO {
     private long userId;
     private String username;
     private String password;
+    private String activeGame;
 
     /**
      * Required by JPA, do not use.
@@ -19,9 +20,17 @@ public class User implements UserDTO {
 
     }
 
-    public User(String username, String password){
+    public User(String username, String password, String activeGame){
         this.username = username;
         this.password = password;
+    }
+
+    public String getActiveGame() {
+        return activeGame;
+    }
+
+    public void setActiveGame(String activeGame) {
+        this.activeGame = activeGame;
     }
 
     public long getUserId() {

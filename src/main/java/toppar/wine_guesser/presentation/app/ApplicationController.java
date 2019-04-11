@@ -5,10 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import toppar.wine_guesser.application.GameSettingsService;
-import toppar.wine_guesser.application.GameSetupService;
+import toppar.wine_guesser.application.*;
+import toppar.wine_guesser.domain.AuthorizationException;
 import toppar.wine_guesser.domain.GameSetupDTO;
-import toppar.wine_guesser.application.UserService;
 import toppar.wine_guesser.domain.UserException;
 import toppar.wine_guesser.presentation.err.ErrorHandler;
 
@@ -32,6 +31,7 @@ public class ApplicationController {
     public static final String QR_OPTION_PAGE_URL = "/QR/wine/qrOption";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
+    public static final String LOBBY_OBJ_NAME = "lobbyForm";
     public static final String LOGIN_OBJ_NAME = "loginForm";
     public static final String JOIN_GAME_LOBBY_OBJ_NAME = "joinGameLobbyForm";
     public static final String ENTER_URL_OBJ_NAME = "enterUrlForm";
@@ -49,10 +49,37 @@ public class ApplicationController {
     private GameSetupService gameSetupService;
     @Autowired
     private GameSettingsService gameSettingsService;
+    @Autowired
+    private LobbyService lobbyService;
+    @Autowired
+    private LobbyDataService lobbyDataService;
+
+    @GetMapping("generateLobby"+"/{gameId}")
+    public String generateLobby(HttpServletRequest request, @PathVariable("gameId") String gameId){
+        try {
+            gameSettingsService.checkForAuthority(request.getUserPrincipal().getName());
+        } catch (AuthorizationException e) {
+            //controlErrorHandling(e, model);
+            return MENU_PAGE_URL;
+        }
+        lobbyDataService.openNewLobby(request.getUserPrincipal().getName(), gameId);
+        userService.setActiveGameForUser(request.getUserPrincipal().getName(), gameId);
+        return LOBBY_PAGE_URL;
+    }
+
 
     @GetMapping(LOBBY_PAGE_URL+"/{gameId}")
     public String showLobbyPage(Model model, @PathVariable("gameId") String gameId){
-
+        if(!model.containsAttribute(LOBBY_OBJ_NAME)){
+            model.addAttribute(LOBBY_OBJ_NAME);
+        }
+        try {
+            lobbyService.checkAuthorizationByGameId(gameId);
+        } catch (AuthorizationException e) {
+            controlErrorHandling(e, model);
+            return MENU_PAGE_URL;
+        }
+        System.out.println("joined lobby bitch");
         return LOBBY_PAGE_URL;
     }
 
@@ -123,10 +150,11 @@ public class ApplicationController {
 
 
     @GetMapping(MENU_PAGE_URL)
-    public String showMenuPage(Model model, HttpServletRequest request){
+    public String showMenuPage(Model model){
         if(!model.containsAttribute(JOIN_GAME_LOBBY_OBJ_NAME)){
             model.addAttribute(new JoinGameLobbyForm());
         }
+        model.addAttribute(new JoinGameLobbyForm());
         return MENU_PAGE_URL;
     }
 
@@ -155,8 +183,6 @@ public class ApplicationController {
 
     @PostMapping(QR_OPTION_PAGE_URL)
     public String enterServingOrder(@Valid @ModelAttribute QrOptionForm qrOptionForm, Model model, BindingResult bindingResult){
-        System.out.println(qrOptionForm.getId());
-        System.out.println(qrOptionForm.getOrderNum());
         if(bindingResult.hasErrors()){
             return showQrOptionPage(model, qrOptionForm.getId());
         }
@@ -179,8 +205,12 @@ public class ApplicationController {
     }
 
     private void controlErrorHandling(Exception e, Model model){
-        if(e.getMessage().toUpperCase().contains("ANVÄNDARNAMN")){
+        if(e.getMessage().toUpperCase().contains("USERNAME")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.USERNAME_FAIL);
+        }else if(e.getMessage().toUpperCase().contains("AUTHORIZATION")) {
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.AUTHORIZATION_FAIL);
+        } else if(e.getMessage().toUpperCase().contains("LOBBY")) {
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.AUTHORIZATION_LOBBY_FAIL);
         }
     }
 
@@ -214,11 +244,18 @@ public class ApplicationController {
     }
 
     @PostMapping(MENU_PAGE_URL)
-    public String joinExistingGameLobby(@Valid @ModelAttribute JoinGameLobbyForm joinGameLobbyForm, BindingResult bindingResult, Model model, HttpServletRequest request){
+    public String joinExistingGameLobby(@Valid @ModelAttribute JoinGameLobbyForm joinGameLobbyForm, BindingResult bindingResult, HttpServletRequest request, Model model){
         if(bindingResult.hasErrors()){
-            return showMenuPage(model, request);
+            return showMenuPage(model);
         }
-        return showDefaultPage();
+        try {
+            lobbyService.checkAuthorizationByGameId(joinGameLobbyForm.getJoinCode());
+        } catch (AuthorizationException e) {
+            controlErrorHandling(e, model);
+            showMenuPage(model);
+        }
+        lobbyDataService.addParticipant(request.getUserPrincipal().getName(), joinGameLobbyForm.getJoinCode());
+        return showLobbyPage(model, joinGameLobbyForm.getJoinCode());
     }
 
 }

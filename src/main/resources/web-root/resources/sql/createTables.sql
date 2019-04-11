@@ -67,6 +67,7 @@ CREATE TABLE `lobby` (
 
 CREATE TABLE `lobby_data` (
   `lobbyId` BIGINT NOT NULL,
+  `gameHost` varchar(255) DEFAULT NULL,
   `gameId` varchar(255) NOT NULL,
   `participants` varchar(255) NOT NULL PRIMARY KEY,
   `score` INTEGER DEFAULT 0,
@@ -83,7 +84,8 @@ CREATE TABLE `lobby_data` (
 CREATE TABLE `user` (
   `userId` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(255) NOT NULL UNIQUE,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `activeGame` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

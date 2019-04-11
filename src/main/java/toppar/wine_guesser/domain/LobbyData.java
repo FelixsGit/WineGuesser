@@ -2,15 +2,15 @@ package toppar.wine_guesser.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "lobby_data")
-public class LobbyData {
+public class LobbyData implements LobbyDataDTO{
 
     private long lobbyId;
-    private String gameID;
+    private String gameHost;
+    private String gameId;
     @Id
     private String participants;
     private int score;
@@ -22,17 +22,34 @@ public class LobbyData {
     }
 
 
-    public LobbyData(long lobbyId, String gameID, String participants, int score, int ready, int done) {
+    public LobbyData(long lobbyId, String gameHost, String gameId, String participants, int score, int ready, int done) {
         this.lobbyId = lobbyId;
-        this.gameID = gameID;
+        this.gameHost = gameHost;
+        this.gameId = gameId;
         this.participants = participants;
         this.score = score;
         this.ready = ready;
         this.done = done;
     }
 
+    public String getGameHost() {
+        return gameHost;
+    }
+
+    public void setGameHost(String gameHost) {
+        this.gameHost = gameHost;
+    }
+
     public long getLobbyId() {
         return lobbyId;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     public void setLobbyId(long lobbyId) {
@@ -43,13 +60,6 @@ public class LobbyData {
         this.participants = participants;
     }
 
-    public String getGameID() {
-        return gameID;
-    }
-
-    public void setGameID(String gameID) {
-        this.gameID = gameID;
-    }
 
     public String getParticipants() {
         return participants;

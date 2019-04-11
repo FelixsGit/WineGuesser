@@ -17,10 +17,16 @@ public class UserService {
 
     public void createUser(String username, String password) throws UserException {
         if(userRepository.findUserByUsername(username) != null) {
-            throw new UserException("Användarnamn redan tagit");
+            throw new UserException("Username already taken");
         }else{
-            userRepository.save(new User(username, password));
+            userRepository.save(new User(username, password, null));
         }
+    }
+
+    public void setActiveGameForUser(String username, String activeGame){
+        User user = userRepository.findUserByUsername(username);
+        user.setActiveGame(activeGame);
+        userRepository.save(user);
     }
 
 }

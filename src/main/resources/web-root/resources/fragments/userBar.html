@@ -10,9 +10,6 @@
         <div sec:authorize="isAuthenticated()">
             Användare:
             <a th:text ="${#authentication.getName()}"></a>
-            <form th:action="@{/logout}" method="post">
-                <button type="submit">Logga ut</button>
-            </form>
         </div>
     </Strong>
 </userBar>
