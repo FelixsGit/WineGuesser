@@ -8,11 +8,42 @@
 <body>
 <main layout:fragment="content">
 
+    <h2>Detta är en öppen lobby med koden:</h2>
+    <br>
+    <h1 th:text="${lobbyForm.gameId}"></h1>
+    <br>
+    <br>
 
-    <h3>Game Lobby : 582191</h3>
     <form action="#">
-        <button type="submit">Start Game</button>
+        <button type="submit">Jag är redo</button>
     </form>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <form th:if="${lobbyForm.gameHost}" action="#">
+        <button type="submit">Start Spel</button>
+    </form>
+    <br>
+    <br>
+    <form class="lobbyClose" th:if="${lobbyForm.gameHost}" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
+        <button type="submit">Stäng Lobby</button>
+    </form>
+    <form class="lobbyClose" th:unless="${lobbyForm.gameHost}" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/leave'}">
+        <button type="submit">Lämna Lobby</button>
+    </form>
+
+
 
 </main>
 </body>

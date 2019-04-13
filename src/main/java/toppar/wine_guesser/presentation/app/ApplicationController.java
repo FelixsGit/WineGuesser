@@ -1,14 +1,16 @@
 package toppar.wine_guesser.presentation.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import toppar.wine_guesser.application.*;
-import toppar.wine_guesser.domain.AuthorizationException;
-import toppar.wine_guesser.domain.GameSetupDTO;
-import toppar.wine_guesser.domain.UserException;
+import toppar.wine_guesser.domain.*;
 import toppar.wine_guesser.presentation.err.ErrorHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,8 +56,24 @@ public class ApplicationController {
     @Autowired
     private LobbyDataService lobbyDataService;
 
+    @MessageMapping("/chat.sendMessage")
+    @SendTo("/topic/public")
+    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+        System.out.println("server recieved msg");
+        return chatMessage;
+    }
+
+    @MessageMapping("/chat.addUser")
+    @SendTo("/topic/public")
+    public ChatMessage addUser(@Payload ChatMessage chatMessage,
+                               SimpMessageHeaderAccessor headerAccessor) {
+        System.out.println("server added user");
+        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+        return chatMessage;
+    }
+
     @GetMapping("generateLobby"+"/{gameId}")
-    public String generateLobby(HttpServletRequest request, @PathVariable("gameId") String gameId){
+    public String generateLobby(Model model, HttpServletRequest request, @PathVariable("gameId") String gameId){
         try {
             gameSettingsService.checkForAuthority(request.getUserPrincipal().getName());
         } catch (AuthorizationException e) {
@@ -64,12 +82,12 @@ public class ApplicationController {
         }
         lobbyDataService.openNewLobby(request.getUserPrincipal().getName(), gameId);
         userService.setActiveGameForUser(request.getUserPrincipal().getName(), gameId);
-        return LOBBY_PAGE_URL;
+        return showLobbyPage(model, request, gameId);
     }
 
 
     @GetMapping(LOBBY_PAGE_URL+"/{gameId}")
-    public String showLobbyPage(Model model, @PathVariable("gameId") String gameId){
+    public String showLobbyPage(Model model, HttpServletRequest request, @PathVariable("gameId") String gameId){
         if(!model.containsAttribute(LOBBY_OBJ_NAME)){
             model.addAttribute(LOBBY_OBJ_NAME);
         }
@@ -79,7 +97,12 @@ public class ApplicationController {
             controlErrorHandling(e, model);
             return MENU_PAGE_URL;
         }
-        System.out.println("joined lobby bitch");
+        LobbyForm lobbyForm = new LobbyForm();
+        lobbyForm.setGameId(lobbyService.getLobbyByGameId(gameId).getGameId());
+        if(lobbyDataService.isGameHost(request.getUserPrincipal().getName())){
+            lobbyForm.setGameHost(request.getUserPrincipal().getName());
+        }
+        model.addAttribute(lobbyForm);
         return LOBBY_PAGE_URL;
     }
 
@@ -148,13 +171,35 @@ public class ApplicationController {
         return NUMBER_OF_WINES_PAGE_URL;
     }
 
+    @GetMapping("lobby/{gameId}/command/{action}")
+    public String lobbyCommandRedirect(@PathVariable("action") String action, @PathVariable String gameId, HttpServletRequest request) {
+        if(action.equals("leave")){
+            lobbyDataService.removeParticipantFromLobby(request.getUserPrincipal().getName());
+            userService.removeActiveGameFromUserWithUsername(request.getUserPrincipal().getName());
+        }
+        if(action.equals("quit")){
+            gameSetupService.removeGameSetupByGameHost(request.getUserPrincipal().getName());
+            gameSettingsService.removeGameSettingsByGameHost(request.getUserPrincipal().getName());
+            lobbyService.cancelGameLobbyByGameId(gameId);
+            lobbyDataService.removeAllParticipantsFromLobbyWithGameId(gameId);
+            userService.cancelActiveGamesForAllUsersWithGameId(gameId);
+        }
+        return "redirect:" + MENU_PAGE_URL;
+    }
+
 
     @GetMapping(MENU_PAGE_URL)
-    public String showMenuPage(Model model){
+    public String showMenuPage(Model model, HttpServletRequest request){
         if(!model.containsAttribute(JOIN_GAME_LOBBY_OBJ_NAME)){
             model.addAttribute(new JoinGameLobbyForm());
         }
-        model.addAttribute(new JoinGameLobbyForm());
+        //check if user have activeGame, if so dont show option to make new game, or option to join game. Instead ask them to press a button to join the game lobby.
+        String username = userService.getActiveGame(request.getUserPrincipal().getName());
+        if(username != null){
+            JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+            joinGameLobbyForm.setActiveGame(username);
+            model.addAttribute(joinGameLobbyForm);
+        }
         return MENU_PAGE_URL;
     }
 
@@ -246,16 +291,18 @@ public class ApplicationController {
     @PostMapping(MENU_PAGE_URL)
     public String joinExistingGameLobby(@Valid @ModelAttribute JoinGameLobbyForm joinGameLobbyForm, BindingResult bindingResult, HttpServletRequest request, Model model){
         if(bindingResult.hasErrors()){
-            return showMenuPage(model);
+            return showMenuPage(model, request);
         }
         try {
             lobbyService.checkAuthorizationByGameId(joinGameLobbyForm.getJoinCode());
         } catch (AuthorizationException e) {
             controlErrorHandling(e, model);
-            showMenuPage(model);
+            return showMenuPage(model, request);
         }
+        System.out.println("joining game lobby first time");
         lobbyDataService.addParticipant(request.getUserPrincipal().getName(), joinGameLobbyForm.getJoinCode());
-        return showLobbyPage(model, joinGameLobbyForm.getJoinCode());
+        userService.setActiveGameForUser(request.getUserPrincipal().getName(), joinGameLobbyForm.getJoinCode());
+        return showLobbyPage(model, request, joinGameLobbyForm.getJoinCode());
     }
 
 }

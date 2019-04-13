@@ -16,7 +16,7 @@ public class LobbyService {
     private LobbyRepository lobbyRepository;
 
     public void createGameLobby(String gameId){
-        lobbyRepository.save(new Lobby(gameId));
+        lobbyRepository.save(new Lobby(gameId, "false"));
     }
 
     public Lobby getLobbyByGameId(String gameId){
@@ -24,10 +24,15 @@ public class LobbyService {
     }
 
     public void checkAuthorizationByGameId(String gameId) throws AuthorizationException {
-        if(lobbyRepository.findLobbyByGameId(gameId) == null){
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
+        if(lobby == null || lobby.getGameStart().equals("canceled")) {
             throw new AuthorizationException("Wrong Lobby Code");
         }
     }
 
-
+    public void cancelGameLobbyByGameId(String gameId){
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
+        lobby.setGameStart("canceled");
+        lobbyRepository.save(lobby);
+    }
 }

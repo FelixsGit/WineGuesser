@@ -9,6 +9,16 @@ public class JoinGameLobbyForm {
     @Pattern(regexp="(^$|[0-9]{6})", message = "Måste vara en positivt 6 siffrigt heltal")
     private String joinCode;
 
+    private String activeGame;
+
+    public String getActiveGame() {
+        return activeGame;
+    }
+
+    public void setActiveGame(String activeGame) {
+        this.activeGame = activeGame;
+    }
+
     public String getJoinCode() {
         return joinCode;
     }

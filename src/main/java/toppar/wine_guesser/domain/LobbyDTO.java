@@ -4,4 +4,5 @@ public interface LobbyDTO {
 
     long getLobbyId();
     String getGameId();
+    String getGameStart();
 }

@@ -17,4 +17,6 @@ public interface GameSetupRepository extends JpaRepository<GameSetup, Integer> {
 
     void removeAllByGameHost(String gameHost);
 
+    void removeByGameHost(String gameHost);
+
 }

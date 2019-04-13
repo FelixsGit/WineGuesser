@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import toppar.wine_guesser.domain.AuthorizationException;
-import toppar.wine_guesser.domain.GameSettings;
-import toppar.wine_guesser.domain.GameSettingsDTO;
-import toppar.wine_guesser.domain.GameSetupDTO;
+import toppar.wine_guesser.domain.*;
 import toppar.wine_guesser.repository.GameSettingsRepository;
 import toppar.wine_guesser.util.UrlScanner;
 import toppar.wine_guesser.util.ZXingHelper;
@@ -22,6 +19,8 @@ public class GameSettingsService {
     private GameSettingsRepository gameSettingsRepository;
     @Autowired
     private GameSetupService gameSetupService;
+    @Autowired
+    private SettingsHistoryService settingsHistoryService;
 
     private void deleteGameSettingsByGameHost(String gameHost){
         gameSettingsRepository.removeAllByGameHost(gameHost);
@@ -62,6 +61,11 @@ public class GameSettingsService {
         }
     }
 
+    public void removeGameSettingsByGameHost(String gameHost) {
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameHost(gameHost);
+        settingsHistoryService.saveGameSettings(gameSettings);
+        gameSettingsRepository.removeAllByGameHost(gameHost);
+    }
 
     public List<String> createGameSettings(List<String> urlList, String gameHost){
         String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();

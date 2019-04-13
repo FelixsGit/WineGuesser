@@ -23,6 +23,7 @@ public class User implements UserDTO {
     public User(String username, String password, String activeGame){
         this.username = username;
         this.password = password;
+        this.activeGame = activeGame;
     }
 
     public String getActiveGame() {

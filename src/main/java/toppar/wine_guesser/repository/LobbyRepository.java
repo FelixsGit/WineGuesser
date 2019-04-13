@@ -18,5 +18,8 @@ public interface LobbyRepository extends JpaRepository<Lobby, String> {
 
     long findLobbyIdByGameId(String gameId);
 
+    String findGameStartByGameId(String gameId);
+
     Lobby findLobbyByGameId(String gameId);
+
 }

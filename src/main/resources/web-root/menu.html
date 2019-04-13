@@ -7,27 +7,40 @@
 </head>
 <body>
 <main layout:fragment="content">
-    <h3>Öppna en ny lobby</h3>
-    <form action="/numberOfWines">
-        <button type="submit">Börja förbereda</button>
-    </form>
-    <br>
-    <br>
-    <h3>Gå med i en redan existerande lobby.</h3>
-    <br>
-    <form action=# th:action="@{/menu}" th:object="${joinGameLobbyForm}" method="post">
-        <input type="text" placeholder="Kod" th:field="*{joinCode}"/>
-        <div>
-            <span class="error"
-                  th:if="${#fields.errors('joinCode')}"
-                  th:errors="*{joinCode}">
-            </span>
-        </div>
-        <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
+
+    <div th:unless="${joinGameLobbyForm.activeGame}">
+        <h3>Öppna en ny lobby</h3>
+        <form action="/numberOfWines">
+            <button type="submit">Börja förbereda</button>
+        </form>
         <br>
         <br>
-        <button type="submit">Gå Med I Lobby</button>
-    </form>
+        <h3>Gå med i en redan existerande lobby.</h3>
+        <br>
+        <form action=# th:action="@{/menu}" th:object="${joinGameLobbyForm}" method="post">
+            <input type="text" placeholder="Kod" th:field="*{joinCode}"/>
+            <div>
+                <span class="error"
+                      th:if="${#fields.errors('joinCode')}"
+                      th:errors="*{joinCode}">
+                </span>
+            </div>
+            <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
+            <br>
+            <br>
+            <button type="submit">Gå Med I Lobby</button>
+        </form>
+    </div>
+    <div th:if="${joinGameLobbyForm.activeGame}">
+        <h2>Du har en aktiv lobby!</h2>
+        <br>
+        <h3>Klicka här för att öppna den.</h3>
+        <br>
+        <form th:action="@{'/lobby/' + ${joinGameLobbyForm.activeGame}}">
+            <button type="submit">Gå med i lobby</button>
+        </form>
+    </div>
+
 
 </main>
 </body>

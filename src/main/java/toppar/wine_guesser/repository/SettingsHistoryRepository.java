@@ -4,20 +4,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import toppar.wine_guesser.domain.User;
-import java.util.List;
+import toppar.wine_guesser.domain.SettingsHistory;
 
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
-public interface UserRepository extends JpaRepository<User, String> {
-
-    User findUserByUsername(String username);
+public interface SettingsHistoryRepository extends JpaRepository<SettingsHistory, String> {
 
     @Override
-    List<User> findAll();
+    SettingsHistory save(SettingsHistory settingsHistory);
 
-    @Override
-    User save(User user);
-
-    List<User> findAllByActiveGame(String activeGame);
 }

@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.8.3
--- https://www.phpmyadmin.net/
---
--- Värd: 127.0.0.1
--- Tid vid skapande: 31 jan 2019 kl 16:04
--- Serverversion: 10.1.36-MariaDB
--- PHP-version: 7.2.10
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -57,14 +48,17 @@ CREATE TABLE `game_settings` (
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `competence_profile`
+-- Tabellstruktur `lobby`
 --
 CREATE TABLE `lobby` (
   `lobbyId` BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  `gameId` varchar(255) NOT NULL
+  `gameId` varchar(255) NOT NULL,
+  `gameStart` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
+--
+-- Tabellstruktur `lobby_data`
+--
 CREATE TABLE `lobby_data` (
   `lobbyId` BIGINT NOT NULL,
   `gameHost` varchar(255) DEFAULT NULL,
@@ -78,7 +72,7 @@ CREATE TABLE `lobby_data` (
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `person`
+-- Tabellstruktur `user`
 --
 
 CREATE TABLE `user` (
