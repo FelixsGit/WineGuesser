@@ -26,6 +26,7 @@ public class User implements UserDTO {
         this.activeGame = activeGame;
     }
 
+
     public String getActiveGame() {
         return activeGame;
     }

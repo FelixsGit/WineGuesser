@@ -5,10 +5,13 @@ public class ChatMessage {
     private MessageType type;
     private String content;
     private String sender;
+    private String gameId;
 
     public enum MessageType {
-        CHAT,
+        SETUP,
         JOIN,
+        READY,
+        CHAT,
         LEAVE
     }
 
@@ -18,6 +21,14 @@ public class ChatMessage {
 
     public void setType(MessageType type) {
         this.type = type;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     public String getContent() {

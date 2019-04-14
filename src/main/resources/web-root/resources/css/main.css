@@ -6,7 +6,6 @@
 
 html,body {
     height: 100%;
-    overflow: hidden;
 }
 
 body {
@@ -38,9 +37,6 @@ body:before {
     clear: both;
 }
 
-.hidden {
-    display: none;
-}
 
 .form-control {
     width: 100%;
@@ -196,7 +192,6 @@ button.accent {
     position: absolute;
     width: 42px;
     height: 42px;
-    overflow: hidden;
     left: 10px;
     display: inline-block;
     vertical-align: middle;

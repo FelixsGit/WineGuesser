@@ -6,11 +6,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.Lobby;
 import toppar.wine_guesser.domain.LobbyData;
-import toppar.wine_guesser.domain.LobbyHistory;
+import toppar.wine_guesser.domain.LobbyDataDTO;
 import toppar.wine_guesser.repository.LobbyDataRepository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 @Service
@@ -44,7 +46,7 @@ public class LobbyDataService {
     }
 
     public void removeAllParticipantsFromLobbyWithGameId(String gameId){
-        List<LobbyData> lobbyDataList= lobbyDataRepository.findAllByGameId(gameId);
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
         lobbyHistoryService.saveLobbyData(lobbyDataList);
         lobbyDataRepository.removeAllByGameId(gameId);
     }
@@ -52,6 +54,40 @@ public class LobbyDataService {
     public void removeParticipantFromLobby(String participant){
         lobbyHistoryService.saveLobbyData(Collections.singletonList(lobbyDataRepository.findByParticipants(participant)));
         lobbyDataRepository.removeByParticipants(participant);
+    }
+
+    public List<LobbyDataDTO> getUsersNotReadyByGameId(String gameId){
+        List<LobbyDataDTO> participantsNotReadyLobbyDataList = new ArrayList<>();
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
+        for (LobbyData lobbyData : lobbyDataList) {
+            if (lobbyData.getReady() == 0) {
+                participantsNotReadyLobbyDataList.add(lobbyData);
+            }
+        }
+        return participantsNotReadyLobbyDataList;
+    }
+
+    public List<LobbyDataDTO> getUsersReadyByGameId(String gameId){
+        List<LobbyDataDTO> participantsReadyLobbyDataList = new ArrayList<>();
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
+        for (LobbyData lobbyData : lobbyDataList) {
+            if (lobbyData.getReady() == 1) {
+                participantsReadyLobbyDataList.add(lobbyData);
+            }
+        }
+        return participantsReadyLobbyDataList;
+    }
+
+    public void setReadyForParticipant(String participant){
+        LobbyData lobbyData = lobbyDataRepository.findByParticipants(participant);
+        lobbyData.setReady(1);
+        lobbyDataRepository.save(lobbyData);
+    }
+
+    public void setNotReadyForParticipant(String participant){
+        LobbyData lobbyData = lobbyDataRepository.findByParticipants(participant);
+        lobbyData.setReady(0);
+        lobbyDataRepository.save(lobbyData);
     }
 
 

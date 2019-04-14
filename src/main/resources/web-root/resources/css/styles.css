@@ -2,26 +2,91 @@
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width : 20px) and (max-device-width : 1000px) {
 
+    #chat-page {
+        position: relative;
+    }
+
+    #not-ready-page {
+        float: left;
+        margin-left: 550px;
+    }
+
+    #ready-page {
+        float: right;
+        margin-right: 550px;
+    }
+
+    form#startGame{
+        position: absolute;
+        width: 500px;
+        height: 200px;
+        top: 320px;
+        left: 50%;
+        margin-top: -100px; /* Negative half of height. */
+        margin-left: -250px; /* Negative half of width. */
+    }
+
+    div#not-ready-page h2{
+        text-decoration: underline;
+    }
+
+    div#ready-page h2{
+        text-decoration: underline;
+    }
+
+    ul#not-ready-area li{
+        color: #e60000;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 70px;
+        font-weight: 400;
+        line-height: 60px;
+        margin: 0 0 8px;
+    }
+
+    ul#ready-area li{
+        color: #00ff00;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 70px;
+        font-weight: 400;
+        line-height: 60px;
+        margin: 0 0 8px;
+    }
+
     header {
         text-transform: uppercase;
         position: relative;
-        height: 200px;
+        height: 100px;
         margin-top: 0px;
         font-size: 16em;
         text-align: center;
         color: #938E94;
-        letter-spacing: .1em;
+        letter-spacing: .2em;
         font-family: 'Cabin';
         font-size: 44px;
         color: #fff;
     }
 
+    header {
+        text-transform: uppercase;
+        position: relative;
+        height: 200px;
+        margin-top: 0px;
+        font-size: 40em;
+        text-align: center;
+        color: #938E94;
+        letter-spacing: .2em;
+        font-family: 'Cabin';
+        font-size: 60px;
+        color: #fff;
+    }
+
+
     userbar{
         position:absolute;
         font-family: 'Cabin';
         font-size: 44px;
-        top:200;
-        left:30px;
+        top: 150;
+        left:60px;
         color: #fff;
     }
 
@@ -29,16 +94,16 @@
         position:absolute;
         font-family: 'Cabin';
         font-size: 44px;
-        top:700px;
-        left:30px;
+        top:660px;
+        left:60px;
         color: #fff;
     }
 
 
     main {
         position: relative;
-        height: 200px;
-        margin-top: 100px;
+        height: 100px;
+        margin-top: 40px;
         text-align: center;
     }
 
@@ -51,11 +116,12 @@
         color: red;
         font-family: 'Cabin';
         font-size: 80%;
+
     }
 
-    h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 90px; font-weight: normal; line-height: 96px; margin: 0; color: #fff;}
-    h2 { color: #fff;; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 46px; font-weight: 400; line-height: 64px; margin: 0 0 8px; color: #fff;}
-    h3 { color: #fff; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 44px; font-weight: 400; line-height: 48px; margin: 0 0 8px; color: #fff;}
+    h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 90px; font-weight: normal; line-height: 86px; margin: 0; color: #fff;}
+    h2 { color: #fff;; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 56px; font-weight: 400; line-height: 64px; margin: 0 0 16px; color: #fff;}
+    h3 { color: #fff; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 44px; font-weight: 400; line-height: 48px; margin: 0 0 16px; color: #fff;}
 
 
     button {
@@ -81,20 +147,72 @@
     }
 
     #bot{
-        margin-bottom: 40px;
+        margin-bottom: 50px;
     }
 
 
     /* necessary to give position: relative to parent. */
-    input[type="text"]{font: 30px/48px 'cabin', sans-serif; color: #333; width: 40%; box-sizing: border-box; letter-spacing: 2px;}
-    input[type="password"]{font: 30px/48px 'cabin', Arial, sans-serif; color: #333; width: 40%; box-sizing: border-box; letter-spacing: 2px;}
+    input[type="text"]{font: 30px/48px 'cabin', sans-serif; color: #333; width: 20%; box-sizing: border-box; letter-spacing: 2px;}
+    input[type="password"]{font: 30px/48px 'cabin', Arial, sans-serif; color: #333; width: 20%; box-sizing: border-box; letter-spacing: 2px;}
 
-    .effect-1 ~ .focus-border{position: absolute; bottom: 0; left: 0; width: 0; height: 4px; background-color: #4caf50; transition: 0.4s;}
+    .effect-1 ~ .focus-border{position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #4caf50; transition: 0.4s;}
     .effect-1:focus ~ .focus-border{width: 20%; transition: 0.4s;}
+    /* Styles */
 }
 
 /* Desktops and laptops ----------- */
 @media only screen  and (min-width : 1824px) {
+
+
+    #chat-page {
+        position: relative;
+    }
+
+    #not-ready-page {
+        float: left;
+        margin-left: 550px;
+    }
+
+    #ready-page {
+        float: right;
+        margin-right: 550px;
+    }
+
+    form#startGame{
+        position: absolute;
+        width: 500px;
+        height: 200px;
+        top: 320px;
+        left: 50%;
+        margin-top: -100px; /* Negative half of height. */
+        margin-left: -250px; /* Negative half of width. */
+    }
+
+    div#not-ready-page h2{
+        text-decoration: underline;
+    }
+
+    div#ready-page h2{
+        text-decoration: underline;
+    }
+
+    ul#not-ready-area li{
+        color: #e60000;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 35px;
+        font-weight: 400;
+        line-height: 30px;
+        margin: 0 0 8px;
+    }
+
+    ul#ready-area li{
+        color: #00ff00;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 35px;
+        font-weight: 400;
+        line-height: 30px;
+        margin: 0 0 8px;
+    }
 
     header {
         text-transform: uppercase;
@@ -129,7 +247,7 @@
         position:absolute;
         font-family: 'Cabin';
         font-size: 22px;
-        top:200;
+        top: 150;
         left:30px;
         color: #fff;
     }
@@ -138,7 +256,7 @@
         position:absolute;
         font-family: 'Cabin';
         font-size: 22px;
-        top:700px;
+        top:660px;
         left:30px;
         color: #fff;
     }
@@ -147,7 +265,7 @@
     main {
         position: relative;
         height: 100px;
-        margin-top: 100px;
+        margin-top: 20px;
         text-align: center;
     }
 
@@ -160,6 +278,7 @@
         color: red;
         font-family: 'Cabin';
         font-size: 80%;
+
     }
 
     h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 45px; font-weight: normal; line-height: 48px; margin: 0; color: #fff;}
@@ -202,6 +321,8 @@
     .effect-1:focus ~ .focus-border{width: 20%; transition: 0.4s;}
     /* Styles */
 }
+
+
 
 
 

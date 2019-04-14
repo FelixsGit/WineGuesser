@@ -1,5 +1,6 @@
 package toppar.wine_guesser.application;
 
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -67,7 +68,7 @@ public class GameSettingsService {
         gameSettingsRepository.removeAllByGameHost(gameHost);
     }
 
-    public List<String> createGameSettings(List<String> urlList, String gameHost){
+    public List<String> createGameSettings(List<String> urlList, String gameHost) throws WineryException{
         String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();
         deleteGameSettingsByGameHost(gameHost);
         List<String> qrCodes = generateQrCodesFromUrls(urlList);
@@ -92,7 +93,7 @@ public class GameSettingsService {
         return description.contains("Smak:") && description.contains("Doft:");
     }
 
-    private List<String> retrieveAllDescriptionsFromUrlList(List<String> urlList){
+    private List<String> retrieveAllDescriptionsFromUrlList(List<String> urlList) throws WineryException {
         UrlScanner urlScanner = new UrlScanner();
         return urlScanner.findDescriptionsForAllUrls(urlList);
     }

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Wine Guesser</title>
 </head>
-<body>
+<body onload="connect(event);">
 <main layout:fragment="content">
 
     <h2>Detta är en öppen lobby med koden:</h2>
@@ -14,27 +14,35 @@
     <br>
     <br>
 
-    <form action="#">
-        <button type="submit">Jag är redo</button>
+    <form id="messageForm" name="messageForm" nameForm="messageForm" action="#">
+
     </form>
     <br>
+
+
+
+    <div id="ready-or-not">
+        <div id="not-ready-page">
+            <h2>Inte Redo</h2>
+            <ul id="not-ready-area" th:each="lobbyData : *{lobbyForm.participantsNotReady}">
+                <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
+            </ul>
+        </div>
+
+        <div id="ready-page">
+            <h2>Redo</h2>
+            <ul id="ready-area" th:each="lobbyData : *{lobbyForm.participantsReady}">
+                <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
+            </ul>
+            <ul id="ready-area" th:if="${lobbyForm.participantsReady.size() == 0}">
+
+            </ul>
+        </div>
+    </div>
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <form th:if="${lobbyForm.gameHost}" action="#">
+    <form id="startGame" th:if="${lobbyForm.gameHost}" action="#">
         <button type="submit">Start Spel</button>
     </form>
-    <br>
     <br>
     <form class="lobbyClose" th:if="${lobbyForm.gameHost}" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
         <button type="submit">Stäng Lobby</button>
@@ -43,8 +51,19 @@
         <button type="submit">Lämna Lobby</button>
     </form>
 
+    <script>
 
 
+        window.onbeforeunload = function() {
+            return stompClientReg.send("/app/chat.regularComs/"+gameId,
+                {},
+                JSON.stringify({sender: username, content: 'specific socket communication', gameId: gameId, type: 'LEAVE'})
+            )
+        //if we return nothing here (just calling return;) then there will be no pop-up question at all
+        //return;
+
+        }
+    ;</script>
 </main>
 </body>
 </html>

@@ -1,10 +1,12 @@
 package toppar.wine_guesser.presentation.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,8 +17,10 @@ import toppar.wine_guesser.presentation.err.ErrorHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.websocket.server.HandshakeRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class ApplicationController {
@@ -56,21 +60,49 @@ public class ApplicationController {
     @Autowired
     private LobbyDataService lobbyDataService;
 
-    @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/public")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        System.out.println("server recieved msg");
+
+    @MessageMapping("/chat.regularComs/{gameId}")
+    @SendTo("/topic/{gameId}")
+    public ChatMessage regularComs(@DestinationVariable String gameId, @Payload ChatMessage chatMessage) {
+        //printChatMessage(chatMessage);
+        System.out.println("Sending message to: /topic/"+gameId);
+        if(chatMessage.getType().equals(ChatMessage.MessageType.READY)){
+            lobbyDataService.setReadyForParticipant(chatMessage.getSender());
+        }else if(chatMessage.getType().equals(ChatMessage.MessageType.LEAVE)){
+            lobbyDataService.setNotReadyForParticipant(chatMessage.getSender());
+            chatMessage.setType(ChatMessage.MessageType.LEAVE);
+        }
         return chatMessage;
     }
 
-    @MessageMapping("/chat.addUser")
+    @GetMapping("/about")
+    public String showAboutPage(){
+        return "/about";
+    }
+
+    private void printChatMessage(ChatMessage chatMessage){
+        System.out.println();
+        System.out.println("Server received message");
+        System.out.println("{sender: " + chatMessage.getSender());
+        System.out.println("content: " + chatMessage.getContent());
+        System.out.println("gameId: " + chatMessage.getGameId());
+        System.out.println("type: " + chatMessage.getType() + "}");
+    }
+
+    @MessageMapping("/chat.determineSocketId")
     @SendTo("/topic/public")
-    public ChatMessage addUser(@Payload ChatMessage chatMessage,
-                               SimpMessageHeaderAccessor headerAccessor) {
-        System.out.println("server added user");
-        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+    public ChatMessage determineSocketId(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+        System.out.println();
+        System.out.println("Server first contact with user");
+        System.out.println("Sending message to: /topic/public");
+        //Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", chatMessage.getSender());
+        chatMessage.setContent(Objects.requireNonNull(headerAccessor.getUser()).getName());
+        chatMessage.setType(ChatMessage.MessageType.SETUP);
+        chatMessage.setGameId(userService.getActiveGame(Objects.requireNonNull(headerAccessor.getUser()).getName()));
         return chatMessage;
     }
+
+
 
     @GetMapping("generateLobby"+"/{gameId}")
     public String generateLobby(Model model, HttpServletRequest request, @PathVariable("gameId") String gameId){
@@ -98,6 +130,10 @@ public class ApplicationController {
             return MENU_PAGE_URL;
         }
         LobbyForm lobbyForm = new LobbyForm();
+        System.out.println("participants not ready: "+lobbyDataService.getUsersNotReadyByGameId(gameId).toString());
+        System.out.println("participants ready: "+lobbyDataService.getUsersReadyByGameId(gameId).toString());
+        lobbyForm.setParticipantsNotReady(lobbyDataService.getUsersNotReadyByGameId(gameId));
+        lobbyForm.setParticipantsReady(lobbyDataService.getUsersReadyByGameId(gameId));
         lobbyForm.setGameId(lobbyService.getLobbyByGameId(gameId).getGameId());
         if(lobbyDataService.isGameHost(request.getUserPrincipal().getName())){
             lobbyForm.setGameHost(request.getUserPrincipal().getName());
@@ -256,7 +292,12 @@ public class ApplicationController {
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.AUTHORIZATION_FAIL);
         } else if(e.getMessage().toUpperCase().contains("LOBBY")) {
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.AUTHORIZATION_LOBBY_FAIL);
+        }else if(e.getMessage().toUpperCase().contains("SYSTEMBOLAGET")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.SYSTEMBOLAGET_DOWN);
+        }else if(e.getMessage().toUpperCase().contains("BODEGASHOP")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.BODEGASHOP_DOWN);
         }
+
     }
 
     @PostMapping(NUMBER_OF_WINES_PAGE_URL)
@@ -277,7 +318,16 @@ public class ApplicationController {
             model.addAttribute(missingDecData);
             return showEnterUrlPage(model, request);
         }
-        List<String> urlsThatMissDescriptions = gameSettingsService.createGameSettings(enterUrlForm.getUrlList(), request.getUserPrincipal().getName());
+        List<String> urlsThatMissDescriptions = null;
+        try {
+            urlsThatMissDescriptions = gameSettingsService.createGameSettings(enterUrlForm.getUrlList(), request.getUserPrincipal().getName());
+        } catch (WineryException e) {
+            MissingDecData missingDecData = new MissingDecData();
+            missingDecData.setMissing("notMissing");
+            model.addAttribute(missingDecData);
+            controlErrorHandling(e, model);
+            return showEnterUrlPage(model, request);
+        }
         MissingDecData missingDecData = new MissingDecData();
         if(!urlsThatMissDescriptions.isEmpty()){
            missingDecData.setMissingList(urlsThatMissDescriptions);
@@ -299,9 +349,9 @@ public class ApplicationController {
             controlErrorHandling(e, model);
             return showMenuPage(model, request);
         }
-        System.out.println("joining game lobby first time");
         lobbyDataService.addParticipant(request.getUserPrincipal().getName(), joinGameLobbyForm.getJoinCode());
         userService.setActiveGameForUser(request.getUserPrincipal().getName(), joinGameLobbyForm.getJoinCode());
+        lobbyDataService.setNotReadyForParticipant(request.getUserPrincipal().getName());
         return showLobbyPage(model, request, joinGameLobbyForm.getJoinCode());
     }
 

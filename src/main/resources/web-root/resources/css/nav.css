@@ -70,16 +70,6 @@
         transform: translateY(-50%) rotate(-35deg);
     }
 
-    nav:before {
-        position: absolute;
-        content: '';
-        border-top: 20px solid #333;
-        border-right: 20px solid #333;
-        border-left: 20px solid transparent;
-        border-bottom: 20px solid transparent;
-        top: 100%;
-        left: 0;
-    }
 
     nav:after {
         position: absolute;
