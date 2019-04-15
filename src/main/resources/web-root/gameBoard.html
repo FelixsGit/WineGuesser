@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/gameLayout}" xmlns:visibility="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div th:if="${gameBoardForm.playerDone != 'true'}">
+        <h1>Spelet har börjat!</h1>
+        <br>
+        <h2>Här är beskrivningarna för de viner som kommer serveras.</h2>
+        <br>
+        <h3>Glöm ej att använda QR kod läsaren på det vinet som serveras så att</h3>
+        <h3>ni kan skriva in serveringsordningen på det aktuella vinet.</h3>
+        <br>
+        <form id="lockResult" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
+            <br>
+            <ul class="description-page">
+                <li id="description-box" th:each="description, var : *{descriptions}">
+                    <h4 th:id="${var.index}" th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(description),'\n','&lt;br /&gt;'))}"></h4>
+                    <input id="numGuess" type="text" th:field="*{guessNum[__${var.index}__]}" />
+                    <input type="hidden" th:field="*{descriptions[__${var.index}__]}"/>
+                    <br>
+                </li>
+                <input type="hidden" th:field="*{gameId}"/>
+            </ul>
+            <br>
+            <br>
+            <button type="submit">Lås in resultat</button>
+        </form>
+    </div>
+
+    <div th:if="${gameBoardForm.playerDone == 'true'}">
+        <h1>Svar inskickat!</h1>
+        <br>
+        <h2>Nu väntar vi på de andra deltagarna att låsa in sitt svar</h2>
+        <br>
+        <h3>När alla har låst in sitt svar kan spelvärden gå till resultat</h3>
+        <h3>sidan där vinnaren kan koras.</h3>
+        <br>
+
+
+        <div id="done-or-not">
+            <div id="not-done-page">
+                <h2>Inte Låst In</h2>
+                <ul id="not-done-area" th:each="lobbyData : *{gameBoardForm.participantsNotDone}">
+                    <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
+                </ul>
+                <ul id="not-done-area" th:if="${gameBoardForm.participantsDone.size() == 0}">
+                </ul>
+            </div>
+
+            <div id="done-page">
+                <h2>Har Låst In</h2>
+                <ul id="done-area" th:each="lobbyData : *{gameBoardForm.participantsDone}">
+                    <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
+                </ul>
+                <ul id="done-area" th:if="${gameBoardForm.participantsDone.size() == 0}">
+                </ul>
+            </div>
+        </div>
+
+
+        <ul class="description-page">
+            <li id="description-box" th:each="description, var : *{gameBoardForm.descriptions}">
+                <h4 th:id="${var.index}" th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(description),'\n','&lt;br /&gt;'))}"></h4>
+                <br>
+                <h3 id="myGuess" th:text="'Min Gissning: ' + ${gameBoardForm.guessNum[__${var.index}__]}"></h3>
+            </li>
+        </ul>
+        <br>
+        <br>
+        <form id="viewResult" action="#">
+
+        </form>
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        connect();
+    });
+</script>
+</main>
+</body>
+</html>

@@ -91,4 +91,50 @@ public class LobbyDataService {
     }
 
 
+    public boolean checkIfAllParticipantsAreReady(String gameId){
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
+        for (LobbyData lobbyData : lobbyDataList) {
+            if (lobbyData.getReady() != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void setDoneTrueForParticipant(String participant){
+        LobbyData lobbyData = lobbyDataRepository.findByParticipants(participant);
+        lobbyData.setDone(1);
+        lobbyDataRepository.save(lobbyData);
+    }
+
+    public boolean checkIfParticipantIsDone(String participant){
+        LobbyData lobbyData = lobbyDataRepository.findByParticipants(participant);
+        if(lobbyData.getDone() == 1){
+            return true;
+        }
+        return false;
+    }
+
+    public List<LobbyDataDTO> getUsersNotDoneByGameId(String gameId){
+        List<LobbyDataDTO> participantsNotDoneLobbyDataList = new ArrayList<>();
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
+        for (LobbyData lobbyData : lobbyDataList) {
+            if (lobbyData.getDone() == 0) {
+                participantsNotDoneLobbyDataList.add(lobbyData);
+            }
+        }
+        return participantsNotDoneLobbyDataList;
+    }
+
+    public List<LobbyDataDTO> getUsersDoneByGameId(String gameId){
+        List<LobbyDataDTO> participantsDoneLobbyDataList = new ArrayList<>();
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
+        for (LobbyData lobbyData : lobbyDataList) {
+            if (lobbyData.getDone() == 1) {
+                participantsDoneLobbyDataList.add(lobbyData);
+            }
+        }
+        return participantsDoneLobbyDataList;
+    }
+
 }

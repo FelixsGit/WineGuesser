@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS `game_setup`;
 DROP TABLE IF EXISTS `game_settings`;
 DROP TABLE IF EXISTS `lobby_data`;
 DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `user_guesses`;
 -- --------------------------------------------------------
 
 --
@@ -27,6 +28,19 @@ CREATE TABLE `game_setup` (
   `gameHost` varchar(255) NOT NULL,
   `amountOfWines` varchar (255) NOT NULL,
   `gameId` varchar(255) NOT NULL PRIMARY KEY
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+--
+-- Tabellstruktur `user_guesses`
+--
+
+CREATE TABLE `user_guesses` (
+  `userGuessesId` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `servingOrderGuess` INTEGER NOT NULL,
+  `descriptionGuess` varchar (255) NOT NULL,
+  `gameId` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

@@ -59,7 +59,7 @@ public class UrlScanner {
                 }
 
                 if (foundSent && foundTaste) {
-                    return "Doft: " + sent + "\nSmak: " + taste;
+                    return "Smak: " + taste + "\n\nDoft: " + sent;
                 } else if (foundSent) {
                     return "Doft: " + sent;
                 } else if (foundTaste) {
@@ -106,7 +106,7 @@ public class UrlScanner {
                     }
                 }
                 if (foundSent && foundTaste) {
-                    return "Doft: " + sent + "\nSmak: " + taste;
+                    return "Smak: " + taste + "\n\nDoft: " + sent;
                 } else if (foundSent) {
                     return "Doft: " + sent;
                 } else if (foundTaste) {

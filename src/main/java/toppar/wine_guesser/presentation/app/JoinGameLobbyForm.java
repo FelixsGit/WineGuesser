@@ -11,6 +11,16 @@ public class JoinGameLobbyForm {
 
     private String activeGame;
 
+    private String gameStatus;
+
+    public String getGameStatus() {
+        return gameStatus;
+    }
+
+    public void setGameStatus(String gameStatus) {
+        this.gameStatus = gameStatus;
+    }
+
     public String getActiveGame() {
         return activeGame;
     }

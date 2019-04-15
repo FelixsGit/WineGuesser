@@ -66,6 +66,8 @@
         color: #fff;
     }
 
+
+
     header {
         text-transform: uppercase;
         position: relative;
@@ -163,10 +165,20 @@
 /* Desktops and laptops ----------- */
 @media only screen  and (min-width : 1824px) {
 
-
-    #chat-page {
-        position: relative;
+    form#startGame{
+        position: absolute;
+        width: 500px;
+        height: 200px;
+        top: 320px;
+        left: 50%;
+        margin-top: -100px; /* Negative half of height. */
+        margin-left: -250px; /* Negative half of width. */
     }
+
+    #startGame{
+        display: none;
+    }
+
 
     #not-ready-page {
         float: left;
@@ -178,15 +190,6 @@
         margin-right: 550px;
     }
 
-    form#startGame{
-        position: absolute;
-        width: 500px;
-        height: 200px;
-        top: 320px;
-        left: 50%;
-        margin-top: -100px; /* Negative half of height. */
-        margin-left: -250px; /* Negative half of width. */
-    }
 
     div#not-ready-page h2{
         text-decoration: underline;
@@ -214,10 +217,52 @@
         margin: 0 0 8px;
     }
 
+    #not-done-page {
+        float: left;
+        margin-left: 280px;
+    }
+
+    #done-page {
+        float: right;
+        margin-right: 300px;
+    }
+
+    #myGuess{
+        margin-top: 15px;
+        padding-top: 0px;
+    }
+
+
+    div#not-done-page h2{
+        text-decoration: underline;
+    }
+
+    div#done-page h2{
+        text-decoration: underline;
+    }
+
+    ul#not-done-area li{
+        color: #e60000;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 35px;
+        font-weight: 400;
+        line-height: 30px;
+        margin: 0 0 8px;
+    }
+
+    ul#done-area li{
+        color: #00ff00;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 35px;
+        font-weight: 400;
+        line-height: 30px;
+        margin: 0 0 8px;
+    }
+
     header {
         text-transform: uppercase;
         position: relative;
-        height: 100px;
+        height: 150px;
         margin-top: 0px;
         font-size: 8em;
         text-align: center;
@@ -228,20 +273,31 @@
         color: #fff;
     }
 
-    header {
-        text-transform: uppercase;
-        position: relative;
-        height: 200px;
-        margin-top: 0px;
-        font-size: 20em;
-        text-align: center;
-        color: #938E94;
-        letter-spacing: .1em;
-        font-family: 'Cabin';
-        font-size: 30px;
-        color: #fff;
+    h4{
+        font-style: italic;
+        font-family: 'Trocchi', serif;
+        font-size: 18px;
+        color: lightgrey;
+        display: inline-block;
     }
 
+
+    #description-box{
+        box-sizing: content-box;
+        display: inline-block;
+        margin: auto;
+        background-color: #333;
+        width: 400px;
+        border: solid lightgrey;
+        border-width: 2px;
+        padding: 20px;
+        text-align: left;
+    }
+    .description-page{
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     userbar{
         position:absolute;
@@ -252,7 +308,18 @@
         color: #fff;
     }
 
-    .lobbyClose{
+
+
+
+    #lobbyClose{
+         position:absolute;
+         font-family: 'Cabin';
+         font-size: 22px;
+         top:660px;
+         left:30px;
+         color: #fff;
+     }
+    #lobbyLeave{
         position:absolute;
         font-family: 'Cabin';
         font-size: 22px;
@@ -281,7 +348,18 @@
 
     }
 
-    h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 45px; font-weight: normal; line-height: 48px; margin: 0; color: #fff;}
+    #numGuess{
+        margin-top: 10px;
+        padding-top: 0px;
+        width: 25px;
+
+        height: 25px;
+        border: none; /* <-- This thing here */
+        border:solid 1px #ccc;
+        border-radius: 10px;
+    }
+
+    h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 38px; font-weight: normal; line-height: 40px; margin: 0; color: #fff;}
     h2 { color: #fff;; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 28px; font-weight: 400; line-height: 32px; margin: 0 0 8px; color: #fff;}
     h3 { color: #fff; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 22px; font-weight: 400; line-height: 24px; margin: 0 0 8px; color: #fff;}
 
@@ -314,12 +392,17 @@
 
 
     /* necessary to give position: relative to parent. */
-    input[type="text"]{font: 15px/24px 'cabin', sans-serif; color: #333; width: 20%; box-sizing: border-box; letter-spacing: 1px;}
-    input[type="password"]{font: 15px/24px 'cabin', Arial, sans-serif; color: #333; width: 20%; box-sizing: border-box; letter-spacing: 1px;}
+    input[type="text"]{font: 15px/24px 'cabin', sans-serif; color: #333; width: 20%; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
+    input[type="password"]{font: 15px/24px 'cabin', Arial, sans-serif; color: #333; width: 20%; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
 
     .effect-1 ~ .focus-border{position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #4caf50; transition: 0.4s;}
     .effect-1:focus ~ .focus-border{width: 20%; transition: 0.4s;}
     /* Styles */
+
+    #viewResult{
+        visibility: hidden;
+    }
+
 }
 
 

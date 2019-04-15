@@ -11,8 +11,11 @@ public class ChatMessage {
         SETUP,
         JOIN,
         READY,
-        CHAT,
-        LEAVE
+        START,
+        LEAVE,
+        CLOSE,
+        LEAVE_HARD,
+        DONE
     }
 
     public MessageType getType() {

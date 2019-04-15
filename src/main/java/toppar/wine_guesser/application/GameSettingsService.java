@@ -118,4 +118,11 @@ public class GameSettingsService {
         return "http://192.168.0.100:8080/QR/wine/"+sb.reverse().toString();
 
     }
+
+    public List<String> getDescriptionsByGameId(String gameId){
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+        List<String> descriptions = new ArrayList<>();
+        gameSettings.forEach(gameSetting -> descriptions.add(gameSetting.getDescription()));
+        return descriptions;
+    }
 }

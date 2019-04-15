@@ -16,7 +16,7 @@ public class LobbyService {
     private LobbyRepository lobbyRepository;
 
     public void createGameLobby(String gameId){
-        lobbyRepository.save(new Lobby(gameId, "false"));
+        lobbyRepository.save(new Lobby(gameId, "prestart"));
     }
 
     public Lobby getLobbyByGameId(String gameId){
@@ -25,7 +25,7 @@ public class LobbyService {
 
     public void checkAuthorizationByGameId(String gameId) throws AuthorizationException {
         Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
-        if(lobby == null || lobby.getGameStart().equals("canceled")) {
+        if(lobby == null || lobby.getGameStart().equals("canceled") || lobby.getGameStart().equals("started")) {
             throw new AuthorizationException("Wrong Lobby Code");
         }
     }
@@ -34,5 +34,21 @@ public class LobbyService {
         Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
         lobby.setGameStart("canceled");
         lobbyRepository.save(lobby);
+    }
+
+    public void startGameLobbyByGameId(String gameId){
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
+        if(lobby.getGameStart().equals("prestart")){
+            lobby.setGameStart("started");
+            lobbyRepository.save(lobby);
+        }
+    }
+
+    public boolean checkIfGameHasStarted(String gameId){
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
+        if(lobby.getGameStart().equals("started")){
+           return true;
+        }
+        return false;
     }
 }

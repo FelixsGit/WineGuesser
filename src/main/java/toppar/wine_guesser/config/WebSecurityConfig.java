@@ -52,8 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/login", "/register", "/home").permitAll();
-        http.authorizeRequests().antMatchers("/menu", "/lobby", "/enterUrl", "/numberOfWines", "/printQrCodes", "/qrOption").fullyAuthenticated();
+        http.authorizeRequests().antMatchers("/login", "/register", "/home", "/about").permitAll();
+        http.authorizeRequests().antMatchers("/menu", "/lobby", "/enterUrl", "/numberOfWines", "/printQrCodes", "/qrOption", "/lobby/**"
+        , "/gameBoard/**").fullyAuthenticated();
 
         // Config for Login/Logout
         http.authorizeRequests()

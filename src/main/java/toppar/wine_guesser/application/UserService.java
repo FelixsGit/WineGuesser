@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import toppar.wine_guesser.domain.Lobby;
 import toppar.wine_guesser.domain.User;
 import toppar.wine_guesser.domain.UserException;
 import toppar.wine_guesser.repository.UserRepository;
@@ -16,6 +17,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LobbyService lobbyService;
 
     public void createUser(String username, String password) throws UserException {
         if(userRepository.findUserByUsername(username) != null) {
@@ -45,6 +49,16 @@ public class UserService {
         }
         return gameId;
 
+    }
+
+    public String getGameStatusByUsername(String username){
+        User user = userRepository.findUserByUsername(username);
+        if(user.getActiveGame() != null){
+            String activeGame = user.getActiveGame();
+            Lobby lobby = lobbyService.getLobbyByGameId(activeGame);
+            return lobby.getGameStart();
+        }
+        return null;
     }
 
     public void cancelActiveGamesForAllUsersWithGameId(String gameId){
