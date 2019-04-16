@@ -122,4 +122,20 @@ public class UrlScanner {
         }
     }
 
+    public static String getImageSourceStringFromUrl(String url) throws WineryException {
+        String imgSourceString = null;
+        try {
+            WebClient client = new WebClient();
+            client.getOptions().setCssEnabled(false);
+            client.getOptions().setJavaScriptEnabled(false);
+            HtmlPage page = client.getPage(url);
+            List<HtmlElement> htmlElements = page.getByXPath("//*[@id=\"product-image-carousel\"]/div/div[1]");
+            imgSourceString = htmlElements.get(0).getFirstChild().getNextSibling().getAttributes().item(0).getNodeValue();
+        } catch (Exception e) {
+            throw new WineryException("Systembolaged img failure");
+        }
+        return imgSourceString;
+
+    }
+
 }

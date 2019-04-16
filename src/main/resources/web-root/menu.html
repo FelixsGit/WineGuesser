@@ -36,12 +36,16 @@
         <br>
         <h3>Klicka här för att öppna den.</h3>
         <br>
-        <form th:if="${joinGameLobbyForm.gameStatus}" th:action="@{'/gameBoard/' + ${joinGameLobbyForm.activeGame}}">
+        <form th:if="${joinGameLobbyForm.gameStatus == 'started'}" th:action="@{'/gameBoard/' + ${joinGameLobbyForm.activeGame}}">
             <h3>Spelet verkar redan ha startat, men du kan som tur är gå med igen.</h3>
             <button type="submit">Gå med igen</button>
         </form>
-        <form th:unless="${joinGameLobbyForm.gameStatus}" th:action="@{'/lobby/' + ${joinGameLobbyForm.activeGame}}">
+        <form th:if="${joinGameLobbyForm.gameStatus == 'prestart'}" th:action="@{'/lobby/' + ${joinGameLobbyForm.activeGame}}">
             <h3>Spelet har inte startat än men det kanske finns folk som väntar på dig.</h3>
+            <button type="submit">Gå med igen</button>
+        </form>
+        <form th:if="${joinGameLobbyForm.gameStatus == 'finished'}" th:action="@{'/gameResults/' + ${joinGameLobbyForm.activeGame}}">
+            <h3>Spelet är avslutat, du kan klicka här för att se på dina resultaten.</h3>
             <button type="submit">Gå med igen</button>
         </form>
     </div>

@@ -36,6 +36,7 @@ public class ApplicationController {
     public static final String PRINT_QR_CODES_PAGE_URL = "/printQrCodes";
     public static final String QR_OPTION_PAGE_URL = "/QR/wine/qrOption";
     public static final String GAME_BOARD_PAGE_URL = "/gameBoard";
+    public static final String GAME_RESULTS_PAGE_URL = "/gameResults";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
     public static final String LOBBY_OBJ_NAME = "lobbyForm";
@@ -47,6 +48,7 @@ public class ApplicationController {
     public static final String QR_OPTION_OBJ_NAME = "qrOptionForm";
     public static final String SERVING_ORDER_OBJ_NAME = "servingOrderForm";
     public static final String GAME_BOARD_OBJ_NAME = "gameBoardForm";
+    public static final String GAME_RESULTS_OBJ_NAME = "gameResultsForm";
 
 
     //////////////////////////////////////GET MAPPINGS/////////////////////////////////////////////////////
@@ -63,12 +65,37 @@ public class ApplicationController {
     private LobbyDataService lobbyDataService;
     @Autowired
     private UserGuessesService userGuessesService;
+    @Autowired
+    private GamePointService gamePointService;
+    @Autowired
+    private GameResultService gameResultService;
+    @Autowired
+    private ResultDataService resultDataService;
+
+
+    @GetMapping("gameResults"+"/{gameId}")
+    public String showGameResultsPage(Model model, @PathVariable("gameId") String gameId, HttpServletRequest request){
+        if(!model.containsAttribute(GAME_RESULTS_OBJ_NAME)){
+            model.addAttribute(GAME_RESULTS_OBJ_NAME);
+        }
+        GameResultsForm gameResultsForm = new GameResultsForm();
+        if(gameResultService.checkIfNewFinishedGame(gameId)){
+            gameResultsForm.setGameStats(gameResultService.retrieveGameStatsForGameWithIdAndUsername(gameId, request.getUserPrincipal().getName()));
+        }else{
+            lobbyService.setGameStartToFinished(gameId);
+            gameResultsForm.setGameStats(gameResultService.generateGameStatsForGameWithId(gameId, request.getUserPrincipal().getName()));
+        }
+        model.addAttribute(gameResultsForm);
+        return GAME_RESULTS_PAGE_URL;
+    }
+
+
 
 
     @MessageMapping("/chat.regularComs/{gameId}")
     @SendTo("/topic/{gameId}")
-    public ChatMessage regularComs(@DestinationVariable String gameId, @Payload ChatMessage chatMessage) {
-        printChatMessage(chatMessage);
+    public ChatMessage regularComs(@DestinationVariable String gameId, @Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+        printChatMessage(chatMessage, "res");
         //System.out.println("Sending message to: /topic/"+gameId);
         if(chatMessage.getType().equals(ChatMessage.MessageType.READY)){
             lobbyDataService.setReadyForParticipant(chatMessage.getSender());
@@ -78,7 +105,16 @@ public class ApplicationController {
         }else if(chatMessage.getType().equals(ChatMessage.MessageType.LEAVE)){
             lobbyDataService.setNotReadyForParticipant(chatMessage.getSender());
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
+        }else if(chatMessage.getType().equals(ChatMessage.MessageType.DONE)){
+            if(chatMessage.getSender().equals(Objects.requireNonNull(headerAccessor.getUser()).getName())){
+                lobbyDataService.setDoneTrueForParticipant(chatMessage.getSender());
+            }
+            if(lobbyDataService.checkIfAllParticipantsAreDone(gameId)){
+                System.out.println("found all participants done");;
+                chatMessage.setContent("ALLDONE");
+            }
         }
+        printChatMessage(chatMessage, "send");
         return chatMessage;
     }
 
@@ -87,13 +123,24 @@ public class ApplicationController {
         return "/about";
     }
 
-    private void printChatMessage(ChatMessage chatMessage){
-        System.out.println();
-        System.out.println("Server received message");
-        System.out.println("{sender: " + chatMessage.getSender());
-        System.out.println("content: " + chatMessage.getContent());
-        System.out.println("gameId: " + chatMessage.getGameId());
-        System.out.println("type: " + chatMessage.getType() + "}");
+
+    private void printChatMessage(ChatMessage chatMessage, String option){
+        if(option.equals("res")){
+            System.out.println();
+            System.out.println("Server received message");
+            System.out.println("{sender: " + chatMessage.getSender());
+            System.out.println("content: " + chatMessage.getContent());
+            System.out.println("gameId: " + chatMessage.getGameId());
+            System.out.println("type: " + chatMessage.getType() + "}");
+        }else{
+            System.out.println();
+            System.out.println("Server sending message");
+            System.out.println("{sender: " + chatMessage.getSender());
+            System.out.println("content: " + chatMessage.getContent());
+            System.out.println("gameId: " + chatMessage.getGameId());
+            System.out.println("type: " + chatMessage.getType() + "}");
+        }
+
     }
 
     @MessageMapping("/chat.determineSocketId")
@@ -112,7 +159,7 @@ public class ApplicationController {
 
     @GetMapping("gameBoard"+"/{gameId}")
     public String showGameBoardPage(Model model, GameBoardForm gameBoardForm, @PathVariable("gameId") String gameId, HttpServletRequest request){
-        if(model.containsAttribute(GAME_BOARD_OBJ_NAME)){
+        if(!model.containsAttribute(GAME_BOARD_OBJ_NAME)){
             model.addAttribute(GAME_BOARD_OBJ_NAME);
         }
         if(lobbyDataService.checkIfParticipantIsDone(request.getUserPrincipal().getName())){
@@ -121,10 +168,16 @@ public class ApplicationController {
             gameBoardForm.setParticipantsNotDone(lobbyDataService.getUsersNotDoneByGameId(gameId));
             gameBoardForm.setGuessNum(userGuessesService.getServingOrderGuessesByUsername(request.getUserPrincipal().getName()));
             gameBoardForm.setDescriptions(userGuessesService.getDescriptionGuessesByUsername(request.getUserPrincipal().getName()));
+            if(lobbyDataService.checkIfAllParticipantsAreDone(gameId)){
+                gameBoardForm.setAllDone("true");
+            }
         }else{
             lobbyService.startGameLobbyByGameId(gameId);
+            gameBoardForm.setDescriptions(gameSettingsService.getDescriptionsByGameId(gameId));
         }
-        gameBoardForm.setDescriptions(gameSettingsService.getDescriptionsByGameId(gameId));
+        if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
+            gameBoardForm.setGameHost(request.getUserPrincipal().getName());
+        }
         gameBoardForm.setGameId(gameId);
         model.addAttribute(gameBoardForm);
         return GAME_BOARD_PAGE_URL;
@@ -165,7 +218,7 @@ public class ApplicationController {
         lobbyForm.setParticipantsNotReady(lobbyDataService.getUsersNotReadyByGameId(gameId));
         lobbyForm.setParticipantsReady(lobbyDataService.getUsersReadyByGameId(gameId));
         lobbyForm.setGameId(lobbyService.getLobbyByGameId(gameId).getGameId());
-        if(lobbyDataService.isGameHost(request.getUserPrincipal().getName())){
+        if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
             lobbyForm.setGameHost(request.getUserPrincipal().getName());
         }
         model.addAttribute(lobbyForm);
@@ -240,7 +293,7 @@ public class ApplicationController {
     @GetMapping("lobby/{gameId}/command/{action}")
     public String lobbyCommandRedirect(@PathVariable("action") String action, @PathVariable String gameId, HttpServletRequest request) {
         if(action.equals("quit")){
-            if(lobbyDataService.isGameHost(request.getUserPrincipal().getName())){
+            if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
                 System.out.println("user: " + request.getUserPrincipal().getName() +" is closing the lobby down");
                 gameSetupService.removeGameSetupByGameHost(request.getUserPrincipal().getName());
                 gameSettingsService.removeGameSettingsByGameHost(request.getUserPrincipal().getName());
@@ -253,6 +306,9 @@ public class ApplicationController {
             lobbyDataService.removeParticipantFromLobby(request.getUserPrincipal().getName());
             userService.removeActiveGameFromUserWithUsername(request.getUserPrincipal().getName());
         }
+        if(action.equals("showResult")){
+            System.out.println("showing results!!!");
+        }
         return "redirect:" + MENU_PAGE_URL;
     }
 
@@ -262,15 +318,25 @@ public class ApplicationController {
         if(!model.containsAttribute(JOIN_GAME_LOBBY_OBJ_NAME)){
             model.addAttribute(new JoinGameLobbyForm());
         }
-        //check if user have activeGame, if so dont show option to make new game, or option to join game. Instead ask them to press a button to join the game lobby.
-        String username = userService.getActiveGame(request.getUserPrincipal().getName());
-        if(username != null){
-            JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+        String gameId = userService.getActiveGame(request.getUserPrincipal().getName());
+        if(gameId != null){
             String gameStatus = userService.getGameStatusByUsername(request.getUserPrincipal().getName());
+            JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
             if(gameStatus.equals("started")){
                 joinGameLobbyForm.setGameStatus("started");
             }
-            joinGameLobbyForm.setActiveGame(username);
+            if(gameStatus.equals("finished")){
+                joinGameLobbyForm.setGameStatus("finished");
+            }
+            if(gameStatus.equals("prestart")){
+                joinGameLobbyForm.setGameStatus("prestart");
+            }
+            /**
+             * TODO
+             * Add gameStatus 'completed' to be able to go back and view history even after the game is finished.
+             */
+            joinGameLobbyForm.setGameStatus(gameStatus);
+            joinGameLobbyForm.setActiveGame(gameId);
             model.addAttribute(joinGameLobbyForm);
         }
         return MENU_PAGE_URL;
@@ -306,7 +372,7 @@ public class ApplicationController {
             return showGameBoardPage(model, gameBoardForm, gameBoardForm.getGameId(), request);
         }
         userGuessesService.saveUserGuesses(request.getUserPrincipal().getName(), gameBoardForm.getGameId(), gameBoardForm.getDescriptions(), gameBoardForm.getGuessNum());
-        lobbyDataService.setDoneTrueForParticipant(request.getUserPrincipal().getName());
+        //lobbyDataService.setDoneTrueForParticipant(request.getUserPrincipal().getName());
         return showGameBoardPage(model, gameBoardForm, gameBoardForm.getGameId(), request);
     }
 

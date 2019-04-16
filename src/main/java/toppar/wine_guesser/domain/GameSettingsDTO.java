@@ -7,6 +7,8 @@ public interface GameSettingsDTO {
     String getGameId();
     String getQrCode();
     String getUrl();
+    String getImgSource();
+    String getWineName();
     String getDescription();
     String getServingOrder();
 }

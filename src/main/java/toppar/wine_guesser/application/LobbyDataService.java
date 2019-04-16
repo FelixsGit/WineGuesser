@@ -37,12 +37,18 @@ public class LobbyDataService {
         lobbyDataRepository.save(new LobbyData(lobby.getLobbyId(), null, gameId, participant, 0, 0, 0));
     }
 
-    public boolean isGameHost(String username){
-         List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameHost(username);
-         if(lobbyDataList.isEmpty()){
-             return false;
+    public boolean isGameHost(String username, String gameId){
+         List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
+         for(int i = 0; i < lobbyDataList.size(); i++){
+             if(lobbyDataList.get(i).getGameHost() != null){
+                 if(lobbyDataList.get(i).getGameHost().equals(username)){
+                     System.out.println(username +" is gamehost");
+                     return true;
+                 }
+             }
          }
-         return true;
+         System.out.println(username +" is not gamehost");
+         return false;
     }
 
     public void removeAllParticipantsFromLobbyWithGameId(String gameId){
@@ -115,6 +121,16 @@ public class LobbyDataService {
         return false;
     }
 
+    public boolean checkIfAllParticipantsAreDone(String gameId){
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
+        for (LobbyData lobbyData : lobbyDataList) {
+            if (lobbyData.getDone() != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public List<LobbyDataDTO> getUsersNotDoneByGameId(String gameId){
         List<LobbyDataDTO> participantsNotDoneLobbyDataList = new ArrayList<>();
         List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
@@ -135,6 +151,13 @@ public class LobbyDataService {
             }
         }
         return participantsDoneLobbyDataList;
+    }
+
+    public List<String> getParticipantsByGameId(String gameId){
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
+        List<String> participants = new ArrayList<>();
+        lobbyDataList.forEach(lobbyData -> participants.add(lobbyData.getParticipants()));
+        return participants;
     }
 
 }

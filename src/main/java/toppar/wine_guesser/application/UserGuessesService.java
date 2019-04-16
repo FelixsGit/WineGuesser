@@ -36,4 +36,7 @@ public class UserGuessesService {
         userGuessesList.forEach(userGuesses -> servingOrderGuesses.add(Integer.toString(userGuesses.getServingOrderGuess())));
         return servingOrderGuesses;
     }
+    public List<UserGuesses> getAllByGameIdAndUsername(String gameId, String username){
+        return userGuessesRepository.findAllByGameIdAndUsername(gameId, username);
+    }
 }

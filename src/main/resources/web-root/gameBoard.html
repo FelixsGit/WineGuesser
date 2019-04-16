@@ -72,8 +72,10 @@
         </ul>
         <br>
         <br>
-        <form id="viewResult" action="#">
-
+    </div>
+    <div th:if="${gameBoardForm.gameHost}">
+        <form id="viewResult">
+            <!--<button th:if="${gameBoardForm.allDone}" id="bot" type="submit">Visa Resultat</button><-->
         </form>
     </div>
 <script>

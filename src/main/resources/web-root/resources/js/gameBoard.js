@@ -26,14 +26,12 @@ function connect(event) {
 
     if(gameId == null){
         if(!username) {
-            var socket = new SockJS('/wsCon');
+            var socket = new SockJS('/wsGameCon');
             stompClientConn = Stomp.over(socket);
-
             stompClientConn.connect({}, onConnected, onError);
         }
-        event.preventDefault();
     }else{
-        var socket = new SockJS('/wsReg');
+        var socket = new SockJS('/wsGameReg');
         stompClientReg = Stomp.over(socket);
         stompClientReg.connect({}, onConnected, onError);
     }
@@ -60,8 +58,7 @@ function subscribeToSpecific(gameId){
 }
 
 function onError(error) {
-    connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
-    connectingElement.style.color = 'red';
+
 }
 
 function sendMessage(event) {
@@ -84,7 +81,6 @@ function sendMessage(event) {
         }
         stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
     }
-    event.preventDefault();
 }
 
 function sendDoneMessage(event) {
@@ -97,6 +93,20 @@ function sendDoneMessage(event) {
     stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
 }
 
+function sendShowResultMessage(event) {
+    var chatMessage = {
+        sender: username,
+        content: 'specific socket communication',
+        gameId: gameId,
+        type: 'SHOWRESULT'
+    };
+    stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
+    client.unsubscribe();
+    client = null;
+    window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
+}
+
+
 function onMessageReceived(payload) {
 
     var doneElement = document.createElement('li');
@@ -106,6 +116,11 @@ function onMessageReceived(payload) {
         username = message.content;
         gameId = message.gameId;
         subscribeToSpecific(gameId);
+    }
+    if(message.type === 'SHOWRESULT'){
+        window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
+        client.unsubscribe();
+        client = null;
     }
 
     if(message.type === 'DONE'){
@@ -117,5 +132,27 @@ function onMessageReceived(payload) {
             doneArea.appendChild(doneElement);
             doneElement.appendChild(doneNameText);
         }
+        if(message.content === 'ALLDONE'){
+            timeFunction();
+        }
     }
+
+}
+function timeFunction() {
+    setTimeout(function(){
+        var form = document.getElementById('viewResult');
+        var button = document.createElement('button');
+        button.setAttribute('id','bot');
+        button.setAttribute('type', 'submit');
+        var buttonNameText = document.createTextNode('Visa Resultat');
+        button.appendChild(buttonNameText);
+        form.appendChild(button);
+        {document.getElementById("viewResult").style.display="block";}
+
+        //adding event listner
+        var resultButtonForm = document.getElementById('viewResult');
+        if(resultButtonForm != null){
+            resultButtonForm.addEventListener('submit', sendShowResultMessage, false);
+        }
+    }, 1000);
 }

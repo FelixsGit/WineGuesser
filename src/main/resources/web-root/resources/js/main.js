@@ -1,12 +1,12 @@
 'use strict';
 
-var messageForm = document.querySelector('#messageForm');
-var startGame = document.querySelector('#startGame');
-var readyArea = document.querySelector('#ready-area');
-var notReadyArea = document.querySelector('#not-ready-area');
-var lobbyCloseForm = document.querySelector('#lobbyClose');
-var lobbyLeaveForm = document.querySelector('#lobbyLeave');
 
+var messageForm = null;
+var startGame = null;
+var readyArea = null;
+var notReadyArea = null;
+var lobbyCloseForm = null;
+var lobbyLeaveForm = null;
 var stompClientConn = null;
 var stompClientReg = null;
 var username = null;
@@ -15,6 +15,29 @@ var gameId = null;
 var join = null;
 
 function connect(event) {
+
+    readyArea = document.getElementById('ready-area');
+    notReadyArea = document.getElementById('not-ready-area');
+
+    messageForm = document.getElementById('messageForm');
+    if(messageForm != null){
+        messageForm.addEventListener('submit', sendMessage, false);
+    }
+
+    lobbyCloseForm = document.getElementById('lobbyClose');
+    if(lobbyCloseForm != null){
+        lobbyCloseForm.addEventListener('submit', closeLobbyMessage, false);
+    }
+    startGame = document.getElementById('startGame');
+    if(startGame != null){
+        startGame.addEventListener('submit', sendStartMessage, false);
+    }
+    lobbyLeaveForm = document.getElementById('lobbyLeave');
+    if(lobbyLeaveForm != null){
+        lobbyLeaveForm.addEventListener('submit', sendLeaveHardMessage, false);
+    }
+
+
     if(gameId == null){
         if(!username) {
             var socket = new SockJS('/wsCon');
@@ -22,7 +45,6 @@ function connect(event) {
 
             stompClientConn.connect({}, onConnected, onError);
         }
-        event.preventDefault();
     }else{
         var socket = new SockJS('/wsReg');
         stompClientReg = Stomp.over(socket);
@@ -51,8 +73,7 @@ function subscribeToSpecific(gameId){
 }
 
 function onError(error) {
-    connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
-    connectingElement.style.color = 'red';
+
 }
 
 function sendMessage(event) {
@@ -75,7 +96,6 @@ function sendMessage(event) {
         }
         stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
     }
-    event.preventDefault();
 }
 
 function sendStartMessage(event){
@@ -86,7 +106,6 @@ function sendStartMessage(event){
         type: 'START'
     };
     stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
-    event.preventDefault();
 }
 
 function sendLeaveHardMessage(event){
@@ -97,7 +116,6 @@ function sendLeaveHardMessage(event){
         type: 'LEAVE_HARD'
     };
     stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
-    event.preventDefault();
 }
 
 function closeLobbyMessage(event){
@@ -108,7 +126,6 @@ function closeLobbyMessage(event){
         type: 'CLOSE'
     };
     stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
-    event.preventDefault();
 }
 
 function onMessageReceived(payload) {
@@ -143,6 +160,9 @@ function onMessageReceived(payload) {
         if(elementToRemove != null){
             elementToRemove.parentNode.removeChild(elementToRemove);
         }
+        if(!notReadyElement.hasChildNodes()){
+            {document.getElementById("startGame").style.display="block";}
+        }
     }
 
     var notReadyElement = document.createElement('li');
@@ -159,8 +179,10 @@ function onMessageReceived(payload) {
                     var notReadyNameText = document.createTextNode(message.sender);
                     notReadyArea.appendChild(notReadyElement);
                     notReadyElement.appendChild(notReadyNameText);
+                    {document.getElementById('startGame').style.display="none";}
                 }
             }
+
         }
         //somebody entered lobby
         if(message.type === 'JOIN') {
@@ -169,8 +191,8 @@ function onMessageReceived(payload) {
                 var notReadyNameText = document.createTextNode(message.sender);
                 notReadyArea.appendChild(notReadyElement);
                 notReadyElement.appendChild(notReadyNameText);
-                {document.getElementById("startGame").style.display="hidden";}
             }
+            {document.getElementById('startGame').style.display="none";}
         //somebody pressed the ready button
         } else if (message.type === 'READY') {
 
@@ -192,9 +214,5 @@ function onMessageReceived(payload) {
     }
 }
 
-messageForm.addEventListener('submit', sendMessage, true);
-lobbyCloseForm.addEventListener('submit', closeLobbyMessage, true);
-startGame.addEventListener('submit', sendStartMessage, true);
-if(lobbyLeaveForm != null){
-    lobbyLeaveForm.addEventListener('submit', sendLeaveHardMessage, true);
-}
+
+

@@ -400,7 +400,7 @@
     /* Styles */
 
     #viewResult{
-        visibility: hidden;
+        display:block;
     }
 
 }

@@ -18,6 +18,25 @@ public class GameBoardForm {
 
     private List<LobbyDataDTO> participantsDone;
 
+    private String gameHost;
+
+    private String allDone;
+
+    public String getAllDone() {
+        return allDone;
+    }
+
+    public void setAllDone(String allDone) {
+        this.allDone = allDone;
+    }
+
+    public String getGameHost() {
+        return gameHost;
+    }
+
+    public void setGameHost(String gameHost) {
+        this.gameHost = gameHost;
+    }
 
     public List<LobbyDataDTO> getParticipantsNotDone() {
         return participantsNotDone;

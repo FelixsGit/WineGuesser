@@ -15,7 +15,8 @@ public class ChatMessage {
         LEAVE,
         CLOSE,
         LEAVE_HARD,
-        DONE
+        DONE,
+        SHOWRESULT
     }
 
     public MessageType getType() {

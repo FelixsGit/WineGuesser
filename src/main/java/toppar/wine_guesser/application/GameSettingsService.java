@@ -33,6 +33,10 @@ public class GameSettingsService {
         }
     }
 
+    public List<GameSettings> getAllByGameId(String gameId){
+        return gameSettingsRepository.findAllByGameId(gameId);
+    }
+
     public List<String> getQrCodesByGameHost(String username){
         GameSetupDTO gameSetupDTO  = gameSetupService.getGameSetupByGameHost(username);
         List<GameSettings> gameSettingsDTOS = gameSettingsRepository.findAllByGameId(gameSetupDTO.getGameId());
@@ -73,6 +77,8 @@ public class GameSettingsService {
         deleteGameSettingsByGameHost(gameHost);
         List<String> qrCodes = generateQrCodesFromUrls(urlList);
         List<String> descriptions = retrieveAllDescriptionsFromUrlList(urlList);
+        List<String> imgSourceStrings = retrieveImgSourceStringsFromUrl(urlList);
+        List<String> wineNames = retrieveWineNamesFromUrl(urlList);
         List<String> wineDescriptionMissing = new ArrayList<>();
         boolean anyWineMissingDescription = false;
         for(int i = 0; i < urlList.size(); i++){
@@ -83,7 +89,7 @@ public class GameSettingsService {
         }
         if(!anyWineMissingDescription){
             for(int i = 0; i < urlList.size(); i++){
-                gameSettingsRepository.save(new GameSettings(gameId, gameHost, qrCodes.get(i), urlList.get(i), descriptions.get(i), null));
+                gameSettingsRepository.save(new GameSettings(gameId, gameHost, qrCodes.get(i), urlList.get(i), imgSourceStrings.get(i), wineNames.get(i), descriptions.get(i), null));
             }
         }
         return wineDescriptionMissing;
@@ -93,6 +99,12 @@ public class GameSettingsService {
         return description.contains("Smak:") && description.contains("Doft:");
     }
 
+    private List<String> retrieveWineNamesFromUrl(List<String> urlList){
+        List<String> wineNames = new ArrayList<>();
+        urlList.forEach(url -> wineNames.add(scrapUrlForWineName(url)));
+        return wineNames;
+    }
+
     private List<String> retrieveAllDescriptionsFromUrlList(List<String> urlList) throws WineryException {
         UrlScanner urlScanner = new UrlScanner();
         return urlScanner.findDescriptionsForAllUrls(urlList);
@@ -100,10 +112,58 @@ public class GameSettingsService {
 
     private List<String> generateQrCodesFromUrls(List<String> urlList){
         List<String> qrCodes = new ArrayList<>();
-        for(int i = 0; i < urlList.size(); i ++){
-            qrCodes.add(ZXingHelper.getQRCodeImage(scrapUrlForWineIdAndAppendToNewUrl(urlList.get(i)), 160, 160));
+        for (String s : urlList) {
+            qrCodes.add(ZXingHelper.getQRCodeImage(scrapUrlForWineIdAndAppendToNewUrl(s), 160, 160));
         }
         return qrCodes;
+    }
+
+    private List<String> retrieveImgSourceStringsFromUrl(List<String> urlList) throws WineryException {
+        List<String> imgSourceStrings = new ArrayList<>();
+        for (String s : urlList) {
+            imgSourceStrings.add(UrlScanner.getImageSourceStringFromUrl(s));
+        }
+        return imgSourceStrings;
+    }
+
+    private String scrapUrlForWineName(String url){
+        StringBuilder sb = new StringBuilder(url);
+        sb.reverse();
+        for(int i = 0; i < sb.length(); i++){
+            if(Character.toString(sb.charAt(i)).equals("/")){
+                sb.delete(i, url.length());
+            }
+        }
+        sb.reverse();
+        for(int i = 0; i < sb.length(); i++){
+            if(Character.toString(sb.charAt(i)).equals("-")) {
+                sb.deleteCharAt(i);
+                sb.replace(i, i, " ");
+            }
+            if(Character.isDigit(sb.charAt(i))){
+                sb.deleteCharAt(i);
+            }
+        }
+        for(int i = 0; i < sb.length(); i++){
+            if(Character.isDigit(sb.charAt(i))){
+                sb.delete(i, url.length());
+                break;
+            }
+        }
+        for(int i = 0; i < sb.length(); i++){
+            if(Character.toString(sb.charAt(i)).equals(" ")) {
+                if(i < (sb.length() - 1)){
+                    sb.setCharAt(i + 1, Character.toString(sb.charAt(i + 1)).toUpperCase().charAt(0));
+                }
+                if(i == sb.length() - 1){
+                    sb.deleteCharAt(i);
+                }
+            }
+            if(i == 0){
+                sb.setCharAt(i, Character.toString(sb.charAt(i)).toUpperCase().charAt(0));
+            }
+        }
+        return sb.toString();
     }
 
     private String scrapUrlForWineIdAndAppendToNewUrl(String url){

@@ -23,7 +23,4 @@ public class ZXingHelper {
             return null;
         }
     }
-
-
-
 }

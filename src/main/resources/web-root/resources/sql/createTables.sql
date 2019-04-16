@@ -18,6 +18,9 @@ DROP TABLE IF EXISTS `game_settings`;
 DROP TABLE IF EXISTS `lobby_data`;
 DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS `user_guesses`;
+DROP TABLE IF EXISTS `game_result`;
+DROP TABLE IF EXISTS `game_point`;
+DROP TABLE IF EXISTS `result_data`;
 -- --------------------------------------------------------
 
 --
@@ -39,9 +42,37 @@ CREATE TABLE `user_guesses` (
   `userGuessesId` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `servingOrderGuess` INTEGER NOT NULL,
-  `descriptionGuess` varchar (255) NOT NULL,
+  `descriptionGuess` varchar (8000) NOT NULL,
   `gameId` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `game_result` (
+  `gameResultId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `gameId` varchar(255) NOT NULL,
+  `url` varchar(8000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `game_point` (
+  `gamePointId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `gameResultId` INTEGER NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `points` INTEGER NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `result_data` (
+   `resultDataId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+   `gameResultId` INTEGER NOT NULL,
+   `username` varchar(255) NOT NULL,
+   `servingOrder` INTEGER NOT NULL,
+   `winePicture` varchar(8000) NOT NULL,
+   `wineName` varchar(255) NOT NULL,
+   `wineDescription` varchar(8000) NOT NULL,
+   `grade` INTEGER NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 
 -- --------------------------------------------------------
 
@@ -55,6 +86,8 @@ CREATE TABLE `game_settings` (
   `gameId` varchar(255) NOT NULL,
   `qrCode` varchar(8000) NOT NULL,
   `url` varchar(8000) NOT NULL,
+  `imgSource` varchar(8000) NOT NULL,
+  `wineName` varchar(255) NOT NULL,
   `description` varchar(8000) NOT NULL,
   `servingOrder` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

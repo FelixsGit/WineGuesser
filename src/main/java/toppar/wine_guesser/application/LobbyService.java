@@ -51,4 +51,10 @@ public class LobbyService {
         }
         return false;
     }
+
+    public void setGameStartToFinished(String gameId){
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
+        lobby.setGameStart("finished");
+        lobbyRepository.save(lobby);
+    }
 }
