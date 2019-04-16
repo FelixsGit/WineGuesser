@@ -8,7 +8,35 @@
 <body>
 <main layout:fragment="content">
 
-    RESULT HERE
+
+    <h1 th:text="'Detta är resultatsidan för matchen.'"> </h1>
+    <br>
+    <h2 th:text="Poänglista"/>
+    <br>
+    <ul id="gamePoint-area">
+        <li id="gamePoint-box" th:each="gamePointDTO, var : *{gameResultsForm.gameStats.gamePointList}">
+            <div id="res-name"><h3 th:text="*{gamePointDTO.username}"/></div>
+            <div id="res-points "><h3 th:text="*{gamePointDTO.points}"/></div>
+        </li>
+    </ul>
+    <br>
+    <br>
+    <h2>Vinlista i serveringsordning.</h2>
+    <br>
+    <ul id="resultData-area">
+        <li id="resultData-box" th:each="resultDataDTO, var : *{gameResultsForm.gameStats.resultDataList}">
+            <a th:href="@{${resultDataDTO.url}}">
+                <img id="res-winePicture" th:href="@{${resultDataDTO.url}}" th:src="@{${resultDataDTO.winePicture}}">
+            </a>
+            <div id="res-wineName" ><h3 th:text="*{resultDataDTO.wineName}"/></div>
+            <div id="your-point" ><h3>Din Poäng</h3></div>
+            <br>
+            <br>
+            <div id="res-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultDataDTO.wineDescription),'\n','&lt;br /&gt;'))}"></h4></div>
+            <div id="res-wineGrade" ><h3 th:text="*{resultDataDTO.grade}"/></div>
+            <br>
+        </li>
+    </ul>
 
 
 </main>

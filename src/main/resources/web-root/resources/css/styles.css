@@ -1,30 +1,40 @@
 
 /* Smartphones (portrait and landscape) ----------- */
-@media only screen and (min-device-width : 20px) and (max-device-width : 1000px) {
+@media only screen and (min-device-width : 300px) and (max-device-width : 600px) {
 
-    #chat-page {
-        position: relative;
-    }
-
-    #not-ready-page {
-        float: left;
-        margin-left: 550px;
-    }
-
-    #ready-page {
-        float: right;
-        margin-right: 550px;
+    html,body {
+        background: url("/resources/images/setupBg.png") no-repeat center center fixed;
+        -webkit-background-size: cover; /* For WebKit*/
+        -moz-background-size: cover;    /* Mozilla*/
+        -o-background-size: cover;      /* Opera*/
+        background-size: cover;         /* Generic*/
     }
 
     form#startGame{
         position: absolute;
-        width: 500px;
-        height: 200px;
-        top: 320px;
+        width: 1000px;
+        height: 400px;
+        top: 640px;
         left: 50%;
-        margin-top: -100px; /* Negative half of height. */
-        margin-left: -250px; /* Negative half of width. */
+        margin-top: -200px; /* Negative half of height. */
+        margin-left: -500px; /* Negative half of width. */
     }
+
+    #startGame{
+        display: none;
+    }
+
+
+    #not-ready-page {
+        float: left;
+        margin-left: 100px;
+    }
+
+    #ready-page {
+        float: right;
+        margin-right: 100px;
+    }
+
 
     div#not-ready-page h2{
         text-decoration: underline;
@@ -40,7 +50,7 @@
         font-size: 70px;
         font-weight: 400;
         line-height: 60px;
-        margin: 0 0 8px;
+        margin: 0 0 16px;
     }
 
     ul#ready-area li{
@@ -49,13 +59,59 @@
         font-size: 70px;
         font-weight: 400;
         line-height: 60px;
-        margin: 0 0 8px;
+        margin: 0 0 16px;
+    }
+
+    #not-done-page {
+        margin-top: 75px;
+        margin-bottom: 50px;
+        float: left;
+        margin-left: 100px;
+    }
+
+    #done-page {
+        margin-top: 75px;
+        margin-bottom: 50px;
+        float: right;
+        margin-right: 100px;
+    }
+
+    #myGuess{
+        margin-top: 30px;
+        padding-top: 0px;
+    }
+
+
+    div#not-done-page h2{
+        text-decoration: underline;
+    }
+
+    div#done-page h2{
+        text-decoration: underline;
+    }
+
+    ul#not-done-area li{
+        color: #e60000;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 70px;
+        font-weight: 400;
+        line-height: 60px;
+        margin: 0 0 16px;
+    }
+
+    ul#done-area li{
+        color: #00ff00;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 70px;
+        font-weight: 400;
+        line-height: 60px;
+        margin: 0 0 16px;
     }
 
     header {
         text-transform: uppercase;
         position: relative;
-        height: 100px;
+        height: 150px;
         margin-top: 0px;
         font-size: 16em;
         text-align: center;
@@ -66,22 +122,31 @@
         color: #fff;
     }
 
-
-
-    header {
-        text-transform: uppercase;
-        position: relative;
-        height: 200px;
-        margin-top: 0px;
-        font-size: 40em;
-        text-align: center;
-        color: #938E94;
-        letter-spacing: .2em;
-        font-family: 'Cabin';
-        font-size: 60px;
-        color: #fff;
+    h4{
+        font-style: italic;
+        font-family: 'Trocchi', serif;
+        font-size: 36px;
+        color: lightgrey;
+        display: inline-block;
     }
 
+
+    #description-box{
+        box-sizing: content-box;
+        display: inline-block;
+        margin: auto;
+        background-color: #333;
+        width: 800px;
+        border: solid lightgrey;
+        border-width: 4px;
+        padding: 40px;
+        text-align: left;
+    }
+    .description-page{
+        width: 950px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     userbar{
         position:absolute;
@@ -92,26 +157,28 @@
         color: #fff;
     }
 
-    .lobbyClose{
+    #lobbyClose{
         position:absolute;
         font-family: 'Cabin';
         font-size: 44px;
-        top:660px;
+        top:1320px;
+        left:60px;
+        color: #fff;
+    }
+    #lobbyLeave{
+        position:absolute;
+        font-family: 'Cabin';
+        font-size: 44px;
+        top:1320px;
         left:60px;
         color: #fff;
     }
 
-
     main {
         position: relative;
-        height: 100px;
-        margin-top: 40px;
+        height: 200px;
+        margin-top: 100px;
         text-align: center;
-    }
-
-    body {
-        background-color: #F8F8F8;
-        background-image: url("/resources/images/setupBg.png");
     }
 
     .error {
@@ -121,9 +188,20 @@
 
     }
 
-    h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 90px; font-weight: normal; line-height: 86px; margin: 0; color: #fff;}
-    h2 { color: #fff;; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 56px; font-weight: 400; line-height: 64px; margin: 0 0 16px; color: #fff;}
-    h3 { color: #fff; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 44px; font-weight: 400; line-height: 48px; margin: 0 0 16px; color: #fff;}
+    #numGuess{
+        margin-top: 20px;
+        padding-top: 0px;
+        width: 50px;
+
+        height: 50px;
+        border: none; /* <-- This thing here */
+        border:solid 2px #ccc;
+        border-radius: 10px;
+    }
+
+    h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 76px; font-weight: normal; line-height: 80px; margin: 0; color: #fff; }
+    h2 { color: #fff;; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 56px; font-weight: 400; line-height: 64px; margin: 0 0 8px; color: #fff; }
+    h3 { color: #fff; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 44px; font-weight: 400; line-height: 48px; margin: 0 0 8px; color: #fff; }
 
 
     button {
@@ -140,7 +218,7 @@
         transition-duration: 0.4s;
         cursor: pointer;
         border: 4px solid #333;
-        border-radius: 12px;
+        border-radius: 24px;
     }
     button:hover {
         font-family: 'Cabin';
@@ -149,21 +227,127 @@
     }
 
     #bot{
-        margin-bottom: 50px;
+        margin-bottom: 80px;
     }
 
 
     /* necessary to give position: relative to parent. */
-    input[type="text"]{font: 30px/48px 'cabin', sans-serif; color: #333; width: 20%; box-sizing: border-box; letter-spacing: 2px;}
-    input[type="password"]{font: 30px/48px 'cabin', Arial, sans-serif; color: #333; width: 20%; box-sizing: border-box; letter-spacing: 2px;}
+    input[type="text"]{font: 30px/48px 'cabin', sans-serif; color: #333; width: 40%; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
+    input[type="password"]{font: 30px/48px 'cabin', Arial, sans-serif; color: #333; width: 40%; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
 
     .effect-1 ~ .focus-border{position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #4caf50; transition: 0.4s;}
     .effect-1:focus ~ .focus-border{width: 20%; transition: 0.4s;}
     /* Styles */
+
+    #viewResult{
+        display:block;
+        text-align: center;
+        margin: auto;
+        margin-bottom: 100px;
+    }
+
+    #lockInResult{
+        margin-bottom: 100px;
+    }
+
+    #resultButton{
+        width:200px;
+        position: center;
+        display:block;
+        margin: auto;
+    }
+
+    #gamePoint-area{
+        width: 240px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #gamePoint-box{
+        box-sizing: content-box;
+        display: inline-block;
+        margin: auto;
+        background-color: #333;
+        width: 240px;
+        border: solid lightgrey;
+        border-width: 4px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    #res-name{
+        float: left;
+        text-align: left;
+    }
+    #res-points{
+        float: right;
+        text-align: right;
+    }
+
+
+    #res-wineDescription{
+        float:left;
+        text-align: left;
+        width: 500px;
+    }
+
+    #res-wineName{
+        float:left
+    }
+
+    #res-wineGrade{
+        float:right
+    }
+
+    #res-winePicture{
+        float:left;
+        width: 200px;
+        height: auto;
+        padding-right: 20px;
+    }
+    #your-point{
+        text-align: center;
+        float:right
+    }
+
+    #resultData-area{
+        width: 950px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 150px;
+    }
+
+    #resultData-box{
+        box-sizing: content-box;
+        display: inline-block;
+        margin: auto;
+        height: auto;
+        background-color: #333;
+        width: 900px;
+        border: solid lightgrey;
+        border-width: 4px;
+        padding: 8px;
+        text-align: center;
+    }
+
 }
 
 /* Desktops and laptops ----------- */
 @media only screen  and (min-width : 1824px) {
+
+    #lockInResult{
+        margin-bottom: 50px;
+    }
+
+
+    html,body {
+        background: url("/resources/images/setupBg.png") no-repeat center center fixed;
+        -webkit-background-size: cover; /* For WebKit*/
+        -moz-background-size: cover;    /* Mozilla*/
+        -o-background-size: cover;      /* Opera*/
+        background-size: cover;         /* Generic*/
+    }
+
 
     form#startGame{
         position: absolute;
@@ -310,7 +494,6 @@
 
 
 
-
     #lobbyClose{
          position:absolute;
          font-family: 'Cabin';
@@ -334,11 +517,6 @@
         height: 100px;
         margin-top: 20px;
         text-align: center;
-    }
-
-    body {
-        background-color: #F8F8F8;
-        background-image: url("/resources/images/setupBg.png");
     }
 
     .error {
@@ -401,7 +579,92 @@
 
     #viewResult{
         display:block;
+        text-align: center;
+        margin: auto;
+        margin-bottom: 50px;
     }
+
+    #resultButton{
+        width:100px;
+        position: center;
+        display:block;
+        margin: auto;
+    }
+
+    #gamePoint-area{
+        width: 120px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #gamePoint-box{
+        box-sizing: content-box;
+        display: inline-block;
+        margin: auto;
+        background-color: #333;
+        width: 120px;
+        border: solid lightgrey;
+        border-width: 2px;
+        padding: 4px;
+        text-align: center;
+    }
+
+    #res-name{
+        float: left;
+        text-align: left;
+    }
+    #res-points{
+        float: right;
+        text-align: right;
+    }
+
+
+    #res-wineDescription{
+        float:left;
+        text-align: left;
+        width: 600px;
+    }
+
+    #res-wineName{
+        float:left
+    }
+
+    #res-wineGrade{
+        float:right
+    }
+
+    #res-winePicture{
+        float:left;
+        width: 100px;
+        height: 150px;
+        padding-right: 10px;
+    }
+    #your-point{
+        text-align: center;
+        float:right
+    }
+
+    #resultData-area{
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 100px;
+    }
+
+    #resultData-box{
+        box-sizing: content-box;
+        display: inline-block;
+        margin: auto;
+        height: 150px;
+        background-color: #333;
+        width: 800px;
+        border: solid lightgrey;
+        border-width: 2px;
+        padding: 4px;
+        text-align: center;
+    }
+
+
 
 }
 

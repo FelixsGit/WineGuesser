@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{resources/fragments/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      layout:decorate="~{resources/fragments/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:redirect="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Wine Guesser</title>
@@ -17,7 +18,7 @@
         <br>
         <h3>Gå med i en redan existerande lobby.</h3>
         <br>
-        <form action=# th:action="@{/menu}" th:object="${joinGameLobbyForm}" method="post">
+        <form th:action="@{/menu}" th:object="${joinGameLobbyForm}" th:method="post">
             <input type="text" placeholder="Kod" th:field="*{joinCode}"/>
             <div>
                 <span class="error"

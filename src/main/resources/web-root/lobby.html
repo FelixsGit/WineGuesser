@@ -16,7 +16,7 @@
     <br>
 
     <form id="messageForm" name="messageForm" nameForm="messageForm" action="#">
-
+        <button type="submit" th:id="${lobbyForm.username} + 'button'">Redo</button>
     </form>
     <br>
 
@@ -70,8 +70,8 @@
         //if we return nothing here (just calling return;) then there will be no pop-up question at all
         //return;
 
-        }
-    ;</script>
+        };
+    </script>
 </main>
 
 </body>

@@ -69,7 +69,8 @@ CREATE TABLE `result_data` (
    `winePicture` varchar(8000) NOT NULL,
    `wineName` varchar(255) NOT NULL,
    `wineDescription` varchar(8000) NOT NULL,
-   `grade` INTEGER NOT NULL
+   `grade` INTEGER NOT NULL,
+   `url` varchar(8000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

@@ -15,6 +15,7 @@ import toppar.wine_guesser.application.*;
 import toppar.wine_guesser.domain.*;
 import toppar.wine_guesser.presentation.err.ErrorHandler;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.websocket.server.HandshakeRequest;
@@ -95,8 +96,7 @@ public class ApplicationController {
     @MessageMapping("/chat.regularComs/{gameId}")
     @SendTo("/topic/{gameId}")
     public ChatMessage regularComs(@DestinationVariable String gameId, @Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
-        printChatMessage(chatMessage, "res");
-        //System.out.println("Sending message to: /topic/"+gameId);
+        //printChatMessage(chatMessage, "res");
         if(chatMessage.getType().equals(ChatMessage.MessageType.READY)){
             lobbyDataService.setReadyForParticipant(chatMessage.getSender());
             if(lobbyDataService.checkIfAllParticipantsAreReady(gameId)){
@@ -110,11 +110,10 @@ public class ApplicationController {
                 lobbyDataService.setDoneTrueForParticipant(chatMessage.getSender());
             }
             if(lobbyDataService.checkIfAllParticipantsAreDone(gameId)){
-                System.out.println("found all participants done");;
                 chatMessage.setContent("ALLDONE");
             }
         }
-        printChatMessage(chatMessage, "send");
+        //printChatMessage(chatMessage, "send");
         return chatMessage;
     }
 
@@ -146,10 +145,6 @@ public class ApplicationController {
     @MessageMapping("/chat.determineSocketId")
     @SendTo("/topic/public")
     public ChatMessage determineSocketId(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
-        //System.out.println();
-        System.out.println("Server first contact with user");
-        //System.out.println("Sending message to: /topic/public");
-        //Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", chatMessage.getSender());
         chatMessage.setContent(Objects.requireNonNull(headerAccessor.getUser()).getName());
         chatMessage.setType(ChatMessage.MessageType.SETUP);
         chatMessage.setGameId(userService.getActiveGame(Objects.requireNonNull(headerAccessor.getUser()).getName()));
@@ -172,11 +167,17 @@ public class ApplicationController {
                 gameBoardForm.setAllDone("true");
             }
         }else{
-            lobbyService.startGameLobbyByGameId(gameId);
             gameBoardForm.setDescriptions(gameSettingsService.getDescriptionsByGameId(gameId));
+            if(gameBoardForm.getWineToRate() == 1){
+                lobbyService.startGameLobbyByGameId(gameId);
+            }
         }
         if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
             gameBoardForm.setGameHost(request.getUserPrincipal().getName());
+        }
+
+        if(gameBoardForm.getWineToRate() == 0){
+            gameBoardForm.setWineToRate(1);
         }
         gameBoardForm.setGameId(gameId);
         model.addAttribute(gameBoardForm);
@@ -218,6 +219,7 @@ public class ApplicationController {
         lobbyForm.setParticipantsNotReady(lobbyDataService.getUsersNotReadyByGameId(gameId));
         lobbyForm.setParticipantsReady(lobbyDataService.getUsersReadyByGameId(gameId));
         lobbyForm.setGameId(lobbyService.getLobbyByGameId(gameId).getGameId());
+        lobbyForm.setUsername(request.getUserPrincipal().getName());
         if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
             lobbyForm.setGameHost(request.getUserPrincipal().getName());
         }
@@ -367,12 +369,21 @@ public class ApplicationController {
     //////////////////////////////////////POST MAPPINGS/////////////////////////////////////////////////////
 
     @PostMapping(GAME_BOARD_PAGE_URL)
-    public String lockInResults(@ModelAttribute GameBoardForm gameBoardForm, Model model, BindingResult bindingResult, HttpServletRequest request){
+    public String lockInResultsOrGrade(@Valid @ModelAttribute GameBoardForm gameBoardForm, Model model, BindingResult bindingResult, HttpServletRequest request){
         if (bindingResult.hasErrors()) {
             return showGameBoardPage(model, gameBoardForm, gameBoardForm.getGameId(), request);
         }
-        userGuessesService.saveUserGuesses(request.getUserPrincipal().getName(), gameBoardForm.getGameId(), gameBoardForm.getDescriptions(), gameBoardForm.getGuessNum());
-        //lobbyDataService.setDoneTrueForParticipant(request.getUserPrincipal().getName());
+        if(gameBoardForm.getDoneRating() != null){
+            userGuessesService.saveUserGuesses(request.getUserPrincipal().getName(), gameBoardForm.getGameId(), gameBoardForm.getDescriptions(), gameBoardForm.getGuessNum());
+        }else{
+            int numberOfWines = gameSettingsService.getAllByGameId(gameBoardForm.getGameId()).size();
+            System.out.println("serving wine " + gameBoardForm.getWineToRate() + " got a rate of "+ gameBoardForm.getWineRating() + " from "+ request.getUserPrincipal().getName());
+            if((gameBoardForm.getWineToRate() < numberOfWines) && gameBoardForm.getDoneRating() == null){
+                gameBoardForm.setWineToRate(gameBoardForm.getWineToRate() + 1);
+            }else if((gameBoardForm.getWineToRate() == numberOfWines) && gameBoardForm.getDoneRating() == null){
+                gameBoardForm.setDoneRating("true");
+            }
+        }
         return showGameBoardPage(model, gameBoardForm, gameBoardForm.getGameId(), request);
     }
 

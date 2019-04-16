@@ -2,19 +2,19 @@ package toppar.wine_guesser.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.Lobby;
 import toppar.wine_guesser.domain.LobbyData;
 import toppar.wine_guesser.domain.LobbyDataDTO;
 import toppar.wine_guesser.repository.LobbyDataRepository;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+
+@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
 @Service
 public class LobbyDataService {
 
@@ -42,12 +42,10 @@ public class LobbyDataService {
          for(int i = 0; i < lobbyDataList.size(); i++){
              if(lobbyDataList.get(i).getGameHost() != null){
                  if(lobbyDataList.get(i).getGameHost().equals(username)){
-                     System.out.println(username +" is gamehost");
                      return true;
                  }
              }
          }
-         System.out.println(username +" is not gamehost");
          return false;
     }
 

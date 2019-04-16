@@ -8,11 +8,21 @@ public class LobbyForm {
 
     private String gameId;
 
+    private String username;
+
     private String gameHost;
 
     private List<LobbyDataDTO> participantsNotReady;
 
     private List<LobbyDataDTO> participantsReady;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getGameHost() {
         return gameHost;

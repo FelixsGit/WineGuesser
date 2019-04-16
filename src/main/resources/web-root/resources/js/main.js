@@ -24,25 +24,27 @@ function connect(event) {
         messageForm.addEventListener('submit', sendMessage, false);
     }
 
+
     lobbyCloseForm = document.getElementById('lobbyClose');
     if(lobbyCloseForm != null){
         lobbyCloseForm.addEventListener('submit', closeLobbyMessage, false);
     }
+
+
     startGame = document.getElementById('startGame');
     if(startGame != null){
         startGame.addEventListener('submit', sendStartMessage, false);
     }
+
     lobbyLeaveForm = document.getElementById('lobbyLeave');
     if(lobbyLeaveForm != null){
         lobbyLeaveForm.addEventListener('submit', sendLeaveHardMessage, false);
     }
 
-
     if(gameId == null){
         if(!username) {
             var socket = new SockJS('/wsCon');
             stompClientConn = Stomp.over(socket);
-
             stompClientConn.connect({}, onConnected, onError);
         }
     }else{
@@ -64,6 +66,7 @@ function onConnected() {
         join = "joining";
         sendMessage(event);
     }
+
 }
 
 function subscribeToSpecific(gameId){
@@ -86,6 +89,7 @@ function sendMessage(event) {
                 type: 'JOIN'
             };
             join = 'joined';
+            stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
         }else if(username){
             var chatMessage = {
                 sender: username,
@@ -93,8 +97,9 @@ function sendMessage(event) {
                 gameId: gameId,
                 type: 'READY'
             };
+            stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
         }
-        stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
+
     }
 }
 
@@ -134,17 +139,9 @@ function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
 
     if(message.type === 'SETUP'){
-        var button = document.createElement("button");
-        var buttonText= document.createTextNode('Redo');
-        button.id = message.content+'button';
-        button.style.display=
-        button.type = 'submit';
-        button.class = 'primary';
-        button.appendChild(buttonText);
-        var span = document.getElementById('messageForm');
-        span.appendChild(button);
         username = message.content;
         gameId = message.gameId;
+        window.location.href = "http://192.168.0.100:8080/lobby/"+gameId +"?#";
         subscribeToSpecific(gameId);
     }
 
@@ -170,7 +167,8 @@ function onMessageReceived(payload) {
 
     if(message.type === 'JOIN' || message.type === 'READY' || message.type === 'LEAVE'){
 
-        if(message.type === 'LEAVE'){
+
+        if(message.type === 'LEAVE' && message.sender !== username){
             var elementToRemove = document.getElementById(message.sender);
             if(elementToRemove != null){
                 if(elementToRemove.parentNode.id === 'ready-area'){
@@ -195,7 +193,6 @@ function onMessageReceived(payload) {
             {document.getElementById('startGame').style.display="none";}
         //somebody pressed the ready button
         } else if (message.type === 'READY') {
-
             var elementToRemove = document.getElementById(message.sender+'button');
             if(elementToRemove != null){
                 elementToRemove.parentNode.removeChild(elementToRemove);
@@ -212,7 +209,11 @@ function onMessageReceived(payload) {
             {document.getElementById("startGame").style.display="block";}
         }
     }
+
 }
+
+
+
 
 
 

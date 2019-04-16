@@ -15,6 +15,18 @@
         <h3>Glöm ej att använda QR kod läsaren på det vinet som serveras så att</h3>
         <h3>ni kan skriva in serveringsordningen på det aktuella vinet.</h3>
         <br>
+        <br>
+        <form id="wine-rate-form" th:unless="${gameBoardForm.doneRating}" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
+            <h3 th:text="'Skriv in betyg 1 - 5 för serveringsvinsnummer: '+ ${wineToRate}"></h3>
+            <input id="numGuess" type="text" th:field="*{wineRating}" />
+            <input type="hidden" th:field="*{gameId}" />
+            <input type="hidden" th:field="*{wineToRate}" />
+            <br>
+            <br>
+            <button id="wine-rate-button" type="submit">Skicka in Betyg</button>
+        </form>
+        <br>
+        <br>
         <form id="lockResult" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
             <br>
             <ul class="description-page">
@@ -24,13 +36,17 @@
                     <input type="hidden" th:field="*{descriptions[__${var.index}__]}"/>
                     <br>
                 </li>
+                <script>
+                    connect();
+                </script>
                 <input type="hidden" th:field="*{gameId}"/>
             </ul>
             <br>
             <br>
-            <button type="submit">Lås in resultat</button>
+            <button th:if="${doneRating}" id="lockInResult" type="submit">Lås in resultat</button>
         </form>
     </div>
+
 
     <div th:if="${gameBoardForm.playerDone == 'true'}">
         <h1>Svar inskickat!</h1>
@@ -73,16 +89,13 @@
         <br>
         <br>
     </div>
-    <div th:if="${gameBoardForm.gameHost}">
+    <div id="resultButton" th:if="${gameBoardForm.gameHost}">
         <form id="viewResult">
-            <!--<button th:if="${gameBoardForm.allDone}" id="bot" type="submit">Visa Resultat</button><-->
+            <!--<button id="viewResultButton "th:if="${gameBoardForm.allDone}" id="bot" type="submit">Visa Resultat</button><-->
         </form>
     </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        connect();
-    });
-</script>
+
+
 </main>
 </body>
 </html>

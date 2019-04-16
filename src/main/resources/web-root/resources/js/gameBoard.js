@@ -101,9 +101,6 @@ function sendShowResultMessage(event) {
         type: 'SHOWRESULT'
     };
     stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
-    client.unsubscribe();
-    client = null;
-    window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
 }
 
 
@@ -115,7 +112,13 @@ function onMessageReceived(payload) {
     if(message.type === 'SETUP'){
         username = message.content;
         gameId = message.gameId;
+        window.location.href = "http://192.168.0.100:8080/gameBoard/"+gameId +"#";
         subscribeToSpecific(gameId);
+        var test = document.getElementById('myGuess');
+        var test2 = document.getElementById('not-done-area');
+        if(test != null && test2 == null){
+            timeFunction();
+        }
     }
     if(message.type === 'SHOWRESULT'){
         window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
@@ -142,12 +145,12 @@ function timeFunction() {
     setTimeout(function(){
         var form = document.getElementById('viewResult');
         var button = document.createElement('button');
-        button.setAttribute('id','bot');
+        button.setAttribute('id','showResult');
         button.setAttribute('type', 'submit');
         var buttonNameText = document.createTextNode('Visa Resultat');
         button.appendChild(buttonNameText);
         form.appendChild(button);
-        {document.getElementById("viewResult").style.display="block";}
+        {document.getElementById("showResult").style.display="block";}
 
         //adding event listner
         var resultButtonForm = document.getElementById('viewResult');

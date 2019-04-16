@@ -10,5 +10,6 @@ public interface ResultDataDTO {
     String getWineName();
     String getWineDescription();
     int getGrade();
+    String getUrl();
 
 }

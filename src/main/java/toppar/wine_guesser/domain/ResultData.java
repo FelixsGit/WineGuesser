@@ -16,12 +16,13 @@ public class ResultData implements ResultDataDTO{
     private String wineName;
     private String wineDescription;
     private int grade;
+    private String url;
 
     protected ResultData(){
 
     }
 
-    public ResultData(int gameResultId, String username, int servingOrder, String winePicture, String wineName, String wineDescription, int grade) {
+    public ResultData(int gameResultId, String username, int servingOrder, String winePicture, String wineName, String wineDescription, int grade, String url) {
         this.gameResultId = gameResultId;
         this.username = username;
         this.servingOrder = servingOrder;
@@ -29,6 +30,15 @@ public class ResultData implements ResultDataDTO{
         this.wineName = wineName;
         this.wineDescription = wineDescription;
         this.grade = grade;
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public int getResultDataId() {

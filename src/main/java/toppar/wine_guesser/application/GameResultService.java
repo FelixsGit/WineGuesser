@@ -2,14 +2,18 @@ package toppar.wine_guesser.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.*;
 import toppar.wine_guesser.repository.GameResultRepository;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
 @Service
 public class GameResultService {
 
@@ -53,11 +57,11 @@ public class GameResultService {
                 }
                 if(correct){
                     resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentCorrectServingOrder,
-                            gameSettingsList.get(i).getImgSource(), gameSettingsList.get(i).getWineName(), currentCorrectDescription, 1));
+                            gameSettingsList.get(i).getImgSource(), gameSettingsList.get(i).getWineName(), currentCorrectDescription, 1, gameSettingsList.get(i).getUrl()));
                     correct = false;
                 }else{
                     resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentCorrectServingOrder,
-                            gameSettingsList.get(i).getImgSource(), gameSettingsList.get(i).getWineName(), currentCorrectDescription, 0));
+                            gameSettingsList.get(i).getImgSource(), gameSettingsList.get(i).getWineName(), currentCorrectDescription, 0, gameSettingsList.get(i).getUrl()));
                 }
             }
         }
@@ -74,9 +78,8 @@ public class GameResultService {
             totalPoints = 0;
         }
 
-        List<GamePointDTO> gamePointList = gamePointService.getAllByGameResultId(gameResult.getGameResultId());
+        List<GamePointDTO> gamePointList = sortGamePointListByPoints(gamePointService.getAllByGameResultId(gameResult.getGameResultId()));
         List<ResultDataDTO> resultDataList = resultDataService.getAllByGameResultIdAndUsername(gameResult.getGameResultId(), username);
-
 
         return new GameStats(gamePointList, resultDataList, gameId);
     }
@@ -85,20 +88,20 @@ public class GameResultService {
         return gameResultRepository.findAllByGameId(gameId) != null;
     }
 
+    private List<GamePointDTO> sortGamePointListByPoints(List<GamePointDTO> gamePointDTOList){
+        return gamePointDTOList.stream().sorted(Collections.reverseOrder(Comparator.comparing(GamePointDTO::getPoints))).collect(Collectors.toList());
+    }
+
     public GameStats retrieveGameStatsForGameWithIdAndUsername(String gameId, String username){
         GameResult gameResult = gameResultRepository.findAllByGameId(gameId);
-        List<GamePointDTO> gamePointList = gamePointService.getAllByGameResultId(gameResult.getGameResultId());
+        List<GamePointDTO> gamePointList = sortGamePointListByPoints(gamePointService.getAllByGameResultId(gameResult.getGameResultId()));
         List<ResultDataDTO> resultDataList = resultDataService.getAllByGameResultIdAndUsername(gameResult.getGameResultId(), username);
         return new GameStats(gamePointList, resultDataList, gameId);
     }
 
     private boolean checkIfDescriptionsAreEqual(String one, String two){
         String slice = two.substring(0, 30);
-        if(one.contains(slice)){
-            return true;
-        }else{
-            return false;
-        }
+        return one.contains(slice);
     }
 
 }

@@ -22,6 +22,38 @@ public class GameBoardForm {
 
     private String allDone;
 
+    private int wineToRate;
+
+    private String doneRating;
+
+    private int wineRating;
+
+
+    public String getDoneRating() {
+        return doneRating;
+    }
+
+    public void setDoneRating(String doneRating) {
+        this.doneRating = doneRating;
+    }
+
+
+    public int getWineToRate() {
+        return wineToRate;
+    }
+
+    public void setWineToRate(int wineToRate) {
+        this.wineToRate = wineToRate;
+    }
+
+    public int getWineRating() {
+        return wineRating;
+    }
+
+    public void setWineRating(int wineRating) {
+        this.wineRating = wineRating;
+    }
+
     public String getAllDone() {
         return allDone;
     }
