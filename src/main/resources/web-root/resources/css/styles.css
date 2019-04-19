@@ -108,6 +108,11 @@
         margin: 0 0 16px;
     }
 
+    #lockInResult{
+        margin:auto;
+        margin-bottom: 50px;
+    }
+
     header {
         text-transform: uppercase;
         position: relative;
@@ -189,14 +194,15 @@
     }
 
     #numGuess{
-        margin-top: 20px;
+        margin:auto;
         padding-top: 0px;
-        width: 50px;
-
-        height: 50px;
+        width: 100px;
+        height: 100px;
         border: none; /* <-- This thing here */
-        border:solid 2px #ccc;
+        border:solid 3px #ccc;
         border-radius: 10px;
+        font-size:40pt;
+        float:right
     }
 
     h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 76px; font-weight: normal; line-height: 80px; margin: 0; color: #fff; }
@@ -288,15 +294,17 @@
     #res-wineDescription{
         float:left;
         text-align: left;
-        width: 500px;
+        width: 465px;
     }
 
     #res-wineName{
         float:left
     }
 
-    #res-wineGrade{
-        float:right
+    #p-result{
+        float:right;
+        text-align: left;
+        margin: auto;
     }
 
     #res-winePicture{
@@ -305,10 +313,8 @@
         height: auto;
         padding-right: 20px;
     }
-    #your-point{
-        text-align: center;
-        float:right
-    }
+
+
 
     #resultData-area{
         width: 950px;
@@ -330,14 +336,54 @@
         text-align: center;
     }
 
+    #enter-grade{
+        margin-top: 80px;
+        padding-top: 0px;
+        width: 100px;
+        height: 100px;
+        border: none; /* <-- This thing here */
+        border:solid 3px #ccc;
+        border-radius: 10px;
+        font-size:40pt;
+    }
+
+    #board-wineDescription{
+        float:left;
+        text-align: left;
+        width: 670px;
+    }
+
+
+
 }
 
 /* Desktops and laptops ----------- */
 @media only screen  and (min-width : 1824px) {
 
+    #board-wineDescription{
+        float:left;
+        text-align: left;
+        width: 300px;
+    }
+
+
     #lockInResult{
+        margin:auto;
         margin-bottom: 50px;
     }
+
+    #enter-grade{
+        margin-top: 10px;
+        padding-top: 0px;
+        width: 50px;
+        height: 50px;
+        border: none; /* <-- This thing here */
+        border:solid 3px #ccc;
+        border-radius: 10px;
+        font-size:40pt;
+        text-align:center;
+    }
+
 
 
     html,body {
@@ -472,9 +518,10 @@
         margin: auto;
         background-color: #333;
         width: 400px;
+        height:auto;
         border: solid lightgrey;
         border-width: 2px;
-        padding: 20px;
+        padding: 10px;
         text-align: left;
     }
     .description-page{
@@ -527,14 +574,15 @@
     }
 
     #numGuess{
-        margin-top: 10px;
+        margin:auto;
         padding-top: 0px;
-        width: 25px;
-
-        height: 25px;
+        width: 50px;
+        height: 50px;
         border: none; /* <-- This thing here */
-        border:solid 1px #ccc;
+        border:solid 3px #ccc;
         border-radius: 10px;
+        font-size:40pt;s: 10px;
+        float:right
     }
 
     h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 38px; font-weight: normal; line-height: 40px; margin: 0; color: #fff;}
@@ -620,18 +668,22 @@
 
 
     #res-wineDescription{
+        margin-top: 10px;
         float:left;
         text-align: left;
-        width: 600px;
+        width: 580px;
     }
 
     #res-wineName{
         float:left
     }
 
-    #res-wineGrade{
-        float:right
+    #p-result{
+        float:right;
+        text-align: left;
+        margin: auto;
     }
+
 
     #res-winePicture{
         float:left;
@@ -639,10 +691,7 @@
         height: 150px;
         padding-right: 10px;
     }
-    #your-point{
-        text-align: center;
-        float:right
-    }
+
 
     #resultData-area{
         width: 1000px;

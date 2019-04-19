@@ -4,12 +4,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import toppar.wine_guesser.domain.GameResult;
+import toppar.wine_guesser.domain.MatchHistory;
+
+import java.util.List;
 
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
-public interface GameResultRepository extends JpaRepository<GameResult, String> {
+public interface MatchHistoryRepository extends JpaRepository<MatchHistory, String> {
 
-    GameResult findAllByGameId(String gameId);
+    List<MatchHistory> findAllByGameId(String gameId);
 
 }

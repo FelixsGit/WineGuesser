@@ -7,94 +7,51 @@
 </head>
 <body>
 <main layout:fragment="content">
-    <div th:if="${gameBoardForm.playerDone != 'true'}">
-        <h1>Spelet har börjat!</h1>
-        <br>
-        <h2>Här är beskrivningarna för de viner som kommer serveras.</h2>
-        <br>
-        <h3>Glöm ej att använda QR kod läsaren på det vinet som serveras så att</h3>
-        <h3>ni kan skriva in serveringsordningen på det aktuella vinet.</h3>
-        <br>
-        <br>
-        <form id="wine-rate-form" th:unless="${gameBoardForm.doneRating}" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
-            <h3 th:text="'Skriv in betyg 1 - 5 för serveringsvinsnummer: '+ ${wineToRate}"></h3>
-            <input id="numGuess" type="text" th:field="*{wineRating}" />
-            <input type="hidden" th:field="*{gameId}" />
-            <input type="hidden" th:field="*{wineToRate}" />
-            <br>
-            <br>
-            <button id="wine-rate-button" type="submit">Skicka in Betyg</button>
-        </form>
-        <br>
-        <br>
-        <form id="lockResult" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
-            <br>
-            <ul class="description-page">
-                <li id="description-box" th:each="description, var : *{descriptions}">
-                    <h4 th:id="${var.index}" th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(description),'\n','&lt;br /&gt;'))}"></h4>
-                    <input id="numGuess" type="text" th:field="*{guessNum[__${var.index}__]}" />
-                    <input type="hidden" th:field="*{descriptions[__${var.index}__]}"/>
-                    <br>
-                </li>
-                <script>
-                    connect();
-                </script>
-                <input type="hidden" th:field="*{gameId}"/>
-            </ul>
-            <br>
-            <br>
-            <button th:if="${doneRating}" id="lockInResult" type="submit">Lås in resultat</button>
-        </form>
-    </div>
 
+    <h1> Spelet har börjat!</h1>
+    <br>
+    <h2>Här är beskrivningarna för alla viner som serveras.</h2>
+    <br>
+    <h3>Glöm ej att använda QR kod läsaren på det vinet som serveras så att</h3>
+    <h3>ni kan skriva in serveringsordningen på det aktuella vinet.</h3>
+    <br>
+    <br>
 
-    <div th:if="${gameBoardForm.playerDone == 'true'}">
-        <h1>Svar inskickat!</h1>
+    <form id="wine-rate-form" th:unless="${gameBoardForm.doneRating}" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
+        <h3 th:text="'Skriv in betyg 1 - 5 för serveringsvinsnummer: '+ *{wineToRate}"></h3>
+        <input id="enter-grade" placeholder=" " type="text" th:field="*{wineRating}" />
+        <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
+        <input type="hidden" th:field="*{wineToRate}" />
+        <input type="hidden" th:field="*{gameId}" />
         <br>
-        <h2>Nu väntar vi på de andra deltagarna att låsa in sitt svar</h2>
         <br>
-        <h3>När alla har låst in sitt svar kan spelvärden gå till resultat</h3>
-        <h3>sidan där vinnaren kan koras.</h3>
+        <button id="wine-rate-button" type="submit">Skicka in Betyg</button>
+    </form>
+
+    <br>
+    <br>
+
+    <form id="lockResult" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
         <br>
-
-
-        <div id="done-or-not">
-            <div id="not-done-page">
-                <h2>Inte Låst In</h2>
-                <ul id="not-done-area" th:each="lobbyData : *{gameBoardForm.participantsNotDone}">
-                    <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
-                </ul>
-                <ul id="not-done-area" th:if="${gameBoardForm.participantsDone.size() == 0}">
-                </ul>
-            </div>
-
-            <div id="done-page">
-                <h2>Har Låst In</h2>
-                <ul id="done-area" th:each="lobbyData : *{gameBoardForm.participantsDone}">
-                    <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
-                </ul>
-                <ul id="done-area" th:if="${gameBoardForm.participantsDone.size() == 0}">
-                </ul>
-            </div>
-        </div>
-
-
         <ul class="description-page">
-            <li id="description-box" th:each="description, var : *{gameBoardForm.descriptions}">
-                <h4 th:id="${var.index}" th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(description),'\n','&lt;br /&gt;'))}"></h4>
+            <li id="description-box" th:each="description, var : *{descriptions}">
+                <div id="board-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(description),'\n','&lt;br /&gt;'))}"></h4></div>
+                <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
+                <input id="numGuess" th:if="${gameBoardForm.doneRating}" type="text" th:field="*{guessNum[__${var.index}__]}" />
+                <span class="error"
+                      th:if="${#fields.errors('guessNum')}"
+                      th:errors="*{guessNum}">
+                </span>
+                <input type="hidden" th:field="*{descriptions[__${var.index}__]}"/>
+                <input id="numGuess" type="hidden" th:field="*{doneRating}" />
                 <br>
-                <h3 id="myGuess" th:text="'Min Gissning: ' + ${gameBoardForm.guessNum[__${var.index}__]}"></h3>
             </li>
+            <input type="hidden" th:field="*{gameId}"/>
         </ul>
         <br>
         <br>
-    </div>
-    <div id="resultButton" th:if="${gameBoardForm.gameHost}">
-        <form id="viewResult">
-            <!--<button id="viewResultButton "th:if="${gameBoardForm.allDone}" id="bot" type="submit">Visa Resultat</button><-->
-        </form>
-    </div>
-
+        <button th:if="${gameBoardForm.doneRating}" id="lockInResult" type="submit">Lås in resultat</button>
+    </form>
 
 </main>
 </body>

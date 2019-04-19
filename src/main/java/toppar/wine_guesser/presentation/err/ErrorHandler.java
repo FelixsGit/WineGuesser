@@ -8,5 +8,13 @@ public class ErrorHandler {
     public static final String SYSTEMBOLAGET_DOWN = "Systembolaget svarar inte just nu";
     public static final String BODEGASHOP_DOWN = "Bodegashop svarar inte just nu";
     public static final String ERROR_TYPE_KEY = "errorType";
+    public static final String TO_BIG_GUESS = "Du kan inte gissa på ett större tal än antalet viner som serveras.";
+    public static final String TO_SMALL_GUESS = "För litet tal, måste vara 1 till antalet viner som serveras.";
+    public static final String GUESS_WRONG_FORMAT = "Fel typ, skriv in en siffra.";
+    public static final String MISSING_SERVING_ORDER = "En servingsorder har inte registrerats i databasen, be spelvärden att blipa QR koden i rätt ordning och skriv in.";
+    public static final String EMPTY_GUESS = "Din gissning kan inte var tom.";
+    public static final String WRONG_JUDGEMENT_RANGE = "Betyg måste vara heltal 1 till 5.";
+    public static final String SERVING_ORDER_SAME = "Ordningen måste var unik.";
+
 
 }

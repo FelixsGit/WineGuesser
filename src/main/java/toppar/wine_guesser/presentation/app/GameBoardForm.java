@@ -1,7 +1,9 @@
 package toppar.wine_guesser.presentation.app;
 
+import org.springframework.format.annotation.NumberFormat;
 import toppar.wine_guesser.domain.LobbyDataDTO;
 
+import javax.validation.constraints.*;
 import java.util.List;
 
 public class GameBoardForm {
@@ -26,8 +28,15 @@ public class GameBoardForm {
 
     private String doneRating;
 
-    private int wineRating;
+    private Integer wineRating;
 
+    public void setWineRating(Integer wineRating) {
+        this.wineRating = wineRating;
+    }
+
+    public Integer getWineRating() {
+        return wineRating;
+    }
 
     public String getDoneRating() {
         return doneRating;
@@ -46,13 +55,6 @@ public class GameBoardForm {
         this.wineToRate = wineToRate;
     }
 
-    public int getWineRating() {
-        return wineRating;
-    }
-
-    public void setWineRating(int wineRating) {
-        this.wineRating = wineRating;
-    }
 
     public String getAllDone() {
         return allDone;

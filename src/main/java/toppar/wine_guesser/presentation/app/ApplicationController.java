@@ -6,7 +6,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,10 +14,8 @@ import toppar.wine_guesser.application.*;
 import toppar.wine_guesser.domain.*;
 import toppar.wine_guesser.presentation.err.ErrorHandler;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.websocket.server.HandshakeRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +34,7 @@ public class ApplicationController {
     public static final String PRINT_QR_CODES_PAGE_URL = "/printQrCodes";
     public static final String QR_OPTION_PAGE_URL = "/QR/wine/qrOption";
     public static final String GAME_BOARD_PAGE_URL = "/gameBoard";
+    public static final String GAME_BOARD_LOCK_PAGE_URL = "/gameBoardLock";
     public static final String GAME_RESULTS_PAGE_URL = "/gameResults";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
@@ -49,6 +47,7 @@ public class ApplicationController {
     public static final String QR_OPTION_OBJ_NAME = "qrOptionForm";
     public static final String SERVING_ORDER_OBJ_NAME = "servingOrderForm";
     public static final String GAME_BOARD_OBJ_NAME = "gameBoardForm";
+    public static final String GAME_BOARD_LOCK_OBJ_NAME = "gameBoardLockForm";
     public static final String GAME_RESULTS_OBJ_NAME = "gameResultsForm";
 
 
@@ -72,7 +71,10 @@ public class ApplicationController {
     private GameResultService gameResultService;
     @Autowired
     private ResultDataService resultDataService;
-
+    @Autowired
+    private JudgementService judgementService;
+    @Autowired
+    private MatchHistoryService matchHistoryService;
 
     @GetMapping("gameResults"+"/{gameId}")
     public String showGameResultsPage(Model model, @PathVariable("gameId") String gameId, HttpServletRequest request){
@@ -80,7 +82,7 @@ public class ApplicationController {
             model.addAttribute(GAME_RESULTS_OBJ_NAME);
         }
         GameResultsForm gameResultsForm = new GameResultsForm();
-        if(gameResultService.checkIfNewFinishedGame(gameId)){
+        if(matchHistoryService.isOldGame(gameId)){
             gameResultsForm.setGameStats(gameResultService.retrieveGameStatsForGameWithIdAndUsername(gameId, request.getUserPrincipal().getName()));
         }else{
             lobbyService.setGameStartToFinished(gameId);
@@ -96,7 +98,7 @@ public class ApplicationController {
     @MessageMapping("/chat.regularComs/{gameId}")
     @SendTo("/topic/{gameId}")
     public ChatMessage regularComs(@DestinationVariable String gameId, @Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
-        //printChatMessage(chatMessage, "res");
+        printChatMessage(chatMessage, "res");
         if(chatMessage.getType().equals(ChatMessage.MessageType.READY)){
             lobbyDataService.setReadyForParticipant(chatMessage.getSender());
             if(lobbyDataService.checkIfAllParticipantsAreReady(gameId)){
@@ -106,14 +108,18 @@ public class ApplicationController {
             lobbyDataService.setNotReadyForParticipant(chatMessage.getSender());
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
         }else if(chatMessage.getType().equals(ChatMessage.MessageType.DONE)){
-            if(chatMessage.getSender().equals(Objects.requireNonNull(headerAccessor.getUser()).getName())){
-                lobbyDataService.setDoneTrueForParticipant(chatMessage.getSender());
-            }
-            if(lobbyDataService.checkIfAllParticipantsAreDone(gameId)){
-                chatMessage.setContent("ALLDONE");
+            if(chatMessage.getSender().equals(Objects.requireNonNull(headerAccessor.getUser()).getName())) {
+                lobbyDataService.setDoneTrueForParticipant(headerAccessor.getUser().getName());
+                if (lobbyDataService.checkIfAllParticipantsAreDone(gameId)) {
+                    System.out.println("check if all users are done passed");
+                    chatMessage.setContent("ALLDONE");
+                }else{
+                    System.out.println("server concluded user was not done");
+                }
+
             }
         }
-        //printChatMessage(chatMessage, "send");
+        printChatMessage(chatMessage, "send");
         return chatMessage;
     }
 
@@ -154,37 +160,48 @@ public class ApplicationController {
 
     @GetMapping("gameBoard"+"/{gameId}")
     public String showGameBoardPage(Model model, GameBoardForm gameBoardForm, @PathVariable("gameId") String gameId, HttpServletRequest request){
+        System.out.println("call to game board page");
         if(!model.containsAttribute(GAME_BOARD_OBJ_NAME)){
             model.addAttribute(GAME_BOARD_OBJ_NAME);
         }
-        if(lobbyDataService.checkIfParticipantIsDone(request.getUserPrincipal().getName())){
-            gameBoardForm.setPlayerDone("true");
-            gameBoardForm.setParticipantsDone(lobbyDataService.getUsersDoneByGameId(gameId));
-            gameBoardForm.setParticipantsNotDone(lobbyDataService.getUsersNotDoneByGameId(gameId));
-            gameBoardForm.setGuessNum(userGuessesService.getServingOrderGuessesByUsername(request.getUserPrincipal().getName()));
-            gameBoardForm.setDescriptions(userGuessesService.getDescriptionGuessesByUsername(request.getUserPrincipal().getName()));
-            if(lobbyDataService.checkIfAllParticipantsAreDone(gameId)){
-                gameBoardForm.setAllDone("true");
-            }
-        }else{
-            gameBoardForm.setDescriptions(gameSettingsService.getDescriptionsByGameId(gameId));
-            if(gameBoardForm.getWineToRate() == 1){
-                lobbyService.startGameLobbyByGameId(gameId);
-            }
+        if(userGuessesService.userHasMadeAGuess(gameId, request.getUserPrincipal().getName())){
+            return showGameBoardLockPage(model, new GameBoardLockForm(), gameId, request);
         }
-        if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
-            gameBoardForm.setGameHost(request.getUserPrincipal().getName());
-        }
-
-        if(gameBoardForm.getWineToRate() == 0){
+        lobbyService.startGameLobbyByGameId(gameId);
+        gameBoardForm.setDescriptions(gameSettingsService.getDescriptionsByGameId(gameId));
+        int judgementsPassed = judgementService.findNumberOfJudgementsForUserAndGame(request.getUserPrincipal().getName(), gameId);
+        int numberOfWines = gameSettingsService.getAllByGameId(gameId).size();
+        if(judgementsPassed == 0){
             gameBoardForm.setWineToRate(1);
+        }else if(judgementsPassed >= numberOfWines){
+            gameBoardForm.setDoneRating("true");
         }
+        gameBoardForm.setWineToRate(judgementsPassed + 1);
         gameBoardForm.setGameId(gameId);
         model.addAttribute(gameBoardForm);
         return GAME_BOARD_PAGE_URL;
     }
 
-
+    @GetMapping("gameBoardLock"+"/{gameId}")
+    public String showGameBoardLockPage(Model model, GameBoardLockForm gameBoardLockForm, @PathVariable("gameId") String gameId, HttpServletRequest request){
+        System.out.println("call to game board lock page");
+        if(!model.containsAttribute(GAME_BOARD_LOCK_OBJ_NAME)){
+            model.addAttribute(GAME_BOARD_LOCK_OBJ_NAME);
+        }
+        gameBoardLockForm.setParticipantsDone(lobbyDataService.getUsersDoneByGameId(gameId));
+        gameBoardLockForm.setParticipantsNotDone(lobbyDataService.getUsersNotDoneByGameId(gameId));
+        gameBoardLockForm.setGuessNum(userGuessesService.getServingOrderGuessesByUsername(request.getUserPrincipal().getName()));
+        gameBoardLockForm.setDescriptions(userGuessesService.getDescriptionGuessesByUsername(request.getUserPrincipal().getName()));
+        gameBoardLockForm.setGameId(gameId);
+        if(lobbyDataService.checkIfAllParticipantsAreDone(gameId)){
+            gameBoardLockForm.setAllDone("true");
+        }
+        if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
+            gameBoardLockForm.setGameHost(request.getUserPrincipal().getName());
+        }
+        model.addAttribute(gameBoardLockForm);
+        return GAME_BOARD_LOCK_PAGE_URL;
+    }
 
 
 
@@ -369,23 +386,45 @@ public class ApplicationController {
     //////////////////////////////////////POST MAPPINGS/////////////////////////////////////////////////////
 
     @PostMapping(GAME_BOARD_PAGE_URL)
-    public String lockInResultsOrGrade(@Valid @ModelAttribute GameBoardForm gameBoardForm, Model model, BindingResult bindingResult, HttpServletRequest request){
-        if (bindingResult.hasErrors()) {
-            return showGameBoardPage(model, gameBoardForm, gameBoardForm.getGameId(), request);
-        }
+    public String lockInResultsOrGrade(@Valid @ModelAttribute() GameBoardForm gameBoardForm, Model model, HttpServletRequest request){
         if(gameBoardForm.getDoneRating() != null){
-            userGuessesService.saveUserGuesses(request.getUserPrincipal().getName(), gameBoardForm.getGameId(), gameBoardForm.getDescriptions(), gameBoardForm.getGuessNum());
+            try {
+                gameSettingsService.winesMissingServingOrder(gameBoardForm.getGameId());
+            } catch (WineryException e) {
+                controlErrorHandling(e, model);
+                return GAME_BOARD_PAGE_URL;
+            }
+            try {
+                userGuessesService.saveUserGuesses(request.getUserPrincipal().getName(), gameBoardForm.getGameId(), gameBoardForm.getDescriptions(), gameBoardForm.getGuessNum());
+            } catch (GuessException e) {
+                controlErrorHandling(e, model);
+                lobbyDataService.setNotDoneForParticipant(request.getUserPrincipal().getName());
+                return GAME_BOARD_PAGE_URL;
+            }
+            lobbyDataService.setDoneTrueForParticipant(request.getUserPrincipal().getName());
+            return showGameBoardLockPage(model, new GameBoardLockForm(), gameBoardForm.getGameId(), request);
         }else{
             int numberOfWines = gameSettingsService.getAllByGameId(gameBoardForm.getGameId()).size();
-            System.out.println("serving wine " + gameBoardForm.getWineToRate() + " got a rate of "+ gameBoardForm.getWineRating() + " from "+ request.getUserPrincipal().getName());
-            if((gameBoardForm.getWineToRate() < numberOfWines) && gameBoardForm.getDoneRating() == null){
+            try {
+                if(gameBoardForm.getWineRating() == null){
+                    throw new JudgementException("range error");
+                }
+                judgementService.saveJudgement(gameBoardForm.getWineToRate(), gameBoardForm.getWineRating(), gameBoardForm.getGameId(), request.getUserPrincipal().getName());
+            } catch (JudgementException e) {
+                gameBoardForm.setDescriptions(gameSettingsService.getDescriptionsByGameId(gameBoardForm.getGameId()));
+                model.addAttribute(gameBoardForm);
+                controlErrorHandling(e, model);
+                return GAME_BOARD_PAGE_URL;
+            }
+            if((gameBoardForm.getWineToRate() < numberOfWines) && gameBoardForm.getDoneRating() == null) {
                 gameBoardForm.setWineToRate(gameBoardForm.getWineToRate() + 1);
-            }else if((gameBoardForm.getWineToRate() == numberOfWines) && gameBoardForm.getDoneRating() == null){
+            }else if((gameBoardForm.getWineToRate() >= numberOfWines) && gameBoardForm.getDoneRating() == null) {
                 gameBoardForm.setDoneRating("true");
             }
         }
         return showGameBoardPage(model, gameBoardForm, gameBoardForm.getGameId(), request);
     }
+
 
     @PostMapping(QR_OPTION_PAGE_URL)
     public String enterServingOrder(@Valid @ModelAttribute QrOptionForm qrOptionForm, Model model, BindingResult bindingResult){
@@ -421,6 +460,20 @@ public class ApplicationController {
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.SYSTEMBOLAGET_DOWN);
         }else if(e.getMessage().toUpperCase().contains("BODEGASHOP")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.BODEGASHOP_DOWN);
+        }else if(e.getMessage().toUpperCase().contains("BIG")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.TO_BIG_GUESS);
+        }else if(e.getMessage().toUpperCase().contains("SMALL")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.TO_SMALL_GUESS);
+        }else if(e.getMessage().toUpperCase().contains("INTEGER")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.GUESS_WRONG_FORMAT);
+        }else if(e.getMessage().toUpperCase().contains("SERVING")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.MISSING_SERVING_ORDER);
+        }else if(e.getMessage().toUpperCase().contains("EMPTY")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.EMPTY_GUESS);
+        }else if(e.getMessage().toUpperCase().contains("RANGE")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.WRONG_JUDGEMENT_RANGE);
+        }else if(e.getMessage().toUpperCase().contains("SAME")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.SERVING_ORDER_SAME);
         }
 
     }

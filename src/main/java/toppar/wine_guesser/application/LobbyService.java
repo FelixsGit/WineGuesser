@@ -39,9 +39,11 @@ public class LobbyService {
 
     public void startGameLobbyByGameId(String gameId){
         Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
-        if(lobby.getGameStart().equals("prestart")){
-            lobby.setGameStart("started");
-            lobbyRepository.save(lobby);
+        if(lobby != null){
+            if(lobby.getGameStart().equals("prestart")){
+                lobby.setGameStart("started");
+                lobbyRepository.save(lobby);
+            }
         }
     }
 
@@ -57,5 +59,9 @@ public class LobbyService {
         Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
         lobby.setGameStart("finished");
         lobbyRepository.save(lobby);
+    }
+
+    public void setGameStartToGuessLocked(String gameId){
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
     }
 }

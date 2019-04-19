@@ -158,4 +158,10 @@ public class LobbyDataService {
         return participants;
     }
 
+    public void setNotDoneForParticipant(String participant) {
+        LobbyData byParticipants = lobbyDataRepository.findByParticipants(participant);
+        byParticipants.setDone(0);
+        lobbyDataRepository.save(byParticipants);
+    }
+
 }

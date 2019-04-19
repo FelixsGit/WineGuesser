@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import toppar.wine_guesser.domain.Lobby;
-import toppar.wine_guesser.domain.User;
-import toppar.wine_guesser.domain.UserException;
+import toppar.wine_guesser.domain.*;
 import toppar.wine_guesser.repository.UserRepository;
 
 import java.util.List;
@@ -21,12 +19,15 @@ public class UserService {
 
     @Autowired
     private LobbyService lobbyService;
+    @Autowired
+    private UserResultsService userResultsService;
 
     public void createUser(String username, String password) throws UserException {
         if(userRepository.findUserByUsername(username) != null) {
             throw new UserException("Username already taken");
         }else{
             userRepository.save(new User(username, password, null));
+            userResultsService.create(new UserResults(username, 0, 0, 0.00));
         }
     }
 

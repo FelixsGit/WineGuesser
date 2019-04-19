@@ -15,10 +15,6 @@ function connect(event) {
     if(messageForm != null){
         messageForm.addEventListener('submit', sendMessage, false);
     }
-    lockResult = document.getElementById('lockResult');
-    if(lockResult != null){
-        lockResult.addEventListener('submit', sendDoneMessage, false);
-    }
     doneArea = document.getElementById('done-area')
     if(doneArea != null){
         doneArea.addEventListener('submit', sendMessage, false);
@@ -48,6 +44,7 @@ function onConnected() {
         client = stompClientReg.subscribe('/topic/'+gameId, onMessageReceived)
         join = "joining";
         sendMessage(event);
+        sendDoneMessage(event);
     }
 }
 
@@ -62,8 +59,8 @@ function onError(error) {
 }
 
 function sendMessage(event) {
-    if(stompClientReg) {
-        if(username && join === 'joining') {
+    if (stompClientReg) {
+        if (username && join === 'joining') {
             var chatMessage = {
                 sender: username,
                 content: 'specific socket communication',
@@ -71,7 +68,7 @@ function sendMessage(event) {
                 type: 'JOIN'
             };
             join = 'joined';
-        }else if(username){
+        } else if (username) {
             var chatMessage = {
                 sender: username,
                 content: 'specific socket communication',
@@ -79,11 +76,11 @@ function sendMessage(event) {
                 type: 'READY'
             };
         }
-        stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
+        stompClientReg.send("/app/chat.regularComs/" + gameId, {}, JSON.stringify(chatMessage));
     }
 }
 
-function sendDoneMessage(event) {
+function sendDoneMessage() {
     var chatMessage = {
         sender: username,
         content: 'specific socket communication',
@@ -112,7 +109,6 @@ function onMessageReceived(payload) {
     if(message.type === 'SETUP'){
         username = message.content;
         gameId = message.gameId;
-        window.location.href = "http://192.168.0.100:8080/gameBoard/"+gameId +"#";
         subscribeToSpecific(gameId);
         var test = document.getElementById('myGuess');
         var test2 = document.getElementById('not-done-area');
@@ -135,12 +131,14 @@ function onMessageReceived(payload) {
             doneArea.appendChild(doneElement);
             doneElement.appendChild(doneNameText);
         }
-        if(message.content === 'ALLDONE'){
+        if(message.content === 'ALLDONE' && message.sender !== username){
             timeFunction();
         }
     }
 
 }
+
+
 function timeFunction() {
     setTimeout(function(){
         var form = document.getElementById('viewResult');

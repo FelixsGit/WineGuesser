@@ -179,11 +179,28 @@ public class GameSettingsService {
         return "http://192.168.0.100:8080/QR/wine/"+sb.reverse().toString();
 
     }
+    public void winesMissingServingOrder(String gameId) throws WineryException {
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+        for (GameSettings gameSetting : gameSettings) {
+            if (gameSetting.getServingOrder() == null) {
+                throw new WineryException("serving order error");
+            }
+        }
+    }
 
     public List<String> getDescriptionsByGameId(String gameId){
         List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
         List<String> descriptions = new ArrayList<>();
         gameSettings.forEach(gameSetting -> descriptions.add(gameSetting.getDescription()));
         return descriptions;
+    }
+
+    public String findCorrectDescription(String gameId, int servingOrder){
+        GameSettings gameSettings = gameSettingsRepository.findAllByGameIdAndServingOrder(gameId, String.valueOf(servingOrder));
+        return gameSettings.getDescription();
+    }
+
+    public GameSettings findGameSettingsByServingOrderAndGameId(String servingOrder, String gameId){
+        return gameSettingsRepository.findAllByGameIdAndServingOrder(gameId, servingOrder);
     }
 }

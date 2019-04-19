@@ -26,4 +26,6 @@ public interface GameSettingsRepository extends JpaRepository<GameSettings, Stri
 
     List<GameSettings> findAll();
 
+    GameSettings findAllByGameIdAndServingOrder(String gameId, String servingOrder);
+
 }

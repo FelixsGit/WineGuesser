@@ -29,12 +29,29 @@
                 <img id="res-winePicture" th:href="@{${resultDataDTO.url}}" th:src="@{${resultDataDTO.winePicture}}">
             </a>
             <div id="res-wineName" ><h3 th:text="*{resultDataDTO.wineName}"/></div>
-            <div id="your-point" ><h3>Din Poäng</h3></div>
+            <br>
+            <br>
             <br>
             <br>
             <div id="res-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultDataDTO.wineDescription),'\n','&lt;br /&gt;'))}"></h4></div>
-            <div id="res-wineGrade" ><h3 th:text="*{resultDataDTO.grade}"/></div>
             <br>
+            <div id="p-result">
+                <div>
+                    <h3>Din Poäng</h3>
+                </div>
+                <div>
+                    <h3 th:text="*{resultDataDTO.grade}"/>
+                </div>
+                <div>
+                    <h3>Ditt Betyg</h3>
+                </div>
+                <div>
+                    <h3 th:text="*{resultDataDTO.personalGrade}"/></div>
+                <div>
+                    <h3>Medelbetyg</h3></div>
+                <div>
+                    <h3 th:text="*{resultDataDTO.averageGrade}"/></div>
+            </div>
         </li>
     </ul>
 

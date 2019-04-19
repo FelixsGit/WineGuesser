@@ -17,12 +17,14 @@ public class ResultData implements ResultDataDTO{
     private String wineDescription;
     private int grade;
     private String url;
+    private int personalGrade;
+    private double averageGrade;
 
     protected ResultData(){
 
     }
 
-    public ResultData(int gameResultId, String username, int servingOrder, String winePicture, String wineName, String wineDescription, int grade, String url) {
+    public ResultData(int gameResultId, String username, int servingOrder, String winePicture, String wineName, String wineDescription, int grade, String url, int personalGrade, double averageGrade) {
         this.gameResultId = gameResultId;
         this.username = username;
         this.servingOrder = servingOrder;
@@ -31,6 +33,24 @@ public class ResultData implements ResultDataDTO{
         this.wineDescription = wineDescription;
         this.grade = grade;
         this.url = url;
+        this.personalGrade = personalGrade;
+        this.averageGrade = averageGrade;
+    }
+
+    public int getPersonalGrade() {
+        return personalGrade;
+    }
+
+    public void setPersonalGrade(int personalGrade) {
+        this.personalGrade = personalGrade;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
+    }
+
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
     }
 
     public String getUrl() {

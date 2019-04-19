@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/gameLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <div>
+        <h1>Svar inskickat!</h1>
+        <br>
+        <h2>Nu väntar vi på de andra deltagarna att låsa in sitt svar</h2>
+        <br>
+        <h3>När alla har låst in sitt svar kan spelvärden gå till resultat</h3>
+        <h3>sidan där vinnaren kan koras.</h3>
+        <br>
+
+        <div id="done-or-not">
+            <div id="not-done-page">
+                <h2>Inte Låst In</h2>
+                <ul id="not-done-area" th:each="lobbyData : *{gameBoardLockForm.participantsNotDone}">
+                    <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
+                </ul>
+                <ul id="not-done-area" th:if="${gameBoardLockForm.participantsDone.size() == 0}">
+                </ul>
+            </div>
+
+            <div id="done-page">
+                <h2>Har Låst In</h2>
+                <ul id="done-area" th:each="lobbyData : *{gameBoardLockForm.participantsDone}">
+                    <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
+                </ul>
+                <ul id="done-area" th:if="${gameBoardLockForm.participantsDone.size() == 0}">
+                </ul>
+            </div>
+        </div>
+
+
+        <ul class="description-page">
+            <li id="description-box" th:each="description, var : *{gameBoardLockForm.descriptions}">
+                <h4 th:id="${var.index}" th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(description),'\n','&lt;br /&gt;'))}"></h4>
+                <br>
+                <h3 id="myGuess" th:text="'Min Gissning: ' + ${gameBoardLockForm.guessNum[__${var.index}__]}"></h3>
+            </li>
+        </ul>
+        <br>
+        <br>
+    </div>
+
+    <div id="resultButton" th:if="${gameBoardLockForm.gameHost}">
+        <form id="viewResult">
+            <!--<button id="viewResultButton" type="submit">Visa Resultat</button>-->
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            connect();
+        });
+    </script>
+
+</main>
+</body>
+</html>

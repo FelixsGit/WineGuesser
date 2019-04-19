@@ -18,8 +18,10 @@ DROP TABLE IF EXISTS `game_settings`;
 DROP TABLE IF EXISTS `lobby_data`;
 DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS `user_guesses`;
-DROP TABLE IF EXISTS `game_result`;
 DROP TABLE IF EXISTS `game_point`;
+DROP TABLE IF EXISTS `judgement`;
+DROP TABLE IF EXISTS `match_history`;
+DROP TABLE IF EXISTS `game_result`;
 DROP TABLE IF EXISTS `result_data`;
 -- --------------------------------------------------------
 
@@ -33,10 +35,23 @@ CREATE TABLE `game_setup` (
   `gameId` varchar(255) NOT NULL PRIMARY KEY
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `match_history` (
+  `matchHistoryId` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `userResultsId` int NOT NULL,
+  `datePlayed` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `gameId` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Tabellstruktur `user_guesses`
 --
+
+CREATE TABLE `game_result` (
+ `gameResultId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ `gameId` varchar(255) NOT NULL,
+ `url` varchar(8000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `user_guesses` (
   `userGuessesId` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -47,10 +62,12 @@ CREATE TABLE `user_guesses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-CREATE TABLE `game_result` (
-  `gameResultId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `gameId` varchar(255) NOT NULL,
-  `url` varchar(8000) NOT NULL
+CREATE TABLE `user_results` (
+  `userResultsId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `playedGames` int DEFAULT 0,
+  `correctPercent` double DEFAULT 0.00,
+  `wins` int DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -59,6 +76,15 @@ CREATE TABLE `game_point` (
   `gameResultId` INTEGER NOT NULL,
   `username` varchar(255) NOT NULL,
   `points` INTEGER NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `judgement` (
+  `judgementId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `servingOrder` int NOT NULL,
+  `personalGrade` INTEGER NOT NULL,
+  `gameId` varchar(255) NOT NULL
+
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `result_data` (
@@ -70,7 +96,9 @@ CREATE TABLE `result_data` (
    `wineName` varchar(255) NOT NULL,
    `wineDescription` varchar(8000) NOT NULL,
    `grade` INTEGER NOT NULL,
-   `url` varchar(8000) NOT NULL
+   `url` varchar(8000) NOT NULL,
+    `personalGrade` INTEGER NOT NULL,
+   `averageGrade` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
