@@ -10,6 +10,11 @@
         <div sec:authorize="isAuthenticated()">
             Användare:
             <a th:text ="${#authentication.getName()}"></a>
+            <div>
+                <a th:href="@{/about}">
+                    <img th:src="@{${'/resources/images/profileKeg.png'}}">
+                </a>
+            </div>
         </div>
     </Strong>
 </userBar>

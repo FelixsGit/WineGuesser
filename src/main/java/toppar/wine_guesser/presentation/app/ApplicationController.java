@@ -85,8 +85,14 @@ public class ApplicationController {
         if(matchHistoryService.isOldGame(gameId)){
             gameResultsForm.setGameStats(gameResultService.retrieveGameStatsForGameWithIdAndUsername(gameId, request.getUserPrincipal().getName()));
         }else{
+            userService.setActiveGameForAllParticipants(lobbyDataService.getParticipantsByGameId(gameId), null);
             lobbyService.setGameStartToFinished(gameId);
             gameResultsForm.setGameStats(gameResultService.generateGameStatsForGameWithId(gameId, request.getUserPrincipal().getName()));
+            gameSetupService.removeGameSetupByGameHost(request.getUserPrincipal().getName());
+            gameSettingsService.removeGameSettingsByGameHost(request.getUserPrincipal().getName());
+            lobbyDataService.removeAllByGameId(gameId);
+            userGuessesService.removeAllByGameId(gameId);
+            judgementService.removeAllByGameId(gameId);
         }
         model.addAttribute(gameResultsForm);
         return GAME_RESULTS_PAGE_URL;

@@ -31,13 +31,17 @@ public class JudgementService {
         }
     }
 
+    public void removeAllByGameId(String gameId){
+        judgementRepository.removeAllByGameId(gameId);
+    }
+
     public int findNumberOfJudgementsForUserAndGame(String username, String gameId){
         return judgementRepository.findAllByUsernameAndGameId(username, gameId).size();
     }
 
     public int findPersonalGrade(String username, String gameId, int servingOrder){
         Judgement judgement =judgementRepository.findAllByUsernameAndGameIdAndServingOrder(username, gameId, servingOrder);
-        return judgement.getServingOrder();
+        return judgement.getPersonalGrade();
     }
 
     public double findAverageGradeByServingOrderAndGameId(int servingOrder, String gameId){

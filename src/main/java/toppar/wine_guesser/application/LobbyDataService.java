@@ -49,6 +49,10 @@ public class LobbyDataService {
          return false;
     }
 
+    public void removeAllByGameId(String gameId){
+        lobbyDataRepository.removeAllByGameId(gameId);
+    }
+
     public void removeAllParticipantsFromLobbyWithGameId(String gameId){
         List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGameId(gameId);
         lobbyHistoryService.saveLobbyData(lobbyDataList);

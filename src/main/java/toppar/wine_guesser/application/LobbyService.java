@@ -64,4 +64,11 @@ public class LobbyService {
     public void setGameStartToGuessLocked(String gameId){
         Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
     }
+
+
+    public void setGameStartToCompleted(String gameId){
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
+        lobby.setGameStart("completed");
+        lobbyRepository.save(lobby);
+    }
 }

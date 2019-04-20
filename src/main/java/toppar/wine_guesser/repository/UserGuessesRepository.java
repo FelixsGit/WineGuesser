@@ -20,4 +20,6 @@ public interface UserGuessesRepository extends JpaRepository<UserGuesses, String
 
     List<UserGuesses> findAllByUsernameAndServingOrderGuess(String username, int servingOrderGuess);
 
+    void removeAllByGameId(String gameId);
+
 }

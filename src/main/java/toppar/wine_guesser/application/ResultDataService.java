@@ -24,8 +24,8 @@ public class ResultDataService {
         resultDataRepository.save(resultData);
     }
 
-    public List<ResultData> getAllByUsername(String username){
-        return resultDataRepository.findAllByUsername(username);
+    public List<ResultData> getAllByUsernameAndGameResultId(String username, int gameResultId){
+        return resultDataRepository.findAllByUsernameAndGameResultId(username, gameResultId);
     }
 
     public List<ResultDataDTO> getAllByGameResultIdAndUsername(int gameResult, String username){

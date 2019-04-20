@@ -54,6 +54,10 @@ public class UserGuessesService {
         }
     }
 
+    public void removeAllByGameId(String gameId){
+        userGuessesRepository.removeAllByGameId(gameId);
+    }
+
     public List<String> getDescriptionGuessesByUsername(String username){
         List<UserGuesses> userGuessesList = userGuessesRepository.findAllByUsername(username);
         List<String> descriptionGuesses = new ArrayList<>();

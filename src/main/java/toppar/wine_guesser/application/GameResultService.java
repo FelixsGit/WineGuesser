@@ -84,7 +84,7 @@ public class GameResultService {
         //calculating gamePoint
         int totalPoints = 0;
         for(int i = 0; i < participants.size(); i++){
-            List<ResultData> resultDataList = resultDataService.getAllByUsername(participants.get(i));
+            List<ResultData> resultDataList = resultDataService.getAllByUsernameAndGameResultId(participants.get(i), gameResult.getGameResultId());
             for(int j = 0; j < resultDataList.size(); j++){
                 if(resultDataList.get(j).getGrade() == 1){
                     totalPoints++;

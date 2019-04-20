@@ -23,7 +23,7 @@ public class UserService {
     private UserResultsService userResultsService;
 
     public void createUser(String username, String password) throws UserException {
-        if(userRepository.findUserByUsername(username) != null) {
+        if(userRepository.findUserByUsername(username) != null || userResultsService.findByUsername(username) != null)  {
             throw new UserException("Username already taken");
         }else{
             userRepository.save(new User(username, password, null));
@@ -35,6 +35,14 @@ public class UserService {
         User user = userRepository.findUserByUsername(username);
         user.setActiveGame(activeGame);
         userRepository.save(user);
+    }
+
+    public void setActiveGameForAllParticipants(List<String> participants, String activeGame){
+        for (String participant : participants) {
+            User user = userRepository.findUserByUsername(participant);
+            user.setActiveGame(activeGame);
+            userRepository.save(user);
+        }
     }
 
     public void removeActiveGameFromUserWithUsername(String username){
