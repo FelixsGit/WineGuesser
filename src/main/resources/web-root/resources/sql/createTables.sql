@@ -47,9 +47,30 @@ CREATE TABLE `match_history` (
   `gameId` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+CREATE TABLE `settings_history` (
+    `gameSettingsId` bigint(20) NOT NULL,
+    `gameHost` varchar(255) NOT NULL,
+    `gameId` varchar(255) NOT NULL,
+    `qrCode` varchar(8000) NOT NULL,
+    `url` varchar(8000) NOT NULL,
+    `description` varchar(8000) NOT NULL,
+    `servingOrder` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Tabellstruktur `user_guesses`
 --
+
+CREATE TABLE `lobby_history` (
+ `lobbyId` bigint(20) NOT NULL,
+ `gameHost` varchar(255) DEFAULT NULL,
+ `gameId` varchar(255) NOT NULL,
+ `participants` varchar(255) NOT NULL,
+ `score` int(11) DEFAULT '0',
+ `ready` int(11) DEFAULT '0',
+ `done` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `game_result` (
  `gameResultId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
