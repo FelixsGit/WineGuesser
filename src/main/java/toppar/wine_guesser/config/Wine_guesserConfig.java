@@ -1,6 +1,7 @@
 package toppar.wine_guesser.config;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,6 @@ import org.thymeleaf.templatemode.TemplateMode;
  * config settings also in the file <code>application.properties</code>.
  */
 @EnableTransactionManagement // Needed for @Transactional attribute outside
-// repositories.
 @EnableWebMvc
 @Configuration
 public class Wine_guesserConfig implements WebMvcConfigurer, ApplicationContextAware {
@@ -33,7 +33,7 @@ public class Wine_guesserConfig implements WebMvcConfigurer, ApplicationContextA
      *                           application.
      */
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 
