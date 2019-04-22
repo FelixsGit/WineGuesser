@@ -6,7 +6,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.MatchHistory;
+import toppar.wine_guesser.domain.MatchHistoryDTO;
 import toppar.wine_guesser.repository.MatchHistoryRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
 @Service
@@ -24,5 +28,10 @@ public class MatchHistoryService {
             return false;
         }
         return true;
+    }
+
+    public List<MatchHistory> findAllByUserResultsId(int userResultsId){
+        List<MatchHistory> matchHistoryList = matchHistoryRepository.findAllByUserResultsId(userResultsId);
+        return matchHistoryList;
     }
 }

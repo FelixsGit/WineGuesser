@@ -63,6 +63,10 @@ public class GameSettingsService {
         for(int i = 0; i < gameSettings.size(); i++){
             if(gameSettings.get(i).getServingOrder() == null){
                 gameSettings.get(i).setServingOrder(servingOrder);
+            }else{
+                /**
+                 * TODO Throws exception 'serving order number already entered.'
+                 */
             }
         }
     }

@@ -36,6 +36,7 @@ public class ApplicationController {
     public static final String GAME_BOARD_PAGE_URL = "/gameBoard";
     public static final String GAME_BOARD_LOCK_PAGE_URL = "/gameBoardLock";
     public static final String GAME_RESULTS_PAGE_URL = "/gameResults";
+    public static final String PROFILE_PAGE_URL = "/profile";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
     public static final String LOBBY_OBJ_NAME = "lobbyForm";
@@ -49,6 +50,7 @@ public class ApplicationController {
     public static final String GAME_BOARD_OBJ_NAME = "gameBoardForm";
     public static final String GAME_BOARD_LOCK_OBJ_NAME = "gameBoardLockForm";
     public static final String GAME_RESULTS_OBJ_NAME = "gameResultsForm";
+    public static final String PROFILE_OBJ_NAME = "profileForm";
 
 
     //////////////////////////////////////GET MAPPINGS/////////////////////////////////////////////////////
@@ -75,6 +77,20 @@ public class ApplicationController {
     private JudgementService judgementService;
     @Autowired
     private MatchHistoryService matchHistoryService;
+    @Autowired
+    private UserResultsService userResultsService;
+
+    @GetMapping("gameResults"+"/{gameId}"+"/{viewer}")
+    public String showOldGameResultsPage(Model model, @PathVariable("gameId") String gameId, @PathVariable String viewer){
+        if(!model.containsAttribute(GAME_RESULTS_OBJ_NAME)){
+            model.addAttribute(GAME_RESULTS_OBJ_NAME);
+        }
+        GameResultsForm gameResultsForm = new GameResultsForm();
+        gameResultsForm.setGameStats(gameResultService.retrieveGameStatsForGameWithIdAndUsername(gameId, viewer));
+        gameResultsForm.setViewer(viewer);
+        model.addAttribute(gameResultsForm);
+        return GAME_RESULTS_PAGE_URL;
+    }
 
     @GetMapping("gameResults"+"/{gameId}")
     public String showGameResultsPage(Model model, @PathVariable("gameId") String gameId, HttpServletRequest request){
@@ -84,10 +100,13 @@ public class ApplicationController {
         GameResultsForm gameResultsForm = new GameResultsForm();
         if(matchHistoryService.isOldGame(gameId)){
             gameResultsForm.setGameStats(gameResultService.retrieveGameStatsForGameWithIdAndUsername(gameId, request.getUserPrincipal().getName()));
+            gameResultsForm.setViewer(request.getUserPrincipal().getName());
         }else{
             userService.setActiveGameForAllParticipants(lobbyDataService.getParticipantsByGameId(gameId), null);
             lobbyService.setGameStartToFinished(gameId);
-            gameResultsForm.setGameStats(gameResultService.generateGameStatsForGameWithId(gameId, request.getUserPrincipal().getName()));
+            gameResultService.generateGameStatsForGameWithId(gameId);
+            gameResultsForm.setGameStats(gameResultService.retrieveGameStatsForGameWithIdAndUsername(gameId, request.getUserPrincipal().getName()));
+            gameResultsForm.setViewer(request.getUserPrincipal().getName());
             gameSetupService.removeGameSetupByGameHost(request.getUserPrincipal().getName());
             gameSettingsService.removeGameSettingsByGameHost(request.getUserPrincipal().getName());
             lobbyDataService.removeAllByGameId(gameId);
@@ -96,6 +115,17 @@ public class ApplicationController {
         }
         model.addAttribute(gameResultsForm);
         return GAME_RESULTS_PAGE_URL;
+    }
+
+    @GetMapping("profile"+"/{username}")
+    public String showProfilePage(Model model, @PathVariable String username){
+        if(model.containsAttribute(PROFILE_OBJ_NAME)){
+            model.addAttribute(PROFILE_OBJ_NAME);
+        }
+        ProfileForm profileForm = new ProfileForm();
+        profileForm.setProfileData(userResultsService.getProfileDataForUserWithUsername(username));
+        model.addAttribute(profileForm);
+        return PROFILE_PAGE_URL;
     }
 
 

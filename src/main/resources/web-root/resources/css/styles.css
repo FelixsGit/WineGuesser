@@ -157,8 +157,8 @@
         position:absolute;
         font-family: 'Cabin';
         font-size: 44px;
-        top: 150;
-        left:60px;
+        top: 180px;
+        left:50px;
         color: #fff;
     }
 
@@ -182,14 +182,14 @@
     main {
         position: relative;
         height: 200px;
-        margin-top: 100px;
+        margin-top: 250px;
         text-align: center;
     }
 
     .error {
         color: red;
         font-family: 'Cabin';
-        font-size: 80%;
+        font-size: 40px;
 
     }
 
@@ -298,6 +298,7 @@
     }
 
     #res-wineName{
+        margin-right: 100px;
         float:left
     }
 
@@ -353,12 +354,63 @@
         width: 670px;
     }
 
+    #bot{
+        margin-top: 40px;
+        margin-bottom: 40px;
+        float:bottom;
+    }
+
+    #stats-area{
+        width:750px;
+        margin: auto;
+        margin-bottom: 100px;
+        height:auto;
+        text-align: left;
+    }
+
+    #stats-box{
+        padding: 10px;
+        background-color: #777777;
+        margin: auto;
+        width:750px;
+        float:left;
+        text-align: left;
+    }
+
+    #date-played{
+        font-size: 60px;
+        font-weight: bold;
+    }
+
 
 
 }
 
 /* Desktops and laptops ----------- */
 @media only screen  and (min-width : 1824px) {
+
+    #stats-area{
+        width:750px;
+        margin: auto;
+        margin-bottom: 100px;
+        height:auto;
+        text-align: left;
+    }
+
+    #stats-box{
+        padding: 10px;
+        background-color: #777777;
+        margin: auto;
+        width:750px;
+        float:left;
+        text-align: left;
+    }
+
+    #date-played{
+        font-size: 25px;
+        font-weight: bold;
+    }
+
 
     #board-wineDescription{
         float:left;
@@ -387,6 +439,8 @@
 
 
     html,body {
+        overflow-x: hidden;
+        overflow-y: scroll;
         background: url("/resources/images/setupBg.png") no-repeat center center fixed;
         -webkit-background-size: cover; /* For WebKit*/
         -moz-background-size: cover;    /* Mozilla*/
@@ -490,6 +544,7 @@
     }
 
     header {
+
         text-transform: uppercase;
         position: relative;
         height: 150px;
@@ -534,8 +589,8 @@
         position:absolute;
         font-family: 'Cabin';
         font-size: 22px;
-        top: 150;
-        left:30px;
+        top: 150px;
+        left:60px;
         color: #fff;
     }
 
@@ -560,17 +615,15 @@
 
 
     main {
-        position: relative;
-        height: 100px;
-        margin-top: 20px;
+        position: center;
+        height: 200px;
         text-align: center;
     }
 
     .error {
         color: red;
         font-family: 'Cabin';
-        font-size: 80%;
-
+        font-size: 30px;
     }
 
     #numGuess{
@@ -612,10 +665,6 @@
         color: black;
     }
 
-    #bot{
-        margin-bottom: 40px;
-    }
-
 
     /* necessary to give position: relative to parent. */
     input[type="text"]{font: 15px/24px 'cabin', sans-serif; color: #333; width: 20%; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
@@ -636,11 +685,13 @@
         width:100px;
         position: center;
         display:block;
+        height:auto;
         margin: auto;
     }
 
     #gamePoint-area{
         width: 120px;
+        height:auto;
         margin-left: auto;
         margin-right: auto;
     }
@@ -649,6 +700,7 @@
         box-sizing: content-box;
         display: inline-block;
         margin: auto;
+        height:auto;
         background-color: #333;
         width: 120px;
         border: solid lightgrey;
@@ -658,30 +710,31 @@
     }
 
     #res-name{
+        width:auto;
         float: left;
         text-align: left;
     }
     #res-points{
+        width: auto;
         float: right;
         text-align: right;
     }
 
 
     #res-wineDescription{
-        margin-top: 10px;
         float:left;
         text-align: left;
         width: 580px;
     }
 
     #res-wineName{
+        margin-right: 100px;
         float:left
     }
 
     #p-result{
         float:right;
         text-align: left;
-        margin: auto;
     }
 
 
@@ -704,7 +757,7 @@
         box-sizing: content-box;
         display: inline-block;
         margin: auto;
-        height: 150px;
+        height:auto;
         background-color: #333;
         width: 800px;
         border: solid lightgrey;

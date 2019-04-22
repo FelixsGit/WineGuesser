@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <h1 th:text="'Användarprofil'"></h1>
+    <h1 th:text="${profileForm.profileData.username}"></h1>
+    <br>
+    <br>
+
+    <div id="stats-area">
+        <h2>Statistik:</h2>
+        <div id="stats-box">
+            <h3 th:text="'Spelade matcher: '+${profileForm.profileData.userResultsDTO.playedGames}"></h3>
+            <h3 th:text="'Andel korrekt gissade viner: '+${profileForm.profileData.userResultsDTO.correctPercent}"></h3>
+            <h3 th:text="'Antal vinster: '+${profileForm.profileData.userResultsDTO.wins}"></h3>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <ul id="stats-area">
+        <h2>Spelade Matcher:</h2>
+        <li id="stats-box" th:each="match, var : *{profileForm.profileData.matchHistoryList}">
+            <a id="date-played" th:href="${match.url + '/'+profileForm.profileData.username}" th:text="${match.datePlayed}"/>
+        </li>
+        <br>
+        <br>
+        <br>
+        <br>
+    </ul>
+
+    <form id="bot" th:action="@{/menu}">
+        <button id="bot" type="submit">Tillbaka till menyn</button>
+    </form>
+
+</main>
+</body>
+</html>

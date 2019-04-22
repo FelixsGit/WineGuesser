@@ -9,13 +9,13 @@
 <main layout:fragment="content">
 
 
-    <h1 th:text="'Detta är resultatsidan för matchen.'"> </h1>
+    <h1 th:text="'Detta är resultatsidan för '+${gameResultsForm.viewer}"> </h1>
     <br>
     <h2 th:text="Poänglista"/>
     <br>
     <ul id="gamePoint-area">
         <li id="gamePoint-box" th:each="gamePointDTO, var : *{gameResultsForm.gameStats.gamePointList}">
-            <div id="res-name"><h3 th:text="*{gamePointDTO.username}"/></div>
+            <div id="res-name"><a id="date-played" th:href="${'../../profile/' + gamePointDTO.username}" th:text="*{gamePointDTO.username}"/></div>
             <div id="res-points "><h3 th:text="*{gamePointDTO.points}"/></div>
         </li>
     </ul>
@@ -29,10 +29,6 @@
                 <img id="res-winePicture" th:href="@{${resultDataDTO.url}}" th:src="@{${resultDataDTO.winePicture}}">
             </a>
             <div id="res-wineName" ><h3 th:text="*{resultDataDTO.wineName}"/></div>
-            <br>
-            <br>
-            <br>
-            <br>
             <div id="res-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultDataDTO.wineDescription),'\n','&lt;br /&gt;'))}"></h4></div>
             <br>
             <div id="p-result">
@@ -54,10 +50,9 @@
             </div>
         </li>
     </ul>
-    <br>
     <form th:action="@{/menu}">
         <h3>Spelet är avslutat, klicka här för att lämna.</h3>
-        <button type="submit">Till menu</button>
+        <button id="bot" type="submit">Till menu</button>
     </form>
     <br>
     <br>

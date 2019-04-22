@@ -28,8 +28,8 @@ public class ResultDataService {
         return resultDataRepository.findAllByUsernameAndGameResultId(username, gameResultId);
     }
 
-    public List<ResultDataDTO> getAllByGameResultIdAndUsername(int gameResult, String username){
-        List<ResultData> resultDataList = resultDataRepository.findAllByGameResultIdAndUsername(gameResult, username);
+    public List<ResultDataDTO> getAllByGameResultIdAndUsername(int gameResultId, String username){
+        List<ResultData> resultDataList = resultDataRepository.findAllByGameResultIdAndUsername(gameResultId, username);
         return new ArrayList<>(resultDataList);
     }
 

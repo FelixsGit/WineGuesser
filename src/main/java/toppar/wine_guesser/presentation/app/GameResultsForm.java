@@ -10,6 +10,16 @@ public class GameResultsForm {
         return gameStats;
     }
 
+    private String viewer;
+
+    public String getViewer() {
+        return viewer;
+    }
+
+    public void setViewer(String viewer) {
+        this.viewer = viewer;
+    }
+
     public void setGameStats(GameStats gameStats) {
         this.gameStats = gameStats;
     }

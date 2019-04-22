@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/login", "/register", "/home", "/about").permitAll();
         http.authorizeRequests().antMatchers("/menu", "/lobby", "/enterUrl", "/numberOfWines", "/printQrCodes", "/qrOption", "/lobby/**"
-        , "/gameBoard/**", "/gameResults/**").fullyAuthenticated();
+        , "/gameBoard/**", "/gameResults/**", "/profile/**").fullyAuthenticated();
 
         // Config for Login/Logout
         http.authorizeRequests()

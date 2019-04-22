@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.MatchHistory;
+import toppar.wine_guesser.domain.MatchHistoryDTO;
 
 import java.util.List;
 
@@ -13,5 +14,7 @@ import java.util.List;
 public interface MatchHistoryRepository extends JpaRepository<MatchHistory, String> {
 
     List<MatchHistory> findAllByGameId(String gameId);
+
+    List<MatchHistory> findAllByUserResultsId(int userResultsId);
 
 }
