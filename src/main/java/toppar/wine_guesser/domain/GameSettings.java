@@ -15,6 +15,7 @@ public class GameSettings implements GameSettingsDTO{
     private String url;
     private String imgSource;
     private String wineName;
+    private String region;
     private String description;
     private String servingOrder;
 
@@ -30,15 +31,24 @@ public class GameSettings implements GameSettingsDTO{
 
     }
 
-    public GameSettings(String gameId, String gameHost, String qrCode, String url, String imgSource, String wineName, String description, String servingOrder){
+    public GameSettings(String gameId, String gameHost, String qrCode, String url, String imgSource, String wineName, String region, String description, String servingOrder){
         this.gameId = gameId;
         this.gameHost = gameHost;
         this.qrCode = qrCode;
         this.url = url;
         this.imgSource = imgSource;
         this.wineName = wineName;
+        this.region = region;
         this.description = description;
         this.servingOrder = servingOrder;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public void setGameSettingsId(long gameSettingsId) {

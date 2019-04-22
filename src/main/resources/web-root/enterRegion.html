@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <h2>I denna nerfällbara meny finns alla regionerna som dom inskriva vinerna kommer ifrån.</h2>
+    <h3>Du kan i denna meny välja en region som vinprovarna sedan kan gissa på för att få extra poäng.</h3>
+    <br>
+    <form action="/printQrCodes">
+        <button id="bot" type="submit">Hoppa Över</button>
+    </form>
+    <br>
+    <br>
+    <form action="#" th:action="@{/enterRegion}" th:object="${enterRegionForm}" method="post">
+        <select class="container" th:field="*{chosenRegion}">
+            <option th:each="region : ${enterRegionForm.regions}"
+                    th:value="${region}"
+                    th:text="${region}">
+            </option>
+        </select>
+        <br>
+        <br>
+        <br>
+        <br>
+        <button id="bot" type="submit">Lås in Region</button>
+    </form>
+</main>
+</body>
+</html>

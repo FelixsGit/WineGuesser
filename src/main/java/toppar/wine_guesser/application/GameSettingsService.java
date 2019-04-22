@@ -34,6 +34,16 @@ public class GameSettingsService {
         }
     }
 
+    public void deleteRegionsThatDontMatch(String region, String gameHost){
+        List<GameSettings> gameSettingsList = gameSettingsRepository.findAllByGameHost(gameHost);
+        for (GameSettings gameSettings : gameSettingsList) {
+            if (!gameSettings.getRegion().equals(region)) {
+                gameSettings.setRegion(null);
+                gameSettingsRepository.save(gameSettings);
+            }
+        }
+    }
+
     public List<GameSettings> getAllByGameId(String gameId){
         return gameSettingsRepository.findAllByGameId(gameId);
     }
@@ -80,6 +90,7 @@ public class GameSettingsService {
     public List<String> createGameSettings(List<String> urlList, String gameHost) throws WineryException{
         String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();
         deleteGameSettingsByGameHost(gameHost);
+        List<String> region = retrieveRegionsFromUrlList(urlList);
         List<String> qrCodes = generateQrCodesFromUrls(urlList);
         List<String> descriptions = retrieveAllDescriptionsFromUrlList(urlList);
         List<String> imgSourceStrings = retrieveImgSourceStringsFromUrl(urlList);
@@ -94,14 +105,25 @@ public class GameSettingsService {
         }
         if(!anyWineMissingDescription){
             for(int i = 0; i < urlList.size(); i++){
-                gameSettingsRepository.save(new GameSettings(gameId, gameHost, qrCodes.get(i), urlList.get(i), imgSourceStrings.get(i), wineNames.get(i), descriptions.get(i), null));
+                gameSettingsRepository.save(new GameSettings(gameId, gameHost, qrCodes.get(i), urlList.get(i), imgSourceStrings.get(i), wineNames.get(i), region.get(i), descriptions.get(i), null));
             }
         }
         return wineDescriptionMissing;
     }
 
+    public List<GameSettings> getGameSettingsByGameHost(String gameHost){
+        return gameSettingsRepository.findAllByGameHost(gameHost);
+    }
+
     private boolean descriptionContainSentAndTastCheck(String description){
         return description.contains("Smak:") && description.contains("Doft:");
+    }
+
+    private List<String> retrieveRegionsFromUrlList(List<String> urlList){
+        UrlScanner urlScanner = new UrlScanner();
+        List<String> regionList = new ArrayList<>();
+        urlList.forEach(url -> regionList.add(urlScanner.getRegionFromUrl(url)));
+        return regionList;
     }
 
     private List<String> retrieveWineNamesFromUrl(List<String> urlList){

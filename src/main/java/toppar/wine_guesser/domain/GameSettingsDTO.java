@@ -9,6 +9,7 @@ public interface GameSettingsDTO {
     String getUrl();
     String getImgSource();
     String getWineName();
+    String getRegion();
     String getDescription();
     String getServingOrder();
 }

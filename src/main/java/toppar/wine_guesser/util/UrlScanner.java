@@ -24,6 +24,36 @@ public class UrlScanner {
 
     }
 
+    public String getRegionFromUrl(String url){
+        try {
+            WebClient client = new WebClient();
+            client.getOptions().setCssEnabled(false);
+            client.getOptions().setJavaScriptEnabled(false);
+            try {
+                HtmlPage page = client.getPage(url);
+                List<HtmlElement> htmlElements = page.getByXPath("//*[contains(@class, 'area')]");
+                for (HtmlElement item : htmlElements) {
+                    String text = item.asText();
+                    if(text.contains("\n")){
+                        String urlText = text.substring(2);
+                        for(int i = 0; i < urlText.length(); i++){
+                            if(String.valueOf(urlText.charAt(i)).equals("\r")){
+                                return urlText.substring(0, i);
+                            }
+                        }
+
+                    }
+                    return text.substring(2);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }catch(FailingHttpStatusCodeException e){
+            e.printStackTrace();
+        }
+        return "lol";
+    }
+
     private String findSpecificDescriptionForSpecificUrlSystemBolaget(String url) throws WineryException {
         try {
             WebClient client = new WebClient();

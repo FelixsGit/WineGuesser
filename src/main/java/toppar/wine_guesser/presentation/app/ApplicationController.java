@@ -37,6 +37,7 @@ public class ApplicationController {
     public static final String GAME_BOARD_LOCK_PAGE_URL = "gameBoardLock";
     public static final String GAME_RESULTS_PAGE_URL = "gameResults";
     public static final String PROFILE_PAGE_URL = "profile";
+    public static final String ENTER_REGION_PAGE_URL = "enterRegion";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
     public static final String LOBBY_OBJ_NAME = "lobbyForm";
@@ -51,6 +52,7 @@ public class ApplicationController {
     public static final String GAME_BOARD_LOCK_OBJ_NAME = "gameBoardLockForm";
     public static final String GAME_RESULTS_OBJ_NAME = "gameResultsForm";
     public static final String PROFILE_OBJ_NAME = "profileForm";
+    public static final String ENTER_REGION_OBJ_NAME = "enterRegionForm";
 
 
     //////////////////////////////////////GET MAPPINGS/////////////////////////////////////////////////////
@@ -79,6 +81,20 @@ public class ApplicationController {
     private MatchHistoryService matchHistoryService;
     @Autowired
     private UserResultsService userResultsService;
+
+    @GetMapping("enterRegion")
+    public String showEnterRegionPage(Model model, HttpServletRequest request){
+        if(!model.containsAttribute(ENTER_REGION_OBJ_NAME)){
+            model.addAttribute(ENTER_REGION_OBJ_NAME);
+        }
+        List<GameSettings> gameSettings = gameSettingsService.getGameSettingsByGameHost(request.getUserPrincipal().getName());
+        List<String> regions = new ArrayList<>();
+        gameSettings.forEach(gameSetting -> regions.add(gameSetting.getRegion()));
+        EnterRegionForm enterRegionForm = new EnterRegionForm();
+        enterRegionForm.setRegions(regions);
+        model.addAttribute(enterRegionForm);
+        return ENTER_REGION_PAGE_URL;
+    }
 
     @GetMapping("gameResults"+"/{gameId}"+"/{viewer}")
     public String showOldGameResultsPage(Model model, @PathVariable("gameId") String gameId, @PathVariable String viewer){
@@ -414,12 +430,19 @@ public class ApplicationController {
         }
         EnterUrlForm enterUrlForm = new EnterUrlForm();
         enterUrlForm.setUrlList(amount);
+        enterUrlForm.setGameId(gameSetupDTO.getGameId());
         model.addAttribute(enterUrlForm);
         return ENTER_URL_PAGE_URL;
     }
 
 
     //////////////////////////////////////POST MAPPINGS/////////////////////////////////////////////////////
+
+    @PostMapping(ENTER_REGION_PAGE_URL)
+    public String handleEnteredRegion(@ModelAttribute EnterRegionForm enterRegionForm, Model model, HttpServletRequest request){
+        gameSettingsService.deleteRegionsThatDontMatch(enterRegionForm.getChosenRegion(), request.getUserPrincipal().getName());
+        return showPrintQrCodesPage(model, request);
+    }
 
     @PostMapping(GAME_BOARD_PAGE_URL)
     public String lockInResultsOrGrade(@Valid @ModelAttribute() GameBoardForm gameBoardForm, Model model, HttpServletRequest request){
@@ -549,7 +572,7 @@ public class ApplicationController {
            model.addAttribute(missingDecData);
            return showEnterUrlPage(model, request);
         }
-        return showPrintQrCodesPage(model, request);
+        return showEnterRegionPage(model, request);
     }
 
     @PostMapping(MENU_PAGE_URL)

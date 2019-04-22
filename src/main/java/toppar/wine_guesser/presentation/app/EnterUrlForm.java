@@ -8,6 +8,15 @@ import java.util.List;
 
 public class EnterUrlForm {
 
+    public String gameId;
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
+    }
 
     public List<String> getUrlList() {
         return urlList;

@@ -142,6 +142,7 @@ CREATE TABLE `game_settings` (
   `url` varchar(8000) NOT NULL,
   `imgSource` varchar(8000) NOT NULL,
   `wineName` varchar(255) NOT NULL,
+  `region` varchar(8000) DEFAULT NULL,
   `description` varchar(8000) NOT NULL,
   `servingOrder` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

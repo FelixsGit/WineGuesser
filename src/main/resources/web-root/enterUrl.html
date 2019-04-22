@@ -15,16 +15,17 @@
         <form action="#" th:action="@{/enterUrl}" th:object="${enterUrlForm}" method="post">
             <div th:each="String, var : *{urlList}">
                 <input type="text" th:field="*{urlList[__${var.index}__]}" />
+                <input type="hidden" th:field="*{gameId}" />
                 <div>
-                    <span class="error"
-                        th:if="${#fields.hasAnyErrors()}"
-                          th:errors="*{urlList[__${var.index}__]}">
-                    </span>
+                <span class="error"
+                      th:if="${#fields.hasAnyErrors()}"
+                      th:errors="*{urlList[__${var.index}__]}">
+                </span>
                 </div>
             </div>
             <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
             <br>
-        <button id="bot" type="submit">Gå Vidare</button>
+            <button id="bot" type="submit">Gå Vidare</button>
         </form>
     </div>
 
@@ -46,6 +47,7 @@
 
     </div>
     <br>
+
 </main>
 </body>
 </html>
