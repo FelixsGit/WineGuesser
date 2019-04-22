@@ -38,7 +38,7 @@ public class GameResultService {
 
     public void generateGameStatsForGameWithId(String gameId){
 
-        GameResult gameResult = new GameResult(gameId, "https://wineguesser.herokuapp.com/gameResults/"+gameId);
+        GameResult gameResult = new GameResult(gameId, "http://192.168.0.100:8080/gameResults/"+gameId);
         gameResultRepository.save(gameResult);
 
         //Calculating points
@@ -51,7 +51,7 @@ public class GameResultService {
         Map<String, UserResultData> userResultDataMap = new HashMap<>();
         for(int j = 0; j < participants.size(); j++){
             UserResults userResults = userResultsService.findByUsername(participants.get(j));
-            matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "https://wineguesser.herokuapp.com/gameResults/"+gameId, gameId));
+            matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "http://192.168.0.100:8080/gameResults/"+gameId, gameId));
             userResultDataMap.put(participants.get(j), new UserResultData(participants.get(j), 0, 0, 0));
         }
 
