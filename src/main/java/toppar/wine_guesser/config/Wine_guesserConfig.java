@@ -81,8 +81,7 @@ public class Wine_guesserConfig implements WebMvcConfigurer, ApplicationContextA
      */
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
-        SpringResourceTemplateResolver templateResolver =
-                new SpringResourceTemplateResolver();
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
         // Templates file shall have the path /web-root/<template name>.html
         templateResolver.setPrefix("classpath:/web-root/");
