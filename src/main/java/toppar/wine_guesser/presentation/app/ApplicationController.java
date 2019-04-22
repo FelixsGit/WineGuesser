@@ -25,18 +25,18 @@ public class ApplicationController {
 
     public static final String DEFAULT_PAGE_URL = "/";
     public static final String HOME_PAGE_URL = "home";
-    public static final String MENU_PAGE_URL = "/menu";
-    public static final String ENTER_URL_PAGE_URL = "/enterUrl";
-    public static final String LOBBY_PAGE_URL = "/lobby";
-    public static final String LOGIN_PAGE_URL = "/login";
-    public static final String REGISTER_PAGE_URL = "/register";
-    public static final String NUMBER_OF_WINES_PAGE_URL = "/numberOfWines";
-    public static final String PRINT_QR_CODES_PAGE_URL = "/printQrCodes";
-    public static final String QR_OPTION_PAGE_URL = "/QR/wine/qrOption";
-    public static final String GAME_BOARD_PAGE_URL = "/gameBoard";
-    public static final String GAME_BOARD_LOCK_PAGE_URL = "/gameBoardLock";
-    public static final String GAME_RESULTS_PAGE_URL = "/gameResults";
-    public static final String PROFILE_PAGE_URL = "/profile";
+    public static final String MENU_PAGE_URL = "menu";
+    public static final String ENTER_URL_PAGE_URL = "enterUrl";
+    public static final String LOBBY_PAGE_URL = "lobby";
+    public static final String LOGIN_PAGE_URL = "login";
+    public static final String REGISTER_PAGE_URL = "register";
+    public static final String NUMBER_OF_WINES_PAGE_URL = "numberOfWines";
+    public static final String PRINT_QR_CODES_PAGE_URL = "printQrCodes";
+    public static final String QR_OPTION_PAGE_URL = "QR/wine/qrOption";
+    public static final String GAME_BOARD_PAGE_URL = "gameBoard";
+    public static final String GAME_BOARD_LOCK_PAGE_URL = "gameBoardLock";
+    public static final String GAME_RESULTS_PAGE_URL = "gameResults";
+    public static final String PROFILE_PAGE_URL = "profile";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
     public static final String LOBBY_OBJ_NAME = "lobbyForm";
@@ -161,7 +161,7 @@ public class ApplicationController {
 
     @GetMapping("/about")
     public String showAboutPage(){
-        return "/about";
+        return "about";
     }
 
 
@@ -280,7 +280,7 @@ public class ApplicationController {
         return LOBBY_PAGE_URL;
     }
 
-    @GetMapping("/QR/wine/{id}")
+    @GetMapping("QR/wine/{id}")
     public String showQrOptionPage(Model model, @PathVariable("id") String id){
         if(!model.containsAttribute(QR_OPTION_OBJ_NAME) || !model.containsAttribute(SERVING_ORDER_OBJ_NAME)){
             QrOptionForm qrOptionForm = new QrOptionForm();
