@@ -24,7 +24,7 @@ import java.util.Objects;
 public class ApplicationController {
 
     public static final String DEFAULT_PAGE_URL = "/";
-    public static final String HOME_PAGE_URL = "/home";
+    public static final String HOME_PAGE_URL = "home";
     public static final String MENU_PAGE_URL = "/menu";
     public static final String ENTER_URL_PAGE_URL = "/enterUrl";
     public static final String LOBBY_PAGE_URL = "/lobby";
