@@ -117,7 +117,7 @@ function onMessageReceived(payload) {
         }
     }
     if(message.type === 'SHOWRESULT'){
-        window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
+        window.location.replace("https://wineguesser.herokuapp.com/gameResults/"+gameId);
         client.unsubscribe();
         client = null;
     }
