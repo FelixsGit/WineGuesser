@@ -51,7 +51,7 @@ public class UrlScanner {
         }catch(FailingHttpStatusCodeException e){
             e.printStackTrace();
         }
-        return "lol";
+        return null;
     }
 
     private String findSpecificDescriptionForSpecificUrlSystemBolaget(String url) throws WineryException {

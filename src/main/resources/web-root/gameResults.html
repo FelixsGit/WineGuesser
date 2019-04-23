@@ -16,7 +16,7 @@
     <ul id="gamePoint-area">
         <li id="gamePoint-box" th:each="gamePointDTO, var : *{gameResultsForm.gameStats.gamePointList}">
             <div id="res-name"><a id="date-played" th:href="${'../../profile/' + gamePointDTO.username}" th:text="*{gamePointDTO.username}"/></div>
-            <div id="res-points "><h3 th:text="*{gamePointDTO.points}"/></div>
+            <div id="res-points"><h3 th:text="*{gamePointDTO.points}"/></div>
         </li>
     </ul>
     <br>
@@ -31,6 +31,14 @@
             <div id="res-wineName" ><h3 th:text="*{resultDataDTO.wineName}"/></div>
             <div id="res-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultDataDTO.wineDescription),'\n','&lt;br /&gt;'))}"></h4></div>
             <br>
+            <div id="region-result" th:if="${resultDataDTO.region != null}">
+                <div th:if="${resultDataDTO.correctRegionGuess == 'rätt.'}">
+                    <h3 id="correct-region-guess" th:text="'&#10004 ' + ${resultDataDTO.region}"></h3>
+                </div>
+                <div th:if="${resultDataDTO.correctRegionGuess == 'fel.'}">
+                    <h3 id="wrong-region-guess" th:text="'&#10008 ' + ${resultDataDTO.region}"></h3>
+                </div>
+            </div>
             <div id="p-result">
                 <div>
                     <h3>Din Poäng</h3>

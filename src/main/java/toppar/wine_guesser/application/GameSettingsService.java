@@ -1,6 +1,5 @@
 package toppar.wine_guesser.application;
 
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -12,6 +11,7 @@ import toppar.wine_guesser.util.UrlScanner;
 import toppar.wine_guesser.util.ZXingHelper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
 @Service
@@ -85,6 +85,16 @@ public class GameSettingsService {
         List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameHost(gameHost);
         settingsHistoryService.saveGameSettings(gameSettings);
         gameSettingsRepository.removeAllByGameHost(gameHost);
+    }
+
+    public String findChosenRegionByGameId(String gameId){
+        List<GameSettings> gameSettingsList = gameSettingsRepository.findAllByGameId(gameId);
+        for(int i = 0; i < gameSettingsList.size(); i++){
+            if(gameSettingsList.get(i).getRegion() != null){
+                return gameSettingsList.get(i).getRegion();
+            }
+        }
+        return null;
     }
 
     public List<String> createGameSettings(List<String> urlList, String gameHost) throws WineryException{

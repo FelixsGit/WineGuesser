@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import toppar.wine_guesser.domain.GameSettings;
 import toppar.wine_guesser.domain.GuessException;
 import toppar.wine_guesser.domain.UserGuesses;
 import toppar.wine_guesser.repository.UserGuessesRepository;
@@ -24,10 +25,10 @@ public class UserGuessesService {
     @Autowired
     private GameSettingsService gameSettingsService;
 
-    public void saveUserGuesses(String username, String gameId, List<String> descriptionGuesses, List<String> servingOrderGuesses) throws GuessException {
+    public void saveUserGuesses(String username, String gameId, List<String> descriptionGuesses, List<String> servingOrderGuesses, List<String> regionGuesses) throws GuessException {
         checkForIfGuessesIsValid(servingOrderGuesses, gameId);
         for(int i = 0; i < servingOrderGuesses.size(); i++){
-            userGuessesRepository.save(new UserGuesses(username, gameId, descriptionGuesses.get(i), Integer.valueOf(servingOrderGuesses.get(i))));
+            userGuessesRepository.save(new UserGuesses(username, gameId, descriptionGuesses.get(i), Integer.valueOf(servingOrderGuesses.get(i)), regionGuesses.get(i)));
             lobbyDataService.setDoneTrueForParticipant(username);
         }
     }
@@ -92,5 +93,35 @@ public class UserGuessesService {
         }
         System.out.println("user has made a guess");
         return true;
+    }
+
+    public String getRegionByGameIdUsernameAndServingOrderGuess(String gameId, String username, int servingOrderGuess) {
+        List<UserGuesses> userGuessesList = userGuessesRepository.findAllByUsernameAndServingOrderGuess(username, servingOrderGuess);
+        String regionGuess = null;
+        for(int i = 0; i < userGuessesList.size(); i++){
+            if(userGuessesList.get(i).getUsername().equals(username)){
+                if(userGuessesList.get(i).getRegionGuess() != null){
+                    regionGuess = userGuessesList.get(i).getRegionGuess();
+                }
+            }
+        }
+        return regionGuess;
+    }
+
+    public boolean checkIfPlayerHasCurrentWineDescriptionWithRegionNotNull(String username, GameSettings gameSettings) {
+        List<UserGuesses> userGuessesList = userGuessesRepository.findAllByUsername(username);
+        for(int i = 0; i < userGuessesList.size(); i++){
+            if(checkIfDescriptionsAreEqual(userGuessesList.get(i).getDescriptionGuess(), gameSettings.getDescription())){
+                if(gameSettings.getRegion() != null && userGuessesList.get(i).getRegionGuess() != null){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkIfDescriptionsAreEqual(String one, String two){
+        String slice = two.substring(0, 30);
+        return one.contains(slice);
     }
 }

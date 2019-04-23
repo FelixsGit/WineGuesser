@@ -11,5 +11,7 @@ public interface ResultDataDTO {
     String getWineDescription();
     int getGrade();
     String getUrl();
+    String getRegion();
+    String getCorrectRegionGuess();
 
 }

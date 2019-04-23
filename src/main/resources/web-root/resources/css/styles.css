@@ -130,7 +130,7 @@
     h4{
         font-style: italic;
         font-family: 'Trocchi', serif;
-        font-size: 36px;
+        font-size: 35px;
         color: lightgrey;
         display: inline-block;
     }
@@ -194,7 +194,7 @@
     }
 
     #numGuess{
-        margin:auto;
+        margin-top: 50px;
         padding-top: 0px;
         width: 100px;
         height: 100px;
@@ -264,7 +264,7 @@
     }
 
     #gamePoint-area{
-        width: 240px;
+        width: 340px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -274,7 +274,7 @@
         display: inline-block;
         margin: auto;
         background-color: #333;
-        width: 240px;
+        width: 340px;
         border: solid lightgrey;
         border-width: 4px;
         padding: 8px;
@@ -351,7 +351,7 @@
     #board-wineDescription{
         float:left;
         text-align: left;
-        width: 670px;
+        width: 820px;
     }
 
     #bot{
@@ -382,6 +382,255 @@
         font-weight: bold;
     }
 
+    .select-css {
+        margin:auto;
+        display: block;
+        font-size: 32px;
+        font-family: sans-serif;
+        font-weight: 700;
+        color: #444;
+        line-height: 1.3;
+        padding: 1.2em 2.8em 1em 1.6em;
+        width: 20%;
+        max-width: 100%;
+        box-sizing: border-box;
+        border: 2px solid #aaa;
+        box-shadow: 0 2px 0 2px rgba(0,0,0,.04);
+        border-radius: 1em;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #fff;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+        linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+        background-repeat: no-repeat, repeat;
+        background-position: right 1.4em top 50%, 0 0;
+        background-size: 1.3em auto, 100%;
+    }
+    .select-css::-ms-expand {
+        display: none;
+    }
+    .select-css:hover {
+        border-color: #888;
+    }
+    .select-css:focus {
+        border-color: #aaa;
+        box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+        box-shadow: 0 0 0 3px -moz-mac-focusring;
+        color: #222;
+        outline: none;
+    }
+    .select-css option {
+        font-weight:normal;
+    }
+
+    .toggle{
+        margin-top: 50px;
+        --uiToggleSize: var(--toggleSize, 20px);
+        --uiToggleIndent: var(--toggleIndent, .4em);
+        --uiToggleBorderWidth: var(--toggleBorderWidth, 2px);
+        --uiToggleColor: var(--toggleColor, #000);
+        --uiToggleDisabledColor: var(--toggleDisabledColor, #868e96);
+        --uiToggleBgColor: var(--toggleBgColor, #fff);
+        --uiToggleArrowWidth: var(--toggleArrowWidth, 2px);
+        --uiToggleArrowColor: var(--toggleArrowColor, #fff);
+
+        display: inline-block;
+        position: relative;
+    }
+
+
+    .toggle__input{
+        position: absolute;
+        left: -99999px;
+    }
+
+    .toggle__label{
+        display: inline-flex;
+        cursor: pointer;
+        min-height: var(--uiToggleSize);
+        padding-left: calc(var(--uiToggleSize) + var(--uiToggleIndent));
+    }
+
+    .toggle__label:before, .toggle__label:after{
+        content: "";
+        box-sizing: border-box;
+        width: 2em;
+        height: 2em;
+        font-size: var(--uiToggleSize);
+
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .toggle__label:before{
+        border: var(--uiToggleBorderWidth) solid var(--uiToggleColor);
+        z-index: 2;
+    }
+
+    .toggle__input:disabled ~ .toggle__label:before{
+        border-color: var(--uiToggleDisabledColor);
+    }
+
+    .toggle__input:focus ~ .toggle__label:before{
+        box-shadow: 0 0 0 4px var(--uiToggleBgColor), 0 0 0px 8px var(--uiToggleColor);
+    }
+
+    .toggle__input:not(:disabled):checked:focus ~ .toggle__label:after{
+        box-shadow: 0 0 0 4px var(--uiToggleBgColor), 0 0 0px 8px var(--uiToggleColor);
+    }
+
+    .toggle__input:not(:disabled) ~ .toggle__label:after{
+        background-color: var(--uiToggleColor);
+        opacity: 0;
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label:after{
+        opacity: 1;
+    }
+
+    .toggle__text{
+        float:left;
+        padding-left: 70px;
+        padding-top: 24px;
+    }
+
+    /*
+    The arrow size and position depends from sizes of square because I needed an arrow correct positioning from the top left corner of the element toggle
+    */
+
+    .toggle__text:before{
+        content: "";
+        box-sizing: border-box;
+        width: 0;
+        height: 0;
+        font-size: var(--uiToggleSize);
+
+        border-left-width: 0;
+        border-bottom-width: 0;
+        border-left-style: solid;
+        border-bottom-style: solid;
+        border-color: var(--uiToggleArrowColor);
+
+        position: absolute;
+        top: 1em;
+        left: .4em;
+        z-index: 3;
+
+        transform-origin: left top;
+        transform: rotate(-40deg) skew(10deg);
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label .toggle__text:before{
+        width: 1em;
+        height: .50em;
+        border-left-width: var(--uiToggleArrowWidth);
+        border-bottom-width: var(--uiToggleArrowWidth);
+        will-change: width, height;
+        transition: width .1s ease-out .2s, height .2s ease-out;
+    }
+
+    /*
+    =====
+    LEVEL 2. PRESENTATION STYLES
+    =====
+    */
+
+    /*
+    The demo skin
+    */
+
+    .toggle__label:before, .toggle__label:after{
+        border-radius: 4px;
+    }
+
+    /*
+    The animation of switching states
+    */
+
+    .toggle__input:not(:disabled) ~ .toggle__label:before,
+    .toggle__input:not(:disabled) ~ .toggle__label:after{
+        opacity: 1;
+        transform-origin: center center;
+        will-change: transform;
+        transition: transform .2s ease-out;
+    }
+
+    .toggle__input:not(:disabled) ~ .toggle__label:before{
+        transform: rotateY(0deg);
+        transition-delay: .2s;
+    }
+
+    .toggle__input:not(:disabled) ~ .toggle__label:after{
+        transform: rotateY(90deg);
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label:before{
+        transform: rotateY(-90deg);
+        transition-delay: 0s;
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label:after{
+        transform: rotateY(0deg);
+        transition-delay: .2s;
+    }
+
+    .toggle__text:before{
+        opacity: 0;
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label .toggle__text:before{
+        opacity: 1;
+        transition: opacity .1s ease-out .3s, width .1s ease-out .5s, height .2s ease-out .3s;
+    }
+
+    /*
+    =====
+    LEVEL 3. SETTINGS
+    =====
+    */
+
+    .toggle{
+        --toggleColor: #5A7DD0;
+        --toggleBgColor: #5A7DD0;
+        --toggleSize: 50px;
+    }
+
+
+    #correct-region-guess{
+        color:forestgreen;
+    }
+
+    #wrong-region-guess{
+        color:red;
+    }
+
+    #region-result{
+        margin: auto;
+        float:left;
+        margin-bottom: 20px;
+    }
+
+    /* A link that has not been visited */
+    a:link {
+        color: #7f1a1a;
+    }
+
+    /* A link that has been visited */
+    a:visited {
+        color: #7f1a1a;
+    }
+
+    /* A link that is hovered on */
+    a:hover {
+        color: #7f1a1a;
+    }
+
+    /* A link that is selected */
+    a:active {
+        color: #7f1a1a;
+    }
 
 
 }
@@ -415,7 +664,7 @@
     #board-wineDescription{
         float:left;
         text-align: left;
-        width: 300px;
+        width: 320px;
     }
 
 
@@ -621,13 +870,14 @@
     }
 
     .error {
+        margin-top: 20px;
         color: red;
         font-family: 'Cabin';
         font-size: 30px;
     }
 
     #numGuess{
-        margin:auto;
+        margin-top: 20px;
         padding-top: 0px;
         width: 50px;
         height: 50px;
@@ -635,7 +885,7 @@
         border:solid 3px #ccc;
         border-radius: 10px;
         font-size:40pt;s: 10px;
-        float:right
+        float:right;
     }
 
     h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 38px; font-weight: normal; line-height: 40px; margin: 0; color: #fff;}
@@ -715,8 +965,7 @@
         text-align: left;
     }
     #res-points{
-        width: auto;
-        float: right;
+        float:right;
         text-align: right;
     }
 
@@ -766,6 +1015,258 @@
         text-align: center;
     }
 
+    #board-wineDescription{
+        float:left;
+        text-align: left;
+        width: 400px;
+    }
+
+    .select-css {
+        margin:auto;
+        display: block;
+        font-size: 16px;
+        font-family: sans-serif;
+        font-weight: 700;
+        color: #444;
+        line-height: 1.3;
+        padding: .6em 1.4em .5em .8em;
+        width: 20%;
+        max-width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #aaa;
+        box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+        border-radius: .5em;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #fff;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+        linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+        background-repeat: no-repeat, repeat;
+        background-position: right .7em top 50%, 0 0;
+        background-size: .65em auto, 100%;
+    }
+    .select-css::-ms-expand {
+        display: none;
+    }
+    .select-css:hover {
+        border-color: #888;
+    }
+    .select-css:focus {
+        border-color: #aaa;
+        box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+        box-shadow: 0 0 0 3px -moz-mac-focusring;
+        color: #222;
+        outline: none;
+    }
+    .select-css option {
+        font-weight:normal;
+    }
+
+    .toggle{
+        margin-top: 20px;
+        --uiToggleSize: var(--toggleSize, 20px);
+        --uiToggleIndent: var(--toggleIndent, .4em);
+        --uiToggleBorderWidth: var(--toggleBorderWidth, 2px);
+        --uiToggleColor: var(--toggleColor, #000);
+        --uiToggleDisabledColor: var(--toggleDisabledColor, #868e96);
+        --uiToggleBgColor: var(--toggleBgColor, #fff);
+        --uiToggleArrowWidth: var(--toggleArrowWidth, 2px);
+        --uiToggleArrowColor: var(--toggleArrowColor, #fff);
+
+        display: inline-block;
+        position: relative;
+    }
+
+
+    .toggle__input{
+        position: absolute;
+        left: -99999px;
+    }
+
+    .toggle__label{
+        display: inline-flex;
+        cursor: pointer;
+        min-height: var(--uiToggleSize);
+        padding-left: calc(var(--uiToggleSize) + var(--uiToggleIndent));
+    }
+
+    .toggle__label:before, .toggle__label:after{
+        content: "";
+        box-sizing: border-box;
+        width: 1em;
+        height: 1em;
+        font-size: var(--uiToggleSize);
+
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .toggle__label:before{
+        border: var(--uiToggleBorderWidth) solid var(--uiToggleColor);
+        z-index: 2;
+    }
+
+    .toggle__input:disabled ~ .toggle__label:before{
+        border-color: var(--uiToggleDisabledColor);
+    }
+
+    .toggle__input:focus ~ .toggle__label:before{
+        box-shadow: 0 0 0 2px var(--uiToggleBgColor), 0 0 0px 4px var(--uiToggleColor);
+    }
+
+    .toggle__input:not(:disabled):checked:focus ~ .toggle__label:after{
+        box-shadow: 0 0 0 2px var(--uiToggleBgColor), 0 0 0px 4px var(--uiToggleColor);
+    }
+
+    .toggle__input:not(:disabled) ~ .toggle__label:after{
+        background-color: var(--uiToggleColor);
+        opacity: 0;
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label:after{
+        opacity: 1;
+    }
+
+    .toggle__text{
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    /*
+    The arrow size and position depends from sizes of square because I needed an arrow correct positioning from the top left corner of the element toggle
+    */
+
+    .toggle__text:before{
+        content: "";
+        box-sizing: border-box;
+        width: 0;
+        height: 0;
+        font-size: var(--uiToggleSize);
+
+        border-left-width: 0;
+        border-bottom-width: 0;
+        border-left-style: solid;
+        border-bottom-style: solid;
+        border-color: var(--uiToggleArrowColor);
+
+        position: absolute;
+        top: .5428em;
+        left: .2em;
+        z-index: 3;
+
+        transform-origin: left top;
+        transform: rotate(-40deg) skew(10deg);
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label .toggle__text:before{
+        width: .5em;
+        height: .25em;
+        border-left-width: var(--uiToggleArrowWidth);
+        border-bottom-width: var(--uiToggleArrowWidth);
+        will-change: width, height;
+        transition: width .1s ease-out .2s, height .2s ease-out;
+    }
+
+    /*
+    =====
+    LEVEL 2. PRESENTATION STYLES
+    =====
+    */
+
+    /*
+    The demo skin
+    */
+
+    .toggle__label:before, .toggle__label:after{
+        border-radius: 2px;
+    }
+
+    /*
+    The animation of switching states
+    */
+
+    .toggle__input:not(:disabled) ~ .toggle__label:before,
+    .toggle__input:not(:disabled) ~ .toggle__label:after{
+        opacity: 1;
+        transform-origin: center center;
+        will-change: transform;
+        transition: transform .2s ease-out;
+    }
+
+    .toggle__input:not(:disabled) ~ .toggle__label:before{
+        transform: rotateY(0deg);
+        transition-delay: .2s;
+    }
+
+    .toggle__input:not(:disabled) ~ .toggle__label:after{
+        transform: rotateY(90deg);
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label:before{
+        transform: rotateY(-90deg);
+        transition-delay: 0s;
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label:after{
+        transform: rotateY(0deg);
+        transition-delay: .2s;
+    }
+
+    .toggle__text:before{
+        opacity: 0;
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label .toggle__text:before{
+        opacity: 1;
+        transition: opacity .1s ease-out .3s, width .1s ease-out .5s, height .2s ease-out .3s;
+    }
+
+    /*
+    =====
+    LEVEL 3. SETTINGS
+    =====
+    */
+
+    .toggle{
+        --toggleColor: #5A7DD0;
+        --toggleBgColor: #5A7DD0;
+        --toggleSize: 50px;
+    }
+
+    #correct-region-guess{
+        color:forestgreen;
+    }
+
+    #wrong-region-guess{
+        color:red;
+    }
+
+    #region-result{
+        margin-bottom: 15px;
+        float:left;
+    }
+
+    /* A link that has not been visited */
+    a:link {
+        color: #7f1a1a;
+    }
+
+    /* A link that has been visited */
+    a:visited {
+        color: #7f1a1a;
+    }
+
+    /* A link that is hovered on */
+    a:hover {
+        color: #7f1a1a;
+    }
+
+    /* A link that is selected */
+    a:active {
+        color: #7f1a1a;
+    }
 
 
 }

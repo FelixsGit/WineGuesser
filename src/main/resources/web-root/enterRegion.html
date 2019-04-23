@@ -11,13 +11,13 @@
     <h2>I denna nerfällbara meny finns alla regionerna som dom inskriva vinerna kommer ifrån.</h2>
     <h3>Du kan i denna meny välja en region som vinprovarna sedan kan gissa på för att få extra poäng.</h3>
     <br>
-    <form action="/printQrCodes">
+    <form action="#" th:action="@{/enterRegion}" th:object="${enterRegionForm}" method="post">
         <button id="bot" type="submit">Hoppa Över</button>
     </form>
     <br>
     <br>
     <form action="#" th:action="@{/enterRegion}" th:object="${enterRegionForm}" method="post">
-        <select class="container" th:field="*{chosenRegion}">
+        <select class="select-css" th:field="*{chosenRegion}">
             <option th:each="region : ${enterRegionForm.regions}"
                     th:value="${region}"
                     th:text="${region}">

@@ -83,7 +83,8 @@ CREATE TABLE `user_guesses` (
   `username` varchar(255) NOT NULL,
   `servingOrderGuess` INTEGER NOT NULL,
   `descriptionGuess` varchar (8000) NOT NULL,
-  `gameId` varchar(255) NOT NULL
+  `gameId` varchar(255) NOT NULL,
+  `regionGuess` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -123,7 +124,9 @@ CREATE TABLE `result_data` (
    `grade` INTEGER NOT NULL,
    `url` varchar(8000) NOT NULL,
     `personalGrade` INTEGER NOT NULL,
-   `averageGrade` double NOT NULL
+   `averageGrade` double NOT NULL,
+   `region` varchar(255) DEFAULT NULL,
+   `correctRegionGuess` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

@@ -7,4 +7,5 @@ public interface UserGuessesDTO {
     int getServingOrderGuess();
     String getDescriptionGuess();
     String getGameId();
+    String getRegionGuess();
 }

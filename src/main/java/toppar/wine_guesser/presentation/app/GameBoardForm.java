@@ -30,6 +30,27 @@ public class GameBoardForm {
 
     private Integer wineRating;
 
+    private String chosenRegion;
+
+    private List<String> regionGuessList;
+
+
+    public List<String> getRegionGuessList() {
+        return regionGuessList;
+    }
+
+    public void setRegionGuessList(List<String> regionGuessList) {
+        this.regionGuessList = regionGuessList;
+    }
+
+    public String getChosenRegion() {
+        return chosenRegion;
+    }
+
+    public void setChosenRegion(String chosenRegion) {
+        this.chosenRegion = chosenRegion;
+    }
+
     public void setWineRating(Integer wineRating) {
         this.wineRating = wineRating;
     }

@@ -89,7 +89,11 @@ public class ApplicationController {
         }
         List<GameSettings> gameSettings = gameSettingsService.getGameSettingsByGameHost(request.getUserPrincipal().getName());
         List<String> regions = new ArrayList<>();
-        gameSettings.forEach(gameSetting -> regions.add(gameSetting.getRegion()));
+        gameSettings.forEach(gameSetting -> {
+            if(!regions.contains(gameSetting.getRegion())){
+                regions.add(gameSetting.getRegion());
+            }
+        });
         EnterRegionForm enterRegionForm = new EnterRegionForm();
         enterRegionForm.setRegions(regions);
         model.addAttribute(enterRegionForm);
@@ -230,6 +234,7 @@ public class ApplicationController {
         }
         gameBoardForm.setWineToRate(judgementsPassed + 1);
         gameBoardForm.setGameId(gameId);
+        gameBoardForm.setChosenRegion(gameSettingsService.findChosenRegionByGameId(gameId));
         model.addAttribute(gameBoardForm);
         return GAME_BOARD_PAGE_URL;
     }
@@ -454,10 +459,12 @@ public class ApplicationController {
                 return GAME_BOARD_PAGE_URL;
             }
             try {
-                userGuessesService.saveUserGuesses(request.getUserPrincipal().getName(), gameBoardForm.getGameId(), gameBoardForm.getDescriptions(), gameBoardForm.getGuessNum());
+                userGuessesService.saveUserGuesses(request.getUserPrincipal().getName(), gameBoardForm.getGameId(), gameBoardForm.getDescriptions(),
+                        gameBoardForm.getGuessNum(), gameBoardForm.getRegionGuessList());
             } catch (GuessException e) {
                 controlErrorHandling(e, model);
                 lobbyDataService.setNotDoneForParticipant(request.getUserPrincipal().getName());
+                model.addAttribute(gameBoardForm);
                 return GAME_BOARD_PAGE_URL;
             }
             lobbyDataService.setDoneTrueForParticipant(request.getUserPrincipal().getName());

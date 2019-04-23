@@ -13,16 +13,26 @@ public class UserGuesses implements UserGuessesDTO{
     private int servingOrderGuess;
     private String descriptionGuess;
     private String gameId;
+    private String regionGuess;
 
     protected UserGuesses(){
 
     }
 
-    public UserGuesses(String username, String gameId, String descriptionGuess, int servingOrderGuess) {
+    public UserGuesses(String username, String gameId, String descriptionGuess, int servingOrderGuess, String regionGuess) {
         this.username = username;
         this.servingOrderGuess = servingOrderGuess;
         this.descriptionGuess = descriptionGuess;
         this.gameId = gameId;
+        this.regionGuess = regionGuess;
+    }
+
+    public String getRegionGuess() {
+        return regionGuess;
+    }
+
+    public void setRegionGuess(String regionGuess) {
+        this.regionGuess = regionGuess;
     }
 
     public long getUserGuessesId() {

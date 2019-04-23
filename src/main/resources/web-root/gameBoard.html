@@ -38,6 +38,12 @@
                 <div id="board-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(description),'\n','&lt;br /&gt;'))}"></h4></div>
                 <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
                 <input id="numGuess" th:if="${gameBoardForm.doneRating}" type="text" th:field="*{guessNum[__${var.index}__]}" />
+                <label th:if="${gameBoardForm.doneRating != null and gameBoardForm.chosenRegion != null}" class="toggle">
+                    <input class="toggle__input" type="checkbox" th:value="${gameBoardForm.chosenRegion}" th:field="*{regionGuessList[__${var.index}__]}">
+                    <span class="toggle__label">
+                    <span class="toggle__text"><h3 th:text="${gameBoardForm.chosenRegion}"></h3></span>
+                    </span>
+                </label>
                 <span class="error"
                       th:if="${#fields.errors('guessNum')}"
                       th:errors="*{guessNum}">
