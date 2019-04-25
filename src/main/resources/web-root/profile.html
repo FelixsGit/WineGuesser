@@ -30,15 +30,7 @@
         <li id="stats-box" th:each="match, var : *{profileForm.profileData.matchHistoryList}">
             <a id="date-played" th:href="${match.url + '/'+profileForm.profileData.username}" th:text="${match.datePlayed}"/>
         </li>
-        <br>
-        <br>
-        <br>
-        <br>
     </ul>
-
-    <form id="bot" th:action="@{/menu}">
-        <button id="bot" type="submit">Tillbaka till menyn</button>
-    </form>
 
 </main>
 </body>

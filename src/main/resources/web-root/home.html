@@ -8,17 +8,22 @@
 <body>
 <main layout:fragment="content">
 
-    <h1 th:text="'Gissa Vinet'"></h1>
-    <h3 th:text="'RiojaKlubben'"></h3>
-    <br>
-    <h3>Välkommen!</h3>
-    <br>
-    <form action="/login">
-        <button type="submit">Logga In</button>
-    </form>
-    <form action="/register">
-        <button type="submit">Registrera Dig</button>
-    </form>
+    <div class="container-fluid" >
+
+        <h1 th:text="'Gissa Vinet'"></h1>
+        <h3 th:text="'RiojaKlubben'"></h3>
+        <br>
+        <h3>Välkommen!</h3>
+        <br>
+        <form action="/login">
+            <button type="submit">Logga In</button>
+        </form>
+        <form action="/register">
+            <button type="submit">Registrera Dig</button>
+        </form>
+
+    </div>
+
 </main>
 </body>
 </html>

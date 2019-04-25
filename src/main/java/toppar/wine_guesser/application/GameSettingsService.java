@@ -24,6 +24,18 @@ public class GameSettingsService {
     @Autowired
     private SettingsHistoryService settingsHistoryService;
 
+    public void removeGameSettingsIfGameIdDontMatch(String gameHost, String gameId){
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameHost(gameHost);
+        if(gameSettings != null){
+            for(int i = 0; i < gameSettings.size(); i++) {
+                if(!gameSettings.get(i).getGameId().equals(gameId)){
+                    removeGameSettingsByGameHost(gameHost);
+                    break;
+                }
+            }
+        }
+    }
+
     private void deleteGameSettingsByGameHost(String gameHost){
         gameSettingsRepository.removeAllByGameHost(gameHost);
     }
@@ -120,8 +132,8 @@ public class GameSettingsService {
     }
 
     public List<String> createGameSettings(List<String> urlList, String gameHost) throws WineryException{
+        removeGameSettingsByGameHost(gameHost);
         String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();
-        deleteGameSettingsByGameHost(gameHost);
         List<String> region = retrieveRegionsFromUrlList(urlList);
         List<String> qrCodes = generateQrCodesFromUrls(urlList);
         List<String> descriptions = retrieveAllDescriptionsFromUrlList(urlList);

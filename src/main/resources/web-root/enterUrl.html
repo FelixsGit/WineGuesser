@@ -10,7 +10,7 @@
 
     <div th:if="${missingDecData.missing == 'notMissing'}">
         <h2>Skriv in fulla länkar till de viner som du planerar att servera.</h2>
-        <h3>Länkarna måste vara från domänen https://www.systembolaget.se eller http://www.bodegashop.com.</h3>
+        <h3>Länkarna måste vara från domänen https://www.systembolaget.se</h3>
         <br>
         <form action="#" th:action="@{/enterUrl}" th:object="${enterUrlForm}" method="post">
             <div th:each="String, var : *{urlList}">

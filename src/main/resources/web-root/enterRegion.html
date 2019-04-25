@@ -8,8 +8,10 @@
 <body>
 <main layout:fragment="content">
 
-    <h2>I denna nerfällbara meny finns alla regionerna som dom inskriva vinerna kommer ifrån.</h2>
-    <h3>Du kan i denna meny välja en region som vinprovarna sedan kan gissa på för att få extra poäng.</h3>
+    <div>
+        <h2>I denna nerfällbara meny finns alla regionerna som dom inskriva vinerna kommer ifrån.</h2>
+        <h3>Här kan man välja en region som man kan gissa på under vinprovningen för extra poäng</h3>
+    </div>
     <br>
     <form action="#" th:action="@{/enterRegion}" th:object="${enterRegionForm}" method="post">
         <button id="bot" type="submit">Hoppa Över</button>

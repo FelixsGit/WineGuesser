@@ -7,8 +7,12 @@
 </head>
 <body>
 <main layout:fragment="content">
-    <h3>Här kan du välja om du vill skriva in serveringsnumret för detta vin,</h3>
-    <h3>eller om du vill kolla på vinet på webben.</h3>
+    <div>
+        <h2>Detta är QR kod sidan för ett vin som serveras på vinprovningen!</h2>
+        <br>
+        <h2>Här kan du skriva in serveringsordningen för detta vin.</h2>
+    </div>
+
     <form action=# th:action="@{qrOption}" th:object="${qrOptionForm}" method="post">
         <input type="hidden" th:field="*{id}" />
         <input type="hidden" th:field="*{url}" />
@@ -24,14 +28,16 @@
         <br>
         <button type="submit">Skicka</button>
     </form>
-    <br>
-    <br>
-    <h3>Klicka på följande länk för att inspektera vinet på webben.</h3>
-    <br>
-    <br>
-    <a th:href="@{${qrOptionForm.url}}">
-        <h4 th:text="${qrOptionForm.parsedUrl}"></h4>
-    </a>
+    <div>
+        <br>
+        <br>
+        <h2>Om vinprovningen är klar kan klicka på denna länk för att inspektera vinet på webben.</h2>
+        <br>
+        <br>
+        <a th:href="@{${qrOptionForm.url}}">
+            <h4 th:text="${qrOptionForm.parsedUrl}"></h4>
+        </a>
+    </div>
 
 </main>
 </body>

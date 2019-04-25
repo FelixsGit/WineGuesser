@@ -145,6 +145,8 @@ function onMessageReceived(payload) {
         subscribeToSpecific(gameId);
     }
 
+    var notReadyElement = document.createElement('li');
+    var readyElement = document.createElement('li');
 
     if(message.type === 'START'){
         window.location.replace("http://192.168.0.100:8080/gameBoard/"+gameId);
@@ -162,8 +164,6 @@ function onMessageReceived(payload) {
         }
     }
 
-    var notReadyElement = document.createElement('li');
-    var readyElement = document.createElement('li');
 
     if(message.type === 'JOIN' || message.type === 'READY' || message.type === 'LEAVE'){
 

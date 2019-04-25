@@ -128,7 +128,7 @@ public class ApplicationController {
             gameResultsForm.setGameStats(gameResultService.retrieveGameStatsForGameWithIdAndUsername(gameId, request.getUserPrincipal().getName()));
             gameResultsForm.setViewer(request.getUserPrincipal().getName());
             gameSetupService.removeGameSetupByGameHost(request.getUserPrincipal().getName());
-            gameSettingsService.removeGameSettingsByGameHost(request.getUserPrincipal().getName());
+            //gameSettingsService.removeGameSettingsByGameHost(request.getUserPrincipal().getName());
             lobbyDataService.removeAllByGameId(gameId);
             userGuessesService.removeAllByGameId(gameId);
             judgementService.removeAllByGameId(gameId);
@@ -321,6 +321,7 @@ public class ApplicationController {
         QrOptionForm qrOptionForm = new QrOptionForm();
         qrOptionForm.setId(id);
         String url = gameSettingsService.getUrlFromWineId(id);
+        System.out.println(url);
         String parsedUrl = "Klicka Här För Att Kolla På Vinet På Webben";
         qrOptionForm.setUrl(url);
         qrOptionForm.setParsedUrl(parsedUrl);
@@ -626,6 +627,7 @@ public class ApplicationController {
             controlErrorHandling(e, model);
             return showMenuPage(model, request);
         }
+        gameSettingsService.removeGameSettingsIfGameIdDontMatch(request.getUserPrincipal().getName(), joinGameLobbyForm.getJoinCode());
         lobbyDataService.addParticipant(request.getUserPrincipal().getName(), joinGameLobbyForm.getJoinCode());
         userService.setActiveGameForUser(request.getUserPrincipal().getName(), joinGameLobbyForm.getJoinCode());
         lobbyDataService.setNotReadyForParticipant(request.getUserPrincipal().getName());

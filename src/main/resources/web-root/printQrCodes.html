@@ -8,23 +8,25 @@
 <body>
 <main layout:fragment="content">
 
-    <h3>Dags att göra lite utskrifter och klistring.</h3>
-    <h3>Här är QR koderna för dom vinera som du länkade till i ordning vänster till höger.</h3>
-    <h3>Nu ska du täcka alla vinflaskorna med något, eller hälla över vinet i karaffer.</h3>
-    <h3>Därefter ska du klistra på den länkande QR koden på den överensstämande vinflaskan/karaffen.</h3>
-    <br>
-    <img th:each="String, var : ${printQrCodesForm.qrCodes}"
-         th:src="*{'data:image/png;base64,'+String}">
-    <br>
-    <br>
-    <br>
-    <h3>När du är klar med detta så kan du starta en lobby</h3>
-    <br>
-    <p></p>
-    <form th:action="@{'/generateLobby/' + ${printQrCodesForm.gameId}}">
-        <button type="submit">Starta Lobby</button>
-    </form>
-    <br>
+    <div>
+        <h3>Dags att göra lite utskrifter och klistring.</h3>
+        <h3>Här är QR koderna för dom vinera som du länkade till i ordning vänster till höger.</h3>
+        <h3>Nu ska du täcka alla vinflaskorna med något, eller hälla över vinerna i karaffer.</h3>
+        <h3>Därefter ska du klistra på den länkande QR koden på den överensstämande vinflaskan/karaffen.</h3>
+        <br>
+        <img th:each="String, var : ${printQrCodesForm.qrCodes}"
+             th:src="*{'data:image/png;base64,'+String}">
+        <br>
+        <br>
+        <br>
+        <h3>När du är klar med detta så kan du klicka på knappen nedan.</h3>
+        <br>
+        <p></p>
+        <form th:action="@{'/generateLobby/' + ${printQrCodesForm.gameId}}">
+            <button type="submit">Slutför förberedelserna</button>
+        </form>
+        <br>
+    </div>
 
 
 </main>

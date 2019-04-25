@@ -9,17 +9,22 @@
 <body>
 <main layout:fragment="content">
 
-    <h2>Detta är en öppen lobby med koden:</h2>
-    <br>
-    <h1 th:text="${lobbyForm.gameId}"></h1>
-    <br>
-    <br>
+    <div>
+        <h2>Detta är ett öppet vinprovningsrum</h2>
+        <br>
+        <h1 th:text="'Denna vinprovning har ett id: '+${lobbyForm.gameId}"></h1>
+        <br>
+        <h2>Användare som vill gå med i denna vinprovning kan göra så genom att skriva in detta id.</h2>
+        <h3>När alla är redo kan spelvärden starta vinprovningen.</h3>
 
-    <form id="messageForm" name="messageForm" nameForm="messageForm" action="#">
-        <button type="submit" th:id="${lobbyForm.username} + 'button'">Redo</button>
-    </form>
-    <br>
-
+        <form id="messageForm" name="messageForm" nameForm="messageForm" action="#">
+            <button type="submit" th:id="${lobbyForm.username} + 'button'">Redo</button>
+        </form>
+        <form id="startGame" th:if="${lobbyForm.gameHost}" action="#">
+            <button type="submit">Start Spel</button>
+        </form>
+        <br>
+    </div>
 
 
     <div id="ready-or-not">
@@ -41,16 +46,14 @@
         </div>
     </div>
     <br>
-    <form id="startGame" th:if="${lobbyForm.gameHost}" action="#">
-        <button type="submit">Start Spel</button>
-    </form>
+
     <br>
-    <div th:if="${lobbyForm.gameHost}">
+    <div id="bottom-left" th:if="${lobbyForm.gameHost}">
         <form id="lobbyClose" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
             <button type="submit">Stäng Lobby</button>
         </form>
     </div>
-    <div th:unless="${lobbyForm.gameHost}">
+    <div id="bottom-left" th:unless="${lobbyForm.gameHost}">
         <form id="lobbyLeave" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/leave'}">
             <button type="submit">Lämna Lobby</button>
         </form>
