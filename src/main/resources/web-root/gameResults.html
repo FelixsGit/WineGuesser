@@ -8,63 +8,63 @@
 <body>
 <main layout:fragment="content">
 
-
-    <h1 th:text="'Detta är resultatsidan för '+${gameResultsForm.viewer}"> </h1>
-    <br>
-    <h2 th:text="Poänglista"/>
-    <br>
-    <ul id="gamePoint-area">
-        <li id="gamePoint-box" th:each="gamePointDTO, var : *{gameResultsForm.gameStats.gamePointList}">
-            <div id="res-name"><a id="date-played" th:href="${'../../profile/' + gamePointDTO.username}" th:text="*{gamePointDTO.username}"/></div>
-            <div id="res-points"><h3 th:text="*{gamePointDTO.points}"/></div>
-        </li>
-    </ul>
-    <br>
-    <br>
-    <h2>Vinlista i serveringsordning.</h2>
-    <br>
-    <ul id="resultData-area">
-        <li id="resultData-box" th:each="resultDataDTO, var : *{gameResultsForm.gameStats.resultDataList}">
-            <a th:href="@{${resultDataDTO.url}}">
-                <img id="res-winePicture" th:href="@{${resultDataDTO.url}}" th:src="@{${resultDataDTO.winePicture}}">
-            </a>
-            <div id="res-wineName" ><h3 th:text="*{resultDataDTO.wineName}"/></div>
-            <div id="res-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultDataDTO.wineDescription),'\n','&lt;br /&gt;'))}"></h4></div>
-            <br>
-            <div id="region-result" th:if="${resultDataDTO.region != null}">
-                <div th:if="${resultDataDTO.correctRegionGuess == 'rätt.'}">
-                    <h3 id="correct-region-guess" th:text="'&#10004 ' + ${resultDataDTO.region}"></h3>
+    <div>
+        <h1 th:text="'Detta är resultatsidan för '+${gameResultsForm.viewer}"> </h1>
+        <br>
+        <h2 th:text="Poänglista"/>
+        <br>
+        <ul id="gamePoint-area">
+            <li id="gamePoint-box" th:each="gamePointDTO, var : *{gameResultsForm.gameStats.gamePointList}">
+                <div id="res-name"><a id="date-played" th:href="${'../../profile/' + gamePointDTO.username}" th:text="*{gamePointDTO.username}"/></div>
+                <div id="res-points"><h3 th:text="*{gamePointDTO.points}"/></div>
+            </li>
+        </ul>
+        <br>
+        <br>
+        <h2>Vinlista i serveringsordning.</h2>
+        <br>
+        <ul id="resultData-area">
+            <li id="resultData-box" th:each="resultDataDTO, var : *{gameResultsForm.gameStats.resultDataList}">
+                <a th:href="@{${resultDataDTO.url}}">
+                    <img id="res-winePicture" th:href="@{${resultDataDTO.url}}" th:src="@{${resultDataDTO.winePicture}}">
+                </a>
+                <div id="res-wineName" ><h3 th:text="*{resultDataDTO.wineName}"/></div>
+                <div id="res-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultDataDTO.wineDescription),'\n','&lt;br /&gt;'))}"></h4></div>
+                <br>
+                <div id="region-result" th:if="${resultDataDTO.region != null}">
+                    <div th:if="${resultDataDTO.correctRegionGuess == 'rätt.'}">
+                        <h3 id="correct-region-guess" th:text="'&#10004 ' + ${resultDataDTO.region}"></h3>
+                    </div>
+                    <div th:if="${resultDataDTO.correctRegionGuess == 'fel.'}">
+                        <h3 id="wrong-region-guess" th:text="'&#10008 ' + ${resultDataDTO.region}"></h3>
+                    </div>
                 </div>
-                <div th:if="${resultDataDTO.correctRegionGuess == 'fel.'}">
-                    <h3 id="wrong-region-guess" th:text="'&#10008 ' + ${resultDataDTO.region}"></h3>
+                <div id="p-result">
+                    <div>
+                        <h3>Din Poäng</h3>
+                    </div>
+                    <div>
+                        <h3 th:text="*{resultDataDTO.grade}"/>
+                    </div>
+                    <div>
+                        <h3>Ditt Betyg</h3>
+                    </div>
+                    <div>
+                        <h3 th:text="*{resultDataDTO.personalGrade}"/></div>
+                    <div>
+                        <h3>Medelbetyg</h3></div>
+                    <div>
+                        <h3 th:text="*{resultDataDTO.averageGrade}"/></div>
                 </div>
-            </div>
-            <div id="p-result">
-                <div>
-                    <h3>Din Poäng</h3>
-                </div>
-                <div>
-                    <h3 th:text="*{resultDataDTO.grade}"/>
-                </div>
-                <div>
-                    <h3>Ditt Betyg</h3>
-                </div>
-                <div>
-                    <h3 th:text="*{resultDataDTO.personalGrade}"/></div>
-                <div>
-                    <h3>Medelbetyg</h3></div>
-                <div>
-                    <h3 th:text="*{resultDataDTO.averageGrade}"/></div>
-            </div>
-        </li>
-    </ul>
-    <form th:action="@{/menu}">
-        <h3>Spelet är avslutat, klicka här för att lämna.</h3>
-        <button id="bot" type="submit">Till menu</button>
-    </form>
-    <br>
-    <br>
-
+            </li>
+        </ul>
+        <form th:action="@{/menu}">
+            <h3>Spelet är avslutat, klicka här för att lämna.</h3>
+            <button id="bot" type="submit">Till menu</button>
+        </form>
+        <br>
+        <br>
+    </div>
 
 </main>
 </body>

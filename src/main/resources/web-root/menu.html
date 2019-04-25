@@ -9,42 +9,43 @@
 <body>
 <main layout:fragment="content">
 
-    <div th:if="${joinGameLobbyForm.activeGame == null}">
-        <h3>Börja förbereda en ny vinprovning.</h3>
-        <form action="/numberOfWines">
-            <button type="submit">Börja förbereda</button>
-        </form>
-        <br>
-        <br>
-        <h3>Gå med i ett öppet vinprovningsrum.</h3>
-        <br>
-        <form th:action="@{/menu}" th:object="${joinGameLobbyForm}" th:method="post">
-            <input type="text" placeholder="Kod" th:field="*{joinCode}"/>
-            <div>
-                <span class="error"
-                      th:if="${#fields.errors('joinCode')}"
-                      th:errors="*{joinCode}">
-                </span>
-            </div>
-            <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
+    <div class="text-scale"></div>
+        <div th:if="${joinGameLobbyForm.activeGame == null}">
+            <h3>Börja förbereda en ny vinprovning.</h3>
+            <form action="/numberOfWines">
+                <button type="submit">Börja förbereda</button>
+            </form>
             <br>
             <br>
-            <button type="submit">Gå Med I Lobby</button>
-        </form>
+            <h3>Gå med i ett öppet vinprovningsrum.</h3>
+            <br>
+            <form th:action="@{/menu}" th:object="${joinGameLobbyForm}" th:method="post">
+                <input type="text" placeholder="Kod" th:field="*{joinCode}"/>
+                <div>
+                    <span class="error"
+                          th:if="${#fields.errors('joinCode')}"
+                          th:errors="*{joinCode}">
+                    </span>
+                </div>
+                <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
+                <br>
+                <br>
+                <button type="submit">Gå Med I Lobby</button>
+            </form>
+        </div>
+        <div class="text-scale" th:if="${joinGameLobbyForm.activeGame != null}">
+            <h2>Du är med i en pågånde vinprovning!</h2>
+            <br>
+            <h3>Klicka här för att gå med i den igen.</h3>
+            <br>
+            <form th:if="${joinGameLobbyForm.gameStatus == 'started'}" th:action="@{'/gameBoard/' + ${joinGameLobbyForm.activeGame}}">
+                <button type="submit">Gå med igen</button>
+            </form>
+            <form th:if="${joinGameLobbyForm.gameStatus == 'prestart'}" th:action="@{'/lobby/' + ${joinGameLobbyForm.activeGame}}">
+                <button type="submit">Gå med igen</button>
+            </form>
+        </div>
     </div>
-    <div th:if="${joinGameLobbyForm.activeGame != null}">
-        <h2>Du är med i en pågånde vinprovning!</h2>
-        <br>
-        <h3>Klicka här för att gå med i den igen.</h3>
-        <br>
-        <form th:if="${joinGameLobbyForm.gameStatus == 'started'}" th:action="@{'/gameBoard/' + ${joinGameLobbyForm.activeGame}}">
-            <button type="submit">Gå med igen</button>
-        </form>
-        <form th:if="${joinGameLobbyForm.gameStatus == 'prestart'}" th:action="@{'/lobby/' + ${joinGameLobbyForm.activeGame}}">
-            <button type="submit">Gå med igen</button>
-        </form>
-    </div>
-
 
 </main>
 </body>

@@ -8,15 +8,15 @@
 <body>
 <main layout:fragment="content">
 
-    <h1>Spelet har börjat!</h1>
-    <br>
-    <h2>Här är beskrivningarna för alla viner som serveras.</h2>
-    <br>
-    <h3>Glöm ej att använda QR kod läsaren på det vinet som serveras så att</h3>
-    <h3>ni kan skriva in serveringsordningen på det aktuella vinet.</h3>
-    <br>
-    <br>
-
+    <div class="text-scale">
+        <h1>Spelet har börjat!</h1>
+        <br>
+        <h2>Här är beskrivningarna för alla viner som serveras.</h2>
+        <br>
+        <h3>Glöm ej att använda QR kod läsaren på det vinet som serveras så att</h3>
+        <h3>ni kan skriva in serveringsordningen på det aktuella vinet.</h3>
+        <br>
+        <br>
     <form id="wine-rate-form" th:unless="${gameBoardForm.doneRating}" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
         <h3 th:text="'Skriv in betyg 1 - 5 för serveringsvinsnummer: '+ *{wineToRate}"></h3>
         <input id="enter-grade" type="number" th:field="*{wineRating}" />
@@ -62,6 +62,8 @@
                 </span>
         <button th:if="${gameBoardForm.doneRating}" id="lockInResult" type="submit">Lås in resultat</button>
     </form>
+
+    </div>
 
     <script th:inline="javascript" th:if="${gameBoardForm.doneRating}">
         document.addEventListener('DOMContentLoaded', function () {

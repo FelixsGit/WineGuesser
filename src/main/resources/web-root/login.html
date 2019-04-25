@@ -8,30 +8,31 @@
 <body>
 <main layout:fragment="content">
 
-    <h3>Inloggning</h3>
-    <br>
-    <form action=# th:action="@{/login}" th:object="${loginForm}" method="post">
-        <input type="text" placeholder="Användarnamn" th:field="*{username}"/>
-        <div>
-            <span class="error"
-                  th:if="${#fields.errors('username')}"
-                  th:errors="*{username}">
-             </span>
-        </div>
+    <div class="text-scale">
+        <h3>Inloggning</h3>
         <br>
-        <br>
-        <input type="password" placeholder="Lösenord" th:field="*{password}"/>
-        <div>
-            <span class="error"
-                  th:if="${#fields.errors('password')}"
-                  th:errors="*{password}">
-            </span>
-        </div>
-        <br>
-        <br>
-        <button type="submit">Logga In</button>
-    </form>
-
+        <form action=# th:action="@{/login}" th:object="${loginForm}" method="post">
+            <input type="text" placeholder="Användarnamn" th:field="*{username}"/>
+            <div>
+                <span class="error"
+                      th:if="${#fields.errors('username')}"
+                      th:errors="*{username}">
+                 </span>
+            </div>
+            <br>
+            <br>
+            <input type="password" placeholder="Lösenord" th:field="*{password}"/>
+            <div>
+                <span class="error"
+                      th:if="${#fields.errors('password')}"
+                      th:errors="*{password}">
+                </span>
+            </div>
+            <br>
+            <br>
+            <button type="submit">Logga In</button>
+        </form>
+    </div>
 </main>
 </body>
 </html>

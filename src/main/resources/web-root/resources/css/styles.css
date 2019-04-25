@@ -139,14 +139,14 @@
         display: inline-block;
         margin: auto;
         background-color: #333;
-        width: 800px;
+        width: 85%;
         border: solid lightgrey;
         border-width: 4px;
         padding: 40px;
         text-align: left;
     }
     .description-page{
-        width: 950px;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
     }
@@ -347,7 +347,7 @@
     #board-wineDescription{
         float:left;
         text-align: left;
-        width: 820px;
+        width: 100%;
     }
 
     #bot{
@@ -628,11 +628,16 @@
         color: #7f1a1a;
     }
 
+    .text-scale{
+        margin: auto;
+        text-align: center;
+        width: 85%;
+    }
 
 }
 
 /* Desktops and laptops ----------- */
-@media only screen  and (min-width : 1200px) {
+@media only screen  and (min-width : 1000px) and (min-height : 600px) {
 
     #stats-area{
         width:750px;
@@ -660,7 +665,7 @@
     #board-wineDescription{
         float:left;
         text-align: left;
-        width: 320px;
+        width: 100%;
     }
 
 
@@ -681,6 +686,11 @@
         text-align:center;
     }
 
+    .text-scale{
+        margin: auto;
+        text-align: center;
+        width: 75%;
+    }
 
 
     body {
@@ -707,13 +717,13 @@
     #not-ready-page {
         float: left;
         float: top;
-        margin-left: 550px;
+        margin-left: 20%;
     }
 
     #ready-page {
         float: right;
         float: top;
-        margin-right: 550px;
+        margin-right: 20%;
     }
 
 
@@ -745,12 +755,12 @@
 
     #not-done-page {
         float: left;
-        margin-left: 280px;
+        margin-left: 20%;
     }
 
     #done-page {
         float: right;
-        margin-right: 300px;
+        margin-right: 22%;
     }
 
     #myGuess{
@@ -812,9 +822,10 @@
     #description-box{
         box-sizing: content-box;
         display: inline-block;
-        margin: auto;
+        margin-left: 15%;
+        margin-right: 15%;
         background-color: #333;
-        width: 400px;
+        width: 50%;
         height:auto;
         border: solid lightgrey;
         border-width: 2px;
@@ -822,7 +833,7 @@
         text-align: left;
     }
     .description-page{
-        width: 1000px;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
     }
@@ -1013,12 +1024,6 @@
         border-width: 2px;
         padding: 4px;
         text-align: center;
-    }
-
-    #board-wineDescription{
-        float:left;
-        text-align: left;
-        width: 400px;
     }
 
     .select-css {

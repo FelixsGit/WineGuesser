@@ -8,21 +8,22 @@
 <body>
 <main layout:fragment="content">
 
-    <h3>Skriv in antalet viner som ska serveras på vinprovningen.</h3>
-    <br>
-    <form action=# th:action="@{/numberOfWines}" th:object="${numberOfWinesForm}" method="post">
-        <input type="text" placeholder="Antal" th:field="*{numWines}"/>
-        <div>
-            <span class="error"
-                  th:if="${#fields.errors('numWines')}"
-                  th:errors="*{numWines}">
-            </span>
-        </div>
+    <div class="text-scale"></div>
+        <h3>Skriv in antalet viner som ska serveras på vinprovningen.</h3>
         <br>
-        <br>
-        <button type="submit">Gå Vidare</button>
-    </form>
-
+        <form action=# th:action="@{/numberOfWines}" th:object="${numberOfWinesForm}" method="post">
+            <input type="text" placeholder="Antal" th:field="*{numWines}"/>
+            <div>
+                <span class="error"
+                      th:if="${#fields.errors('numWines')}"
+                      th:errors="*{numWines}">
+                </span>
+            </div>
+            <br>
+            <br>
+            <button type="submit">Gå Vidare</button>
+        </form>
+    </div>
 </main>
 </body>
 </html>
