@@ -28,12 +28,21 @@ public class GameBoardForm {
 
     private String doneRating;
 
-    private Integer wineRating;
+    private int wineRating;
 
     private String chosenRegion;
 
     private List<String> regionGuessList;
 
+    private int numOfWinesWithRegion;
+
+    public int getNumOfWinesWithRegion() {
+        return numOfWinesWithRegion;
+    }
+
+    public void setNumOfWinesWithRegion(int numOfWinesWithRegion) {
+        this.numOfWinesWithRegion = numOfWinesWithRegion;
+    }
 
     public List<String> getRegionGuessList() {
         return regionGuessList;

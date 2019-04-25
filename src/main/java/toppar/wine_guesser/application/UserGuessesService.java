@@ -28,7 +28,11 @@ public class UserGuessesService {
     public void saveUserGuesses(String username, String gameId, List<String> descriptionGuesses, List<String> servingOrderGuesses, List<String> regionGuesses) throws GuessException {
         checkForIfGuessesIsValid(servingOrderGuesses, gameId);
         for(int i = 0; i < servingOrderGuesses.size(); i++){
-            userGuessesRepository.save(new UserGuesses(username, gameId, descriptionGuesses.get(i), Integer.valueOf(servingOrderGuesses.get(i)), regionGuesses.get(i)));
+            if(regionGuesses == null){
+                userGuessesRepository.save(new UserGuesses(username, gameId, descriptionGuesses.get(i), Integer.valueOf(servingOrderGuesses.get(i)), null));
+            }else{
+                userGuessesRepository.save(new UserGuesses(username, gameId, descriptionGuesses.get(i), Integer.valueOf(servingOrderGuesses.get(i)), regionGuesses.get(i)));
+            }
             lobbyDataService.setDoneTrueForParticipant(username);
         }
     }
@@ -50,8 +54,8 @@ public class UserGuessesService {
                 }
                 uniqueMap.put(Integer.valueOf(servingOrderGuess), 1);
             }
-        }catch(Exception e){
-                throw new GuessException(e.getMessage());
+        }catch(NumberFormatException e){
+                throw new GuessException("not a number");
         }
     }
 

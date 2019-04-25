@@ -143,7 +143,14 @@ public class ApplicationController {
             model.addAttribute(PROFILE_OBJ_NAME);
         }
         ProfileForm profileForm = new ProfileForm();
-        profileForm.setProfileData(userResultsService.getProfileDataForUserWithUsername(username));
+        try {
+            ProfileData profileDataForUserWithUsername = userResultsService.getProfileDataForUserWithUsername(username);
+            profileDataForUserWithUsername.getUserResultsDTO().setCorrectPercent(profileDataForUserWithUsername.getUserResultsDTO().getCorrectPercent() * 100);
+            profileForm.setProfileData(profileDataForUserWithUsername);
+        } catch (UserException e) {
+            controlErrorHandling(e, model);
+            return MENU_PAGE_URL;
+        }
         model.addAttribute(profileForm);
         return PROFILE_PAGE_URL;
     }
@@ -215,7 +222,7 @@ public class ApplicationController {
 
 
     @GetMapping("gameBoard"+"/{gameId}")
-    public String showGameBoardPage(Model model, GameBoardForm gameBoardForm, @PathVariable("gameId") String gameId, HttpServletRequest request){
+    public String showGameBoardPage(Model model, GameBoardForm gameBoardForm, @PathVariable("gameId") String gameId, HttpServletRequest request, BindingResult bindingResult){
         System.out.println("call to game board page");
         if(!model.containsAttribute(GAME_BOARD_OBJ_NAME)){
             model.addAttribute(GAME_BOARD_OBJ_NAME);
@@ -232,9 +239,12 @@ public class ApplicationController {
         }else if(judgementsPassed >= numberOfWines){
             gameBoardForm.setDoneRating("true");
         }
+        if(!bindingResult.hasErrors()){
+            gameBoardForm.setChosenRegion(gameSettingsService.findChosenRegionByGameId(gameId));
+        }
         gameBoardForm.setWineToRate(judgementsPassed + 1);
+        gameBoardForm.setNumOfWinesWithRegion(gameSettingsService.getNumberOfWinesWithRegionsForGameId(gameId));
         gameBoardForm.setGameId(gameId);
-        gameBoardForm.setChosenRegion(gameSettingsService.findChosenRegionByGameId(gameId));
         model.addAttribute(gameBoardForm);
         return GAME_BOARD_PAGE_URL;
     }
@@ -367,7 +377,10 @@ public class ApplicationController {
     }
 
     @GetMapping("lobby/{gameId}/command/{action}")
-    public String lobbyCommandRedirect(@PathVariable("action") String action, @PathVariable String gameId, HttpServletRequest request) {
+    public String lobbyCommandRedirect(Model model, @PathVariable("action") String action, @PathVariable String gameId, HttpServletRequest request) {
+        if(!model.containsAttribute(JOIN_GAME_LOBBY_OBJ_NAME)){
+            model.addAttribute(JOIN_GAME_LOBBY_OBJ_NAME);
+        }
         if(action.equals("quit")){
             if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
                 System.out.println("user: " + request.getUserPrincipal().getName() +" is closing the lobby down");
@@ -385,7 +398,9 @@ public class ApplicationController {
         if(action.equals("showResult")){
             System.out.println("showing results!!!");
         }
-        return "redirect:" + MENU_PAGE_URL;
+        JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+        model.addAttribute(joinGameLobbyForm);
+        return "menu";
     }
 
 
@@ -407,17 +422,12 @@ public class ApplicationController {
             if(gameStatus.equals("prestart")){
                 joinGameLobbyForm.setGameStatus("prestart");
             }
-            /**
-             * TODO
-             * Add gameStatus 'completed' to be able to go back and view history even after the game is finished.
-             */
             joinGameLobbyForm.setGameStatus(gameStatus);
             joinGameLobbyForm.setActiveGame(gameId);
             model.addAttribute(joinGameLobbyForm);
         }
         return MENU_PAGE_URL;
     }
-
 
     @GetMapping(ENTER_URL_PAGE_URL)
     public String showEnterUrlPage(Model model, HttpServletRequest request){
@@ -450,11 +460,13 @@ public class ApplicationController {
     }
 
     @PostMapping(GAME_BOARD_PAGE_URL)
-    public String lockInResultsOrGrade(@Valid @ModelAttribute() GameBoardForm gameBoardForm, Model model, HttpServletRequest request){
+    public String lockInResultsOrGrade(@Valid @ModelAttribute() GameBoardForm gameBoardForm, Model model, HttpServletRequest request, BindingResult bindingResult){
         if(gameBoardForm.getDoneRating() != null){
             try {
                 gameSettingsService.winesMissingServingOrder(gameBoardForm.getGameId());
             } catch (WineryException e) {
+                gameBoardForm.setChosenRegion(gameSettingsService.findChosenRegionByGameId(gameBoardForm.getGameId()));
+                model.addAttribute(gameBoardForm);
                 controlErrorHandling(e, model);
                 return GAME_BOARD_PAGE_URL;
             }
@@ -462,9 +474,10 @@ public class ApplicationController {
                 userGuessesService.saveUserGuesses(request.getUserPrincipal().getName(), gameBoardForm.getGameId(), gameBoardForm.getDescriptions(),
                         gameBoardForm.getGuessNum(), gameBoardForm.getRegionGuessList());
             } catch (GuessException e) {
-                controlErrorHandling(e, model);
                 lobbyDataService.setNotDoneForParticipant(request.getUserPrincipal().getName());
+                gameBoardForm.setChosenRegion(gameSettingsService.findChosenRegionByGameId(gameBoardForm.getGameId()));
                 model.addAttribute(gameBoardForm);
+                controlErrorHandling(e, model);
                 return GAME_BOARD_PAGE_URL;
             }
             lobbyDataService.setDoneTrueForParticipant(request.getUserPrincipal().getName());
@@ -488,7 +501,7 @@ public class ApplicationController {
                 gameBoardForm.setDoneRating("true");
             }
         }
-        return showGameBoardPage(model, gameBoardForm, gameBoardForm.getGameId(), request);
+        return showGameBoardPage(model, gameBoardForm, gameBoardForm.getGameId(), request, bindingResult);
     }
 
 
@@ -497,7 +510,15 @@ public class ApplicationController {
         if(bindingResult.hasErrors()){
             return showQrOptionPage(model, qrOptionForm.getId());
         }
-        gameSettingsService.setServingOrderByWineId(qrOptionForm.getId(), qrOptionForm.getOrderNum());
+        try {
+            gameSettingsService.setServingOrderByWineId(qrOptionForm.getId(), qrOptionForm.getOrderNum());
+        } catch (ServingOrderExcepetion servingOrderExcepetion) {
+            String parsedUrl = "Klicka Här För Att Kolla På Vinet På Webben";
+            qrOptionForm.setParsedUrl(parsedUrl);
+            model.addAttribute(qrOptionForm);
+            controlErrorHandling(servingOrderExcepetion, model);
+            return "qrOption";
+        }
         return showDefaultPage();
     }
 
@@ -540,6 +561,18 @@ public class ApplicationController {
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.WRONG_JUDGEMENT_RANGE);
         }else if(e.getMessage().toUpperCase().contains("SAME")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.SERVING_ORDER_SAME);
+        }else if(e.getMessage().toUpperCase().contains("ALREADY ENTERED")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.SERVING_ORDER_ALREADY_EXIST);
+        }else if(e.getMessage().toUpperCase().contains("SERVORDER BIG")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.SERVING_ORDER_TO_BIG);
+        }else if(e.getMessage().toUpperCase().contains("SERVORDER SMALL")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.SERVING_ORDER_TO_SMALL);
+        }else if(e.getMessage().toUpperCase().contains("SERVORDER NODATA")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.SERVING_ORDER_NO_DATA);
+        }else if(e.getMessage().toUpperCase().contains("PROFILE NOT")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NO_PROFILE_FOUND);
+        } else if(e.getMessage().toUpperCase().contains("NOT A NUMBER")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NOT_A_NUM);
         }
 
     }

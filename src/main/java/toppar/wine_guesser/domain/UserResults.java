@@ -12,6 +12,8 @@ public class UserResults implements UserResultsDTO{
     private int userResultsId;
     private String username;
     private int playedGames;
+    private double numWinesGuessed;
+    private double numWinesCorrect;
     private int wins;
     private double correctPercent;
 
@@ -19,13 +21,15 @@ public class UserResults implements UserResultsDTO{
 
     }
 
-
-    public UserResults(String username, int playedGames, int wins, double correctPercent) {
+    public UserResults(String username, int playedGames, double numWinesGuessed, double numWinesCorrect, int wins, double correctPercent) {
         this.username = username;
         this.playedGames = playedGames;
+        this.numWinesGuessed = numWinesGuessed;
+        this.numWinesCorrect = numWinesCorrect;
         this.wins = wins;
         this.correctPercent = correctPercent;
     }
+
 
     public int getUserResultsId() {
         return userResultsId;
@@ -34,6 +38,7 @@ public class UserResults implements UserResultsDTO{
     public void setUserResultsId(int userResultsId) {
         this.userResultsId = userResultsId;
     }
+
 
     public String getUsername() {
         return username;
@@ -49,6 +54,22 @@ public class UserResults implements UserResultsDTO{
 
     public void setPlayedGames(int playedGames) {
         this.playedGames = playedGames;
+    }
+
+    public double getNumWinesGuessed() {
+        return numWinesGuessed;
+    }
+
+    public void setNumWinesGuessed(double numWinesGuessed) {
+        this.numWinesGuessed = numWinesGuessed;
+    }
+
+    public double getNumWinesCorrect() {
+        return numWinesCorrect;
+    }
+
+    public void setNumWinesCorrect(double numWinesCorrect) {
+        this.numWinesCorrect = numWinesCorrect;
     }
 
     public int getWins() {

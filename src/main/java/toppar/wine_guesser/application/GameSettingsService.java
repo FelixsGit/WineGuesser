@@ -11,7 +11,7 @@ import toppar.wine_guesser.util.UrlScanner;
 import toppar.wine_guesser.util.ZXingHelper;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
 @Service
@@ -67,17 +67,38 @@ public class GameSettingsService {
         }
         return null;
     }
-    public void setServingOrderByWineId(String wineId, String servingOrder){
+    public void setServingOrderByWineId(String wineId, String servingOrder) throws ServingOrderExcepetion {
         String url = getUrlFromWineId(wineId);
+        checkIfServingOrderIsValid(url, servingOrder);
         List<GameSettings> gameSettings = gameSettingsRepository.findAllByUrl(url);
         for(int i = 0; i < gameSettings.size(); i++){
             if(gameSettings.get(i).getServingOrder() == null){
                 gameSettings.get(i).setServingOrder(servingOrder);
             }else{
-                /**
-                 * TODO Throws exception 'serving order number already entered.'
-                 */
+                throw new ServingOrderExcepetion("Already entered");
             }
+        }
+    }
+
+    private void checkIfServingOrderIsValid(String url, String servingOrder) throws ServingOrderExcepetion {
+        if(servingOrder.isEmpty()){
+            throw new ServingOrderExcepetion("servorder nodata");
+        }
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByUrl(url);
+        String gameId = null;
+        try {
+            for (int i = 0; i < gameSettings.size(); i++) {
+                gameId = gameSettings.get(i).getGameId();
+                List<GameSettings> currentGameSettings = gameSettingsRepository.findAllByGameId(gameId);
+                if (Integer.valueOf(servingOrder) > currentGameSettings.size()) {
+                    throw new ServingOrderExcepetion("servorder big");
+                }
+                if (Integer.valueOf(servingOrder) < 1) {
+                    throw new ServingOrderExcepetion("servorder small");
+                }
+            }
+        }catch(NumberFormatException e){
+            throw new ServingOrderExcepetion("servorder nodata");
         }
     }
 
@@ -89,12 +110,13 @@ public class GameSettingsService {
 
     public String findChosenRegionByGameId(String gameId){
         List<GameSettings> gameSettingsList = gameSettingsRepository.findAllByGameId(gameId);
+        String region = null;
         for(int i = 0; i < gameSettingsList.size(); i++){
             if(gameSettingsList.get(i).getRegion() != null){
-                return gameSettingsList.get(i).getRegion();
+                region = gameSettingsList.get(i).getRegion();
             }
         }
-        return null;
+        return region;
     }
 
     public List<String> createGameSettings(List<String> urlList, String gameHost) throws WineryException{
@@ -238,5 +260,10 @@ public class GameSettingsService {
 
     public GameSettings findGameSettingsByServingOrderAndGameId(String servingOrder, String gameId){
         return gameSettingsRepository.findAllByGameIdAndServingOrder(gameId, servingOrder);
+    }
+
+    public int getNumberOfWinesWithRegionsForGameId(String gameId) {
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+        return (int) gameSettings.stream().filter(gameSetting -> gameSetting.getRegion() != null).count();
     }
 }

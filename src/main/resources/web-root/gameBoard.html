@@ -19,35 +19,35 @@
 
     <form id="wine-rate-form" th:unless="${gameBoardForm.doneRating}" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
         <h3 th:text="'Skriv in betyg 1 - 5 för serveringsvinsnummer: '+ *{wineToRate}"></h3>
-        <input id="enter-grade" placeholder=" " type="text" th:field="*{wineRating}" />
-        <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
+        <input id="enter-grade" type="number" th:field="*{wineRating}" />
         <input type="hidden" th:field="*{wineToRate}" />
         <input type="hidden" th:field="*{gameId}" />
         <br>
         <br>
+        <span class="error"
+              th:if="${#fields.errors('wineRating')}"
+              th:errors="*{wineRating}">
+                </span>
         <button id="wine-rate-button" type="submit">Skicka in Betyg</button>
     </form>
 
     <br>
     <br>
-
+    <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
     <form id="lockResult" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
         <br>
         <ul class="description-page">
             <li id="description-box" th:each="description, var : *{descriptions}">
                 <div id="board-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(description),'\n','&lt;br /&gt;'))}"></h4></div>
-                <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
-                <input id="numGuess" th:if="${gameBoardForm.doneRating}" type="text" th:field="*{guessNum[__${var.index}__]}" />
+                <input id="numGuess" th:if="${gameBoardForm.doneRating}" type="number" th:field="*{guessNum[__${var.index}__]}" />
                 <label th:if="${gameBoardForm.doneRating != null and gameBoardForm.chosenRegion != null}" class="toggle">
-                    <input class="toggle__input" type="checkbox" th:value="${gameBoardForm.chosenRegion}" th:field="*{regionGuessList[__${var.index}__]}">
+                    <input type="hidden" th:field="${gameBoardForm.chosenRegion}">
+                    <input type="hidden" th:field="${gameBoardForm.numOfWinesWithRegion}">
+                    <input class="toggle__input" type="checkbox" th:value="${gameBoardForm.chosenRegion}" th:field="*{regionGuessList[__${var.index}__]}" th:id="'checkbox'+${var.index}">
                     <span class="toggle__label">
-                    <span class="toggle__text"><h3 th:text="${gameBoardForm.chosenRegion}"></h3></span>
+                    <span class="toggle__text"><h3 th:text="${gameBoardForm.chosenRegion}"/></span>
                     </span>
                 </label>
-                <span class="error"
-                      th:if="${#fields.errors('guessNum')}"
-                      th:errors="*{guessNum}">
-                </span>
                 <input type="hidden" th:field="*{descriptions[__${var.index}__]}"/>
                 <input id="numGuess" type="hidden" th:field="*{doneRating}" />
                 <br>
@@ -56,8 +56,183 @@
         </ul>
         <br>
         <br>
+        <span class="error"
+              th:if="${#fields.errors('guessNum')}"
+              th:errors="*{guessNum}">
+                </span>
         <button th:if="${gameBoardForm.doneRating}" id="lockInResult" type="submit">Lås in resultat</button>
     </form>
+
+    <script th:inline="javascript" th:if="${gameBoardForm.doneRating}">
+        document.addEventListener('DOMContentLoaded', function () {
+            maxNumCheckBoxes = /*[[${gameBoardForm.numOfWinesWithRegion}]]*/ 'numRegions';
+            numOfClickedCheckBoxes = 0;
+            checkbox1 = document.querySelector("input[id=checkbox0]");
+            checkbox2 = document.querySelector("input[id=checkbox1]");
+            checkbox3 = document.querySelector("input[id=checkbox2]");
+            checkbox4 = document.querySelector("input[id=checkbox3]");
+            checkbox5 = document.querySelector("input[id=checkbox4]");
+            checkbox6 = document.querySelector("input[id=checkbox5]");
+            checkbox7 = document.querySelector("input[id=checkbox6]");
+            checkbox8 = document.querySelector("input[id=checkbox7]");
+            checkbox9 = document.querySelector("input[id=checkbox8]");
+
+            if(checkbox1 != null){
+                if(checkbox1.checked.valueOf() === true){
+                    numOfClickedCheckBoxes++;
+                }
+            }
+            if(checkbox2 != null) {
+                if (checkbox2.checked.valueOf() === true) {
+                    numOfClickedCheckBoxes++;
+                }
+            }
+            if(checkbox3 != null) {
+                if (checkbox3.checked.valueOf() === true) {
+                    numOfClickedCheckBoxes++;
+                }
+            }
+            if(checkbox4 != null) {
+                if (checkbox4.checked.valueOf() === true) {
+                    numOfClickedCheckBoxes++;
+                }
+            }
+            if(checkbox5 != null) {
+                if (checkbox5.checked.valueOf() === true) {
+                    numOfClickedCheckBoxes++;
+                }
+            }
+            if(checkbox6 != null) {
+                if (checkbox6.checked.valueOf() === true) {
+                    numOfClickedCheckBoxes++;
+                }
+            }
+            if(checkbox7 != null) {
+                if (checkbox7.checked.valueOf() === true) {
+                    numOfClickedCheckBoxes++;
+                }
+            }
+            if(checkbox8 != null) {
+                if (checkbox8.checked.valueOf() === true) {
+                    numOfClickedCheckBoxes++;
+                }
+            }
+            if(checkbox9 != null) {
+                if (checkbox9.checked.valueOf() === true) {
+                    numOfClickedCheckBoxes++;
+                }
+            }
+
+            if (checkbox1 != null) {
+                checkbox1.addEventListener('change', function () {
+                    if (this.checked && (numOfClickedCheckBoxes === maxNumCheckBoxes)) {
+                        checkbox1.checked = false;
+                    }else if(this.checked){
+                        numOfClickedCheckBoxes++;
+                    }
+                    else {
+                        numOfClickedCheckBoxes--;
+                    }
+                });
+            }
+            if (checkbox2 != null) {
+                checkbox2.addEventListener('change', function () {
+                    if (this.checked && (numOfClickedCheckBoxes === maxNumCheckBoxes)) {
+                        checkbox2.checked = false;
+                    }else if(this.checked){
+                        numOfClickedCheckBoxes++;
+                    }
+                    else {
+                        numOfClickedCheckBoxes--;
+                    }
+                });
+            }
+            if (checkbox3 != null) {
+                checkbox3.addEventListener('change', function () {
+                    if (this.checked && (numOfClickedCheckBoxes === maxNumCheckBoxes)) {
+                        checkbox3.checked = false;
+                    }else if(this.checked){
+                        numOfClickedCheckBoxes++;
+                    }
+                    else {
+                        numOfClickedCheckBoxes--;
+                    }
+                });
+            }
+            if (checkbox4 != null) {
+                checkbox4.addEventListener('change', function () {
+                    if (this.checked && (numOfClickedCheckBoxes === maxNumCheckBoxes)) {
+                        checkbox4.checked = false;
+                    }else if(this.checked){
+                        numOfClickedCheckBoxes++;
+                    }
+                    else {
+                        numOfClickedCheckBoxes--;
+                    }
+                });
+            }
+            if (checkbox5 != null) {
+                checkbox5.addEventListener('change', function () {
+                    if (this.checked && (numOfClickedCheckBoxes === maxNumCheckBoxes)) {
+                        checkbox5.checked = false;
+                    } else if (this.checked) {
+                        numOfClickedCheckBoxes++;
+                    } else {
+                        numOfClickedCheckBoxes--;
+                    }
+                });
+            }
+            if (checkbox6 != null) {
+                checkbox6.addEventListener('change', function () {
+                    if (this.checked && (numOfClickedCheckBoxes === maxNumCheckBoxes)) {
+                        checkbox6.checked = false;
+                    }else if(this.checked){
+                        numOfClickedCheckBoxes++;
+                    }
+                    else {
+                        numOfClickedCheckBoxes--;
+                    }
+                });
+            }
+            if (checkbox7 != null) {
+                checkbox7.addEventListener('change', function () {
+                    if (this.checked && (numOfClickedCheckBoxes === maxNumCheckBoxes)) {
+                        checkbox7.checked = false;
+                    }else if(this.checked){
+                        numOfClickedCheckBoxes++;
+                    }
+                    else {
+                        numOfClickedCheckBoxes--;
+                    }
+                });
+            }
+            if (checkbox8 != null) {
+                checkbox8.addEventListener('change', function () {
+                    if (this.checked && (numOfClickedCheckBoxes === maxNumCheckBoxes)) {
+                        checkbox8.checked = false;
+                    }else if(this.checked){
+                        numOfClickedCheckBoxes++;
+                    }
+                    else {
+                        numOfClickedCheckBoxes--;
+                    }
+                });
+            }
+            if(checkbox9 != null) {
+                checkbox9.addEventListener('change', function () {
+                    if (this.checked && (numOfClickedCheckBoxes === maxNumCheckBoxes)) {
+                        checkbox9.checked = false;
+                    }else if(this.checked){
+                        numOfClickedCheckBoxes++;
+                    }
+                    else {
+                        numOfClickedCheckBoxes--;
+                    }
+                });
+            }
+        });
+    </script>
+
 
 </main>
 </body>

@@ -9,7 +9,7 @@
 <body>
 <main layout:fragment="content">
 
-    <div th:unless="${joinGameLobbyForm.activeGame}">
+    <div th:if="${joinGameLobbyForm.activeGame == null}">
         <h3>Öppna en ny lobby</h3>
         <form action="/numberOfWines">
             <button type="submit">Börja förbereda</button>
@@ -32,7 +32,7 @@
             <button type="submit">Gå Med I Lobby</button>
         </form>
     </div>
-    <div th:if="${joinGameLobbyForm.activeGame}">
+    <div th:if="${joinGameLobbyForm.activeGame != null}">
         <h2>Du har en aktiv lobby!</h2>
         <br>
         <h3>Klicka här för att öppna den.</h3>

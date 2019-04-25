@@ -26,8 +26,12 @@ public class JudgementService {
     }
 
     private void checkForValidJudgment(int grade) throws JudgementException {
-        if(grade < 1 || grade > 5){
-            throw new JudgementException("judgement range error");
+        try {
+            if (grade < 1 || grade > 5) {
+                throw new JudgementException("judgement range error");
+            }
+        }catch(NumberFormatException e){
+            throw new JudgementException("not a number");
         }
     }
 

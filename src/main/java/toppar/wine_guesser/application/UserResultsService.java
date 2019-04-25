@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.*;
 import toppar.wine_guesser.repository.UserResultsRepository;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
@@ -28,30 +29,29 @@ public class UserResultsService {
         return userResultsRepository.findAllByUsername(username);
     }
 
-    public ProfileData getProfileDataForUserWithUsername(String username){
+    public ProfileData getProfileDataForUserWithUsername(String username) throws UserException {
         if(userResultsRepository.findAllByUsername(username) == null){
-            /**
-             * TODO Throw new exception if user could not be found
-             */
+            throw new UserException("profile not found");
         }
         UserResultsDTO userResultsDTO = userResultsRepository.findAllByUsername(username);
         List<MatchHistory> matchHistoryList = matchHistoryService.findAllByUserResultsId(userResultsDTO.getUserResultsId());
         return new ProfileData(userResultsDTO, matchHistoryList, username);
     }
 
-    public void updateByUsername(String username, double newCorrectPercent, String winOrLose){
-        if(winOrLose.equals("win")){
-            UserResults userResults = userResultsRepository.findAllByUsername(username);
-            userResults.setPlayedGames(userResults.getPlayedGames() + 1);
-            userResults.setCorrectPercent(newCorrectPercent);
-            userResults.setWins(userResults.getWins() + 1);
-            userResultsRepository.save(userResults);
-        }
-        if(winOrLose.equals("lose")){
-            UserResults userResults = userResultsRepository.findAllByUsername(username);
-            userResults.setPlayedGames(userResults.getPlayedGames() + 1);
-            userResults.setCorrectPercent(newCorrectPercent);
-            userResultsRepository.save(userResults);
-        }
+    public void updateUserResultsByUser(String username, double numWinesGuessed, double numWinesCorrect){
+        DecimalFormat numberFormat = new DecimalFormat("#.00");
+        UserResults userResults = userResultsRepository.findAllByUsername(username);
+        userResults.setPlayedGames(userResults.getPlayedGames() + 1);
+        userResults.setNumWinesCorrect(userResults.getNumWinesCorrect() + numWinesCorrect);
+        userResults.setNumWinesGuessed(userResults.getNumWinesGuessed() + numWinesGuessed);
+        userResults.setCorrectPercent(Double.valueOf(numberFormat.format(userResults.getNumWinesCorrect()/userResults.getNumWinesGuessed())));
+        userResultsRepository.save(userResults);
+    }
+
+    public void updateNumWinsForUser(String username){
+        UserResults userResults = userResultsRepository.findAllByUsername(username);
+        userResults.setWins(userResults.getWins() + 1);
+        userResultsRepository.save(userResults);
+
     }
 }

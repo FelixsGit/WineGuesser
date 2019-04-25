@@ -3,16 +3,23 @@ package toppar.wine_guesser.domain;
 public class UserResultData {
 
     private String username;
-    private double pointCollected;
-    private double gamesPlayed;
-    private double newCorrectPercent;
+    private double pointCollectedTotal;
+    private double pointCollectedWines;
 
-    public UserResultData(String username, double pointCollected, double gamesPlayed, double newCorrectPercent) {
+    public UserResultData(String username, double pointCollectedTotal, double pointCollectedWines) {
         this.username = username;
-        this.pointCollected = pointCollected;
-        this.gamesPlayed = gamesPlayed;
-        this.newCorrectPercent = newCorrectPercent;
+        this.pointCollectedTotal = pointCollectedTotal;
+        this.pointCollectedWines = pointCollectedWines;
     }
+
+    public void increasePointCollectedTotal(double points){
+        this.pointCollectedTotal += points;
+    }
+
+    public void increasePointCollectedWines(double points){
+        this.pointCollectedWines += points;
+    }
+
 
     public String getUsername() {
         return username;
@@ -22,32 +29,19 @@ public class UserResultData {
         this.username = username;
     }
 
-    public void increasePointsCollected(int pointsToAdd){
-        this.pointCollected += pointsToAdd;
+    public double getPointCollectedTotal() {
+        return pointCollectedTotal;
     }
 
-
-    public double getPointCollected() {
-        return pointCollected;
+    public void setPointCollectedTotal(double pointCollectedTotal) {
+        this.pointCollectedTotal = pointCollectedTotal;
     }
 
-    public void setPointCollected(double pointCollected) {
-        this.pointCollected = pointCollected;
+    public double getPointCollectedWines() {
+        return pointCollectedWines;
     }
 
-    public double getGamesPlayed() {
-        return gamesPlayed;
-    }
-
-    public void setGamesPlayed(double gamesPlayed) {
-        this.gamesPlayed = gamesPlayed;
-    }
-
-    public double getNewCorrectPercent() {
-        return newCorrectPercent;
-    }
-
-    public void setNewCorrectPercent(double newCorrectPercent) {
-        this.newCorrectPercent = newCorrectPercent;
+    public void setPointCollectedWines(double pointCollectedWines) {
+        this.pointCollectedWines = pointCollectedWines;
     }
 }

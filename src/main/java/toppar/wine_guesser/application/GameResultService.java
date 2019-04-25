@@ -47,12 +47,19 @@ public class GameResultService {
 
         String datePlayed = LocalDateTime.now().toString().substring(0, 10);
 
-        int numberOfWines = gameSettingsService.getAllByGameId(gameId).size();
+        boolean regionGame = false;
+        int numberOfWines = gameSettingsList.size();
+        for(int i = 0; i < gameSettingsList.size(); i++){
+            if(gameSettingsList.get(i).getRegion() != null){
+                regionGame = true;
+            }
+        }
+
         Map<String, UserResultData> userResultDataMap = new HashMap<>();
         for(int j = 0; j < participants.size(); j++){
             UserResults userResults = userResultsService.findByUsername(participants.get(j));
             matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "http://192.168.0.100:8080/gameResults/"+gameId, gameId));
-            userResultDataMap.put(participants.get(j), new UserResultData(participants.get(j), 0, 0, 0));
+            userResultDataMap.put(participants.get(j), new UserResultData(participants.get(j), 0, 0));
         }
 
         //calculating resultData
@@ -75,34 +82,53 @@ public class GameResultService {
                         correctGuessOnRegion = true;
                     }
                 }
-                if(checkIfDescriptionsAreEqual(currentWineDescription, guessedDescription)) {
-                    if(correctGuessOnRegion){
-                        resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
-                                gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 2, gameSettings.getUrl(), userGrade, averageGrade,
-                        gameSettings.getRegion(), "rätt."));
-                        userResultDataMap.get(participants.get(j)).increasePointsCollected(2);
-                    }else{
-                        resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
-                                gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 1, gameSettings.getUrl(), userGrade, averageGrade,
-                        gameSettings.getRegion(), "fel."));
-                        userResultDataMap.get(participants.get(j)).increasePointsCollected(1);
+                if(regionGame){
+                    if(checkIfDescriptionsAreEqual(currentWineDescription, guessedDescription)) {
+                        if(correctGuessOnRegion){
+                            resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
+                                    gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 2, gameSettings.getUrl(), userGrade, averageGrade,
+                                    gameSettings.getRegion(), "rätt."));
+                            userResultDataMap.get(participants.get(j)).increasePointCollectedTotal(2);
+                            userResultDataMap.get(participants.get(j)).increasePointCollectedWines(1);
+                        }else{
+                            resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
+                                    gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 1, gameSettings.getUrl(), userGrade, averageGrade,
+                                    gameSettings.getRegion(), "fel."));
+                            userResultDataMap.get(participants.get(j)).increasePointCollectedTotal(1);
+                            userResultDataMap.get(participants.get(j)).increasePointCollectedWines(1);
+                        }
+                    }else {
+                        if(correctGuessOnRegion){
+                            resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
+                                    gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 1, gameSettings.getUrl(), userGrade, averageGrade,
+                                    gameSettings.getRegion(), "rätt."));
+                            userResultDataMap.get(participants.get(j)).increasePointCollectedTotal(1);
+                        }else{
+                            resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
+                                    gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 0, gameSettings.getUrl(), userGrade, averageGrade,
+                                    gameSettings.getRegion(), "fel."));
+                            userResultDataMap.get(participants.get(j)).increasePointCollectedTotal(0);
+                        }
                     }
-                }else {
-                    if(correctGuessOnRegion){
+                }
+                if(!regionGame){
+                    if(checkIfDescriptionsAreEqual(currentWineDescription, guessedDescription)) {
                         resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
                                 gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 1, gameSettings.getUrl(), userGrade, averageGrade,
-                                gameSettings.getRegion(), "rätt."));
-                        userResultDataMap.get(participants.get(j)).increasePointsCollected(1);
+                                gameSettings.getRegion(), null));
+                        userResultDataMap.get(participants.get(j)).increasePointCollectedTotal(1);
+                        userResultDataMap.get(participants.get(j)).increasePointCollectedWines(1);
+
                     }else{
                         resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
                                 gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 0, gameSettings.getUrl(), userGrade, averageGrade,
-                                gameSettings.getRegion(), "fel."));
-                        userResultDataMap.get(participants.get(j)).increasePointsCollected(0);
+                                gameSettings.getRegion(), null));
                     }
                 }
-
             }
+
         }
+
 
         //calculating gamePoint
         int totalPoints = 0;
@@ -113,20 +139,12 @@ public class GameResultService {
                     totalPoints += resultDataList.get(j).getGrade();
                 }
             }
-
             gamePointService.createNew(new GamePoint(gameResult.getGameResultId(), participants.get(i), totalPoints));
             totalPoints = 0;
 
-            UserResults userResults = userResultsService.findByUsername(participants.get(i));
-            double pointsCollected = userResultDataMap.get(participants.get(i)).getPointCollected();
-            double oldPercent = userResults.getCorrectPercent();
-            double gamesPlayed = userResults.getPlayedGames();
-            double currentPercentCorrect = pointsCollected/numberOfWines;
-            double newCorrectPercent = (oldPercent + currentPercentCorrect) / (gamesPlayed + 1);
-            DecimalFormat numberFormat = new DecimalFormat("#.00");
+            double pointsCollectedWines = userResultDataMap.get(participants.get(i)).getPointCollectedWines();
+            userResultsService.updateUserResultsByUser(participants.get(i), numberOfWines, pointsCollectedWines);
             UserResultData userResultData = userResultDataMap.get(participants.get(i));
-            userResultData.setGamesPlayed(gamesPlayed + 1);
-            userResultData.setNewCorrectPercent(Double.valueOf(numberFormat.format(newCorrectPercent)));
             userResultData.setUsername(participants.get(i));
             userResultDataMap.replace(participants.get(i), userResultData);
 
@@ -135,14 +153,9 @@ public class GameResultService {
         List<GamePointDTO> gamePointList = gamePointService.getAllByGameResultId(gameResult.getGameResultId());
         gamePointList.sort(Comparator.comparing(GamePointDTO::getPoints).reversed());
 
-        List<GamePointDTO> finalGamePointList = gamePointList;
         userResultDataMap.forEach((key, value) -> {
-            if (value.getPointCollected() >= finalGamePointList.get(0).getPoints()) {
-                double newCorrectPercent = value.getNewCorrectPercent();
-                userResultsService.updateByUsername(value.getUsername(), newCorrectPercent, "win");
-            } else {
-                double newCorrectPercent = value.getNewCorrectPercent();
-                userResultsService.updateByUsername(value.getUsername(), newCorrectPercent, "lose");
+            if (value.getPointCollectedTotal() >= gamePointList.get(0).getPoints()) {
+                userResultsService.updateNumWinsForUser(value.getUsername());
             }
         });
 

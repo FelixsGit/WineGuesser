@@ -27,7 +27,7 @@ public class UserService {
             throw new UserException("Username already taken");
         }else{
             userRepository.save(new User(username, password, null));
-            userResultsService.create(new UserResults(username, 0, 0, 0.00));
+            userResultsService.create(new UserResults(username, 0, 0, 0, 0, 0.00));
         }
     }
 

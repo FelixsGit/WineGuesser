@@ -17,8 +17,6 @@ public class QrOptionForm {
         this.parsedUrl = parsedUrl;
     }
 
-    @NotEmpty(message = "Skriv in en serveringsOrdning")
-    @Pattern(regexp="(^$|[1-9]{1})", message = "Ordningen måste vara 1 till 'antalet viner som serveras'")
     private String orderNum;
 
     public String getOrderNum() {

@@ -92,6 +92,8 @@ CREATE TABLE `user_results` (
   `userResultsId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `playedGames` int DEFAULT 0,
+  `numWinesGuessed` double DEFAULT 0.00,
+  `numWinesCorrect` double DEFAULT 0.00,
   `correctPercent` double DEFAULT 0.00,
   `wins` int DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -126,7 +128,7 @@ CREATE TABLE `result_data` (
     `personalGrade` INTEGER NOT NULL,
    `averageGrade` double NOT NULL,
    `region` varchar(255) DEFAULT NULL,
-   `correctRegionGuess` varchar(255) NOT NULL
+   `correctRegionGuess` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

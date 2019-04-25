@@ -34,7 +34,7 @@ public class GameSetupService{
     }
 
     public void removeGameSetupByGameHost(String gameHost){
-        gameSetupRepository.removeByGameHost(gameHost);
+        gameSetupRepository.removeAllByGameHost(gameHost);
     }
 
 }

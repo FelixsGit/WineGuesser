@@ -11,7 +11,9 @@
     <h3>eller om du vill kolla på vinet på webben.</h3>
     <form action=# th:action="@{qrOption}" th:object="${qrOptionForm}" method="post">
         <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{url}" />
         <input type="text" placeholder="Serveringsnummer" th:field="*{orderNum}"/>
+        <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
         <div>
             <span class="error"
                   th:if="${#fields.errors('orderNum')}"
@@ -25,8 +27,11 @@
     <br>
     <br>
     <h3>Klicka på följande länk för att inspektera vinet på webben.</h3>
-    <a th:href="@{${qrOptionForm.url}}" th:text="${qrOptionForm.parsedUrl}">
-
+    <br>
+    <br>
+    <a th:href="@{${qrOptionForm.url}}">
+        <h4 th:text="${qrOptionForm.parsedUrl}"></h4>
+    </a>
 
 </main>
 </body>

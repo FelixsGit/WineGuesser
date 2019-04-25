@@ -7,4 +7,7 @@ public interface UserResultsDTO {
     int getPlayedGames();
     double getCorrectPercent();
     int getWins();
+    double getNumWinesGuessed();
+    double getNumWinesCorrect();
+    void setCorrectPercent(double correctPercent);
 }
