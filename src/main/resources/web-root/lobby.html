@@ -10,11 +10,12 @@
 <main layout:fragment="content">
 
     <div class="text-scale">
-        <h2>Detta är ett öppet vinprovningsrum</h2>
+        <h1>Detta är ett öppet vinprovningsrum.</h1>
         <br>
-        <h1 th:text="'Denna vinprovning har ett id: '+${lobbyForm.gameId}"></h1>
+        <h1 th:text="${lobbyForm.gameId}"></h1>
         <br>
         <h2>Användare som vill gå med i denna vinprovning kan göra så genom att skriva in detta id.</h2>
+        <br>
         <h3>När alla är redo kan spelvärden starta vinprovningen.</h3>
 
         <form id="messageForm" name="messageForm" nameForm="messageForm" action="#">

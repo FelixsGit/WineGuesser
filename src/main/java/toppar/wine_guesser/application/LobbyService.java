@@ -31,6 +31,10 @@ public class LobbyService {
         }
     }
 
+    public String getGameStartByGameId(String gameId){
+        return lobbyRepository.findLobbyByGameId(gameId).getGameStart();
+    }
+
     public void cancelGameLobbyByGameId(String gameId){
         Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
         lobby.setGameStart("canceled");

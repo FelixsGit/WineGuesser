@@ -3,7 +3,7 @@
 @media only screen and (min-device-width : 300px) and (max-device-width : 600px) {
 
     body {
-        background: url("/resources/images/setupBg.png");
+        background: url("/resources/images/berryBG.png");
         -webkit-background-size: cover; /* For WebKit*/
         -moz-background-size: cover;    /* Mozilla*/
         -o-background-size: cover;      /* Opera*/
@@ -49,10 +49,12 @@
         font-weight: 400;
         line-height: 60px;
         margin: 0 0 16px;
+        text-align: left;
     }
 
     ul#ready-area li{
         color: #00ff00;
+        text-align: left;
         font-family: 'Arial Rounded MT Bold', sans-serif;
         font-size: 70px;
         font-weight: 400;
@@ -64,14 +66,16 @@
         margin-top: 75px;
         margin-bottom: 50px;
         float: left;
-        margin-left: 100px;
+        margin-left: 8%;
+        text-align: left;
     }
 
     #done-page {
         margin-top: 75px;
         margin-bottom: 50px;
         float: right;
-        margin-right: 100px;
+        margin-right: 8%;
+        text-align: left;
     }
 
     #myGuess{
@@ -95,6 +99,7 @@
         font-weight: 400;
         line-height: 60px;
         margin: 0 0 16px;
+        text-align: left;
     }
 
     ul#done-area li{
@@ -104,6 +109,7 @@
         font-weight: 400;
         line-height: 60px;
         margin: 0 0 16px;
+        text-align: left;
     }
 
     #lockInResult{
@@ -138,7 +144,7 @@
         box-sizing: content-box;
         display: inline-block;
         margin: auto;
-        background-color: #333;
+        background:rgba(0,0,0,0.65);
         width: 85%;
         border: solid lightgrey;
         border-width: 4px;
@@ -206,13 +212,13 @@
     }
 
     h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 76px; font-weight: normal; line-height: 80px; margin: 0; color: #fff; }
-    h2 { color: #fff;; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 56px; font-weight: 400; line-height: 64px; margin: 0 0 8px; color: #fff; }
+    h2 { color: #fff;; font-family: 'Trocchi', serif; font-size: 56px; font-weight: normal; line-height: 64px; margin: 0 0 8px; color: #fff; }
     h3 { color: #fff; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 44px; font-weight: 400; line-height: 48px; margin: 0 0 8px; color: #fff; }
 
 
     button {
         font-family: 'Cabin';
-        background-color: #333; /* Green */
+        background:rgba(0,0,0,0.65);
         color: #fff;
         padding: 32px 64px;
         text-align: center;
@@ -269,7 +275,7 @@
         box-sizing: content-box;
         display: inline-block;
         margin: auto;
-        background-color: #333;
+        background:rgba(0,0,0,0.65);
         width: 340px;
         border: solid lightgrey;
         border-width: 4px;
@@ -325,7 +331,7 @@
         display: inline-block;
         margin: auto;
         height: auto;
-        background-color: #333;
+        background:rgba(0,0,0,0.65);
         width: 900px;
         border: solid lightgrey;
         border-width: 4px;
@@ -351,10 +357,10 @@
     }
 
     #bot{
-        margin-top: 40px;
-        margin-bottom: 40px;
-        float:bottom;
+        margin: auto;
+        text-align: center;
     }
+
 
     #stats-area{
         width:800px;
@@ -366,11 +372,11 @@
 
     #stats-box{
         padding: 10px;
-        background-color: #777777;
         margin: auto;
         width:800px;
         float:left;
         text-align: left;
+        background:rgba(0,0,0,0.65);
     }
 
     #date-played{
@@ -610,22 +616,22 @@
 
     /* A link that has not been visited */
     a:link {
-        color: #7f1a1a;
+        color: #5A7DD0;
     }
 
     /* A link that has been visited */
     a:visited {
-        color: #7f1a1a;
+        color: #5A7DD0;
     }
 
     /* A link that is hovered on */
     a:hover {
-        color: #7f1a1a;
+        color: #5A7DD0;
     }
 
     /* A link that is selected */
     a:active {
-        color: #7f1a1a;
+        color: #5A7DD0;
     }
 
     .text-scale{
@@ -649,11 +655,11 @@
 
     #stats-box{
         padding: 10px;
-        background-color: #777777;
         margin: auto;
         width:750px;
         float:left;
         text-align: left;
+        background:rgba(0,0,0,0.5);
     }
 
     #date-played{
@@ -694,7 +700,7 @@
 
 
     body {
-        background: url("/resources/images/setupBg.png");
+        background: url("/resources/images/berryBG.png");
         -webkit-background-size: cover; /* For WebKit*/
         -moz-background-size: cover;    /* Mozilla*/
         -o-background-size: cover;      /* Opera*/
@@ -824,7 +830,7 @@
         display: inline-block;
         margin-left: 15%;
         margin-right: 15%;
-        background-color: #333;
+        background:rgba(0,0,0,0.75);
         width: 50%;
         height:auto;
         border: solid lightgrey;
@@ -895,13 +901,13 @@
     }
 
     h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 38px; font-weight: normal; line-height: 40px; margin: 0; color: #fff;}
-    h2 { color: #fff;; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 28px; font-weight: 400; line-height: 32px; margin: 0 0 8px; color: #fff;}
+    h2 { color: #fff;; font-family: 'Trocchi', serif; font-size: 28px; font-weight: normal; line-height: 32px; margin: 0 0 8px; color: #fff;}
     h3 { color: #fff; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 22px; font-weight: 400; line-height: 24px; margin: 0 0 8px; color: #fff;}
 
 
     button {
         font-family: 'Cabin';
-        background-color: #333; /* Green */
+        background:rgba(0,0,0,0.65);
         color: #fff;
         padding: 16px 32px;
         text-align: center;
@@ -962,7 +968,7 @@
         display: inline-block;
         margin: auto;
         height:auto;
-        background-color: #333;
+        background:rgba(0,0,0,0.65);
         width: 120px;
         border: solid lightgrey;
         border-width: 2px;
@@ -1018,7 +1024,7 @@
         display: inline-block;
         margin: auto;
         height:auto;
-        background-color: #333;
+        background:rgba(0,0,0,0.65);
         width: 800px;
         border: solid lightgrey;
         border-width: 2px;
@@ -1185,7 +1191,9 @@
 
     #bot{
         margin: auto;
+        text-align: center;
     }
+
 
     /*
     =====
@@ -1268,22 +1276,22 @@
 
     /* A link that has not been visited */
     a:link {
-        color: #7f1a1a;
+        color: #5A7DD0;
     }
 
     /* A link that has been visited */
     a:visited {
-        color: #7f1a1a;
+        color: #5A7DD0;
     }
 
     /* A link that is hovered on */
     a:hover {
-        color: #7f1a1a;
+        color: #5A7DD0;
     }
 
     /* A link that is selected */
     a:active {
-        color: #7f1a1a;
+        color:#5A7DD0;
     }
 
 

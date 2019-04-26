@@ -23,16 +23,19 @@
                 <h3 th:text="'Antal vinster: '+${profileForm.profileData.userResultsDTO.wins}"></h3>
             </div>
         </div>
-        <br>
-        <br>
-        <br>
         <ul id="stats-area">
             <h2>Spelade Matcher:</h2>
             <li id="stats-box" th:each="match, var : *{profileForm.profileData.matchHistoryList}">
                 <a id="date-played" th:href="${match.url + '/'+profileForm.profileData.username}" th:text="${match.datePlayed}"/>
             </li>
+            <div id="bot">
+                <form action="/menu">
+                    <button type="submit">Till Meny</button>
+                </form>
+            </div>
         </ul>
     </div>
+
 </main>
 </body>
 </html>

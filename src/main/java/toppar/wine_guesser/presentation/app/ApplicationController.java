@@ -227,6 +227,9 @@ public class ApplicationController {
         if(!model.containsAttribute(GAME_BOARD_OBJ_NAME)){
             model.addAttribute(GAME_BOARD_OBJ_NAME);
         }
+        if(lobbyService.getLobbyByGameId(gameId).getGameStart().equals("finished")){
+            return showGameResultsPage(model, gameId, request);
+        }
         if(userGuessesService.userHasMadeAGuess(gameId, request.getUserPrincipal().getName())){
             return showGameBoardLockPage(model, new GameBoardLockForm(), gameId, request);
         }
@@ -311,17 +314,19 @@ public class ApplicationController {
         return LOBBY_PAGE_URL;
     }
 
-    @GetMapping("QR/wine/{id}")
-    public String showQrOptionPage(Model model, @PathVariable("id") String id){
-        if(!model.containsAttribute(QR_OPTION_OBJ_NAME) || !model.containsAttribute(SERVING_ORDER_OBJ_NAME)){
+    @GetMapping("QR/{gameId}/{id}")
+    public String showQrOptionPage(Model model, @PathVariable("id") String id, @PathVariable String gameId){
+        if(!model.containsAttribute(QR_OPTION_OBJ_NAME)){
             QrOptionForm qrOptionForm = new QrOptionForm();
-            qrOptionForm.setId(id);
             model.addAttribute(qrOptionForm);
         }
         QrOptionForm qrOptionForm = new QrOptionForm();
         qrOptionForm.setId(id);
+        if(gameSettingsService.checkIfServingOrderAlreadyEntered(gameId, id)){
+            qrOptionForm.setServingOrderAlreadyEntered("true");
+        }
         String url = gameSettingsService.getUrlFromWineId(id);
-        System.out.println(url);
+        qrOptionForm.setGameStatus(lobbyService.getGameStartByGameId(gameId));
         String parsedUrl = "Klicka Här För Att Kolla På Vinet På Webben";
         qrOptionForm.setUrl(url);
         qrOptionForm.setParsedUrl(parsedUrl);
@@ -506,21 +511,21 @@ public class ApplicationController {
     }
 
 
-    @PostMapping(QR_OPTION_PAGE_URL)
-    public String enterServingOrder(@Valid @ModelAttribute QrOptionForm qrOptionForm, Model model, BindingResult bindingResult){
+    @PostMapping("QR/{gameId}/qrOption")
+    public String enterServingOrder(@Valid @ModelAttribute QrOptionForm qrOptionForm, Model model, BindingResult bindingResult, @PathVariable String gameId){
         if(bindingResult.hasErrors()){
-            return showQrOptionPage(model, qrOptionForm.getId());
+            return showQrOptionPage(model, qrOptionForm.getId(), qrOptionForm.getGameStatus());
         }
         try {
-            gameSettingsService.setServingOrderByWineId(qrOptionForm.getId(), qrOptionForm.getOrderNum());
+            gameSettingsService.setServingOrderByWineId(qrOptionForm.getId(), qrOptionForm.getOrderNum(), gameId);
         } catch (ServingOrderExcepetion servingOrderExcepetion) {
             String parsedUrl = "Klicka Här För Att Kolla På Vinet På Webben";
+            controlErrorHandling(servingOrderExcepetion, model);
             qrOptionForm.setParsedUrl(parsedUrl);
             model.addAttribute(qrOptionForm);
-            controlErrorHandling(servingOrderExcepetion, model);
             return "qrOption";
         }
-        return showDefaultPage();
+        return showQrOptionPage(model, qrOptionForm.getId(), gameId);
     }
 
     @PostMapping(REGISTER_PAGE_URL)
@@ -584,6 +589,7 @@ public class ApplicationController {
             return showNumberOfWinesPage(model);
         }
         gameSetupService.createGameSetup(numberOfWinesForm.getNumWines(), request.getUserPrincipal().getName());
+        String gameId = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName()).getGameId();
         return showEnterUrlPage(model, request);
     }
 

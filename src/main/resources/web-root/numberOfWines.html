@@ -9,7 +9,7 @@
 <main layout:fragment="content">
 
     <div class="text-scale"></div>
-        <h3>Skriv in antalet viner som ska serveras på vinprovningen.</h3>
+        <h2>Skriv in antalet viner som ska serveras på vinprovningen.</h2>
         <br>
         <form action=# th:action="@{/numberOfWines}" th:object="${numberOfWinesForm}" method="post">
             <input type="text" placeholder="Antal" th:field="*{numWines}"/>

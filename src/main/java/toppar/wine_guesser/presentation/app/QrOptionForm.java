@@ -8,6 +8,34 @@ public class QrOptionForm {
     private String id;
     private String url;
     private String parsedUrl;
+    private String gameStatus;
+    private String gameId;
+
+    private String servingOrderAlreadyEntered;
+
+    public String getServingOrderAlreadyEntered() {
+        return servingOrderAlreadyEntered;
+    }
+
+    public void setServingOrderAlreadyEntered(String servingOrderAlreadyEntered) {
+        this.servingOrderAlreadyEntered = servingOrderAlreadyEntered;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
+    }
+
+    public String getGameStatus() {
+        return gameStatus;
+    }
+
+    public void setGameStatus(String gameStatus) {
+        this.gameStatus = gameStatus;
+    }
 
     public String getParsedUrl() {
         return parsedUrl;

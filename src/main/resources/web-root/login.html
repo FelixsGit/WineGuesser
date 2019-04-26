@@ -9,7 +9,7 @@
 <main layout:fragment="content">
 
     <div class="text-scale">
-        <h3>Inloggning</h3>
+        <h1>Inloggning</h1>
         <br>
         <form action=# th:action="@{/login}" th:object="${loginForm}" method="post">
             <input type="text" placeholder="Användarnamn" th:field="*{username}"/>

@@ -10,14 +10,14 @@
 <main layout:fragment="content">
 
     <div class="text-scale"></div>
-        <div th:if="${joinGameLobbyForm.activeGame == null}">
-            <h3>Börja förbereda en ny vinprovning.</h3>
+        <div class="text-scale" th:if="${joinGameLobbyForm.activeGame == null}">
+            <h2>Börja förbereda en ny vinprovning.</h2>
             <form action="/numberOfWines">
                 <button type="submit">Börja förbereda</button>
             </form>
             <br>
             <br>
-            <h3>Gå med i ett öppet vinprovningsrum.</h3>
+            <h2>Gå med i ett öppet vinprovningsrum.</h2>
             <br>
             <form th:action="@{/menu}" th:object="${joinGameLobbyForm}" th:method="post">
                 <input type="text" placeholder="Kod" th:field="*{joinCode}"/>
@@ -30,7 +30,7 @@
                 <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
                 <br>
                 <br>
-                <button type="submit">Gå Med I Lobby</button>
+                <button type="submit">Gå Med</button>
             </form>
         </div>
         <div class="text-scale" th:if="${joinGameLobbyForm.activeGame != null}">

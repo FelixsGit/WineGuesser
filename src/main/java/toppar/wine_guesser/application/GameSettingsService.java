@@ -79,35 +79,37 @@ public class GameSettingsService {
         }
         return null;
     }
-    public void setServingOrderByWineId(String wineId, String servingOrder) throws ServingOrderExcepetion {
-        String url = getUrlFromWineId(wineId);
-        checkIfServingOrderIsValid(url, servingOrder);
-        List<GameSettings> gameSettings = gameSettingsRepository.findAllByUrl(url);
+    public void setServingOrderByWineId(String wineId, String servingOrder, String gameId) throws ServingOrderExcepetion {
+        checkIfServingOrderIsValid(servingOrder, gameId);
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+
         for(int i = 0; i < gameSettings.size(); i++){
-            if(gameSettings.get(i).getServingOrder() == null){
+            if(gameSettings.get(i).getServingOrder() != null){
+                if(gameSettings.get(i).getServingOrder().equals(servingOrder)){
+                    throw new ServingOrderExcepetion("same order");
+                }
+            }
+        }
+
+        for(int i = 0; i < gameSettings.size(); i++){
+            if(gameSettings.get(i).getServingOrder() == null && gameSettings.get(i).getUrl().contains(wineId)){
                 gameSettings.get(i).setServingOrder(servingOrder);
-            }else{
-                throw new ServingOrderExcepetion("Already entered");
+                gameSettingsRepository.save(gameSettings.get(i));
             }
         }
     }
 
-    private void checkIfServingOrderIsValid(String url, String servingOrder) throws ServingOrderExcepetion {
+    private void checkIfServingOrderIsValid(String servingOrder, String gameId) throws ServingOrderExcepetion {
         if(servingOrder.isEmpty()){
             throw new ServingOrderExcepetion("servorder nodata");
         }
-        List<GameSettings> gameSettings = gameSettingsRepository.findAllByUrl(url);
-        String gameId = null;
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
         try {
-            for (int i = 0; i < gameSettings.size(); i++) {
-                gameId = gameSettings.get(i).getGameId();
-                List<GameSettings> currentGameSettings = gameSettingsRepository.findAllByGameId(gameId);
-                if (Integer.valueOf(servingOrder) > currentGameSettings.size()) {
-                    throw new ServingOrderExcepetion("servorder big");
-                }
-                if (Integer.valueOf(servingOrder) < 1) {
-                    throw new ServingOrderExcepetion("servorder small");
-                }
+            if (Integer.valueOf(servingOrder) > gameSettings.size()) {
+                throw new ServingOrderExcepetion("servorder big");
+            }
+            if (Integer.valueOf(servingOrder) < 1) {
+                throw new ServingOrderExcepetion("servorder small");
             }
         }catch(NumberFormatException e){
             throw new ServingOrderExcepetion("servorder nodata");
@@ -135,7 +137,7 @@ public class GameSettingsService {
         removeGameSettingsByGameHost(gameHost);
         String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();
         List<String> region = retrieveRegionsFromUrlList(urlList);
-        List<String> qrCodes = generateQrCodesFromUrls(urlList);
+        List<String> qrCodes = generateQrCodesFromUrls(urlList, gameId);
         List<String> descriptions = retrieveAllDescriptionsFromUrlList(urlList);
         List<String> imgSourceStrings = retrieveImgSourceStringsFromUrl(urlList);
         List<String> wineNames = retrieveWineNamesFromUrl(urlList);
@@ -181,10 +183,10 @@ public class GameSettingsService {
         return urlScanner.findDescriptionsForAllUrls(urlList);
     }
 
-    private List<String> generateQrCodesFromUrls(List<String> urlList){
+    private List<String> generateQrCodesFromUrls(List<String> urlList, String gameId){
         List<String> qrCodes = new ArrayList<>();
         for (String s : urlList) {
-            qrCodes.add(ZXingHelper.getQRCodeImage(scrapUrlForWineIdAndAppendToNewUrl(s), 160, 160));
+            qrCodes.add(ZXingHelper.getQRCodeImage(scrapUrlForWineIdAndAppendToNewUrl(s, gameId), 160, 160));
         }
         return qrCodes;
     }
@@ -237,7 +239,7 @@ public class GameSettingsService {
         return sb.toString();
     }
 
-    private String scrapUrlForWineIdAndAppendToNewUrl(String url){
+    private String scrapUrlForWineIdAndAppendToNewUrl(String url, String gameId){
         StringBuilder sb = new StringBuilder(url);
         sb.reverse();
         for(int i = 0; i < sb.length(); i++){
@@ -246,7 +248,7 @@ public class GameSettingsService {
                 break;
             }
         }
-        return "http://192.168.0.100:8080/QR/wine/"+sb.reverse().toString();
+        return "http://192.168.0.100:8080/QR/"+gameId+"/"+sb.reverse().toString();
 
     }
     public void winesMissingServingOrder(String gameId) throws WineryException {
@@ -277,5 +279,17 @@ public class GameSettingsService {
     public int getNumberOfWinesWithRegionsForGameId(String gameId) {
         List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
         return (int) gameSettings.stream().filter(gameSetting -> gameSetting.getRegion() != null).count();
+    }
+
+    public boolean checkIfServingOrderAlreadyEntered(String gameId, String id) {
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+        for(int i = 0; i < gameSettings.size(); i++){
+            if(gameSettings.get(i).getUrl().contains(id)){
+                if(gameSettings.get(i).getServingOrder() != null){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

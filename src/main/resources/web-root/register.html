@@ -9,7 +9,7 @@
 <main layout:fragment="content">
 
     <div class="text-scale">
-        <h3>Registrering</h3>
+        <h1>Registrering</h1>
         <br>
         <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
         <form action=# th:action="@{/register}" th:object="${registerForm}" method="post">
