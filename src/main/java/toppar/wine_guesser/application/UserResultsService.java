@@ -10,6 +10,7 @@ import toppar.wine_guesser.domain.*;
 import toppar.wine_guesser.repository.UserResultsRepository;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
@@ -20,6 +21,8 @@ public class UserResultsService {
     private UserResultsRepository userResultsRepository;
     @Autowired
     private MatchHistoryService matchHistoryService;
+    @Autowired
+    private ClubService clubService;
 
     public void create(UserResults userResults){
         userResultsRepository.save(userResults);
@@ -29,13 +32,16 @@ public class UserResultsService {
         return userResultsRepository.findAllByUsername(username);
     }
 
-    public ProfileData getProfileDataForUserWithUsername(String username) throws UserException {
+    public ProfileData getProfileDataForUserWithUsername(String username) throws UserException{
         if(userResultsRepository.findAllByUsername(username) == null){
             throw new UserException("profile not found");
         }
         UserResultsDTO userResultsDTO = userResultsRepository.findAllByUsername(username);
         List<MatchHistory> matchHistoryList = matchHistoryService.findAllByUserResultsId(userResultsDTO.getUserResultsId());
-        return new ProfileData(userResultsDTO, matchHistoryList, username);
+        List<ClubDTO> clubDTOS = clubService.getAllClubsByUsername(username);
+        List<String> clubNameList = new ArrayList<>();
+        clubDTOS.forEach(clubDTO -> clubNameList.add(clubDTO.getClubName()));
+        return new ProfileData(userResultsDTO, matchHistoryList, username, clubNameList);
     }
 
     public void updateUserResultsByUser(String username, double numWinesGuessed, double numWinesCorrect){

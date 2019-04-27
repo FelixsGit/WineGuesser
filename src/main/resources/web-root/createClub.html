@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <div class="text-scale">
+        <h1>Här kan du skapa en ny klubb!</h1>
+        <h2>Att skapa en ny klubb är enkelt</h2>
+        <h2>Allt som behöver göras är att skriva in namn och lösenord</h2>
+        <br>
+        <br>
+        <form action=# th:action="@{/createClub}" th:object="${createClubForm}" method="post">
+            <input type="text" placeholder="Klubbnamn" th:field="*{clubName}"/>
+            <br>
+            <br>
+            <input type="password" placeholder="Klubblösenord" th:field="*{clubPassword}"/>
+            <br>
+            <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
+            <br>
+            <button type="submit">Skapa Klubb</button>
+        </form>
+    </div>
+
+</main>
+</body>
+</html>

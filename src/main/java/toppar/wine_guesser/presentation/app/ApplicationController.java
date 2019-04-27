@@ -38,6 +38,11 @@ public class ApplicationController {
     public static final String GAME_RESULTS_PAGE_URL = "gameResults";
     public static final String PROFILE_PAGE_URL = "profile";
     public static final String ENTER_REGION_PAGE_URL = "enterRegion";
+    public static final String CLUB_OPTION_PAGE_URL = "clubOption";
+    public static final String CREATE_CLUB_PAGE_URL = "createClub";
+    public static final String JOIN_CLUB_PAGE_URL = "joinClub";
+    public static final String CLUB_LIST_PAGE_URL = "clubList";
+    public static final String CLUB_PAGE_URL = "club";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
     public static final String LOBBY_OBJ_NAME = "lobbyForm";
@@ -53,6 +58,11 @@ public class ApplicationController {
     public static final String GAME_RESULTS_OBJ_NAME = "gameResultsForm";
     public static final String PROFILE_OBJ_NAME = "profileForm";
     public static final String ENTER_REGION_OBJ_NAME = "enterRegionForm";
+    public static final String CLUB_OPTION_OBJ_NAME = "clubOptionForm";
+    public static final String CREATE_CLUB_OBJ_NAME = "createClubForm";
+    public static final String JOIN_CLUB_OBJ_NAME = "joinClubForm";
+    public static final String CLUB_LIST_OBJ_NAME = "clubListForm";
+    public static final String CLUB_OBJ_NAME = "clubForm";
 
 
     //////////////////////////////////////GET MAPPINGS/////////////////////////////////////////////////////
@@ -81,8 +91,90 @@ public class ApplicationController {
     private MatchHistoryService matchHistoryService;
     @Autowired
     private UserResultsService userResultsService;
+    @Autowired
+    private ClubService clubService;
+    @Autowired
+    private ClubMemberService clubMemberService;
+    @Autowired
+    private ClubWineStatService clubWineStatService;
 
-    @GetMapping("enterRegion")
+    @GetMapping("club"+"/{clubName}")
+    public String showClubPage(Model model, @PathVariable String clubName, HttpServletRequest request) {
+        if(!model.containsAttribute(CLUB_OBJ_NAME)){
+            model.addAttribute(CLUB_OBJ_NAME);
+        }
+        ClubForm clubForm = new ClubForm();
+        try {
+            ClubDTO clubDTO = clubService.findClubByClubName(clubName);
+            if(!clubMemberService.checkIfUserIsMemberOfClubWithClubId(clubDTO.getClubId(), request.getUserPrincipal().getName())){
+                throw new ClubException("your not a member of that club");
+            }
+            List<String> memberList = clubMemberService.findAllUsersByClubId(clubDTO.getClubId());
+            List<ClubWineStatDTO> clubWineStatDTOList = clubWineStatService.findAllByClubId(clubDTO.getClubId());
+            ClubStats clubStats = new ClubStats(clubDTO, memberList, clubWineStatDTOList);
+            clubForm.setClubStats(clubStats);
+        } catch (ClubException e) {
+            controlErrorHandling(e, model);
+            model.addAttribute(clubForm);
+            return showClubOptionPage(model, request);
+        }
+        model.addAttribute(clubForm);
+        return CLUB_PAGE_URL;
+    }
+
+    @GetMapping(CLUB_LIST_PAGE_URL)
+    public String showClubListPage(Model model, HttpServletRequest request){
+        if (!model.containsAttribute(CLUB_LIST_OBJ_NAME)) {
+            model.addAttribute(CLUB_LIST_OBJ_NAME);
+        }
+        ClubListForm clubListForm = new ClubListForm();
+        try {
+            clubListForm.setClubDTOList(clubService.findAllClubsByUsername(request.getUserPrincipal().getName()));
+        } catch (ClubException e) {
+            model.addAttribute(clubListForm);
+            controlErrorHandling(e, model);
+            return showClubOptionPage(model, request);
+        }
+        model.addAttribute(clubListForm);
+        return CLUB_LIST_PAGE_URL;
+    }
+
+
+    @GetMapping(JOIN_CLUB_PAGE_URL)
+    public String showJoinClubPage(Model model){
+        if(!model.containsAttribute(JOIN_CLUB_OBJ_NAME)){
+            model.addAttribute(JOIN_CLUB_OBJ_NAME);
+        }
+        JoinClubForm joinClubForm = new JoinClubForm();
+        model.addAttribute(joinClubForm);
+        return JOIN_CLUB_PAGE_URL;
+    }
+
+
+    @GetMapping(CREATE_CLUB_PAGE_URL)
+    public String showCreateClubPage(Model model){
+        if(!model.containsAttribute(CREATE_CLUB_OBJ_NAME)){
+            model.addAttribute(CREATE_CLUB_OBJ_NAME);
+        }
+        CreateClubForm createClubForm = new CreateClubForm();
+        model.addAttribute(createClubForm);
+        return CREATE_CLUB_PAGE_URL;
+    }
+
+    @GetMapping(CLUB_OPTION_PAGE_URL)
+    public String showClubOptionPage(Model model, HttpServletRequest request){
+        if(!model.containsAttribute(CLUB_OPTION_OBJ_NAME)){
+            model.addAttribute(CLUB_OPTION_OBJ_NAME);
+        }
+        ClubOptionForm clubOptionForm = new ClubOptionForm();
+        if(clubMemberService.checkIfUserIsMemberInAClub(request.getUserPrincipal().getName())){
+            clubOptionForm.setIsMember("true");
+        }
+        model.addAttribute(clubOptionForm);
+        return CLUB_OPTION_PAGE_URL;
+    }
+
+    @GetMapping(ENTER_REGION_PAGE_URL)
     public String showEnterRegionPage(Model model, HttpServletRequest request){
         if(!model.containsAttribute(ENTER_REGION_OBJ_NAME)){
             model.addAttribute(ENTER_REGION_OBJ_NAME);
@@ -148,6 +240,8 @@ public class ApplicationController {
             profileDataForUserWithUsername.getUserResultsDTO().setCorrectPercent(profileDataForUserWithUsername.getUserResultsDTO().getCorrectPercent() * 100);
             profileForm.setProfileData(profileDataForUserWithUsername);
         } catch (UserException e) {
+            JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+            model.addAttribute(joinGameLobbyForm);
             controlErrorHandling(e, model);
             return MENU_PAGE_URL;
         }
@@ -459,6 +553,43 @@ public class ApplicationController {
 
     //////////////////////////////////////POST MAPPINGS/////////////////////////////////////////////////////
 
+
+    @PostMapping(JOIN_CLUB_PAGE_URL)
+    public String joinNewClub(@Valid @ModelAttribute JoinClubForm joinClubForm, BindingResult bindingResult, Model model, HttpServletRequest request) {
+        if(bindingResult.hasErrors()){
+            model.addAttribute(joinClubForm);
+            controlErrorHandling(new ClubException("not empty"), model);
+            return showJoinClubPage(model);
+        }
+        try {
+            clubMemberService.joinClub(joinClubForm.getClubName(), joinClubForm.getClubPassword(), request.getUserPrincipal().getName());
+        } catch (ClubException e) {
+            model.addAttribute(joinClubForm);
+            controlErrorHandling(e, model);
+            return showJoinClubPage(model);
+        }
+        return showClubListPage(model, request);
+    }
+
+    @PostMapping(CREATE_CLUB_PAGE_URL)
+    public String createNewClub(@Valid @ModelAttribute CreateClubForm createClubForm, BindingResult bindingResult, Model model, HttpServletRequest request) {
+        if(bindingResult.hasErrors()){
+            model.addAttribute(createClubForm);
+            controlErrorHandling(new ClubException("not empty"), model);
+            return showCreateClubPage(model);
+        }
+        try {
+            clubService.createNewClub(createClubForm.getClubName(), createClubForm.getClubPassword(), request.getUserPrincipal().getName());
+            clubMemberService.joinClub(createClubForm.getClubName(), createClubForm.getClubPassword(), request.getUserPrincipal().getName());
+        } catch (ClubException e) {
+            model.addAttribute(createClubForm);
+            controlErrorHandling(e, model);
+            return showCreateClubPage(model);
+        }
+        return showClubListPage(model, request);
+    }
+
+
     @PostMapping(ENTER_REGION_PAGE_URL)
     public String handleEnteredRegion(@ModelAttribute EnterRegionForm enterRegionForm, Model model, HttpServletRequest request){
         gameSettingsService.deleteRegionsThatDontMatch(enterRegionForm.getChosenRegion(), request.getUserPrincipal().getName());
@@ -577,8 +708,20 @@ public class ApplicationController {
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.SERVING_ORDER_NO_DATA);
         }else if(e.getMessage().toUpperCase().contains("PROFILE NOT")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NO_PROFILE_FOUND);
-        } else if(e.getMessage().toUpperCase().contains("NOT A NUMBER")){
+        }else if(e.getMessage().toUpperCase().contains("NOT A NUMBER")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NOT_A_NUM);
+        }else if(e.getMessage().toUpperCase().contains("ALREADY A MEMBER OF CLUB")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.ALREADY_CLUB_MEMBER);
+        }else if(e.getMessage().toUpperCase().contains("WRONG CLUBPASSWORD")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.WRONG_CLUB_PASSWORD);
+        }else if(e.getMessage().toUpperCase().contains("WRONG CLUBNAME")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.WRONG_CLUB_NAME);
+        }else if(e.getMessage().toUpperCase().contains("CLUBNAME TAKEN")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.CLUB_NAME_TAKEN);
+        }else if(e.getMessage().toUpperCase().contains("YOUR NOT A MEMBER OF ANY CLUB")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NOT_A_MEMBER_OF_ANY_CLUB);
+        }else if(e.getMessage().toUpperCase().contains("YOUR NOT A MEMBER OF THAT CLUB")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NOT_A_MEMBER_OF_THAT_CLUB);
         }
 
     }

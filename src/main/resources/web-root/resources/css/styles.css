@@ -379,6 +379,56 @@
         background:rgba(0,0,0,0.65);
     }
 
+    #clubData-area{
+        width:800px;
+        margin: auto;
+        margin-bottom: 100px;
+        height:auto;
+        text-align: left;
+    }
+
+    #clubData-memberList-area{
+        width:800px;
+        margin: auto;
+        margin-bottom: 100px;
+        height:auto;
+        text-align: left;
+    }
+
+    #clubData-memberList-box{
+        padding: 10px;
+        margin: auto;
+        width:800px;
+        float:left;
+        text-align: left;
+        background:rgba(0,0,0,0.65);
+    }
+
+    #clubData-wineStat-area{
+        width:800px;
+        margin: auto;
+        margin-bottom: 100px;
+        height:auto;
+        text-align: left;
+    }
+
+    #clubData-wineStat-box{
+        padding: 10px;
+        margin: auto;
+        width:800px;
+        float:left;
+        text-align: left;
+        background:rgba(0,0,0,0.65);
+    }
+    #clubData-soloData-box{
+        padding: 10px;
+        margin: auto;
+        width:750px;
+        float:left;
+        text-align: left;
+        background:rgba(0,0,0,0.5);
+    }
+
     #date-played{
         font-size: 60px;
         font-weight: bold;
@@ -1295,6 +1345,57 @@
     }
 
 
+    #clubData-area{
+        width:750px;
+        margin: auto;
+        padding:auto;
+        height:auto;
+        text-align: left;
+    }
+
+    #clubData-memberList-area{
+        width:750px;
+        margin: auto;
+        padding:auto;
+        height:auto;
+        text-align: left;
+    }
+
+    #clubData-memberList-box{
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 10px;
+        margin: auto;
+        width:750px;
+        float:left;
+        text-align: left;
+        background:rgba(0,0,0,0.5);
+    }
+
+    #clubData-wineStat-area{
+        width:750px;
+        margin: auto;
+        padding:auto;
+        height:auto;
+        text-align: left;
+    }
+
+    #clubData-wineStat-box{
+        padding: 10px;
+        margin: auto;
+        width:750px;
+        float:left;
+        text-align: left;
+        background:rgba(0,0,0,0.5);
+    }
+    #clubData-soloData-box{
+        padding: 10px;
+        margin: auto;
+        width:750px;
+        float:left;
+        text-align: left;
+        background:rgba(0,0,0,0.5);
+    }
 }
 
 

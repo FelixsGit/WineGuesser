@@ -27,11 +27,38 @@ DROP TABLE IF EXISTS `game_result`;
 DROP TABLE IF EXISTS `match_history`;
 DROP TABLE IF EXISTS `result_data`;
 
+DROP TABLE IF EXISTS `club`;
+DROP TABLE IF EXISTS `club_member`;
+DROP TABLE IF EXISTS `club_wine_stat`;
+
+
 -- --------------------------------------------------------
 
---
--- Tabellstruktur `game_setup`
---
+CREATE TABLE `club` (
+ `clubId` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ `clubName` varchar(255) NOT NULL,
+ `clubPassword` varchar(255) NOT NULL,
+ `numberOfTastings` int NOT NULL DEFAULT 0,
+ `averageWineCorrect` double NOT NULL DEFAULT 0,
+ `clubCreator` varchar(255) NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `club_member` (
+`clubMemberId` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+`clubId` int NOT NULL,
+`username` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `club_wine_stat` (
+   `clubWineStatId` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+   `clubId` int NOT NULL,
+   `wineName` varchar(255) NOT NULL,
+   `wineUrl` varchar(8000) NOT NULL,
+   `numberOfServings` int NOT NULL,
+   `averageGrade` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 
 CREATE TABLE `game_setup` (
   `gameHost` varchar(255) NOT NULL,

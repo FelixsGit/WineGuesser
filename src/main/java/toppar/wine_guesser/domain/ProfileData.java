@@ -7,13 +7,22 @@ public class ProfileData {
     private UserResultsDTO userResultsDTO;
     private List<MatchHistory> matchHistoryList;
     private String username;
+    private List<String> clubNameList;
 
-    public ProfileData(UserResultsDTO userResultsDTO, List<MatchHistory> matchHistoryList, String username) {
+    public ProfileData(UserResultsDTO userResultsDTO, List<MatchHistory> matchHistoryList, String username, List<String> clubNameList) {
         this.userResultsDTO = userResultsDTO;
         this.matchHistoryList = matchHistoryList;
         this.username = username;
+        this.clubNameList = clubNameList;
     }
 
+    public List<String> getClubNameList() {
+        return clubNameList;
+    }
+
+    public void setClubNameList(List<String> clubNameList) {
+        this.clubNameList = clubNameList;
+    }
 
     public UserResultsDTO getUserResultsDTO() {
         return userResultsDTO;

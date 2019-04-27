@@ -13,6 +13,7 @@
             <div sec:authorize="isAuthenticated()">
                 <ul class="menu-area">
                     <li><a href="/menu">Meny</a></li>
+                    <li><a href="/clubOption">Vinklubb</a></li>
                     <li><a th:href="@{/logout}" th:action="@{/logout}">Logga ut</a></li>
                     <li><a href="/about">Om</a></li>
                 </ul>

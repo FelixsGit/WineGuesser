@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <div class="text-scale">
+
+        <h1>Här är en lista med alla din klubbar!</h1>
+        <br>
+        <br>
+        <br>
+        <br>
+        <ul id="clubList-area">
+            <li id="clubList-box" th:each="club, var : *{clubListForm.clubDTOList}">
+                <a th:href="'club/'+${club.clubName}">
+                    <img id="clubList-logo" src="resources/images/clubIcon.png" alt="club standard logo" width="120px" height="120px">
+                </a>
+                <div id="clubList-name">
+                    <h3 th:text="${club.clubName}"></h3>
+                </div>
+                <br>
+                <br>
+            </li>
+        </ul>
+
+    </div>
+
+</main>
+</body>
+</html>

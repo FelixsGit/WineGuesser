@@ -12,8 +12,15 @@
         <h1 th:text="'Användarprofil'"></h1>
         <h1 th:text="${profileForm.profileData.username}"></h1>
         <br>
+        <div th:unless="${profileForm.profileData.clubNameList.isEmpty()}">
+            <h2 th:text="'Medlem i klubbarna:'"></h2>
+            <ul>
+                <li th:each="club, var : *{profileForm.profileData.clubNameList}">
+                    <h3><a th:href="'../club/'+ ${club}" th:text="${club}"/></h3>
+                </li>
+            </ul>
+        </div>
         <br>
-
         <div id="stats-area">
             <h2>Statistik:</h2>
             <div id="stats-box">
