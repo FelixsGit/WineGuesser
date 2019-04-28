@@ -1,5 +1,6 @@
 package toppar.wine_guesser.presentation.app;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.NumberFormat;
 import toppar.wine_guesser.domain.LobbyDataDTO;
 
@@ -28,7 +29,8 @@ public class GameBoardForm {
 
     private String doneRating;
 
-    private int wineRating;
+    @Range(min = 0)
+    private Integer wineRating;
 
     private String chosenRegion;
 

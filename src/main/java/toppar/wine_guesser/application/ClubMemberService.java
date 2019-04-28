@@ -6,13 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import toppar.wine_guesser.domain.Club;
-import toppar.wine_guesser.domain.ClubDTO;
-import toppar.wine_guesser.domain.ClubException;
-import toppar.wine_guesser.domain.ClubMember;
+import toppar.wine_guesser.domain.*;
 import toppar.wine_guesser.repository.ClubMemberRepository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
@@ -23,6 +21,10 @@ public class ClubMemberService {
     private ClubMemberRepository clubMemberRepository;
     @Autowired
     private ClubService clubService;
+    @Autowired
+    private GamePointService gamePointService;
+    @Autowired
+    private GameResultService gameResultService;
 
     public boolean checkIfUserIsMemberInAClub(String username){
         return !clubMemberRepository.findAllByUsername(username).isEmpty();
@@ -33,7 +35,7 @@ public class ClubMemberService {
         if(club != null){
             if(club.getClubPassword().equals(clubPassword)){
                 if(clubMemberRepository.findAllByClubIdAndUsername(club.getClubId(), username) == null){
-                    clubMemberRepository.save(new ClubMember(club.getClubId(), username));
+                    clubMemberRepository.save(new ClubMember(club.getClubId(), username, "false"));
                 }else{
                     throw new ClubException("already a member of club");
                 }
@@ -56,10 +58,35 @@ public class ClubMemberService {
         return false;
     }
 
-    public List<String> findAllUsersByClubId(int clubId) {
-        List<String> clubMembers = new ArrayList<>();
+    public List<ClubMemberDTO> findAllUsersByClubId(int clubId) {
         List<ClubMember> clubMemberList = clubMemberRepository.findAllByClubId(clubId);
-        clubMemberList.forEach(clubMember -> clubMembers.add(clubMember.getUsername()));
-        return clubMembers;
+        return new ArrayList<>(clubMemberList);
+    }
+
+    public void removeUserFromClub(int clubId, String username) {
+        clubMemberRepository.removeAllByUsernameAndClubId(username, clubId);
+    }
+
+    public void updateForClubMember(String clubName, String gameId) throws ClubException {
+        ClubDTO club = clubService.findClubByClubName(clubName);
+        GameResult gameResult = gameResultService.getGameResultByGameId(gameId);
+        List<GamePointDTO> gamePoints = gamePointService.getAllByGameResultId(gameResult.getGameResultId());
+        gamePoints.sort(Comparator.comparing(GamePointDTO::getPoints).reversed());
+        int highest = 0;
+        for(int i = 0; i < gamePoints.size(); i++){
+            String currentUser = gamePoints.get(i).getUsername();
+            if(highest < gamePoints.get(i).getPoints()){
+                highest = gamePoints.get(i).getPoints();
+            }
+            if(gamePoints.get(i).getPoints() >= highest){
+                ClubMember clubMember = clubMemberRepository.findAllByClubIdAndUsername(club.getClubId(), currentUser);
+                clubMember.setIsBacchus("true");
+                clubMemberRepository.save(clubMember);
+            }else{
+                ClubMember clubMember = clubMemberRepository.findAllByClubIdAndUsername(club.getClubId(), currentUser);
+                clubMember.setIsBacchus("false");
+                clubMemberRepository.save(clubMember);
+            }
+        }
     }
 }

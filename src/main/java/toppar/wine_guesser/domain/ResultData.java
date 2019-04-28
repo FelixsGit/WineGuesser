@@ -42,6 +42,8 @@ public class ResultData implements ResultDataDTO{
         this.correctRegionGuess = correctRegionGuess;
     }
 
+
+
     public int getResultDataId() {
         return resultDataId;
     }

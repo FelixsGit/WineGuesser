@@ -10,4 +10,5 @@ public interface UserResultsDTO {
     double getNumWinesGuessed();
     double getNumWinesCorrect();
     void setCorrectPercent(double correctPercent);
+    String getIsBacchus();
 }

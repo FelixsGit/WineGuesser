@@ -16,20 +16,30 @@ public class UserResults implements UserResultsDTO{
     private double numWinesCorrect;
     private int wins;
     private double correctPercent;
+    private String isBacchus;
 
     protected UserResults(){
 
     }
 
-    public UserResults(String username, int playedGames, double numWinesGuessed, double numWinesCorrect, int wins, double correctPercent) {
+    public UserResults(String username, int playedGames, double numWinesGuessed, double numWinesCorrect, int wins, double correctPercent, String isBacchus) {
         this.username = username;
         this.playedGames = playedGames;
         this.numWinesGuessed = numWinesGuessed;
         this.numWinesCorrect = numWinesCorrect;
         this.wins = wins;
         this.correctPercent = correctPercent;
+        this.isBacchus = isBacchus;
+
     }
 
+    public String getIsBacchus() {
+        return isBacchus;
+    }
+
+    public void setIsBacchus(String isBacchus) {
+        this.isBacchus = isBacchus;
+    }
 
     public int getUserResultsId() {
         return userResultsId;

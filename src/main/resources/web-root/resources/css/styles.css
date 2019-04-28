@@ -3,7 +3,7 @@
 @media only screen and (min-device-width : 300px) and (max-device-width : 600px) {
 
     body {
-        background: url("/resources/images/berryBG.png");
+        background: url("/resources/images/grapesBG.png");
         -webkit-background-size: cover; /* For WebKit*/
         -moz-background-size: cover;    /* Mozilla*/
         -o-background-size: cover;      /* Opera*/
@@ -12,6 +12,7 @@
         background-attachment: fixed;
         /* Generic*/
     }
+
 
     form#startGame{
         width: 250px;
@@ -166,24 +167,6 @@
         color: #fff;
     }
 
-    #lobbyClose{
-        position:absolute;
-        font-family: 'Cabin';
-        font-size: 44px;
-        left:50px;
-        top:1200px;
-        color: #fff;
-        float:bottom;
-    }
-    #lobbyLeave{
-        position:absolute;
-        font-family: 'Cabin';
-        font-size: 44px;
-        left:50px;
-        top:1200px;
-        color: #fff;
-        float:bottom;
-    }
 
     main {
         position: relative;
@@ -195,7 +178,7 @@
     .error {
         color: red;
         font-family: 'Cabin';
-        font-size: 40px;
+        font-size: 42px;
 
     }
 
@@ -323,7 +306,7 @@
         width: 950px;
         margin-left: auto;
         margin-right: auto;
-        margin-bottom: 150px;
+        margin-bottom: 50px;
     }
 
     #resultData-box{
@@ -337,6 +320,11 @@
         border-width: 4px;
         padding: 8px;
         text-align: center;
+    }
+
+    #profile-icon{
+        width:150px;
+        height:150px;
     }
 
     #enter-grade{
@@ -364,8 +352,9 @@
 
     #stats-area{
         width:800px;
-        margin: auto;
-        margin-bottom: 100px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 50px;
         height:auto;
         text-align: left;
     }
@@ -378,6 +367,12 @@
         text-align: left;
         background:rgba(0,0,0,0.65);
     }
+
+    #clubList-logo{
+        width:240px;
+        height:240px;
+    }
+
 
     #clubData-area{
         width:800px;
@@ -690,6 +685,53 @@
         width: 85%;
     }
 
+    #lobbyClose{
+        position:absolute;
+        font-family: 'Cabin';
+        font-size: 44px;
+        left:50px;
+        top:1200px;
+        color: #fff;
+        float:bottom;
+        width:auto;
+        height: auto;
+        font-size: 32px;
+    }
+
+    #lobbyLeave{
+        position:absolute;
+        font-family: 'Cabin';
+        font-size: 44px;
+        left:50px;
+        top:1200px;
+        color: #fff;
+        float:bottom;
+        width:auto;
+        height: auto;
+        font-size: 32px;
+    }
+
+    #leave-club-button:hover{
+        font-family: 'Cabin';
+        background-color: #FF0000;
+        color: white;
+    }
+    #lobbyLeave:hover{
+        font-family: 'Cabin';
+        background-color: #FF0000;
+        color: white;
+    }
+    #lobbyClose:hover{
+        font-family: 'Cabin';
+        background-color: #FF0000;
+        color: white;
+    }
+
+    #bacchus-logo{
+        float:bottom;
+        width:60px;
+        height:60px;
+    }
 }
 
 /* Desktops and laptops ----------- */
@@ -750,7 +792,7 @@
 
 
     body {
-        background: url("/resources/images/berryBG.png");
+        background: url("/resources/images/grapesBG.png");
         -webkit-background-size: cover; /* For WebKit*/
         -moz-background-size: cover;    /* Mozilla*/
         -o-background-size: cover;      /* Opera*/
@@ -905,25 +947,6 @@
 
 
 
-    #lobbyClose{
-        position:absolute;
-        font-family: 'Cabin';
-        font-size: 44px;
-        left:50px;
-        bottom:50px;
-        float:bottom;
-        color: #fff;
-     }
-    #lobbyLeave{
-        position:absolute;
-        font-family: 'Cabin';
-        font-size: 44px;
-        left:50px;
-        bottom:50px;
-        float:bottom;
-        color: #fff;
-    }
-
 
     main {
         position: center;
@@ -1066,7 +1089,7 @@
         width: 1000px;
         margin-left: auto;
         margin-right: auto;
-        margin-bottom: 100px;
+        margin-bottom: 30px;
     }
 
     #resultData-box{
@@ -1344,6 +1367,11 @@
         color:#5A7DD0;
     }
 
+    #clubList-logo{
+        width:170px;
+        height:170px;
+    }
+
 
     #clubData-area{
         width:750px;
@@ -1395,6 +1423,57 @@
         float:left;
         text-align: left;
         background:rgba(0,0,0,0.5);
+    }
+
+    #lobbyClose{
+        position:absolute;
+        font-family: 'Cabin';
+        left:50px;
+        bottom:50px;
+        float:bottom;
+        color: #fff;
+        width:auto;
+        height: auto;
+        font-size: 16px;
+    }
+    #lobbyLeave{
+        position:absolute;
+        font-family: 'Cabin';
+        left:50px;
+        bottom:50px;
+        float:bottom;
+        color: #fff;
+        width:auto;
+        height: auto;
+        font-size: 16px;
+    }
+
+    #leave-club-button:hover{
+        font-family: 'Cabin';
+        background-color: #FF0000;
+        color: white;
+    }
+    #lobbyLeave:hover{
+        font-family: 'Cabin';
+        background-color: #FF0000;
+        color: white;
+    }
+    #lobbyClose:hover{
+        font-family: 'Cabin';
+        background-color: #FF0000;
+        color: white;
+    }
+
+    #bacchus-logo{
+        float:bottom;
+        width:35px;
+        height:35px;
+    }
+
+    canvas {
+        width:50%;
+        height:50%;
+
     }
 }
 

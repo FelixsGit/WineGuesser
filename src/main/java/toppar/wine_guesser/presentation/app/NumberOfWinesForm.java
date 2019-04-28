@@ -2,6 +2,7 @@ package toppar.wine_guesser.presentation.app;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 public class NumberOfWinesForm {
 

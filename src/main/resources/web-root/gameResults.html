@@ -2,14 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{resources/fragments/layout}">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Wine Guesser</title>
 </head>
 <body>
 <main layout:fragment="content">
 
     <div>
-        <h1 th:text="'Detta är resultatsidan för '+${gameResultsForm.viewer}"> </h1>
+        <h1 class="text-scale" th:text="'Resultatsida!'"></h1>
+        <h2 class="text-scale" th:text="'Vinprovningen med nummer '+${gameResultsForm.gameStats.gameId}+' är avslutad.'"> </h2>
+        <h2 class="text-scale" th:text="'Detta är resultatet för användare '+${gameResultsForm.viewer}+'.'"></h2>
+        <br>
+        <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
         <br>
         <h2 th:text="Poänglista"/>
         <br>
@@ -33,10 +37,11 @@
                 <br>
                 <div id="region-result" th:if="${resultDataDTO.region != null}">
                     <div th:if="${resultDataDTO.correctRegionGuess == 'rätt.'}">
-                        <h3 id="correct-region-guess" th:text="'&#10004 ' + ${resultDataDTO.region}"></h3>
+                        <h3 id="correct-region-guess" th:text="'&#x2705 ' + ${resultDataDTO.region}"></h3>
+
                     </div>
                     <div th:if="${resultDataDTO.correctRegionGuess == 'fel.'}">
-                        <h3 id="wrong-region-guess" th:text="'&#10008 ' + ${resultDataDTO.region}"></h3>
+                        <h3 id="wrong-region-guess" th:text="'&#10060' + ${resultDataDTO.region}"></h3>
                     </div>
                 </div>
                 <div id="p-result">
@@ -60,7 +65,7 @@
         </ul>
         <form th:action="@{/menu}">
             <h3>Spelet är avslutat, klicka här för att lämna.</h3>
-            <button id="bot" type="submit">Till menu</button>
+            <button type="submit">Till menu</button>
         </form>
         <br>
         <br>

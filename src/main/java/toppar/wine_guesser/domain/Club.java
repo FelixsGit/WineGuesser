@@ -12,6 +12,8 @@ public class Club implements ClubDTO {
     private String clubName;
     private String clubPassword;
     private int numberOfTastings;
+    private double numWinesCorrect;
+    private double numWinesGuessed;
     private double averageWineCorrect;
     private String clubCreator;
 
@@ -19,13 +21,14 @@ public class Club implements ClubDTO {
 
     }
 
-    public Club(String clubName, String clubPassword, int numberOfTastings, double averageWineCorrect, String clubCreator) {
+    public Club(String clubName, String clubPassword, int numberOfTastings, double numWinesCorrect, double numWinesGuessed, double averageWineCorrect, String clubCreator) {
         this.clubName = clubName;
         this.clubPassword = clubPassword;
         this.numberOfTastings = numberOfTastings;
         this.averageWineCorrect = averageWineCorrect;
         this.clubCreator = clubCreator;
-
+        this.numWinesCorrect = numWinesCorrect;
+        this.numWinesGuessed = numWinesGuessed;
     }
 
 
@@ -59,6 +62,22 @@ public class Club implements ClubDTO {
 
     public void setNumberOfTastings(int numberOfTastings) {
         this.numberOfTastings = numberOfTastings;
+    }
+
+    public double getNumWinesCorrect() {
+        return numWinesCorrect;
+    }
+
+    public void setNumWinesCorrect(double numWinesCorrect) {
+        this.numWinesCorrect = numWinesCorrect;
+    }
+
+    public double getNumWinesGuessed() {
+        return numWinesGuessed;
+    }
+
+    public void setNumWinesGuessed(double numWinesGuessed) {
+        this.numWinesGuessed = numWinesGuessed;
     }
 
     public double getAverageWineCorrect() {

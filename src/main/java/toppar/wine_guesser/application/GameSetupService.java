@@ -22,7 +22,7 @@ public class GameSetupService{
         Random r = new Random();
         int gameId = r.nextInt(999999-100000) + 100000;
         deleteGameSetupByGameHost(gameHost);
-        gameSetupRepository.save(new GameSetup(gameHost, numberOfWines, Integer.toString(gameId)));
+        gameSetupRepository.save(new GameSetup(gameHost, numberOfWines, Integer.toString(gameId), null));
     }
 
     public GameSetupDTO getGameSetupByGameHost(String gameHost){
@@ -37,4 +37,13 @@ public class GameSetupService{
         gameSetupRepository.removeAllByGameHost(gameHost);
     }
 
+    public GameSetup getGameSetupByGameId(String gameId){
+        return gameSetupRepository.findAllByGameId(gameId);
+    }
+
+    public void updateGameSetupWithChosenClub(String gameHost, String clubName) {
+        GameSetup gameSetup = gameSetupRepository.findByGameHost(gameHost);
+        gameSetup.setClubName(clubName);
+        gameSetupRepository.save(gameSetup);
+    }
 }

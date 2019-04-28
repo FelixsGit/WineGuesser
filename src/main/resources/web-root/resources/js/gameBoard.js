@@ -97,6 +97,9 @@ function sendShowResultMessage(event) {
         gameId: gameId,
         type: 'SHOWRESULT'
     };
+    window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
+    client.unsubscribe();
+    client = null;
     stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
 }
 
@@ -117,9 +120,7 @@ function onMessageReceived(payload) {
         }
     }
     if(message.type === 'SHOWRESULT'){
-        window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
-        client.unsubscribe();
-        client = null;
+        timeFunctionEnd();
     }
 
     if(message.type === 'DONE'){
@@ -136,6 +137,14 @@ function onMessageReceived(payload) {
         }
     }
 
+}
+
+function timeFunctionEnd() {
+    setTimeout(function(){
+        window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
+        client.unsubscribe();
+        client = null;
+    }, 1000);
 }
 
 

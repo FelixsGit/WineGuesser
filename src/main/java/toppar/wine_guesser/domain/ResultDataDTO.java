@@ -11,6 +11,8 @@ public interface ResultDataDTO {
     String getWineDescription();
     int getGrade();
     String getUrl();
+    int getPersonalGrade();
+    double getAverageGrade();
     String getRegion();
     String getCorrectRegionGuess();
 

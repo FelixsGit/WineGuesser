@@ -54,10 +54,16 @@ public class UserResultsService {
         userResultsRepository.save(userResults);
     }
 
-    public void updateNumWinsForUser(String username){
-        UserResults userResults = userResultsRepository.findAllByUsername(username);
-        userResults.setWins(userResults.getWins() + 1);
-        userResultsRepository.save(userResults);
-
+    public void updateWinOrLoseForUser(String username, String winOrLose){
+        if(winOrLose.equals("win")){
+            UserResults userResults = userResultsRepository.findAllByUsername(username);
+            userResults.setWins(userResults.getWins() + 1);
+            userResults.setIsBacchus("true");
+            userResultsRepository.save(userResults);
+        }else{
+            UserResults userResults = userResultsRepository.findAllByUsername(username);
+            userResults.setIsBacchus("false");
+            userResultsRepository.save(userResults);
+        }
     }
 }

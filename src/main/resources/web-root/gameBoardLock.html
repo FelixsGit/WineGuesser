@@ -49,7 +49,7 @@
     </div>
 
     <div id="resultButton" th:if="${gameBoardLockForm.gameHost}">
-        <form id="viewResult">
+        <form th:action="@{'gameResults/'+ ${gameBoardLockForm.gameId}}" id="viewResult">
             <!--<button id="viewResultButton" type="submit">Visa Resultat</button>-->
         </form>
     </div>

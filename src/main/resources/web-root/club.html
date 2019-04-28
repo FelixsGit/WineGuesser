@@ -13,7 +13,7 @@
         <h1 th:text="${clubForm.clubStats.clubDTO.clubName}"></h1>
         <br>
         <h2>Klubbsida</h2>
-        <img id="clubList-logo" src="../resources/images/clubIcon.png" alt="club standard logo" width="120px" height="120px">
+        <a th:href="${clubForm.clubStats.clubDTO.clubName}"><img id="clubList-logo" src="../resources/images/clubIcon.png" alt="club standard logo"></a>
         <br>
         <br>
         <div id="clubData-password" >
@@ -24,37 +24,45 @@
             <h2>Statistik:</h2>
             <div id="clubData-soloData-box">
                 <div id="clubData-numberOfTastings" >
-                    <h3 th:text="'Antalet totalt provade viner: ' + ${clubForm.clubStats.clubDTO.numberOfTastings}"></h3>
+                    <h3 th:text="'Antalet vinprovningar: ' + ${clubForm.clubStats.clubDTO.numberOfTastings}"></h3>
                 </div>
                 <div id="clubData-averageWineCorrect" >
-                    <h3 th:text="'Medlemmarnas andel korrekt: ' + ${clubForm.clubStats.clubDTO.averageWineCorrect}"></h3>
+                    <h3 th:text="'Medlemmarnas andel korrekt: ' + ${clubForm.clubStats.clubDTO.averageWineCorrect}+'%'"></h3>
                 </div>
             </div>
             <br>
             <ul id="clubData-memberList-area">
                 <h2>Medlemmslista:</h2>
                 <li id="clubData-memberList-box" th:each="member, var : *{clubForm.clubStats.memberList}">
-                    <h3><a id="clubData-memberList-username" th:href="'../profile/' + ${member}" th:text="${member}"/></h3>
+                    <h3 th:if="${member.isBacchus == 'true'}">
+                        <img id="bacchus-logo" src="../resources/images/bacchus.png" alt="bacchus standard logo">
+                        <a id="clubData-memberList-username" th:href="'../profile/' + ${member.username}" th:text="${member.username}"/>
+                    </h3>
+                    <h3 th:if="${member.isBacchus == 'false'}">
+                        <a id="clubData-memberList-username" th:href="'../profile/' + ${member.username}" th:text="${member.username}"/>
+                    </h3>
                 </li>
             </ul>
             <br>
             <br>
             <br>
             <ul id="clubData-wineStat-area">
-                <h2>Vinlista:</h2>
+                <h2>Provade viner:</h2>
                 <li id="clubData-wineStat-box" th:each="clubWineStatDTO, var : *{clubForm.clubStats.wineStats}">
                     <h3><a id="clubData-wineStat-wineName" th:href="${clubWineStatDTO.wineUrl}" th:text="${clubWineStatDTO.wineName}"/></h3>
                     <h3 th:text="'Totala antalet serveringar: ' + ${clubWineStatDTO.numberOfServings}"></h3>
                     <h3 th:text="'Totala medelbetyget: ' + ${clubWineStatDTO.averageGrade}"></h3>
                 </li>
-                <form id="bot" action="../clubOption">
-                    <button type="submit" onclick="return confirm('Are you sure?');">Lämna klubben </button>
+                <br>
+                <br>
+                <form id="bot" action=# th:action="@{/club}" th:object="${clubForm}" method="post">
+                    <input type="hidden" name="clubId" th:value="${clubForm.clubStats.clubDTO.clubId}">
+                    <button id="leave-club-button" type="submit" onclick="return confirm('Är du säker, vill du verkligen lämmna klubben och svika Bacchus!?');">Lämna klubben </button>
                 </form>
             </ul>
             <br>
             <br>
         </div>
-
     </div>
 
 </main>

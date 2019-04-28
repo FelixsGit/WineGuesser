@@ -155,7 +155,9 @@ public class GameResultService {
 
         userResultDataMap.forEach((key, value) -> {
             if (value.getPointCollectedTotal() >= gamePointList.get(0).getPoints()) {
-                userResultsService.updateNumWinsForUser(value.getUsername());
+                userResultsService.updateWinOrLoseForUser(value.getUsername(), "win");
+            }else{
+                userResultsService.updateWinOrLoseForUser(value.getUsername(), "lose");
             }
         });
 
@@ -178,5 +180,7 @@ public class GameResultService {
     }
 
 
-
+    public GameResult getGameResultByGameId(String gameId) {
+        return gameResultRepository.findAllByGameId(gameId);
+    }
 }

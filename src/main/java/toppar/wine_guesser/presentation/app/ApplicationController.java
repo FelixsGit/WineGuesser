@@ -16,7 +16,9 @@ import toppar.wine_guesser.presentation.err.ErrorHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,6 +45,7 @@ public class ApplicationController {
     public static final String JOIN_CLUB_PAGE_URL = "joinClub";
     public static final String CLUB_LIST_PAGE_URL = "clubList";
     public static final String CLUB_PAGE_URL = "club";
+    public static final String CLUB_GAME_SETUP_PAGE_URL = "clubGameSetup";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
     public static final String LOBBY_OBJ_NAME = "lobbyForm";
@@ -63,6 +66,7 @@ public class ApplicationController {
     public static final String JOIN_CLUB_OBJ_NAME = "joinClubForm";
     public static final String CLUB_LIST_OBJ_NAME = "clubListForm";
     public static final String CLUB_OBJ_NAME = "clubForm";
+    public static final String CLUB_GAME_SETUP_OBJ_NAME = "clubGameSetupForm";
 
 
     //////////////////////////////////////GET MAPPINGS/////////////////////////////////////////////////////
@@ -98,6 +102,22 @@ public class ApplicationController {
     @Autowired
     private ClubWineStatService clubWineStatService;
 
+    @GetMapping(CLUB_GAME_SETUP_PAGE_URL)
+    public String showClubGameSetupPage(Model model, HttpServletRequest request, String gameId) {
+        if(!model.containsAttribute(CLUB_GAME_SETUP_OBJ_NAME)){
+            model.addAttribute(CLUB_GAME_SETUP_OBJ_NAME);
+        }
+        ClubGameSetupForm clubGameSetupForm = new ClubGameSetupForm();
+        try {
+            clubGameSetupForm.setClubs(clubService.findAllClubsByUsername(request.getUserPrincipal().getName()));
+            model.addAttribute(clubGameSetupForm);
+        } catch (ClubException e) {
+            return ENTER_URL_PAGE_URL;
+        }
+        model.addAttribute(clubGameSetupForm);
+        return CLUB_GAME_SETUP_PAGE_URL;
+    }
+
     @GetMapping("club"+"/{clubName}")
     public String showClubPage(Model model, @PathVariable String clubName, HttpServletRequest request) {
         if(!model.containsAttribute(CLUB_OBJ_NAME)){
@@ -109,9 +129,12 @@ public class ApplicationController {
             if(!clubMemberService.checkIfUserIsMemberOfClubWithClubId(clubDTO.getClubId(), request.getUserPrincipal().getName())){
                 throw new ClubException("your not a member of that club");
             }
-            List<String> memberList = clubMemberService.findAllUsersByClubId(clubDTO.getClubId());
+            List<ClubMemberDTO> memberList = clubMemberService.findAllUsersByClubId(clubDTO.getClubId());
+            memberList.sort(Comparator.comparing(ClubMemberDTO::getIsBacchus).reversed());
             List<ClubWineStatDTO> clubWineStatDTOList = clubWineStatService.findAllByClubId(clubDTO.getClubId());
             ClubStats clubStats = new ClubStats(clubDTO, memberList, clubWineStatDTOList);
+            DecimalFormat numberFormat = new DecimalFormat("#.0000");
+            clubStats.getClubDTO().setAverageWineCorrect(Double.valueOf(numberFormat.format(clubStats.getClubDTO().getAverageWineCorrect() * 100)));
             clubForm.setClubStats(clubStats);
         } catch (ClubException e) {
             controlErrorHandling(e, model);
@@ -129,7 +152,7 @@ public class ApplicationController {
         }
         ClubListForm clubListForm = new ClubListForm();
         try {
-            clubListForm.setClubDTOList(clubService.findAllClubsByUsername(request.getUserPrincipal().getName()));
+            clubListForm.setClubDTOList(clubService.findAllClubDTOsByUsername(request.getUserPrincipal().getName()));
         } catch (ClubException e) {
             model.addAttribute(clubListForm);
             controlErrorHandling(e, model);
@@ -219,11 +242,26 @@ public class ApplicationController {
             gameResultService.generateGameStatsForGameWithId(gameId);
             gameResultsForm.setGameStats(gameResultService.retrieveGameStatsForGameWithIdAndUsername(gameId, request.getUserPrincipal().getName()));
             gameResultsForm.setViewer(request.getUserPrincipal().getName());
+            if(gameSetupService.getGameSetupByGameId(gameId).getClubName() != null){
+                try {
+                    clubService.updateClub(gameSetupService.getGameSetupByGameId(gameId).getClubName(), gameId);
+                    clubMemberService.updateForClubMember(gameSetupService.getGameSetupByGameId(gameId).getClubName(), gameId);
+                    clubWineStatService.updateForClubWineStat(gameSetupService.getGameSetupByGameId(gameId).getClubName(), gameId, request.getUserPrincipal().getName());
+                } catch (ClubException e) {
+                    gameSetupService.removeGameSetupByGameHost(request.getUserPrincipal().getName());
+                    lobbyDataService.removeAllByGameId(gameId);
+                    userGuessesService.removeAllByGameId(gameId);
+                    judgementService.removeAllByGameId(gameId);
+                    controlErrorHandling(e, model);
+                    model.addAttribute(gameResultsForm);
+                    return GAME_RESULTS_PAGE_URL;
+                }
+            }
             gameSetupService.removeGameSetupByGameHost(request.getUserPrincipal().getName());
-            //gameSettingsService.removeGameSettingsByGameHost(request.getUserPrincipal().getName());
             lobbyDataService.removeAllByGameId(gameId);
             userGuessesService.removeAllByGameId(gameId);
             judgementService.removeAllByGameId(gameId);
+            model.addAttribute(gameResultsForm);
         }
         model.addAttribute(gameResultsForm);
         return GAME_RESULTS_PAGE_URL;
@@ -237,7 +275,8 @@ public class ApplicationController {
         ProfileForm profileForm = new ProfileForm();
         try {
             ProfileData profileDataForUserWithUsername = userResultsService.getProfileDataForUserWithUsername(username);
-            profileDataForUserWithUsername.getUserResultsDTO().setCorrectPercent(profileDataForUserWithUsername.getUserResultsDTO().getCorrectPercent() * 100);
+            DecimalFormat numberFormat = new DecimalFormat("#.0000");
+            profileDataForUserWithUsername.getUserResultsDTO().setCorrectPercent(Double.valueOf(numberFormat.format(profileDataForUserWithUsername.getUserResultsDTO().getCorrectPercent() * 100)));
             profileForm.setProfileData(profileDataForUserWithUsername);
         } catch (UserException e) {
             JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
@@ -389,14 +428,12 @@ public class ApplicationController {
             model.addAttribute(LOBBY_OBJ_NAME);
         }
         try {
-            lobbyService.checkAuthorizationByGameId(gameId);
-        } catch (AuthorizationException e) {
+            lobbyService.checkAuthorizationByGameId(gameId, request.getUserPrincipal().getName());
+        } catch (AuthorizationException | ClubException e) {
             controlErrorHandling(e, model);
             return MENU_PAGE_URL;
         }
         LobbyForm lobbyForm = new LobbyForm();
-        System.out.println("participants not ready: "+lobbyDataService.getUsersNotReadyByGameId(gameId).toString());
-        System.out.println("participants ready: "+lobbyDataService.getUsersReadyByGameId(gameId).toString());
         lobbyForm.setParticipantsNotReady(lobbyDataService.getUsersNotReadyByGameId(gameId));
         lobbyForm.setParticipantsReady(lobbyDataService.getUsersReadyByGameId(gameId));
         lobbyForm.setGameId(lobbyService.getLobbyByGameId(gameId).getGameId());
@@ -553,6 +590,18 @@ public class ApplicationController {
 
     //////////////////////////////////////POST MAPPINGS/////////////////////////////////////////////////////
 
+    @PostMapping(CLUB_PAGE_URL)
+    public String leaveClub(@ModelAttribute ClubForm clubForm, Model model, HttpServletRequest request){
+        clubMemberService.removeUserFromClub(clubForm.getClubId(), request.getUserPrincipal().getName());
+        return showClubListPage(model, request);
+    }
+
+    @PostMapping(CLUB_GAME_SETUP_PAGE_URL)
+    public String enterGameClub(@ModelAttribute ClubGameSetupForm clubGameSetupForm, Model model, HttpServletRequest request){
+        System.out.println(clubGameSetupForm.getChosenClub());
+        gameSetupService.updateGameSetupWithChosenClub(request.getUserPrincipal().getName(), clubGameSetupForm.getChosenClub());
+        return showEnterUrlPage(model, request);
+    }
 
     @PostMapping(JOIN_CLUB_PAGE_URL)
     public String joinNewClub(@Valid @ModelAttribute JoinClubForm joinClubForm, BindingResult bindingResult, Model model, HttpServletRequest request) {
@@ -622,14 +671,17 @@ public class ApplicationController {
         }else{
             int numberOfWines = gameSettingsService.getAllByGameId(gameBoardForm.getGameId()).size();
             try {
-                if(gameBoardForm.getWineRating() == null){
+                if(bindingResult.hasErrors()){
+                    throw new JudgementException("range error");
+                }
+                if(gameBoardForm.getWineRating() == null || gameBoardForm.getWineRating().toString().isEmpty()){
                     throw new JudgementException("range error");
                 }
                 judgementService.saveJudgement(gameBoardForm.getWineToRate(), gameBoardForm.getWineRating(), gameBoardForm.getGameId(), request.getUserPrincipal().getName());
             } catch (JudgementException e) {
                 gameBoardForm.setDescriptions(gameSettingsService.getDescriptionsByGameId(gameBoardForm.getGameId()));
-                model.addAttribute(gameBoardForm);
                 controlErrorHandling(e, model);
+                model.addAttribute(gameBoardForm);
                 return GAME_BOARD_PAGE_URL;
             }
             if((gameBoardForm.getWineToRate() < numberOfWines) && gameBoardForm.getDoneRating() == null) {
@@ -694,7 +746,7 @@ public class ApplicationController {
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.MISSING_SERVING_ORDER);
         }else if(e.getMessage().toUpperCase().contains("EMPTY")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.EMPTY_GUESS);
-        }else if(e.getMessage().toUpperCase().contains("RANGE")){
+        }else if(e.getMessage().toUpperCase().contains("RANGE ERROR")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.WRONG_JUDGEMENT_RANGE);
         }else if(e.getMessage().toUpperCase().contains("SAME")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.SERVING_ORDER_SAME);
@@ -722,6 +774,10 @@ public class ApplicationController {
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NOT_A_MEMBER_OF_ANY_CLUB);
         }else if(e.getMessage().toUpperCase().contains("YOUR NOT A MEMBER OF THAT CLUB")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NOT_A_MEMBER_OF_THAT_CLUB);
+        }else if(e.getMessage().toUpperCase().contains("NOT ALL USERS ARE IN THE CLUB")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NOT_ALL_USERS_ARE_IN_THE_CLUB);
+        } else if(e.getMessage().toUpperCase().contains("MISSING CLUB")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.YOU_DONT_HAVE_LOBBY_CLUB);
         }
 
     }
@@ -733,8 +789,12 @@ public class ApplicationController {
         }
         gameSetupService.createGameSetup(numberOfWinesForm.getNumWines(), request.getUserPrincipal().getName());
         String gameId = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName()).getGameId();
+        if(clubMemberService.checkIfUserIsMemberInAClub(request.getUserPrincipal().getName())){
+            return showClubGameSetupPage(model, request, gameId);
+        }
         return showEnterUrlPage(model, request);
     }
+
 
     @PostMapping(ENTER_URL_PAGE_URL)
     public String enterUrlToWine(@Valid @ModelAttribute EnterUrlForm enterUrlForm, BindingResult bindingResult, Model model,
@@ -771,8 +831,8 @@ public class ApplicationController {
             return showMenuPage(model, request);
         }
         try {
-            lobbyService.checkAuthorizationByGameId(joinGameLobbyForm.getJoinCode());
-        } catch (AuthorizationException e) {
+            lobbyService.checkAuthorizationByGameId(joinGameLobbyForm.getJoinCode(), request.getUserPrincipal().getName());
+        } catch (AuthorizationException | ClubException e) {
             controlErrorHandling(e, model);
             return showMenuPage(model, request);
         }

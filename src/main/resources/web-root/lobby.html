@@ -49,13 +49,13 @@
 
         <br>
         <div id="bottom-left" th:if="${lobbyForm.gameHost}">
-            <form id="lobbyClose" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
-                <button type="submit">Stäng vinprovningen</button>
+            <form th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
+                <button id="lobbyClose" type="submit">Stäng vinprovningen</button>
             </form>
         </div>
         <div id="bottom-left" th:unless="${lobbyForm.gameHost}">
-            <form id="lobbyLeave" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/leave'}">
-                <button type="submit">Lämna vinprovningen</button>
+            <form th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/leave'}">
+                <button id="lobbyLeave" type="submit">Lämna vinprovningen</button>
             </form>
         </div>
     </div>

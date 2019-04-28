@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+
+    <div class="text-scale">
+        <h1>Ska vinprovningen vara en 'klubbmatch'?</h1>
+        <br>
+        <h2>Genom att välja en klubb så låser du vinprovningen för användare som inte</h2>
+        <h2>är medlem i klubben. Vidare kommer statistik sparas på klubbsidan.</h2>
+        <br>
+        <h2>Välj från dina klubbar här nedan.</h2>
+        <br>
+        <br>
+
+        <ul id="clubList-area">
+            <li id="clubList-box" th:each="club, var : *{clubGameSetupForm.clubs}">
+                <form action=# th:action="@{/clubGameSetup}" th:object="${clubGameSetupForm}" method="post">
+                    <input type="hidden" name="chosenClub" th:value="${club.clubName}">
+                    <input type="image" id="clubList-logo" th:name="${var.index}" src="resources/images/clubIcon.png" width="120px" height="120px" alt="club-img">
+                    <div id="clubList-name">
+                        <h3 th:text="${club.clubName}"></h3>
+                    </div>
+                    <br>
+                    <br>
+                </form>
+            </li>
+        </ul>
+
+        <br>
+        <br>
+        <h3>Om vinprovningen inte ska vara en 'klubbmatch' kan du hoppa över</h3>
+        <h3>genom att klicka på knappen nedan.</h3>
+        <form action="/enterUrl">
+            <button type="submit">Hoppa Över</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

@@ -18,7 +18,7 @@
         <ul id="clubList-area">
             <li id="clubList-box" th:each="club, var : *{clubListForm.clubDTOList}">
                 <a th:href="'club/'+${club.clubName}">
-                    <img id="clubList-logo" src="resources/images/clubIcon.png" alt="club standard logo" width="120px" height="120px">
+                    <img id="clubList-logo" src="resources/images/clubIcon.png" alt="club standard logo">
                 </a>
                 <div id="clubList-name">
                     <h3 th:text="${club.clubName}"></h3>

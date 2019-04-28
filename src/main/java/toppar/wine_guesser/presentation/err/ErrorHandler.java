@@ -27,4 +27,6 @@ public class ErrorHandler {
     public static final String CLUB_NAME_TAKEN = "Det finns tyvärr redan en klubb med det namnet.";
     public static final String NOT_A_MEMBER_OF_ANY_CLUB = "Du är inte medlem i någon club!";
     public static final String NOT_A_MEMBER_OF_THAT_CLUB = "Du behöver vara medlem för att tillgång till klubben!";
+    public static final String NOT_ALL_USERS_ARE_IN_THE_CLUB = "Minst 1 vinprovare var inte med i den valda vinklubben -ingen statistik sparas-";
+    public static final String YOU_DONT_HAVE_LOBBY_CLUB = "Denna vinprovning kräver medlemmskap i en specifik klubb.";
 }

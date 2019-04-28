@@ -5,10 +5,10 @@ import java.util.List;
 public class ClubStats {
 
     private ClubDTO clubDTO;
-    private List<String> memberList;
+    private List<ClubMemberDTO> memberList;
     private List<ClubWineStatDTO> wineStats;
 
-    public ClubStats(ClubDTO clubDTO, List<String> memberList, List<ClubWineStatDTO> wineStats) {
+    public ClubStats(ClubDTO clubDTO, List<ClubMemberDTO> memberList, List<ClubWineStatDTO> wineStats) {
         this.clubDTO = clubDTO;
         this.memberList = memberList;
         this.wineStats = wineStats;
@@ -22,11 +22,11 @@ public class ClubStats {
         this.clubDTO = clubDTO;
     }
 
-    public List<String> getMemberList() {
+    public List<ClubMemberDTO> getMemberList() {
         return memberList;
     }
 
-    public void setMemberList(List<String> memberList) {
+    public void setMemberList(List<ClubMemberDTO> memberList) {
         this.memberList = memberList;
     }
 

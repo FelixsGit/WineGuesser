@@ -39,6 +39,8 @@ CREATE TABLE `club` (
  `clubName` varchar(255) NOT NULL,
  `clubPassword` varchar(255) NOT NULL,
  `numberOfTastings` int NOT NULL DEFAULT 0,
+ `numWinesCorrect` double NOT NULL DEFAULT 0,
+ `numWInesGuessed` double NOT NULL DEFAULT 0,
  `averageWineCorrect` double NOT NULL DEFAULT 0,
  `clubCreator` varchar(255) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -46,7 +48,8 @@ CREATE TABLE `club` (
 CREATE TABLE `club_member` (
 `clubMemberId` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
 `clubId` int NOT NULL,
-`username` varchar(255) NOT NULL
+`username` varchar(255) NOT NULL,
+`isBacchus` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `club_wine_stat` (
@@ -63,7 +66,8 @@ CREATE TABLE `club_wine_stat` (
 CREATE TABLE `game_setup` (
   `gameHost` varchar(255) NOT NULL,
   `amountOfWines` varchar (255) NOT NULL,
-  `gameId` varchar(255) NOT NULL PRIMARY KEY
+  `gameId` varchar(255) NOT NULL PRIMARY KEY,
+  `clubName` varchar (255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `match_history` (
@@ -122,7 +126,8 @@ CREATE TABLE `user_results` (
   `numWinesGuessed` double DEFAULT 0.00,
   `numWinesCorrect` double DEFAULT 0.00,
   `correctPercent` double DEFAULT 0.00,
-  `wins` int DEFAULT 0
+  `wins` int DEFAULT 0,
+  `isBacchus` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

@@ -15,4 +15,6 @@ public interface ClubWineStatRepository extends JpaRepository<ClubWineStat, Stri
 
 
     List<ClubWineStatDTO> findAllByClubId(int clubId);
+
+    ClubWineStat findAllByClubIdAndWineName(int clubId, String wineName);
 }

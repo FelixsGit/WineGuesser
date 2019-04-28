@@ -13,16 +13,25 @@ public class ClubMember implements ClubMemberDTO {
     private int clubMemberId;
     private int clubId;
     private String username;
+    private String isBacchus;
 
     protected ClubMember() {
 
     }
 
-    public ClubMember(int clubId, String username) {
+    public ClubMember(int clubId, String username, String isBacchus) {
         this.clubId = clubId;
         this.username = username;
+        this.isBacchus = isBacchus;
     }
 
+    public String getIsBacchus() {
+        return isBacchus;
+    }
+
+    public void setIsBacchus(String isBacchus) {
+        this.isBacchus = isBacchus;
+    }
 
     public int getClubMemberId() {
         return clubMemberId;

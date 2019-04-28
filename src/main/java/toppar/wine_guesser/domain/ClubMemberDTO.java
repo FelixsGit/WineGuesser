@@ -5,4 +5,5 @@ public interface ClubMemberDTO {
     int getClubMemberId();
     int getClubId();
     String getUsername();
+    String getIsBacchus();
 }
