@@ -13,4 +13,6 @@ import java.util.List;
 public interface GamePointRepository extends JpaRepository<GamePoint, String> {
 
     List<GamePoint> findAllByGameResultId(int gameResultId);
+
+    GamePoint findAllByGameResultIdAndUsername(int gameResultId, String username);
 }

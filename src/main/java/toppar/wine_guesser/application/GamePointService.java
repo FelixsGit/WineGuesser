@@ -29,4 +29,7 @@ public class GamePointService {
         return new ArrayList<>(gamePointList);
     }
 
+    public GamePoint getAllByGameResultIdAndUsername(int gameResultId, String username) {
+        return gamePointRepository.findAllByGameResultIdAndUsername(gameResultId, username);
+    }
 }

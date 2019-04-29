@@ -58,7 +58,6 @@ public class UserService {
             return null;
         }
         return gameId;
-
     }
 
     public String getGameStatusByUsername(String username){

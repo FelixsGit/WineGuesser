@@ -157,16 +157,11 @@ public class GameResultService {
 
         //calculating gamePoint
         int totalPoints = 0;
+        int totalWinePoints = 0;
         for(int i = 0; i < participants.size(); i++){
-            List<ResultData> resultDataList = resultDataService.getAllByUsernameAndGameResultId(participants.get(i), gameResult.getGameResultId());
-            for(int j = 0; j < resultDataList.size(); j++){
-                if(resultDataList.get(j).getGrade() != 0){
-                    totalPoints += resultDataList.get(j).getGrade();
-                }
-            }
-            gamePointService.createNew(new GamePoint(gameResult.getGameResultId(), participants.get(i), totalPoints));
-            totalPoints = 0;
-
+            totalWinePoints = (int)userResultDataMap.get(participants.get(i)).getPointCollectedWines();
+            totalPoints = (int)userResultDataMap.get(participants.get(i)).getPointCollectedTotal();
+            gamePointService.createNew(new GamePoint(gameResult.getGameResultId(), participants.get(i), totalPoints, totalWinePoints));
             double pointsCollectedWines = userResultDataMap.get(participants.get(i)).getPointCollectedWines();
             userResultsService.updateUserResultsByUser(participants.get(i), numberOfWines, pointsCollectedWines);
             UserResultData userResultData = userResultDataMap.get(participants.get(i));

@@ -40,7 +40,7 @@ CREATE TABLE `club` (
  `clubPassword` varchar(255) NOT NULL,
  `numberOfTastings` int NOT NULL DEFAULT 0,
  `numWinesCorrect` double NOT NULL DEFAULT 0,
- `numWInesGuessed` double NOT NULL DEFAULT 0,
+ `numWinesGuessed` double NOT NULL DEFAULT 0,
  `averageWineCorrect` double NOT NULL DEFAULT 0,
  `clubCreator` varchar(255) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -138,7 +138,8 @@ CREATE TABLE `game_point` (
   `gamePointId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `gameResultId` INTEGER NOT NULL,
   `username` varchar(255) NOT NULL,
-  `points` INTEGER NOT NULL
+  `points` INTEGER NOT NULL,
+  `pointsNoRegion` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `judgement` (

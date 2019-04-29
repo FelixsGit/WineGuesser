@@ -26,6 +26,10 @@ public class ClubService {
     private UserResultsService userResultsService;
     @Autowired
     private GamePointService gamePointService;
+    @Autowired
+    private GameResultService gameResultService;
+    @Autowired
+    private GameSettingsService gameSettingsService;
 
     public void createNewClub(String clubName, String clubPassword, String clubCreator) throws ClubException {
         if(clubRepository.findAllByClubName(clubName) == null){
@@ -80,18 +84,20 @@ public class ClubService {
         Club club = clubRepository.findAllByClubName(clubName);
         List<String> clubMembers = lobbyDataService.getParticipantsByGameId(gameId);
         checkThatAllParticipantsAreClubMembers(club.getClubId(), clubMembers);
+        GameResult gameResult = gameResultService.getGameResultByGameId(gameId);
         double totalNumWinesCorrect = 0;
         double totalNumWinesGuessed = 0;
+        double numberOfWines = gameSettingsService.getAllByGameId(gameId).size();
         for(int i = 0; i < clubMembers.size(); i++){
-            UserResults userResults = userResultsService.findByUsername(clubMembers.get(i));
-            totalNumWinesCorrect += userResults.getNumWinesCorrect();
-            totalNumWinesGuessed += userResults.getNumWinesGuessed();
+            GamePoint gamePoint = gamePointService.getAllByGameResultIdAndUsername(gameResult.getGameResultId(), clubMembers.get(i));
+            totalNumWinesCorrect += gamePoint.getPointsNoRegion();
+            totalNumWinesGuessed += numberOfWines;
         }
-        double averageWineCorrect = totalNumWinesCorrect/totalNumWinesGuessed;
+        double averageWineCorrect = (club.getNumWinesCorrect() + totalNumWinesCorrect)/(totalNumWinesGuessed + club.getNumWinesGuessed());
         DecimalFormat numberFormat = new DecimalFormat("#.00");
         club.setAverageWineCorrect(Double.valueOf(numberFormat.format(averageWineCorrect)));
-        club.setNumWinesCorrect(totalNumWinesCorrect);
-        club.setNumWinesGuessed(totalNumWinesGuessed);
+        club.setNumWinesCorrect(club.getNumWinesCorrect() + totalNumWinesCorrect);
+        club.setNumWinesGuessed(club.getNumWinesGuessed() + totalNumWinesGuessed);
         club.setNumberOfTastings(club.getNumberOfTastings() + 1);
         clubRepository.save(club);
     }

@@ -12,15 +12,25 @@ public class GamePoint implements GamePointDTO{
     private int gameResultId;
     private String username;
     private int points;
+    private int pointsNoRegion;
 
     protected GamePoint(){
 
     }
 
-    public GamePoint(int gameResultId, String username, int points) {
+    public GamePoint(int gameResultId, String username, int points, int pointsNoRegion) {
         this.gameResultId = gameResultId;
         this.username = username;
         this.points = points;
+        this.pointsNoRegion = pointsNoRegion;
+    }
+
+    public int getPointsNoRegion() {
+        return pointsNoRegion;
+    }
+
+    public void setPointsNoRegion(int pointsNoRegion) {
+        this.pointsNoRegion = pointsNoRegion;
     }
 
     public int getGamePointId() {

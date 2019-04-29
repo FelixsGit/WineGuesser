@@ -6,4 +6,5 @@ public interface GamePointDTO {
      int getGameResultId();
      String getUsername();
      int getPoints();
+     int getPointsNoRegion();
 }
