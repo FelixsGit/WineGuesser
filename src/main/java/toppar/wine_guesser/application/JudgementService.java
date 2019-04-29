@@ -59,4 +59,8 @@ public class JudgementService {
         String amountToReturn = numberFormat.format(totalAddedGrades/numberOfUsers);
         return Double.valueOf(amountToReturn);
     }
+
+    public void removeByUsernameAndGameId(String username, String gameId) {
+        judgementRepository.removeAllByUsernameAndGameId(username, gameId);
+    }
 }

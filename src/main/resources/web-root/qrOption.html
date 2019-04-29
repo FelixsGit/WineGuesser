@@ -10,7 +10,8 @@
     <div class="text-scale">
         <div th:if="${qrOptionForm.gameStatus != 'finished' and qrOptionForm.servingOrderAlreadyEntered == null}">
             <div>
-                <h1>Detta är QR kod sidan för ett vin som serveras på vinprovningen!</h1>
+                <h1>Du har scannat QR-koden för ett vin som serveras på vinprovningen!</h1>
+                <br>
                 <br>
                 <h2>Skriv in den faktiska serveringsordningen här.</h2>
             </div>
@@ -20,7 +21,7 @@
                 <input type="hidden" th:field="*{url}" />
                 <input type="hidden" th:field="*{gameId}" />
                 <input type="hidden" th:field="*{gameStatus}" />
-                <input type="text" placeholder="Serveringsnummer" th:field="*{orderNum}"/>
+                <input type="text" placeholder="Serveringordning" th:field="*{orderNum}"/>
                 <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
                 <div>
                     <span class="error"
@@ -34,13 +35,20 @@
             </form>
         </div>
         <div th:if="${qrOptionForm.gameStatus != 'finished' and qrOptionForm.servingOrderAlreadyEntered != null}">
-            <h1>Vinprovningen är inte avslutad, när den blir det blipa QR koden igen och kom tillbaka.</h1>
+            <h1>Du har scannat QR-koden för ett vin som serveras på vinprovningen!</h1>
+            <br>
+            <h2>Provningen är ännu inte avslutad. Välkommen att scanna QR-koden igen när provningen är klar.</h2>
         </div>
         <div th:if="${qrOptionForm.gameStatus == 'finished'}">
-            <h2>Nu när vinprovningen är slut kan du klicka på länken nedan.</h2>
+            <div>
+                <h1>Du har scannat QR-koden för ett vin som serverades på vinprovningen!</h1>
+                <br>
+            </div>
+            <h2>Nu är provningen avslutad och för mer information om vinet kan du</h2>
+            <h2>klicka på länken nedan.</h2>
             <br>
             <a th:href="@{${qrOptionForm.url}}">
-                <h1 th:text="${qrOptionForm.parsedUrl}"></h1>
+                <h3 th:text="${qrOptionForm.parsedUrl}"></h3>
             </a>
         </div>
     </div>

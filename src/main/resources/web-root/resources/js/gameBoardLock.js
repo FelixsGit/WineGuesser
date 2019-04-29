@@ -1,6 +1,7 @@
 'use strict';
 
 var doneArea = null;
+var notDoneArea = null;
 var messageForm = null;
 var stompClientConn = null;
 var stompClientReg = null;
@@ -12,7 +13,10 @@ var join = null;
 var lobbyCloseForm = null;
 var lobbyLeaveForm = null;
 
+
 function connect(event) {
+
+
     messageForm = document.getElementById('messageForm');
     if(messageForm != null){
         messageForm.addEventListener('submit', sendMessage, false);
@@ -32,12 +36,12 @@ function connect(event) {
 
     if(gameId == null){
         if(!username) {
-            var socket = new SockJS('/wsGameCon');
+            var socket = new SockJS('/wsGameLockCon');
             stompClientConn = Stomp.over(socket);
             stompClientConn.connect({}, onConnected, onError);
         }
     }else{
-        var socket = new SockJS('/wsGameReg');
+        var socket = new SockJS('/wsGameLockReg');
         stompClientReg = Stomp.over(socket);
         stompClientReg.connect({}, onConnected, onError);
     }
@@ -51,10 +55,11 @@ function onConnected() {
             JSON.stringify({sender: username, content: '', gameId: '', type: 'JOIN'})
         )
     }else{
-        client = stompClientReg.subscribe('/topic/'+gameId+'/game', onMessageReceived)
-        client2 = stompClientReg.subscribe('/topic/'+gameId+'/gameLock', onMessageReceived)
+        client = stompClientReg.subscribe('/topic/'+gameId+'/gameLock', onMessageReceived)
+        client2 = stompClientReg.subscribe('/topic/'+gameId+'/game', onMessageReceived)
         join = "joining";
         sendMessage(event);
+        sendDoneMessage(event);
     }
 }
 
@@ -86,7 +91,7 @@ function sendMessage(event) {
                 type: 'READY'
             };
         }
-        stompClientReg.send("/app/chat.regularGameComs/" + gameId, {}, JSON.stringify(chatMessage));
+        stompClientReg.send("/app/chat.regularGameLockComs/" + gameId, {}, JSON.stringify(chatMessage));
     }
 }
 
@@ -97,7 +102,7 @@ function closeGameMessage(event) {
         gameId: gameId,
         type: 'CLOSE'
     };
-    stompClientReg.send("/app/chat.regularGameComs/" + gameId, {}, JSON.stringify(chatMessage));
+    stompClientReg.send("/app/chat.regularGameLockComs/" + gameId, {}, JSON.stringify(chatMessage));
 }
 
 function leaveGameMessage(event) {
@@ -107,9 +112,8 @@ function leaveGameMessage(event) {
         gameId: gameId,
         type: 'LEAVE'
     };
-    stompClientReg.send("/app/chat.regularGameComs/" + gameId, {}, JSON.stringify(chatMessage));
+    stompClientReg.send("/app/chat.regularGameLockComs/" + gameId, {}, JSON.stringify(chatMessage));
 }
-
 
 function sendDoneMessage(event) {
     var chatMessage = {
@@ -118,7 +122,7 @@ function sendDoneMessage(event) {
         gameId: gameId,
         type: 'DONE'
     };
-    stompClientReg.send("/app/chat.regularGameComs/" + gameId, {}, JSON.stringify(chatMessage));
+    stompClientReg.send("/app/chat.regularGameLockComs/" + gameId, {}, JSON.stringify(chatMessage));
 }
 
 function sendShowResultMessage(event) {
@@ -131,13 +135,14 @@ function sendShowResultMessage(event) {
     window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
     client.unsubscribe();
     client = null;
-    stompClientReg.send("/app/chat.regularGameComs/" + gameId, {}, JSON.stringify(chatMessage));
+    stompClientReg.send("/app/chat.regularGameLockComs/" + gameId, {}, JSON.stringify(chatMessage));
 }
 
 
 function onMessageReceived(payload) {
 
     var doneElement = document.createElement('li');
+
     var message = JSON.parse(payload.body);
 
     if(message.type === 'SETUP'){
@@ -152,6 +157,16 @@ function onMessageReceived(payload) {
     }
     if(message.type === 'SHOWRESULT'){
         timeFunctionEnd();
+    }
+    if(message.type === 'LEAVE'){
+        var elementToRemove = document.getElementById(message.sender);
+        if(elementToRemove != null){
+            elementToRemove.parentNode.removeChild(elementToRemove);
+        }
+        notDoneArea = document.getElementById('not-done-area');
+        if(notDoneArea.childElementCount === 0){
+            timeFunction();
+        }
     }
 
     if(message.type === 'DONE'){
@@ -170,9 +185,11 @@ function onMessageReceived(payload) {
 
     if(message.type === 'CLOSE'){
         if(message.sender === username){
+
         }else{
             window.location.replace('http://192.168.0.100:8080/gameBoard/' + gameId + '/command/redirect');
         }
+
     }
 
 }
@@ -188,19 +205,23 @@ function timeFunctionEnd() {
 
 function timeFunction() {
     setTimeout(function(){
-        var form = document.getElementById('viewResult');
-        var button = document.createElement('button');
-        button.setAttribute('id','showResult');
-        button.setAttribute('type', 'submit');
-        var buttonNameText = document.createTextNode('Visa Resultat');
-        button.appendChild(buttonNameText);
-        form.appendChild(button);
-        {document.getElementById("showResult").style.display="block";}
+        if(document.getElementById('viewResultButton') == null){
+            var form = document.getElementById('viewResult');
+            var button = document.createElement('button');
+            button.setAttribute('id','showResult');
+            button.setAttribute('type', 'submit');
+            var buttonNameText = document.createTextNode('Visa Resultat');
+            button.appendChild(buttonNameText);
+            form.appendChild(button);
+            {document.getElementById("showResult").style.display="block";}
 
-        //adding event listner
-        var resultButtonForm = document.getElementById('viewResult');
-        if(resultButtonForm != null){
-            resultButtonForm.addEventListener('submit', sendShowResultMessage, false);
+            //adding event listner
+            var resultButtonForm = document.getElementById('viewResult');
+            if(resultButtonForm != null){
+                resultButtonForm.addEventListener('submit', sendShowResultMessage, false);
+            }
         }
+
     }, 1000);
 }
+

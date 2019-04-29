@@ -10,13 +10,13 @@
 
     <div>
         <h1 class="text-scale" th:text="'Resultatsida!'"></h1>
-        <h2 class="text-scale" th:text="'Vinprovningen med nummer '+${gameResultsForm.gameStats.gameId}+' är avslutad.'"> </h2>
-        <h2 class="text-scale" th:text="'Detta är resultatet för användare '+${gameResultsForm.viewer}+'.'"></h2>
+        <br>
+        <h2 class="text-scale" th:text="'Vinprovningen är avslutad.'"> </h2>
+        <h2 class="text-scale" th:text="'Detta är resultatet för användare: '+${gameResultsForm.viewer}+'.'"></h2>
         <br>
         <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
         <br>
-        <h2 th:text="Poänglista"/>
-        <br>
+        <h2 th:text="'Poäng.'"/>
         <ul id="gamePoint-area">
             <li id="gamePoint-box" th:each="gamePointDTO, var : *{gameResultsForm.gameStats.gamePointList}">
                 <div id="res-name"><a id="date-played" th:href="${'../../profile/' + gamePointDTO.username}" th:text="*{gamePointDTO.username}"/></div>
@@ -25,7 +25,7 @@
         </ul>
         <br>
         <br>
-        <h2>Vinlista i serveringsordning.</h2>
+        <h2>Vin i serveringsordning.</h2>
         <br>
         <ul id="resultData-area">
             <li id="resultData-box" th:each="resultDataDTO, var : *{gameResultsForm.gameStats.resultDataList}">
@@ -63,9 +63,18 @@
                 </div>
             </li>
         </ul>
+
+        <div id="comment-area" th:if="${gameResultsForm.gameStats.comment != null}">
+            <h2>Kommentar:</h2>
+            <div id="comment-box">
+                <h4 id="comment-text" th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(gameResultsForm.gameStats.comment),'\n','&lt;br /&gt;'))}"></h4>
+            </div>
+        </div>
+
+
         <form th:action="@{/menu}">
             <h3>Spelet är avslutat, klicka här för att lämna.</h3>
-            <button type="submit">Till menu</button>
+            <button id="lockInResult" type="submit">Lämna</button>
         </form>
         <br>
         <br>

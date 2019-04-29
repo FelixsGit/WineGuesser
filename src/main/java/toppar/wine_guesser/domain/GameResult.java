@@ -14,14 +14,24 @@ public class GameResult implements GameResultDTO{
     private int gameResultId;
     private String gameId;
     private String url;
+    private String comment;
 
     protected GameResult(){
 
     }
 
-    public GameResult(String gameId, String url) {
+    public GameResult(String gameId, String url, String comment) {
         this.gameId = gameId;
         this.url = url;
+        this.comment = comment;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public int getGameResultId() {

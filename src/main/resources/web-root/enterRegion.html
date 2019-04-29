@@ -10,15 +10,12 @@
 
     <div class="text-scale">
         <div>
-            <h2>I denna nerfällbara meny finns alla regionerna som dom inskriva vinerna kommer ifrån.</h2>
-            <h3>Här kan man välja en region som man kan gissa på under vinprovningen för extra poäng.</h3>
+            <h1>Gissa på region!</h1>
+            <br>
+            <h2>Här kan du välja EN region för bonuspoäng i provningen.</h2>
         </div>
         <br>
-        <form action="#" th:action="@{/enterRegion}" th:object="${enterRegionForm}" method="post">
-            <button id="bot" type="submit">Hoppa Över</button>
-        </form>
-        <br>
-        <br>
+
         <form action="#" th:action="@{/enterRegion}" th:object="${enterRegionForm}" method="post">
             <select class="select-css" th:field="*{chosenRegion}">
                 <option th:each="region : ${enterRegionForm.regions}"
@@ -27,10 +24,13 @@
                 </option>
             </select>
             <br>
-            <br>
-            <br>
-            <br>
             <button id="bot" type="submit">Lås in Region</button>
+        </form>
+        <br>
+        <br>
+        <h2>Jag vill inte gissa på region.</h2>
+        <form action="#" th:action="@{/enterRegion}" th:object="${enterRegionForm}" method="post">
+            <button id="bot" type="submit">Hoppa Över</button>
         </form>
     </div>
 </main>

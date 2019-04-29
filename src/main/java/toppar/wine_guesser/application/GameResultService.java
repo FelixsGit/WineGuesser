@@ -35,10 +35,20 @@ public class GameResultService {
     private MatchHistoryService matchHistoryService;
     @Autowired
     private UserResultsService userResultsService;
+    @Autowired
+    private GameSetupService gameSetupService;
 
     public void generateGameStatsForGameWithId(String gameId){
 
-        GameResult gameResult = new GameResult(gameId, "http://192.168.0.100:8080/gameResults/"+gameId);
+
+        GameSetup gameSetup = gameSetupService.getGameSetupByGameId(gameId);
+        GameResult gameResult;
+        if(gameSetup.getComment() != null){
+            gameResult = new GameResult(gameId, "http://192.168.0.100:8080/gameResults/"+gameId, gameSetup.getComment());
+        }else{
+            gameResult = new GameResult(gameId, "http://192.168.0.100:8080/gameResults/"+gameId, null);
+        }
+
         gameResultRepository.save(gameResult);
 
         //Calculating points
@@ -77,7 +87,7 @@ public class GameResultService {
                 int userGrade = judgementService.findPersonalGrade(participants.get(j), gameId, Integer.valueOf(gameSettings.getServingOrder()));
                 String guessedDescription = userGuessesService.getDescriptionGuessByGameIdUsernameAndServingOrderGuess(gameId, participants.get(j), currentWineServingOrder);
                 if(currentWineIsRegion){
-                    if(userGuessesService.checkIfPlayerHasCurrentWineDescriptionWithRegionNotNull(participants.get(j), gameSettings)){
+                    if(userGuessesService.checkIfPlayerHasCurrentServingOrderWithRegionNotNull(participants.get(j), gameSettings, currentWineServingOrder)){
                         System.out.println("correct guess on region for user " + participants.get(j));
                         correctGuessOnRegion = true;
                     }
@@ -171,7 +181,7 @@ public class GameResultService {
         GameResult gameResult = gameResultRepository.findAllByGameId(gameId);
         List<GamePointDTO> gamePointList = sortGamePointListByPoints(gamePointService.getAllByGameResultId(gameResult.getGameResultId()));
         List<ResultDataDTO> resultDataList = resultDataService.getAllByGameResultIdAndUsername(gameResult.getGameResultId(), username);
-        return new GameStats(gamePointList, resultDataList, gameId);
+        return new GameStats(gamePointList, resultDataList, gameId, gameResult.getComment());
     }
 
     private boolean checkIfDescriptionsAreEqual(String one, String two){

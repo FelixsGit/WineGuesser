@@ -24,15 +24,15 @@
             <h2>Statistik:</h2>
             <div id="clubData-soloData-box">
                 <div id="clubData-numberOfTastings" >
-                    <h3 th:text="'Antalet vinprovningar: ' + ${clubForm.clubStats.clubDTO.numberOfTastings}"></h3>
+                    <h3 th:text="'Vinprovningar: ' + ${clubForm.clubStats.clubDTO.numberOfTastings}"></h3>
                 </div>
                 <div id="clubData-averageWineCorrect" >
-                    <h3 th:text="'Medlemmarnas andel korrekt: ' + ${clubForm.clubStats.clubDTO.averageWineCorrect}+'%'"></h3>
+                    <h3 th:text="'Korrekta gissningar: ' + ${clubForm.clubStats.clubDTO.averageWineCorrect}+'%'"></h3>
                 </div>
             </div>
             <br>
             <ul id="clubData-memberList-area">
-                <h2>Medlemmslista:</h2>
+                <h2>Medlemslista:</h2>
                 <li id="clubData-memberList-box" th:each="member, var : *{clubForm.clubStats.memberList}">
                     <h3 th:if="${member.isBacchus == 'true'}">
                         <img id="bacchus-logo" src="../resources/images/bacchus.png" alt="bacchus standard logo">

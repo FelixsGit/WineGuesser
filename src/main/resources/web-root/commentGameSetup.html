@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{resources/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Guesser</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+
+    <div class="text-scale">
+
+        <h1>Kommentera provningen!</h1>
+        <br>
+        <h2>Din kommentar kommer visas på resultatsidan för provningen.</h2>
+        <h3>Exempel: meny, plats.</h3>
+        <br>
+        <form action=# th:action="@{/commentGameSetup}" th:object="${commentGameSetupForm}" method="post">
+
+            <textarea name="comment" th:value="${commentGameSetupForm.comment}" autocomplete="off" aria-autocomplete="list" aria-haspopup="true"></textarea>
+            <input type="hidden" name="gameId" th:value="${commentGameSetupForm.gameId}">
+            <br>
+            <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
+            <br>
+            <button type="submit">Skicka in och Gå Vidare till Provningen</button>
+        </form>
+
+        <br>
+        <br>
+        <br>
+
+        <h2>Jag vill inte kommentera.</h2>
+        <br>
+        <form th:action="@{'/generateLobby/' + ${commentGameSetupForm.gameId}}">
+            <button id="lockInResult" type="submit">Gå Vidare till Provningen</button>
+        </form>
+
+    </div>
+
+</main>
+</body>
+</html>

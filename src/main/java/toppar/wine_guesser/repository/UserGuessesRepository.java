@@ -22,4 +22,5 @@ public interface UserGuessesRepository extends JpaRepository<UserGuesses, String
 
     void removeAllByGameId(String gameId);
 
+    void removeAllByUsernameAndGameId(String username, String gameId);
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{resources/fragments/gameLayout}" xmlns:visibility="http://www.w3.org/1999/xhtml">
+      layout:decorate="~{resources/fragments/gameBoardLayout}" xmlns:visibility="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Wine Guesser</title>
@@ -14,13 +14,13 @@
                 <br>
                 <h2>Här är beskrivningarna för alla viner som serveras.</h2>
                 <br>
-                <h3>Glöm ej att blipa QR koden på det vinet som serveras så att</h3>
-                <h3>ni kan skriva in serveringsordningen för vinet.</h3>
+                <h3>Glöm ej att scanna QR-koden på det vin som serveras så att</h3>
+                <h3>rätt serveringsordning kan skrivas in.</h3>
                 <br>
                 <br>
             </div>
         <form id="wine-rate-form" th:unless="${gameBoardForm.doneRating}" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
-            <h2 th:text="'Skriv in betyg 1 - 5 för vin med serveringsvinsnummer: '+ *{wineToRate}"></h2>
+            <h2 th:text="'Skriv in betyg 1 - 5 för vin med serveringsordning: '+ *{wineToRate}"></h2>
             <input id="enter-grade" type="number" th:field="*{wineRating}" />
             <input type="hidden" th:field="*{wineToRate}" />
             <input type="hidden" th:field="*{gameId}" />
@@ -35,14 +35,16 @@
         </form>
 
         <div th:if="${gameBoardForm.doneRating}">
-            <h1>Dags att gissa på serveringsordningen!</h1>
-            <h2>Detta görs genom att matcha serveringsordningen med vin beskrivningarna nedan.</h2>
+            <h1>Dags att gissa på vinerna!</h1>
             <br>
-            <h2 th:if="${gameBoardForm.chosenRegion}" th:text="'Försök också att gissa på vilka viner som kommer från '+${gameBoardForm.chosenRegion}+'.'"></h2>
+            <h2>Matcha serveringsordningen med beskrivningarna nedan.</h2>
             <br>
-            <h3>Glöm ej att blipa QR koden på det vinet som serveras så att</h3>
-            <h3>ni kan skriva in serveringsordningen för vinet.</h3>
+            <h2 th:if="${gameBoardForm.chosenRegion}" th:text="'Försök även att matcha serveringsordningen med regionen: '+${gameBoardForm.chosenRegion}+'.'"></h2>
             <br>
+            <h3>Du har väll scannat QR-koderna och skrivit in serveringsordningen?</h3>
+            <br>
+            <h2>OBS!</h2>
+            <h3>Regionen ska kombineras med serveringsordningen, inte beskrivningen.</h3>
             <br>
         </div>
         <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
@@ -51,7 +53,9 @@
             <ul class="description-page">
                 <li id="description-box" th:each="description, var : *{descriptions}">
                     <div id="board-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(description),'\n','&lt;br /&gt;'))}"></h4></div>
-                    <input id="numGuess" th:if="${gameBoardForm.doneRating}" type="number" th:field="*{guessNum[__${var.index}__]}" />
+
+                    <input id="numGuess" th:if="${gameBoardForm.doneRating}" type="number" th:field="*{guessNum[__${var.index}__]}"/>
+                    <div th:if="${gameBoardForm.doneRating != null and gameBoardForm.chosenRegion != null}" id="equal-sign"><h3>&#61</h3></div>
                     <label th:if="${gameBoardForm.doneRating != null and gameBoardForm.chosenRegion != null}" class="toggle">
                         <input type="hidden" th:field="${gameBoardForm.chosenRegion}">
                         <input type="hidden" th:field="${gameBoardForm.numOfWinesWithRegion}">
@@ -60,11 +64,25 @@
                         <span class="toggle__text"><h3 th:text="${gameBoardForm.chosenRegion}"/></span>
                         </span>
                     </label>
+
                     <input type="hidden" th:field="*{descriptions[__${var.index}__]}"/>
                     <input id="numGuess" type="hidden" th:field="*{doneRating}" />
                     <br>
                 </li>
                 <input type="hidden" th:field="*{gameId}"/>
+
+                <div id="bottom-left" th:unless="${gameBoardForm.gameHost}">
+                    <form id="lobbyLeaveForm" th:action="@{'/gameBoard/' + ${gameBoardForm.gameId} + '/command/leave'}">
+                        <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen? Du kommer inte kunna gå med igen.');">Lämna Vinprovningen</button>
+                    </form>
+                </div>
+
+                <div id="bottom-left" th:if="${gameBoardForm.gameHost}">
+                    <form id="lobbyCloseForm" th:action="@{'/gameBoard/' + ${gameBoardForm.gameId} + '/command/quit'}">
+                        <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
+                    </form>
+                </div>
+                <button th:if="${gameBoardForm.doneRating}" id="lockInResult" type="submit">Lås in Resultat</button>
             </ul>
             <br>
             <br>
@@ -72,10 +90,10 @@
                   th:if="${#fields.errors('guessNum')}"
                   th:errors="*{guessNum}">
                     </span>
-            <button th:if="${gameBoardForm.doneRating}" id="lockInResult" type="submit">Lås in resultat</button>
         </form>
 
     </div>
+
 
     <script th:inline="javascript" th:if="${gameBoardForm.doneRating}">
         document.addEventListener('DOMContentLoaded', function () {
@@ -245,8 +263,16 @@
                 });
             }
         });
+
     </script>
 
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            connect();
+        });
+
+    </script>
 
 </main>
 </body>

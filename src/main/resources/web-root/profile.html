@@ -35,9 +35,9 @@
             <h2>Statistik:</h2>
             <div id="stats-box">
                 <h3 th:text="'Spelade matcher: '+${profileForm.profileData.userResultsDTO.playedGames}"></h3>
-                <h3 th:if="${profileForm.profileData.userResultsDTO.playedGames != 0}" th:text="'Andel korrekt gissade viner: '+${profileForm.profileData.userResultsDTO.correctPercent}+'%'"></h3>
-                <h3 th:if="${profileForm.profileData.userResultsDTO.playedGames == 0}" th:text="'Andel korrekt gissade viner: -- %'"></h3>
-                <h3 th:text="'Antal vinster: '+${profileForm.profileData.userResultsDTO.wins}"></h3>
+                <h3 th:if="${profileForm.profileData.userResultsDTO.playedGames != 0}" th:text="'Korrekta gissningar: '+${profileForm.profileData.userResultsDTO.correctPercent}+'%'"></h3>
+                <h3 th:if="${profileForm.profileData.userResultsDTO.playedGames == 0}" th:text="'Korrekta gissningar: -- %'"></h3>
+                <h3 th:text="'Vinster: '+${profileForm.profileData.userResultsDTO.wins}"></h3>
             </div>
         </div>
         <ul id="stats-area">

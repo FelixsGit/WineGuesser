@@ -19,4 +19,6 @@ public interface JudgementRepository extends JpaRepository<Judgement, Integer> {
     List<Judgement> findAllByServingOrderAndGameId(int servingOrder, String gameId);
 
     void removeAllByGameId(String gameId);
+
+    void removeAllByUsernameAndGameId(String username, String gameId);
 }

@@ -46,6 +46,7 @@ public class ApplicationController {
     public static final String CLUB_LIST_PAGE_URL = "clubList";
     public static final String CLUB_PAGE_URL = "club";
     public static final String CLUB_GAME_SETUP_PAGE_URL = "clubGameSetup";
+    public static final String COMMENT_GAME_SETUP_PAGE_URL = "commentGameSetup";
 
     public static final String REGISTER_OBJ_NAME = "registerForm";
     public static final String LOBBY_OBJ_NAME = "lobbyForm";
@@ -67,6 +68,7 @@ public class ApplicationController {
     public static final String CLUB_LIST_OBJ_NAME = "clubListForm";
     public static final String CLUB_OBJ_NAME = "clubForm";
     public static final String CLUB_GAME_SETUP_OBJ_NAME = "clubGameSetupForm";
+    public static final String COMMENT_GAME_SETUP_OBJ_NAME = "commentGameSetupForm";
 
 
     //////////////////////////////////////GET MAPPINGS/////////////////////////////////////////////////////
@@ -101,6 +103,24 @@ public class ApplicationController {
     private ClubMemberService clubMemberService;
     @Autowired
     private ClubWineStatService clubWineStatService;
+
+    @GetMapping(COMMENT_GAME_SETUP_PAGE_URL)
+    public String showCommentGameSetupPage(Model model, HttpServletRequest request){
+        if(!model.containsAttribute(COMMENT_GAME_SETUP_OBJ_NAME)){
+            model.addAttribute(COMMENT_GAME_SETUP_OBJ_NAME);
+        }
+        CommentGameSetupForm commentGameSetupForm = new CommentGameSetupForm();
+        try {
+            commentGameSetupForm.setGameId(gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName()).getGameId());
+        } catch (AuthorizationException e) {
+            JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+            model.addAttribute(joinGameLobbyForm);
+            controlErrorHandling(e, model);
+            return MENU_PAGE_URL;
+        }
+        model.addAttribute(commentGameSetupForm);
+        return COMMENT_GAME_SETUP_PAGE_URL;
+    }
 
     @GetMapping(CLUB_GAME_SETUP_PAGE_URL)
     public String showClubGameSetupPage(Model model, HttpServletRequest request, String gameId) {
@@ -288,12 +308,9 @@ public class ApplicationController {
         return PROFILE_PAGE_URL;
     }
 
-
-
-
-    @MessageMapping("/chat.regularComs/{gameId}")
-    @SendTo("/topic/{gameId}")
-    public ChatMessage regularComs(@DestinationVariable String gameId, @Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+    @MessageMapping("/chat.regularGameComs/{gameId}")
+    @SendTo("/topic/{gameId}/game")
+    public ChatMessage regularGameComs(@DestinationVariable String gameId, @Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
         printChatMessage(chatMessage, "res");
         if(chatMessage.getType().equals(ChatMessage.MessageType.READY)){
             lobbyDataService.setReadyForParticipant(chatMessage.getSender());
@@ -310,7 +327,65 @@ public class ApplicationController {
                     System.out.println("check if all users are done passed");
                     chatMessage.setContent("ALLDONE");
                 }else{
-                    System.out.println("server concluded user was not done");
+                    System.out.println("server concluded not all users were not done");
+                }
+
+            }
+        }
+        printChatMessage(chatMessage, "send");
+        return chatMessage;
+    }
+
+    @MessageMapping("/chat.regularGameLockComs/{gameId}")
+    @SendTo("/topic/{gameId}/gameLock")
+    public ChatMessage regularGameLockComs(@DestinationVariable String gameId, @Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+        printChatMessage(chatMessage, "res");
+        if(chatMessage.getType().equals(ChatMessage.MessageType.READY)){
+            lobbyDataService.setReadyForParticipant(chatMessage.getSender());
+            if(lobbyDataService.checkIfAllParticipantsAreReady(gameId)){
+                chatMessage.setContent("ALLREADY");
+            }
+        }else if(chatMessage.getType().equals(ChatMessage.MessageType.LEAVE)){
+            lobbyDataService.setNotDoneForParticipant(chatMessage.getSender());
+            chatMessage.setType(ChatMessage.MessageType.LEAVE);
+        }else if(chatMessage.getType().equals(ChatMessage.MessageType.DONE)){
+            if(chatMessage.getSender().equals(Objects.requireNonNull(headerAccessor.getUser()).getName())) {
+                lobbyDataService.setDoneTrueForParticipant(headerAccessor.getUser().getName());
+                if (lobbyDataService.checkIfAllParticipantsAreDone(gameId)) {
+                    System.out.println("check if all users are done passed");
+                    chatMessage.setContent("ALLDONE");
+                }else{
+                    System.out.println("server concluded not all users were not done");
+                }
+
+            }
+        }
+        printChatMessage(chatMessage, "send");
+        return chatMessage;
+    }
+
+
+
+    @MessageMapping("/chat.regularLobbyComs/{gameId}")
+    @SendTo("/topic/{gameId}/lobby")
+    public ChatMessage regularLobbyComs(@DestinationVariable String gameId, @Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+        printChatMessage(chatMessage, "res");
+        if(chatMessage.getType().equals(ChatMessage.MessageType.READY)){
+            lobbyDataService.setReadyForParticipant(chatMessage.getSender());
+            if(lobbyDataService.checkIfAllParticipantsAreReady(gameId)){
+                chatMessage.setContent("ALLREADY");
+            }
+        }else if(chatMessage.getType().equals(ChatMessage.MessageType.LEAVE)){
+            lobbyDataService.setNotReadyForParticipant(chatMessage.getSender());
+            chatMessage.setType(ChatMessage.MessageType.LEAVE);
+        }else if(chatMessage.getType().equals(ChatMessage.MessageType.DONE)){
+            if(chatMessage.getSender().equals(Objects.requireNonNull(headerAccessor.getUser()).getName())) {
+                lobbyDataService.setDoneTrueForParticipant(headerAccessor.getUser().getName());
+                if (lobbyDataService.checkIfAllParticipantsAreDone(gameId)) {
+                    System.out.println("check if all users are done passed");
+                    chatMessage.setContent("ALLDONE");
+                }else{
+                    System.out.println("server concluded not all users were not done");
                 }
 
             }
@@ -355,7 +430,7 @@ public class ApplicationController {
 
 
     @GetMapping("gameBoard"+"/{gameId}")
-    public String showGameBoardPage(Model model, GameBoardForm gameBoardForm, @PathVariable("gameId") String gameId, HttpServletRequest request, BindingResult bindingResult){
+    public String showGameBoardPage(Model model, @ModelAttribute GameBoardForm gameBoardForm, @PathVariable("gameId") String gameId, HttpServletRequest request, BindingResult bindingResult){
         System.out.println("call to game board page");
         if(!model.containsAttribute(GAME_BOARD_OBJ_NAME)){
             model.addAttribute(GAME_BOARD_OBJ_NAME);
@@ -378,6 +453,9 @@ public class ApplicationController {
         if(!bindingResult.hasErrors()){
             gameBoardForm.setChosenRegion(gameSettingsService.findChosenRegionByGameId(gameId));
         }
+        if(gameSetupService.getGameSetupByGameId(gameId).getGameHost().equals(request.getUserPrincipal().getName())){
+            gameBoardForm.setGameHost(request.getUserPrincipal().getName());
+        }
         gameBoardForm.setWineToRate(judgementsPassed + 1);
         gameBoardForm.setNumOfWinesWithRegion(gameSettingsService.getNumberOfWinesWithRegionsForGameId(gameId));
         gameBoardForm.setGameId(gameId);
@@ -386,7 +464,7 @@ public class ApplicationController {
     }
 
     @GetMapping("gameBoardLock"+"/{gameId}")
-    public String showGameBoardLockPage(Model model, GameBoardLockForm gameBoardLockForm, @PathVariable("gameId") String gameId, HttpServletRequest request){
+    public String showGameBoardLockPage(Model model, @ModelAttribute GameBoardLockForm gameBoardLockForm, @PathVariable("gameId") String gameId, HttpServletRequest request){
         System.out.println("call to game board lock page");
         if(!model.containsAttribute(GAME_BOARD_LOCK_OBJ_NAME)){
             model.addAttribute(GAME_BOARD_LOCK_OBJ_NAME);
@@ -402,6 +480,7 @@ public class ApplicationController {
         if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
             gameBoardLockForm.setGameHost(request.getUserPrincipal().getName());
         }
+        System.out.println(gameBoardLockForm.getGameHost());
         model.addAttribute(gameBoardLockForm);
         return GAME_BOARD_LOCK_PAGE_URL;
     }
@@ -441,6 +520,7 @@ public class ApplicationController {
         if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
             lobbyForm.setGameHost(request.getUserPrincipal().getName());
         }
+        lobbyDataService.setNotReadyForParticipant(request.getUserPrincipal().getName());
         model.addAttribute(lobbyForm);
         return LOBBY_PAGE_URL;
     }
@@ -481,8 +561,24 @@ public class ApplicationController {
             model.addAttribute(new PrintQrCodesForm());
         }
         PrintQrCodesForm printQrCodesForm = new PrintQrCodesForm();
-        List<String> qrCodes = gameSettingsService.getQrCodesByGameHost(request.getUserPrincipal().getName());
-        GameSetupDTO gameSetupDTO = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName());
+        List<String> qrCodes = null;
+        try {
+            qrCodes = gameSettingsService.getQrCodesByGameHost(request.getUserPrincipal().getName());
+        } catch (AuthorizationException e) {
+            JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+            model.addAttribute(joinGameLobbyForm);
+            controlErrorHandling(e, model);
+            return MENU_PAGE_URL;
+        }
+        GameSetupDTO gameSetupDTO = null;
+        try {
+            gameSetupDTO = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName());
+        } catch (AuthorizationException e) {
+            JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+            model.addAttribute(joinGameLobbyForm);
+            controlErrorHandling(e, model);
+            return MENU_PAGE_URL;
+        }
         printQrCodesForm.setGameId(gameSetupDTO.getGameId());
         printQrCodesForm.setQrCodes(qrCodes);
         model.addAttribute(printQrCodesForm);
@@ -513,6 +609,58 @@ public class ApplicationController {
         return NUMBER_OF_WINES_PAGE_URL;
     }
 
+    @GetMapping("gameBoard/{gameId}/command/{action}")
+    public String gameBoardCommandRedirect(Model model, @PathVariable String action, @PathVariable String gameId, HttpServletRequest request) {
+        if(!model.containsAttribute(JOIN_GAME_LOBBY_OBJ_NAME)){
+            model.addAttribute(JOIN_GAME_LOBBY_OBJ_NAME);
+        }
+        if(action.equals("leave")){
+            userGuessesService.removeByUsernameAndGameId(request.getUserPrincipal().getName(), gameId);
+            judgementService.removeByUsernameAndGameId(request.getUserPrincipal().getName(), gameId);
+            lobbyDataService.removeParticipantFromLobby(request.getUserPrincipal().getName());
+            userService.removeActiveGameFromUserWithUsername(request.getUserPrincipal().getName());
+            try {
+                throw new GuessException("left game");
+            } catch (GuessException e) {
+                JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+                model.addAttribute(joinGameLobbyForm);
+                controlErrorHandling(e, model);
+                return MENU_PAGE_URL;
+            }
+        }
+        if(action.equals("quit")) {
+            userGuessesService.removeAllByGameId(gameId);
+            judgementService.removeAllByGameId(gameId);
+            gameSetupService.removeGameSetupByGameHost(request.getUserPrincipal().getName());
+            gameSettingsService.removeGameSettingsByGameHost(request.getUserPrincipal().getName());
+            lobbyService.cancelGameLobbyByGameId(gameId);
+            lobbyDataService.removeAllParticipantsFromLobbyWithGameId(gameId);
+            userService.cancelActiveGamesForAllUsersWithGameId(gameId);
+            try {
+                throw new GuessException("you closed game");
+            } catch (GuessException e) {
+                JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+                model.addAttribute(joinGameLobbyForm);
+                controlErrorHandling(e, model);
+                return MENU_PAGE_URL;
+            }
+        }
+        if(action.equals("redirect")){
+            try {
+                throw new GuessException("close game");
+            } catch (GuessException e) {
+                JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+                model.addAttribute(joinGameLobbyForm);
+                controlErrorHandling(e, model);
+                return MENU_PAGE_URL;
+            }
+        }
+        JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+        model.addAttribute(joinGameLobbyForm);
+        return showMenuPage(model, request);
+
+    }
+
     @GetMapping("lobby/{gameId}/command/{action}")
     public String lobbyCommandRedirect(Model model, @PathVariable("action") String action, @PathVariable String gameId, HttpServletRequest request) {
         if(!model.containsAttribute(JOIN_GAME_LOBBY_OBJ_NAME)){
@@ -520,7 +668,6 @@ public class ApplicationController {
         }
         if(action.equals("quit")){
             if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
-                System.out.println("user: " + request.getUserPrincipal().getName() +" is closing the lobby down");
                 gameSetupService.removeGameSetupByGameHost(request.getUserPrincipal().getName());
                 gameSettingsService.removeGameSettingsByGameHost(request.getUserPrincipal().getName());
                 lobbyService.cancelGameLobbyByGameId(gameId);
@@ -574,7 +721,15 @@ public class ApplicationController {
             missingDecData.setMissing("notMissing");
             model.addAttribute(missingDecData);
         }
-        GameSetupDTO gameSetupDTO = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName());
+        GameSetupDTO gameSetupDTO = null;
+        try {
+            gameSetupDTO = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName());
+        } catch (AuthorizationException e) {
+            JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+            model.addAttribute(joinGameLobbyForm);
+            controlErrorHandling(e, model);
+            return MENU_PAGE_URL;
+        }
         int amountOfWines = Integer.parseInt(gameSetupDTO.getAmountOfWines());
         List<String> amount = new ArrayList<>();
         for(int i = 0; i < amountOfWines; i++){
@@ -590,6 +745,17 @@ public class ApplicationController {
 
     //////////////////////////////////////POST MAPPINGS/////////////////////////////////////////////////////
 
+    @PostMapping(COMMENT_GAME_SETUP_PAGE_URL)
+    public String enterGameSetupComment(@Valid @ModelAttribute CommentGameSetupForm commentGameSetupForm, BindingResult bindingResult, Model model, HttpServletRequest request){
+        if(bindingResult.hasErrors()){
+            model.addAttribute(commentGameSetupForm);
+            controlErrorHandling(new CommentException("fault in comment"), model);
+            return showCommentGameSetupPage(model, request);
+        }
+        gameSetupService.setCommentForGameSetupWithGameId(commentGameSetupForm.getComment(), commentGameSetupForm.getGameId());
+        return generateLobby(model, request, commentGameSetupForm.getGameId());
+    }
+
     @PostMapping(CLUB_PAGE_URL)
     public String leaveClub(@ModelAttribute ClubForm clubForm, Model model, HttpServletRequest request){
         clubMemberService.removeUserFromClub(clubForm.getClubId(), request.getUserPrincipal().getName());
@@ -598,7 +764,6 @@ public class ApplicationController {
 
     @PostMapping(CLUB_GAME_SETUP_PAGE_URL)
     public String enterGameClub(@ModelAttribute ClubGameSetupForm clubGameSetupForm, Model model, HttpServletRequest request){
-        System.out.println(clubGameSetupForm.getChosenClub());
         gameSetupService.updateGameSetupWithChosenClub(request.getUserPrincipal().getName(), clubGameSetupForm.getChosenClub());
         return showEnterUrlPage(model, request);
     }
@@ -776,8 +941,18 @@ public class ApplicationController {
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NOT_A_MEMBER_OF_THAT_CLUB);
         }else if(e.getMessage().toUpperCase().contains("NOT ALL USERS ARE IN THE CLUB")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NOT_ALL_USERS_ARE_IN_THE_CLUB);
-        } else if(e.getMessage().toUpperCase().contains("MISSING CLUB")){
+        }else if(e.getMessage().toUpperCase().contains("MISSING CLUB")){
             model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.YOU_DONT_HAVE_LOBBY_CLUB);
+        }else if(e.getMessage().toUpperCase().contains("NO GAMESETUP FOUND")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.NO_GAME_SETUP);
+        }else if(e.getMessage().toUpperCase().contains("FAULT IN COMMENT")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.FAULT_IN_COMMENT);
+        }else if(e.getMessage().toUpperCase().contains("LEFT GAME")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.LEFT_GAME);
+        }else if(e.getMessage().toUpperCase().contains("CLOSE GAME")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.GAME_CLOSED);
+        }else if(e.getMessage().toUpperCase().contains("YOU CLOSED GAME")){
+            model.addAttribute(ErrorHandler.ERROR_TYPE_KEY, ErrorHandler.YOU_CLOSED_GAME);
         }
 
     }
@@ -788,7 +963,15 @@ public class ApplicationController {
             return showNumberOfWinesPage(model);
         }
         gameSetupService.createGameSetup(numberOfWinesForm.getNumWines(), request.getUserPrincipal().getName());
-        String gameId = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName()).getGameId();
+        String gameId = null;
+        try {
+            gameId = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName()).getGameId();
+        } catch (AuthorizationException e) {
+            JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+            model.addAttribute(joinGameLobbyForm);
+            controlErrorHandling(e, model);
+            return MENU_PAGE_URL;
+        }
         if(clubMemberService.checkIfUserIsMemberInAClub(request.getUserPrincipal().getName())){
             return showClubGameSetupPage(model, request, gameId);
         }
@@ -814,6 +997,11 @@ public class ApplicationController {
             model.addAttribute(missingDecData);
             controlErrorHandling(e, model);
             return showEnterUrlPage(model, request);
+        } catch (AuthorizationException e) {
+            JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+            model.addAttribute(joinGameLobbyForm);
+            controlErrorHandling(e, model);
+            return MENU_PAGE_URL;
         }
         MissingDecData missingDecData = new MissingDecData();
         if(!urlsThatMissDescriptions.isEmpty()){

@@ -14,6 +14,7 @@ public class GameSetup implements GameSetupDTO {
     private String gameHost;
     private String amountOfWines;
     private String clubName;
+    private String comment;
 
     /**
      * Required by JPA, do not use.
@@ -22,11 +23,20 @@ public class GameSetup implements GameSetupDTO {
 
     }
 
-    public GameSetup(String gameHost, String amountOfWines, String gameId, String clubName){
+    public GameSetup(String gameHost, String amountOfWines, String gameId, String clubName, String comment){
         this.gameHost = gameHost;
         this.amountOfWines = amountOfWines;
         this.gameId = gameId;
         this.clubName = clubName;
+        this.comment = comment;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getClubName() {

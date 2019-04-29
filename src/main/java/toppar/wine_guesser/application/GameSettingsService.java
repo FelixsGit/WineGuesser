@@ -60,7 +60,7 @@ public class GameSettingsService {
         return gameSettingsRepository.findAllByGameId(gameId);
     }
 
-    public List<String> getQrCodesByGameHost(String username){
+    public List<String> getQrCodesByGameHost(String username) throws AuthorizationException {
         GameSetupDTO gameSetupDTO  = gameSetupService.getGameSetupByGameHost(username);
         List<GameSettings> gameSettingsDTOS = gameSettingsRepository.findAllByGameId(gameSetupDTO.getGameId());
         List<String> qrCodes = new ArrayList<>();
@@ -95,6 +95,7 @@ public class GameSettingsService {
             if(gameSettings.get(i).getServingOrder() == null && gameSettings.get(i).getUrl().contains(wineId)){
                 gameSettings.get(i).setServingOrder(servingOrder);
                 gameSettingsRepository.save(gameSettings.get(i));
+                break;
             }
         }
     }
@@ -133,7 +134,7 @@ public class GameSettingsService {
         return region;
     }
 
-    public List<String> createGameSettings(List<String> urlList, String gameHost) throws WineryException{
+    public List<String> createGameSettings(List<String> urlList, String gameHost) throws WineryException, AuthorizationException {
         removeGameSettingsByGameHost(gameHost);
         String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();
         List<String> region = retrieveRegionsFromUrlList(urlList);

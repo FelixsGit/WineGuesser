@@ -9,21 +9,24 @@
 <main layout:fragment="content">
 
     <div class="text-scale">
-        <h1>Dags att göra lite utskrifter och klistring.</h1>
-        <h3>Här är QR koderna för dom vinera som du länkade till i ordning vänster till höger.</h3>
-        <h3>Nu ska du täcka alla vinflaskorna med något, eller hälla över vinerna i karaffer.</h3>
-        <h3>Därefter ska du klistra på den länkande QR koden på den överensstämande vinflaskan/karaffen.</h3>
+        <h1>Skriv ut QR-koderna!</h1>
+        <br>
+        <h2>Detta är den viktigaste delen av förberedelsen.</h2>
+        <br>
+        <h3>Här är QR-koderna för de länkade vinerna i ordning från vänster till höger.</h3>
+        <h3>Avidentifiera vinerna genom att hälla dem i karaffer och fäst respektive QR-kod på karaffen.</h3>
         <br>
         <img th:each="String, var : ${printQrCodesForm.qrCodes}"
              th:src="*{'data:image/png;base64,'+String}">
         <br>
         <br>
         <br>
-        <h3>När du är klar med detta så kan du klicka på knappen nedan.</h3>
+        <h2>OBS!</h2>
+        <h3>Du måste vara klar med detta för att gå vidare.</h3>
         <br>
         <p></p>
-        <form th:action="@{'/generateLobby/' + ${printQrCodesForm.gameId}}">
-            <button type="submit">Slutför förberedelserna</button>
+        <form action="/commentGameSetup">
+            <button type="submit" onclick="return confirm('Jag bekräftar att jag är klar.');" >Gå Vidare</button>
         </form>
         <br>
     </div>

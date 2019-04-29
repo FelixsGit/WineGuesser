@@ -4,14 +4,28 @@ import java.util.List;
 
 public class GameStats {
 
+    /**
+     * TODO Add String datatype to carry comment on the tasting!
+     */
+
     private List<GamePointDTO> gamePointList;
     private List<ResultDataDTO> resultDataList;
     private String gameId;
+    private String comment;
 
-    public GameStats(List<GamePointDTO> gamePointList, List<ResultDataDTO> resultDataList, String gameId) {
+    public GameStats(List<GamePointDTO> gamePointList, List<ResultDataDTO> resultDataList, String gameId, String comment) {
         this.gamePointList = gamePointList;
         this.resultDataList = resultDataList;
         this.gameId = gameId;
+        this.comment = comment;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public List<GamePointDTO> getGamePointList() {

@@ -112,13 +112,12 @@ public class UserGuessesService {
         return regionGuess;
     }
 
-    public boolean checkIfPlayerHasCurrentWineDescriptionWithRegionNotNull(String username, GameSettings gameSettings) {
+    public boolean checkIfPlayerHasCurrentServingOrderWithRegionNotNull(String username, GameSettings gameSettings, int currentServingOrder) {
         List<UserGuesses> userGuessesList = userGuessesRepository.findAllByUsername(username);
         for(int i = 0; i < userGuessesList.size(); i++){
-            if(checkIfDescriptionsAreEqual(userGuessesList.get(i).getDescriptionGuess(), gameSettings.getDescription())){
-                if(gameSettings.getRegion() != null && userGuessesList.get(i).getRegionGuess() != null){
-                    return true;
-                }
+            if(gameSettings.getRegion() != null && userGuessesList.get(i).getRegionGuess() != null && currentServingOrder == userGuessesList.get(i).getServingOrderGuess()){
+                return true;
+
             }
         }
         return false;
@@ -127,5 +126,9 @@ public class UserGuessesService {
     private boolean checkIfDescriptionsAreEqual(String one, String two){
         String slice = two.substring(0, 30);
         return one.contains(slice);
+    }
+
+    public void removeByUsernameAndGameId(String username, String gameId) {
+        userGuessesRepository.removeAllByUsernameAndGameId(username, gameId);
     }
 }

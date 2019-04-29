@@ -25,7 +25,7 @@ function connect(event) {
     }
 
 
-    lobbyCloseForm = document.getElementById('lobbyClose');
+    lobbyCloseForm = document.getElementById('lobbyCloseForm');
     if(lobbyCloseForm != null){
         lobbyCloseForm.addEventListener('submit', closeLobbyMessage, false);
     }
@@ -36,19 +36,19 @@ function connect(event) {
         startGame.addEventListener('submit', sendStartMessage, false);
     }
 
-    lobbyLeaveForm = document.getElementById('lobbyLeave');
+    lobbyLeaveForm = document.getElementById('lobbyLeaveForm');
     if(lobbyLeaveForm != null){
         lobbyLeaveForm.addEventListener('submit', sendLeaveHardMessage, false);
     }
 
     if(gameId == null){
         if(!username) {
-            var socket = new SockJS('/wsCon');
+            var socket = new SockJS('/wsLobbyCon');
             stompClientConn = Stomp.over(socket);
             stompClientConn.connect({}, onConnected, onError);
         }
     }else{
-        var socket = new SockJS('/wsReg');
+        var socket = new SockJS('/wsLobbyReg');
         stompClientReg = Stomp.over(socket);
         stompClientReg.connect({}, onConnected, onError);
     }
@@ -62,7 +62,7 @@ function onConnected() {
             JSON.stringify({sender: username, content: '', gameId: '', type: 'JOIN'})
         )
     }else{
-        client = stompClientReg.subscribe('/topic/'+gameId, onMessageReceived)
+        client = stompClientReg.subscribe('/topic/'+gameId+'/lobby', onMessageReceived)
         join = "joining";
         sendMessage(event);
     }
@@ -89,7 +89,7 @@ function sendMessage(event) {
                 type: 'JOIN'
             };
             join = 'joined';
-            stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
+            stompClientReg.send("/app/chat.regularLobbyComs/"+gameId, {}, JSON.stringify(chatMessage));
         }else if(username){
             var chatMessage = {
                 sender: username,
@@ -97,7 +97,7 @@ function sendMessage(event) {
                 gameId: gameId,
                 type: 'READY'
             };
-            stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
+            stompClientReg.send("/app/chat.regularLobbyComs/"+gameId, {}, JSON.stringify(chatMessage));
         }
 
     }
@@ -110,7 +110,7 @@ function sendStartMessage(event){
         gameId: gameId,
         type: 'START'
     };
-    stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
+    stompClientReg.send("/app/chat.regularLobbyComs/"+gameId, {}, JSON.stringify(chatMessage));
 }
 
 function sendLeaveHardMessage(event){
@@ -120,7 +120,7 @@ function sendLeaveHardMessage(event){
         gameId: gameId,
         type: 'LEAVE_HARD'
     };
-    stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
+    stompClientReg.send("/app/chat.regularLobbyComs/"+gameId, {}, JSON.stringify(chatMessage));
 }
 
 function closeLobbyMessage(event){
@@ -130,7 +130,7 @@ function closeLobbyMessage(event){
         gameId: gameId,
         type: 'CLOSE'
     };
-    stompClientReg.send("/app/chat.regularComs/"+gameId, {}, JSON.stringify(chatMessage));
+    stompClientReg.send("/app/chat.regularLobbyComs/"+gameId, {}, JSON.stringify(chatMessage));
 }
 
 function onMessageReceived(payload) {
@@ -184,6 +184,7 @@ function onMessageReceived(payload) {
         }
         //somebody entered lobby
         if(message.type === 'JOIN') {
+
             if(document.getElementById(message.sender) == null){
                 notReadyElement.id = message.sender;
                 var notReadyNameText = document.createTextNode(message.sender);
@@ -191,7 +192,7 @@ function onMessageReceived(payload) {
                 notReadyElement.appendChild(notReadyNameText);
             }
             {document.getElementById('startGame').style.display="none";}
-        //somebody pressed the ready button
+            //somebody pressed the ready button
         } else if (message.type === 'READY') {
             var elementToRemove = document.getElementById(message.sender+'button');
             if(elementToRemove != null){

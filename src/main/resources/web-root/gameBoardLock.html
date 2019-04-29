@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{resources/fragments/gameLayout}">
+      layout:decorate="~{resources/fragments/gameBoardLockLayout}">
 <head>
     <meta charset="UTF-8">
     <title>Wine Guesser</title>
@@ -11,9 +11,9 @@
     <div class="text-scale">
         <h1>Svar inskickat!</h1>
         <br>
-        <h2>Väntar på att alla vinprovarna ska låsa in sina svar.</h2>
+        <h2>Väntar på att alla vinprovare ska låsa in sina svar.</h2>
         <br>
-        <h3>När alla har låst in sina svar, kan spelvärden avsluta provningen och en ny Bacchus kan koras.</h3>
+        <h3>När alla har låst in sina svar kan vinvärden avsluta provningen och en ny Bacchus kan koras.</h3>
         <br>
 
         <div id="done-or-not">
@@ -49,15 +49,29 @@
     </div>
 
     <div id="resultButton" th:if="${gameBoardLockForm.gameHost}">
-        <form th:action="@{'gameResults/'+ ${gameBoardLockForm.gameId}}" id="viewResult">
+        <form th:action="@{'../gameResults/'+ ${gameBoardLockForm.gameId}}" id="viewResult">
             <!--<button id="viewResultButton" type="submit">Visa Resultat</button>-->
         </form>
     </div>
 
+    <div id="bottom-left" th:unless="${gameBoardLockForm.gameHost}">
+        <form id="lobbyLeaveForm" th:action="@{'/gameBoard/' + ${gameBoardLockForm.gameId} + '/command/leave'}">
+            <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen? Du kommer inte kunna gå med igen.');">Lämna Vinprovningen</button>
+        </form>
+    </div>
+
+    <div id="bottom-left" th:if="${gameBoardLockForm.gameHost}">
+        <form id="lobbyCloseForm" th:action="@{'/gameBoard/' + ${gameBoardLockForm.gameId} + '/command/quit'}">
+            <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
+        </form>
+    </div>
+
     <script>
+
         document.addEventListener('DOMContentLoaded', function () {
             connect();
         });
+
     </script>
 
 </main>

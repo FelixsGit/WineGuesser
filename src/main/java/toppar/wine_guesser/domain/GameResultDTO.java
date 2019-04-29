@@ -5,5 +5,6 @@ public interface GameResultDTO {
     int getGameResultId();
     String getGameId();
     String getUrl();
+    String getComment();
 
 }

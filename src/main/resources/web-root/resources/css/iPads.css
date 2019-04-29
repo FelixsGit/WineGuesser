@@ -1,0 +1,891 @@
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+
+    body {
+        -webkit-background-size:cover;
+        background-size:cover;
+        height: 100vh;
+        background: url("/resources/images/grapesBG.png");
+        -webkit-background-size: cover; /* For WebKit*/
+        -moz-background-size: cover;    /* Mozilla*/
+        -o-background-size: cover;      /* Opera*/
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        /* Generic*/
+    }
+
+
+    form#startGame{
+        width: 250px;
+        margin: auto;
+    }
+
+    #startGame{
+        display: none;
+    }
+
+
+    #not-ready-page {
+        float: left;
+        margin-left: 100px;
+    }
+
+    #ready-page {
+        float: right;
+        margin-right: 100px;
+    }
+
+
+    div#not-ready-page h2{
+        text-decoration: underline;
+    }
+
+    div#ready-page h2{
+        text-decoration: underline;
+    }
+
+    ul#not-ready-area li{
+        color: #e60000;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 70px;
+        font-weight: 400;
+        line-height: 60px;
+        margin: 0 0 16px;
+        text-align: left;
+    }
+
+    ul#ready-area li{
+        color: #00ff00;
+        text-align: left;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 70px;
+        font-weight: 400;
+        line-height: 60px;
+        margin: 0 0 16px;
+    }
+
+    #not-done-page {
+        margin-top: 75px;
+        margin-bottom: 50px;
+        float: left;
+        margin-left: 8%;
+        text-align: left;
+    }
+
+    #done-page {
+        margin-top: 75px;
+        margin-bottom: 50px;
+        float: right;
+        margin-right: 8%;
+        text-align: left;
+    }
+
+    #myGuess{
+        margin-top: 30px;
+        padding-top: 0px;
+    }
+
+
+    div#not-done-page h2{
+        text-decoration: underline;
+    }
+
+    div#done-page h2{
+        text-decoration: underline;
+    }
+
+    ul#not-done-area li{
+        color: #e60000;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 70px;
+        font-weight: 400;
+        line-height: 60px;
+        margin: 0 0 16px;
+        text-align: left;
+    }
+
+    ul#done-area li{
+        color: #00ff00;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+        font-size: 70px;
+        font-weight: 400;
+        line-height: 60px;
+        margin: 0 0 16px;
+        text-align: left;
+    }
+
+    #lockInResult{
+        margin-top: 20px;
+        margin-right:auto;
+        margin-left: auto;
+    }
+
+    header {
+        text-transform: uppercase;
+        position: relative;
+        height: 150px;
+        margin-top: 0px;
+        font-size: 16em;
+        text-align: center;
+        color: #938E94;
+        letter-spacing: .2em;
+        font-family: 'Cabin';
+        font-size: 44px;
+        color: #fff;
+    }
+
+    h4{
+        font-style: italic;
+        font-family: 'Trocchi', serif;
+        font-size: 35px;
+        color: lightgrey;
+        display: inline-block;
+    }
+
+
+    #description-box{
+        box-sizing: content-box;
+        display: inline-block;
+        margin: auto;
+        background:rgba(0,0,0,0.65);
+        width: 85%;
+        border: solid lightgrey;
+        border-width: 4px;
+        padding: 40px;
+        text-align: left;
+    }
+    .description-page{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    userbar{
+        position:absolute;
+        font-family: 'Cabin';
+        font-size: 44px;
+        top: 180px;
+        left:50px;
+        color: #fff;
+    }
+
+
+    main {
+        position: relative;
+        height: 200px;
+        margin-top: 250px;
+        text-align: center;
+    }
+
+    .error {
+        color: red;
+        font-family: 'Cabin';
+        font-size: 42px;
+
+    }
+
+
+    h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 76px; font-weight: normal; line-height: 80px; margin: 0; color: #fff; }
+    h2 { color: #fff;; font-family: 'Trocchi', serif; font-size: 56px; font-weight: normal; line-height: 64px; margin: 0 0 8px; color: #fff; }
+    h3 { color: #fff; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 44px; font-weight: 400; line-height: 48px; margin: 0 0 8px; color: #fff; }
+
+
+    button {
+        font-family: 'Cabin';
+        background:rgba(0,0,0,0.65);
+        color: #fff;
+        padding: 32px 64px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 32px;
+        margin: 8px 4px;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        cursor: pointer;
+        border: 4px solid #333;
+        border-radius: 24px;
+    }
+    button:hover {
+        font-family: 'Cabin';
+        background-color: #fff;
+        color: black;
+    }
+
+
+    /* necessary to give position: relative to parent. */
+    input[type="text"]{font: 40px/52px 'cabin', sans-serif; color: #333; width: 40%; height:85px; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
+    input[type="password"]{font: 40px/52px 'cabin', Arial, sans-serif; color: #333; width: 40%; height:85px; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
+
+    .effect-1 ~ .focus-border{position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #4caf50; transition: 0.4s;}
+    .effect-1:focus ~ .focus-border{width: 20%; transition: 0.4s;}
+    /* Styles */
+
+    #viewResult{
+        display:block;
+        text-align: center;
+        margin: auto;
+        margin-bottom: 100px;
+    }
+
+    #lockInResult{
+        margin-bottom: 100px;
+    }
+
+    #resultButton{
+        width:200px;
+        position: center;
+        display:block;
+        margin: auto;
+    }
+
+    #gamePoint-area{
+        width: 340px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #gamePoint-box{
+        box-sizing: content-box;
+        display: inline-block;
+        margin: auto;
+        background:rgba(0,0,0,0.65);
+        width: 340px;
+        border: solid lightgrey;
+        border-width: 4px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    #res-name{
+        float: left;
+        text-align: left;
+    }
+    #res-points{
+        float: right;
+        text-align: right;
+    }
+
+
+    #res-wineDescription{
+        float:left;
+        text-align: left;
+        width: 430px;
+    }
+
+    #res-wineName{
+        margin-right: 100px;
+        float:left
+    }
+
+    #p-result{
+        float:right;
+        text-align: left;
+        margin: auto;
+    }
+
+    #res-winePicture{
+        float:left;
+        width: 200px;
+        height: auto;
+        padding-right: 20px;
+    }
+
+
+
+    #resultData-area{
+        width: 950px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 50px;
+    }
+
+    #resultData-box{
+        box-sizing: content-box;
+        display: inline-block;
+        margin: auto;
+        height: auto;
+        background:rgba(0,0,0,0.65);
+        width: 900px;
+        border: solid lightgrey;
+        border-width: 4px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    #profile-icon{
+        width:150px;
+        height:150px;
+    }
+
+    #enter-grade{
+        margin-top: 80px;
+        padding-top: 0px;
+        width: 100px;
+        height: 100px;
+        border: none; /* <-- This thing here */
+        border:solid 3px #ccc;
+        border-radius: 10px;
+        font-size:40pt;
+    }
+
+    #board-wineDescription{
+        float:left;
+        text-align: left;
+        width: 100%;
+    }
+
+    #bot{
+        margin: auto;
+        text-align: center;
+    }
+
+
+    #stats-area{
+        width:800px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 50px;
+        height:auto;
+        text-align: left;
+    }
+
+    #stats-box{
+        padding: 10px;
+        margin: auto;
+        width:800px;
+        float:left;
+        text-align: left;
+        background:rgba(0,0,0,0.65);
+    }
+
+    #clubList-logo{
+        width:240px;
+        height:240px;
+    }
+
+
+    #clubData-area{
+        width:800px;
+        margin: auto;
+        margin-bottom: 100px;
+        height:auto;
+        text-align: left;
+    }
+
+    #clubData-memberList-area{
+        width:800px;
+        margin: auto;
+        margin-bottom: 100px;
+        height:auto;
+        text-align: left;
+    }
+
+    #clubData-memberList-box{
+        padding: 10px;
+        margin: auto;
+        width:800px;
+        float:left;
+        text-align: left;
+        background:rgba(0,0,0,0.65);
+    }
+
+    #clubData-wineStat-area{
+        width:800px;
+        margin: auto;
+        margin-bottom: 100px;
+        height:auto;
+        text-align: left;
+    }
+
+    #clubData-wineStat-box{
+        padding: 10px;
+        margin: auto;
+        width:800px;
+        float:left;
+        text-align: left;
+        background:rgba(0,0,0,0.65);
+    }
+    #clubData-soloData-box{
+        padding: 10px;
+        margin: auto;
+        width:750px;
+        float:left;
+        text-align: left;
+        background:rgba(0,0,0,0.5);
+    }
+
+    #date-played{
+        font-size: 60px;
+        font-weight: bold;
+    }
+
+    .select-css {
+        margin:auto;
+        display: block;
+        font-size: 32px;
+        width:500px;
+        font-family: sans-serif;
+        font-weight: 700;
+        color: #444;
+        line-height: 1.3;
+        padding: 1.2em 2.8em 1em 1.6em;
+        max-width: 100%;
+        box-sizing: border-box;
+        border: 2px solid #aaa;
+        box-shadow: 0 2px 0 2px rgba(0,0,0,.04);
+        border-radius: 1em;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #fff;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+        linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+        background-repeat: no-repeat, repeat;
+        background-position: right 1.4em top 50%, 0 0;
+        background-size: 1.3em auto, 100%;
+    }
+    .select-css::-ms-expand {
+        display: none;
+    }
+    .select-css:hover {
+        border-color: #888;
+    }
+    .select-css:focus {
+        border-color: #aaa;
+        box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+        box-shadow: 0 0 0 3px -moz-mac-focusring;
+        color: #222;
+        outline: none;
+    }
+    .select-css option {
+        font-weight:normal;
+    }
+
+    .toggle{
+        margin-top: 55px;
+        --uiToggleSize: var(--toggleSize, 20px);
+        --uiToggleIndent: var(--toggleIndent, .4em);
+        --uiToggleBorderWidth: var(--toggleBorderWidth, 2px);
+        --uiToggleColor: var(--toggleColor, #000);
+        --uiToggleDisabledColor: var(--toggleDisabledColor, #868e96);
+        --uiToggleBgColor: var(--toggleBgColor, #fff);
+        --uiToggleArrowWidth: var(--toggleArrowWidth, 2px);
+        --uiToggleArrowColor: var(--toggleArrowColor, #fff);
+
+        display: inline-block;
+        position: relative;
+    }
+
+
+    .toggle__input{
+        position: absolute;
+        left: -99999px;
+    }
+
+    .toggle__label{
+        display: inline-flex;
+        cursor: pointer;
+        min-height: var(--uiToggleSize);
+        padding-left: calc(var(--uiToggleSize) + var(--uiToggleIndent));
+    }
+
+    .toggle__label:before, .toggle__label:after{
+        content: "";
+        box-sizing: border-box;
+        width: 2em;
+        height: 2em;
+        font-size: var(--uiToggleSize);
+
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .toggle__label:before{
+        border: var(--uiToggleBorderWidth) solid var(--uiToggleColor);
+        z-index: 2;
+    }
+
+    .toggle__input:disabled ~ .toggle__label:before{
+        border-color: var(--uiToggleDisabledColor);
+    }
+
+    .toggle__input:focus ~ .toggle__label:before{
+        box-shadow: 0 0 0 4px var(--uiToggleBgColor), 0 0 0px 8px var(--uiToggleColor);
+    }
+
+    .toggle__input:not(:disabled):checked:focus ~ .toggle__label:after{
+        box-shadow: 0 0 0 4px var(--uiToggleBgColor), 0 0 0px 8px var(--uiToggleColor);
+    }
+
+    .toggle__input:not(:disabled) ~ .toggle__label:after{
+        background-color: var(--uiToggleColor);
+        opacity: 0;
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label:after{
+        opacity: 1;
+    }
+
+    .toggle__text{
+        float:left;
+        padding-left: 70px;
+        padding-top: 24px;
+    }
+
+    /*
+    The arrow size and position depends from sizes of square because I needed an arrow correct positioning from the top left corner of the element toggle
+    */
+
+    .toggle__text:before{
+        content: "";
+        box-sizing: border-box;
+        width: 0;
+        height: 0;
+        font-size: var(--uiToggleSize);
+
+        border-left-width: 0;
+        border-bottom-width: 0;
+        border-left-style: solid;
+        border-bottom-style: solid;
+        border-color: var(--uiToggleArrowColor);
+
+        position: absolute;
+        top: 1em;
+        left: .4em;
+        z-index: 3;
+
+        transform-origin: left top;
+        transform: rotate(-40deg) skew(10deg);
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label .toggle__text:before{
+        width: 1em;
+        height: .50em;
+        border-left-width: var(--uiToggleArrowWidth);
+        border-bottom-width: var(--uiToggleArrowWidth);
+        will-change: width, height;
+        transition: width .1s ease-out .2s, height .2s ease-out;
+    }
+
+    /*
+    =====
+    LEVEL 2. PRESENTATION STYLES
+    =====
+    */
+
+    /*
+    The demo skin
+    */
+
+    .toggle__label:before, .toggle__label:after{
+        border-radius: 4px;
+    }
+
+    /*
+    The animation of switching states
+    */
+
+    .toggle__input:not(:disabled) ~ .toggle__label:before,
+    .toggle__input:not(:disabled) ~ .toggle__label:after{
+        opacity: 1;
+        transform-origin: center center;
+        will-change: transform;
+        transition: transform .2s ease-out;
+    }
+
+    .toggle__input:not(:disabled) ~ .toggle__label:before{
+        transform: rotateY(0deg);
+        transition-delay: .2s;
+    }
+
+    .toggle__input:not(:disabled) ~ .toggle__label:after{
+        transform: rotateY(90deg);
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label:before{
+        transform: rotateY(-90deg);
+        transition-delay: 0s;
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label:after{
+        transform: rotateY(0deg);
+        transition-delay: .2s;
+    }
+
+    .toggle__text:before{
+        opacity: 0;
+    }
+
+    .toggle__input:not(:disabled):checked ~ .toggle__label .toggle__text:before{
+        opacity: 1;
+        transition: opacity .1s ease-out .3s, width .1s ease-out .5s, height .2s ease-out .3s;
+    }
+
+    /*
+    =====
+    LEVEL 3. SETTINGS
+    =====
+    */
+
+    .toggle{
+        --toggleColor: #5A7DD0;
+        --toggleBgColor: #5A7DD0;
+        --toggleSize: 50px;
+    }
+
+
+    #correct-region-guess{
+        color:forestgreen;
+    }
+
+    #wrong-region-guess{
+        color:red;
+    }
+
+    #region-result{
+        margin: auto;
+        float:left;
+        margin-bottom: 20px;
+    }
+
+    /* A link that has not been visited */
+    a:link {
+        color: #5A7DD0;
+    }
+
+    /* A link that has been visited */
+    a:visited {
+        color: #5A7DD0;
+    }
+
+    /* A link that is hovered on */
+    a:hover {
+        color: #5A7DD0;
+    }
+
+    /* A link that is selected */
+    a:active {
+        color: #5A7DD0;
+    }
+
+    .text-scale{
+        margin: auto;
+        text-align: center;
+        width: 85%;
+    }
+
+    #lobbyClose{
+        position:absolute;
+        font-family: 'Cabin';
+        font-size: 44px;
+        left:50px;
+        top:1200px;
+        color: #fff;
+        float:bottom;
+        width:auto;
+        height: auto;
+        font-size: 32px;
+    }
+
+    #lobbyLeave{
+        position:absolute;
+        font-family: 'Cabin';
+        font-size: 44px;
+        left:50px;
+        top:1200px;
+        color: #fff;
+        float:bottom;
+        width:auto;
+        height: auto;
+        font-size: 32px;
+    }
+
+    #leave-club-button:hover{
+        font-family: 'Cabin';
+        background-color: #FF0000;
+        color: white;
+    }
+    #lobbyLeave:hover{
+        font-family: 'Cabin';
+        background-color: #FF0000;
+        color: white;
+    }
+    #lobbyClose:hover{
+        font-family: 'Cabin';
+        background-color: #FF0000;
+        color: white;
+    }
+
+    #bacchus-logo{
+        float:bottom;
+        width:60px;
+        height:60px;
+    }
+
+    .menu-area li a {
+        text-decoration: none;
+    }
+
+    .menu-area li {
+        list-style-type: none;
+    }
+
+    .custom-padding{
+        padding-top: 25px;
+    }
+
+    nav {
+        position: relative;
+        width: calc(100% - 60px);
+        margin: 0 auto;
+        padding: 10px 0;
+        background:rgba(0,0,0,0.65);
+        z-index: 1;
+        text-align: right;
+        padding-right: 2%;
+    }
+
+    .logo {
+        width: 15%;
+        float: left;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 50px;
+        text-align: left;
+        padding-left: 2%;
+    }
+
+    .menu-area li {
+        display: inline-block;
+    }
+
+    .menu-area a {
+        color: #fff;
+        font-weight: 300;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: block;
+        padding: 0 25px;
+        font-size: 28px;
+        line-height: 60px;
+        position: relative;
+        z-index: 1;
+    }
+    .menu-area a:hover {
+        background-color: #fff;
+        color: black;
+    }
+
+    .menu-area a:hover:after {
+        transform: translateY(-50%) rotate(-35deg);
+    }
+
+
+    nav:after {
+        position: absolute;
+        content: '';
+        border-top: 20px solid #333;
+        border-left: 20px solid #333;
+        border-right: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        top: 100%;
+        right: 0;
+    }
+
+    .link-area
+    {
+        position:fixed;
+        bottom:40px;
+        left:40px;
+        padding:30px;
+        border-radius:80px;
+        background:#5A7DD0;
+    }
+    .link-area a
+    {
+        text-decoration:none;
+        color:#fff;
+        font-size:50px;
+    }
+
+    #numGuess{
+        margin-top: 50px;
+        width: 100px;
+        height: 100px;
+        border: none; /* <-- This thing here */
+        border:solid 3px #ccc;
+        border-radius: 10px;
+        font-size:40pt;
+        float:left;
+    }
+
+    #equal-sign{
+        width:30px;
+        height: 30px;
+        margin: auto;
+        margin-top: 75px;
+        margin-right: 10px;
+        margin-left: 10px;
+        text-align: center;
+        padding: 0px;
+        float:left;
+        font-size: 50px;
+    }
+
+    textarea {
+        margin: auto;
+        width: 750px;
+        height: 300px;
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
+        border-image: none;
+        border-radius: 12px 12px 12px 12px;
+        border-style: solid solid solid solid;
+        border-width: 10px 10px 10px 10px;
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.12) inset;
+        color: #555555;
+        font-family: 'Trocchi', serif;
+        font-size: 2em;
+        line-height: 1.5em;
+        transition: background-color 0.2s ease 0s;
+    }
+
+
+    textarea:focus {
+        outline-width: 0;
+    }
+
+    #comment-area{
+        width: 950px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 50px;
+    }
+
+    #comment-box{
+        box-sizing: content-box;
+        display: inline-block;
+        margin: auto;
+        height: auto;
+        background:rgba(0,0,0,0.65);
+        width: 900px;
+        border: solid lightgrey;
+        border-width: 4px;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #comment-text{
+        font-size: 38px;
+        color: #fff;
+    }
+
+}

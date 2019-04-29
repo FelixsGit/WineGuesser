@@ -14,9 +14,9 @@
         <br>
         <h1 th:text="${lobbyForm.gameId}"></h1>
         <br>
-        <h2>Användare som vill gå med i denna vinprovning kan göra så genom att skriva in detta id.</h2>
+        <h2>Deltagare i denna vinprovning måste fylla i koden ovan.</h2>
         <br>
-        <h3>När alla är redo kan spelvärden starta vinprovningen.</h3>
+        <h3>När alla är redo kan vinvärden starta vinprovningen.</h3>
 
         <form id="messageForm" name="messageForm" nameForm="messageForm" action="#">
             <button type="submit" th:id="${lobbyForm.username} + 'button'">Redo</button>
@@ -33,6 +33,16 @@
                 <ul id="not-ready-area" th:each="lobbyData : *{lobbyForm.participantsNotReady}">
                     <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
                 </ul>
+                <div id="bottom-left" th:if="${lobbyForm.gameHost}">
+                    <form id="lobbyCloseForm" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
+                        <button id="lobbyClose" type="submit">Stäng Vinprovningen</button>
+                    </form>
+                </div>
+                <div id="bottom-left" th:unless="${lobbyForm.gameHost}">
+                    <form id="lobbyLeaveForm" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/leave'}">
+                        <button id="lobbyLeave" type="submit">Lämna Vinprovningen</button>
+                    </form>
+                </div>
             </div>
 
             <div id="ready-page">
@@ -41,23 +51,14 @@
                     <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
                 </ul>
                 <ul id="ready-area" th:if="${lobbyForm.participantsReady.size() == 0}">
-
+                    
                 </ul>
             </div>
         </div>
         <br>
 
         <br>
-        <div id="bottom-left" th:if="${lobbyForm.gameHost}">
-            <form th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
-                <button id="lobbyClose" type="submit">Stäng vinprovningen</button>
-            </form>
-        </div>
-        <div id="bottom-left" th:unless="${lobbyForm.gameHost}">
-            <form th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/leave'}">
-                <button id="lobbyLeave" type="submit">Lämna vinprovningen</button>
-            </form>
-        </div>
+
     </div>
 
     <script>
@@ -67,7 +68,7 @@
         });
 
         window.onbeforeunload = function() {
-            return stompClientReg.send("/app/chat.regularComs/"+gameId,
+            return stompClientReg.send("/app/chat.regularLobbyComs/"+gameId,
                 {},
                 JSON.stringify({sender: username, content: 'specific socket communication', gameId: gameId, type: 'LEAVE'})
             )

@@ -72,6 +72,15 @@ public class ClubMemberService {
         GameResult gameResult = gameResultService.getGameResultByGameId(gameId);
         List<GamePointDTO> gamePoints = gamePointService.getAllByGameResultId(gameResult.getGameResultId());
         gamePoints.sort(Comparator.comparing(GamePointDTO::getPoints).reversed());
+        List<ClubMember> clubMembers = clubMemberRepository.findAllByClubId(club.getClubId());
+
+        //Sets all clubMembers to not be Bacchus
+        for(int i = 0; i < clubMembers.size(); i++){
+            clubMembers.get(i).setIsBacchus("false");
+            clubMemberRepository.save(clubMembers.get(i));
+        }
+
+        //Calculate who is the new Bacchus
         int highest = 0;
         for(int i = 0; i < gamePoints.size(); i++){
             String currentUser = gamePoints.get(i).getUsername();

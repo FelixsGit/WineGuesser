@@ -14,10 +14,8 @@
         <div class="text-scale" th:unless="${clubOptionForm.isMember}">
             <h1>Du saknar en vinklubb!</h1>
             <br>
+            <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
             <h2>Om du som vinprovare tävlar ofta med samma personer ligger det i ert intresse att ni skapar en vinprovarklubb tillsammans!</h2>
-            <br>
-            <h3>Då kommer ni kunna se intressant historik om era provningar!</h3>
-            <h3>Vidare kommer användare som är med i en klubb kunna visa detta genom en figur på användarens profilsida.</h3>
             <br>
             <h2>Klicka på knapparna nedan om du vill skapa en ny vinprovarklubb eller gå med i en redan existerande klubb.</h2>
             <br>
@@ -33,25 +31,24 @@
         <div class="text-scale" th:if="${clubOptionForm.isMember}">
             <h1>Du är medlem i en eller flera klubbar!</h1>
             <br>
-            <h2>Gå till mina klubbar genom att klicka på knappen nedan.</h2>
+            <h2>Gå till Mina klubbar här.</h2>
             <br>
             <form action="/clubList">
                 <button type="submit">Mina Klubbar</button>
             </form>
             <br>
             <br>
-            <h2>Klicka på knapparna nedan om du vill skapa en ny vinprovarklubb eller gå med i en till redan existerande klubb.</h2>
+            <h1>Du kan skapa en ny vinprovarklubb eller gå med i en redan existerande klubb.</h1>
             <br>
             <br>
             <form action="/createClub">
                 <button type="submit">Skapa Klubb</button>
             </form>
             <form action="/joinClub">
-                <button type="submit">Gå med i Klubb</button>
+                <button id="lockInResult" type="submit">Gå med i Klubb</button>
             </form>
         </div>
 
-        <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
 
     </div>
 </main>

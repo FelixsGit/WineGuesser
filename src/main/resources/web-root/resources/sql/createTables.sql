@@ -67,7 +67,8 @@ CREATE TABLE `game_setup` (
   `gameHost` varchar(255) NOT NULL,
   `amountOfWines` varchar (255) NOT NULL,
   `gameId` varchar(255) NOT NULL PRIMARY KEY,
-  `clubName` varchar (255) DEFAULT NULL
+  `clubName` varchar (255) DEFAULT NULL,
+  `comment` varchar (8000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `match_history` (
@@ -106,7 +107,8 @@ CREATE TABLE `lobby_history` (
 CREATE TABLE `game_result` (
  `gameResultId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
  `gameId` varchar(255) NOT NULL,
- `url` varchar(8000) NOT NULL
+ `url` varchar(8000) NOT NULL,
+ `comment` varchar(8000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `user_guesses` (

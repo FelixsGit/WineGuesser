@@ -6,4 +6,5 @@ public interface GameSetupDTO {
     String getAmountOfWines();
     String getGameId();
     String getClubName();
+    String getComment();
 }
