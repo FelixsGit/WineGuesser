@@ -76,7 +76,8 @@ CREATE TABLE `match_history` (
   `userResultsId` int NOT NULL,
   `datePlayed` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
-  `gameId` varchar(255) NOT NULL
+  `gameId` varchar(255) NOT NULL,
+  `clubName` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

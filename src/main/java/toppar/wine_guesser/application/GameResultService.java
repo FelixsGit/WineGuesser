@@ -40,6 +40,12 @@ public class GameResultService {
 
     public void generateGameStatsForGameWithId(String gameId){
 
+        boolean isClubMatch = false;
+        String clubName = gameSetupService.getGameSetupByGameId(gameId).getClubName();
+        if(clubName!= null){
+            isClubMatch = true;
+        }
+
 
         GameSetup gameSetup = gameSetupService.getGameSetupByGameId(gameId);
         GameResult gameResult;
@@ -66,11 +72,20 @@ public class GameResultService {
         }
 
         Map<String, UserResultData> userResultDataMap = new HashMap<>();
-        for(int j = 0; j < participants.size(); j++){
-            UserResults userResults = userResultsService.findByUsername(participants.get(j));
-            matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "http://192.168.0.100:8080/gameResults/"+gameId, gameId));
-            userResultDataMap.put(participants.get(j), new UserResultData(participants.get(j), 0, 0));
+        if(isClubMatch){
+            for(int j = 0; j < participants.size(); j++){
+                UserResults userResults = userResultsService.findByUsername(participants.get(j));
+                matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "http://192.168.0.100:8080/gameResults/"+gameId, gameId, clubName));
+                userResultDataMap.put(participants.get(j), new UserResultData(participants.get(j), 0, 0));
+            }
+        }else{
+            for(int j = 0; j < participants.size(); j++){
+                UserResults userResults = userResultsService.findByUsername(participants.get(j));
+                matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "http://192.168.0.100:8080/gameResults/"+gameId, gameId, null));
+                userResultDataMap.put(participants.get(j), new UserResultData(participants.get(j), 0, 0));
+            }
         }
+
 
         //calculating resultData
         for(int i = 0; i < gameSettingsList.size(); i++){

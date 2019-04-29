@@ -682,28 +682,32 @@
         background:rgba(0,0,0,0.5);
     }
 
+
+
     #lobbyClose{
         position:absolute;
+        margin-top: 100px;
+        margin-bottom: 50px;
         font-family: 'Cabin';
-        left:50px;
-        bottom:50px;
+        left:80px;
         float:bottom;
         color: #fff;
         width:auto;
         height: auto;
-        font-size: 16px;
     }
     #lobbyLeave{
         position:absolute;
+        margin-top: 100px;
+        margin-bottom: 50px;
         font-family: 'Cabin';
-        left:50px;
-        bottom:50px;
+        left:80px;
         float:bottom;
         color: #fff;
         width:auto;
         height: auto;
-        font-size: 16px;
     }
+
+
 
     #leave-club-button:hover{
         font-family: 'Cabin';

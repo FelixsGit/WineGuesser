@@ -7,4 +7,5 @@ public interface MatchHistoryDTO {
     String getUrl();
     String getDatePlayed();
     String getGameId();
+    String getClubName();
 }

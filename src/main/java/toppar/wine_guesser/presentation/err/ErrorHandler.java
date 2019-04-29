@@ -8,8 +8,8 @@ public class ErrorHandler {
     public static final String SYSTEMBOLAGET_DOWN = "Systembolaget svarar inte just nu";
     public static final String BODEGASHOP_DOWN = "Bodegashop svarar inte just nu";
     public static final String ERROR_TYPE_KEY = "errorType";
-    public static final String TO_BIG_GUESS = "För stort nummer, måste vara 1 till antalet viner som serveras";
-    public static final String TO_SMALL_GUESS = "För litet nummer, måste vara 1 till antalet viner som serveras.";
+    public static final String TO_BIG_GUESS = "För stort nummer, kan inte vara större än antalet viner som serveras.";
+    public static final String TO_SMALL_GUESS = "För litet nummer, kan inte vara mindre än antalet viner som serveras.";
     public static final String GUESS_WRONG_FORMAT = "Fel typ, skriv in en siffra.";
     public static final String MISSING_SERVING_ORDER = "Scanna in serveringsordning!";
     public static final String EMPTY_GUESS = "Kan inte var tom.";

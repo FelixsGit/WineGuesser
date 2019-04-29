@@ -681,25 +681,24 @@
 
     #lobbyClose{
         position:absolute;
+        margin-top: 170px;
+        margin-bottom: 100px;
         font-family: 'Cabin';
-        font-size: 44px;
-        left:50px;
-        top:1200px;
-        color: #fff;
+        left:80px;
         float:bottom;
+        color: #fff;
         width:auto;
         height: auto;
         font-size: 32px;
     }
-
     #lobbyLeave{
         position:absolute;
+        margin-top: 170px;
+        margin-bottom: 100px;
         font-family: 'Cabin';
-        font-size: 44px;
-        left:50px;
-        top:1200px;
-        color: #fff;
+        left:80px;
         float:bottom;
+        color: #fff;
         width:auto;
         height: auto;
         font-size: 32px;

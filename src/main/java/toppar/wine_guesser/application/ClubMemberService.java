@@ -35,6 +35,8 @@ public class ClubMemberService {
         if(club != null){
             if(club.getClubPassword().equals(clubPassword)){
                 if(clubMemberRepository.findAllByClubIdAndUsername(club.getClubId(), username) == null){
+                    //update club stats
+                    //clubService.updateClubOnJoin(club.getClubName(), username);
                     clubMemberRepository.save(new ClubMember(club.getClubId(), username, "false"));
                 }else{
                     throw new ClubException("already a member of club");
@@ -64,6 +66,7 @@ public class ClubMemberService {
     }
 
     public void removeUserFromClub(int clubId, String username) {
+        //clubService.updateClubOnLeave(clubId, username);
         clubMemberRepository.removeAllByUsernameAndClubId(username, clubId);
     }
 

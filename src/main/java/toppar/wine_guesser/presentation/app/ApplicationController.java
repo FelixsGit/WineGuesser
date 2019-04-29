@@ -159,7 +159,7 @@ public class ApplicationController {
         } catch (ClubException e) {
             controlErrorHandling(e, model);
             model.addAttribute(clubForm);
-            return showClubOptionPage(model, request);
+            return showJoinClubPage(model);
         }
         model.addAttribute(clubForm);
         return CLUB_PAGE_URL;
@@ -513,6 +513,10 @@ public class ApplicationController {
             return MENU_PAGE_URL;
         }
         LobbyForm lobbyForm = new LobbyForm();
+        String clubName = gameSetupService.getGameSetupByGameId(gameId).getClubName();
+        if(clubName != null){
+            lobbyForm.setClubName(clubName);
+        }
         lobbyForm.setParticipantsNotReady(lobbyDataService.getUsersNotReadyByGameId(gameId));
         lobbyForm.setParticipantsReady(lobbyDataService.getUsersReadyByGameId(gameId));
         lobbyForm.setGameId(lobbyService.getLobbyByGameId(gameId).getGameId());
@@ -674,17 +678,40 @@ public class ApplicationController {
                 lobbyDataService.removeAllParticipantsFromLobbyWithGameId(gameId);
                 userService.cancelActiveGamesForAllUsersWithGameId(gameId);
             }
+            try {
+                throw new GuessException("you closed game");
+            } catch (GuessException e) {
+                JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+                model.addAttribute(joinGameLobbyForm);
+                controlErrorHandling(e, model);
+                return MENU_PAGE_URL;
+            }
         }
         if(action.equals("leave")){
             lobbyDataService.removeParticipantFromLobby(request.getUserPrincipal().getName());
             userService.removeActiveGameFromUserWithUsername(request.getUserPrincipal().getName());
+            try {
+                throw new GuessException("left game");
+            } catch (GuessException e) {
+                JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+                model.addAttribute(joinGameLobbyForm);
+                controlErrorHandling(e, model);
+                return MENU_PAGE_URL;
+            }
         }
-        if(action.equals("showResult")){
-            System.out.println("showing results!!!");
+        if(action.equals("redirect")){
+            try {
+                throw new GuessException("close game");
+            } catch (GuessException e) {
+                JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
+                model.addAttribute(joinGameLobbyForm);
+                controlErrorHandling(e, model);
+                return MENU_PAGE_URL;
+            }
         }
         JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
         model.addAttribute(joinGameLobbyForm);
-        return "menu";
+        return MENU_PAGE_URL;
     }
 
 

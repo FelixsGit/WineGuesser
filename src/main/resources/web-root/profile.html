@@ -43,7 +43,13 @@
         <ul id="stats-area">
             <h2>Spelade Matcher:</h2>
             <li id="stats-box" th:each="match, var : *{profileForm.profileData.matchHistoryList}">
-                <h3>
+                <h3 th:if="${match.clubName}">
+                    <a th:href="'../club/'+${match.clubName}">
+                        <img id="bacchus-logo" src="../resources/images/clubIcon.png" alt="clubIcon standard logo">
+                    </a>
+                    <a id="date-played" th:href="${match.url + '/'+profileForm.profileData.username}" th:text="${match.datePlayed}"/>
+                </h3>
+                <h3 th:unless="${match.clubName}">
                     <a id="date-played" th:href="${match.url + '/'+profileForm.profileData.username}" th:text="${match.datePlayed}"/>
                 </h3>
             </li>

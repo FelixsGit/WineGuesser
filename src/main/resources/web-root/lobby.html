@@ -10,7 +10,13 @@
 <main layout:fragment="content">
 
     <div class="text-scale">
-        <h1>Detta är ett öppet vinprovningsrum.</h1>
+        <div th:if="${lobbyForm.clubName}">
+            <h1>Detta är ett klubbprovningsrum.</h1>
+            <h2 th:text="${lobbyForm.clubName}"></h2>
+        </div>
+        <div th:unless="${lobbyForm.clubName}">
+            <h1>Detta är ett öppet vinprovningsrum.</h1>
+        </div>
         <br>
         <h1 th:text="${lobbyForm.gameId}"></h1>
         <br>
@@ -35,12 +41,12 @@
                 </ul>
                 <div id="bottom-left" th:if="${lobbyForm.gameHost}">
                     <form id="lobbyCloseForm" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
-                        <button id="lobbyClose" type="submit">Stäng Vinprovningen</button>
+                        <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
                     </form>
                 </div>
                 <div id="bottom-left" th:unless="${lobbyForm.gameHost}">
                     <form id="lobbyLeaveForm" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/leave'}">
-                        <button id="lobbyLeave" type="submit">Lämna Vinprovningen</button>
+                        <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen?');">Lämna Vinprovningen</button>
                     </form>
                 </div>
             </div>

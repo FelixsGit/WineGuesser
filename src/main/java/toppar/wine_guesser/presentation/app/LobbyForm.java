@@ -12,9 +12,19 @@ public class LobbyForm {
 
     private String gameHost;
 
+    private String clubName;
+
     private List<LobbyDataDTO> participantsNotReady;
 
     private List<LobbyDataDTO> participantsReady;
+
+    public String getClubName() {
+        return clubName;
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
+    }
 
     public String getUsername() {
         return username;

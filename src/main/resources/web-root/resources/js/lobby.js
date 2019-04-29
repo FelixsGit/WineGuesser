@@ -152,7 +152,11 @@ function onMessageReceived(payload) {
         window.location.replace("http://192.168.0.100:8080/gameBoard/"+gameId);
     }
     if(message.type === 'CLOSE'){
-        window.location.replace('http://192.168.0.100:8080/lobby/' + gameId + '/command/quit');
+        if(message.sender === username){
+
+        }else{
+            window.location.replace('http://192.168.0.100:8080/lobby/' + gameId + '/command/redirect');
+        }
     }
     if(message.type === 'LEAVE_HARD'){
         var elementToRemove = document.getElementById(message.sender);

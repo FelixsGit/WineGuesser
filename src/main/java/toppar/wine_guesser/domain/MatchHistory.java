@@ -15,16 +15,26 @@ public class MatchHistory {
     private String url;
     private String datePlayed;
     private String gameId;
+    private String clubName;
 
     protected MatchHistory(){
 
     }
 
-    public MatchHistory(int userResultsId, String datePlayed, String url, String gameId) {
+    public MatchHistory(int userResultsId, String datePlayed, String url, String gameId, String clubName) {
         this.userResultsId = userResultsId;
         this.url = url;
         this.datePlayed = datePlayed;
         this.gameId = gameId;
+        this.clubName = clubName;
+    }
+
+    public String getClubName() {
+        return clubName;
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
     }
 
     public String getGameId() {

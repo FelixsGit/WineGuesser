@@ -15,4 +15,6 @@ public interface ClubRepository extends JpaRepository<Club, String> {
     Club findAllByClubName(String clubName);
 
     ClubDTO findByClubId(int clubId);
+
+    Club findAllByClubId(int clubId);
 }

@@ -103,4 +103,43 @@ public class ClubService {
             }
         }
     }
+
+    public void updateClubOnJoin(String clubName, String username) {
+        UserResults userResults = userResultsService.findByUsername(username);
+        if(userResults.getPlayedGames() > 0){
+            Club clubToUpdate = clubRepository.findAllByClubName(clubName);
+            double totalNumWinesCorrect = userResults.getNumWinesCorrect() + clubToUpdate.getNumWinesCorrect();
+            double totalNumWinesGuessed = userResults.getNumWinesGuessed() + clubToUpdate.getNumWinesGuessed();
+            double averageWineCorrect = totalNumWinesCorrect/totalNumWinesGuessed;
+            DecimalFormat numberFormat = new DecimalFormat("#.00");
+            clubToUpdate.setNumWinesGuessed(totalNumWinesGuessed);
+            clubToUpdate.setNumWinesCorrect(totalNumWinesCorrect);
+            clubToUpdate.setAverageWineCorrect(Double.valueOf(numberFormat.format(averageWineCorrect)));
+            clubRepository.save(clubToUpdate);
+        }
+    }
+
+    public void updateClubOnLeave(int clubId, String username) {
+        UserResults userResults = userResultsService.findByUsername(username);
+        if(userResults.getPlayedGames() > 0){
+            Club clubToUpdate = clubRepository.findAllByClubId(clubId);
+            double totalNumWinesCorrect = clubToUpdate.getNumWinesCorrect() - userResults.getNumWinesCorrect();
+            double totalNumWinesGuessed = clubToUpdate.getNumWinesGuessed() - userResults.getNumWinesGuessed();
+            double averageWineCorrect = 0;
+            if(totalNumWinesCorrect == 0.0 || totalNumWinesGuessed == 0.0){
+                clubToUpdate.setNumWinesGuessed(totalNumWinesGuessed);
+                clubToUpdate.setNumWinesCorrect(totalNumWinesCorrect);
+                clubToUpdate.setAverageWineCorrect(averageWineCorrect);
+                clubRepository.save(clubToUpdate);
+                return;
+            }else{
+                DecimalFormat numberFormat = new DecimalFormat("#.00");
+                averageWineCorrect = totalNumWinesCorrect / totalNumWinesGuessed;
+                clubToUpdate.setNumWinesGuessed(totalNumWinesGuessed);
+                clubToUpdate.setNumWinesCorrect(totalNumWinesCorrect);
+                clubToUpdate.setAverageWineCorrect(Double.valueOf(numberFormat.format(averageWineCorrect)));
+                clubRepository.save(clubToUpdate);
+            }
+        }
+    }
 }
