@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS `lobby_data`;
 DROP TABLE IF EXISTS `user_guesses`;
 DROP TABLE IF EXISTS `judgement`;
 
-
+/*
 DROP TABLE IF EXISTS `lobby`;
 DROP TABLE IF EXISTS `game_point`;
 DROP TABLE IF EXISTS `user`;
@@ -26,11 +26,10 @@ DROP TABLE IF EXISTS `user_results`;
 DROP TABLE IF EXISTS `game_result`;
 DROP TABLE IF EXISTS `match_history`;
 DROP TABLE IF EXISTS `result_data`;
-
 DROP TABLE IF EXISTS `club`;
 DROP TABLE IF EXISTS `club_member`;
 DROP TABLE IF EXISTS `club_wine_stat`;
-
+*/
 
 -- --------------------------------------------------------
 

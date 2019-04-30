@@ -10,7 +10,7 @@ import toppar.wine_guesser.repository.LobbyRepository;
 
 import java.util.List;
 
-@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 @Service
 public class LobbyService {
 
