@@ -43,8 +43,8 @@
             <br>
             <h3>Du har väll scannat QR-koderna och skrivit in serveringsordningen?</h3>
             <br>
-            <h2>OBS!</h2>
-            <h3>Regionen ska kombineras med serveringsordningen, inte beskrivningen.</h3>
+            <h2 th:if="${gameBoardForm.chosenRegion}">OBS!</h2>
+            <h3 th:if="${gameBoardForm.chosenRegion}">Regionen ska kombineras med serveringsordningen, inte beskrivningen.</h3>
             <br>
         </div>
         <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
@@ -70,7 +70,9 @@
                     <br>
                 </li>
                 <input type="hidden" th:field="*{gameId}"/>
-
+                <div class="text-scale">
+                    <button th:if="${gameBoardForm.doneRating}" id="lockInResult" type="submit">Lås in Resultat</button>
+                </div>
                 <div id="bottom-left" th:unless="${gameBoardForm.gameHost}">
                     <form id="lobbyLeaveForm" th:action="@{'/gameBoard/' + ${gameBoardForm.gameId} + '/command/leave'}">
                         <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen? Du kommer inte kunna gå med igen.');">Lämna Vinprovningen</button>
@@ -82,7 +84,8 @@
                         <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
                     </form>
                 </div>
-                <button th:if="${gameBoardForm.doneRating}" id="lockInResult" type="submit">Lås in Resultat</button>
+                <br>
+                <br>
             </ul>
             <br>
             <br>

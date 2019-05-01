@@ -30,38 +30,39 @@
 
     #not-ready-page {
         float: left;
-        margin-left: 100px;
     }
 
     #ready-page {
         float: right;
-        margin-right: 100px;
     }
 
 
     div#not-ready-page h2{
+        text-align: left;
         text-decoration: underline;
     }
 
     div#ready-page h2{
+        text-align: left;
         text-decoration: underline;
     }
 
     ul#not-ready-area li{
         color: #e60000;
         font-family: 'Arial Rounded MT Bold', sans-serif;
-        font-size: 70px;
+        font-size: 50px;
         font-weight: 400;
         line-height: 60px;
         margin: 0 0 16px;
         text-align: left;
     }
 
+
     ul#ready-area li{
         color: #00ff00;
         text-align: left;
         font-family: 'Arial Rounded MT Bold', sans-serif;
-        font-size: 70px;
+        font-size: 50px;
         font-weight: 400;
         line-height: 60px;
         margin: 0 0 16px;
@@ -71,7 +72,6 @@
         margin-top: 75px;
         margin-bottom: 50px;
         float: left;
-        margin-left: 8%;
         text-align: left;
     }
 
@@ -79,7 +79,6 @@
         margin-top: 75px;
         margin-bottom: 50px;
         float: right;
-        margin-right: 8%;
         text-align: left;
     }
 
@@ -90,17 +89,19 @@
 
 
     div#not-done-page h2{
+        text-align: left;
         text-decoration: underline;
     }
 
     div#done-page h2{
+        text-align: left;
         text-decoration: underline;
     }
 
     ul#not-done-area li{
         color: #e60000;
         font-family: 'Arial Rounded MT Bold', sans-serif;
-        font-size: 70px;
+        font-size: 50px;
         font-weight: 400;
         line-height: 60px;
         margin: 0 0 16px;
@@ -110,7 +111,7 @@
     ul#done-area li{
         color: #00ff00;
         font-family: 'Arial Rounded MT Bold', sans-serif;
-        font-size: 70px;
+        font-size: 50px;
         font-weight: 400;
         line-height: 60px;
         margin: 0 0 16px;
@@ -118,9 +119,12 @@
     }
 
     #lockInResult{
-        margin-top: 20px;
-        margin-right:auto;
-        margin-left: auto;
+        position:relative;
+        font-family: 'Cabin';
+        margin-top: 30px;
+        margin-right: 20%;
+        margin-left: 20%;
+        bottom: 5%;
     }
 
     header {
@@ -244,7 +248,7 @@
     }
 
     #gamePoint-area{
-        width: 340px;
+        width: 400px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -254,7 +258,7 @@
         display: inline-block;
         margin: auto;
         background:rgba(0,0,0,0.65);
-        width: 340px;
+        width: 400px;
         border: solid lightgrey;
         border-width: 4px;
         padding: 8px;
@@ -681,30 +685,21 @@
     }
 
     #lobbyClose{
-        position:absolute;
-        margin-top: 170px;
-        margin-bottom: 100px;
+        width: 100%;
+        position:relative;
         font-family: 'Cabin';
-        left:80px;
-        float:bottom;
+        margin-top: 80%;
+        margin-bottom: 50px;
         color: #fff;
-        width:auto;
-        height: auto;
-        font-size: 32px;
     }
     #lobbyLeave{
-        position:absolute;
-        margin-top: 170px;
-        margin-bottom: 100px;
+        width: 100%;
+        position:relative;
         font-family: 'Cabin';
-        left:80px;
-        float:bottom;
+        margin-top: 80%;
+        margin-bottom: 50px;
         color: #fff;
-        width:auto;
-        height: auto;
-        font-size: 32px;
     }
-
     #leave-club-button:hover{
         font-family: 'Cabin';
         background-color: #FF0000;
@@ -888,6 +883,7 @@
         font-size: 38px;
         color: #fff;
     }
+
 }
 
 

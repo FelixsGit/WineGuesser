@@ -39,16 +39,6 @@
                 <ul id="not-ready-area" th:each="lobbyData : *{lobbyForm.participantsNotReady}">
                     <li th:id="${lobbyData.getParticipants()}" th:text="${lobbyData.getParticipants()}"></li>
                 </ul>
-                <div id="bottom-left" th:if="${lobbyForm.gameHost}">
-                    <form id="lobbyCloseForm" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
-                        <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
-                    </form>
-                </div>
-                <div id="bottom-left" th:unless="${lobbyForm.gameHost}">
-                    <form id="lobbyLeaveForm" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/leave'}">
-                        <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen?');">Lämna Vinprovningen</button>
-                    </form>
-                </div>
             </div>
 
             <div id="ready-page">
@@ -65,6 +55,17 @@
 
         <br>
 
+    </div>
+
+    <div id="bottom-left" th:if="${lobbyForm.gameHost}">
+        <form id="lobbyCloseForm" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
+            <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
+        </form>
+    </div>
+    <div id="bottom-left" th:unless="${lobbyForm.gameHost}">
+        <form id="lobbyLeaveForm" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/leave'}">
+            <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen?');">Lämna Vinprovningen</button>
+        </form>
     </div>
 
     <script>
