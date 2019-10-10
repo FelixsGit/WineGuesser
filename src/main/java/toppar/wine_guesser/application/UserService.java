@@ -10,7 +10,7 @@ import toppar.wine_guesser.repository.UserRepository;
 
 import java.util.List;
 
-@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 @Service
 public class UserService {
 
@@ -73,7 +73,7 @@ public class UserService {
     public void cancelActiveGamesForAllUsersWithGameId(String gameId){
         List<User> users = userRepository.findAllByActiveGame(gameId);
         users.forEach(user -> {
-            user.setActiveGame(null); userRepository.save(user);
+            user.setActiveGame(null);userRepository.save(user);
         });
     }
 }

@@ -103,6 +103,7 @@ public class ApplicationController {
     private ClubMemberService clubMemberService;
     @Autowired
     private ClubWineStatService clubWineStatService;
+    private List<String> qrCodes;
 
     @GetMapping(COMMENT_GAME_SETUP_PAGE_URL)
     public String showCommentGameSetupPage(Model model, HttpServletRequest request){
@@ -252,12 +253,15 @@ public class ApplicationController {
         if(!model.containsAttribute(GAME_RESULTS_OBJ_NAME)){
             model.addAttribute(GAME_RESULTS_OBJ_NAME);
         }
+
         GameResultsForm gameResultsForm = new GameResultsForm();
         if(matchHistoryService.isOldGame(gameId)){
             gameResultsForm.setGameStats(gameResultService.retrieveGameStatsForGameWithIdAndUsername(gameId, request.getUserPrincipal().getName()));
             gameResultsForm.setViewer(request.getUserPrincipal().getName());
+            model.addAttribute(gameResultsForm);
         }else{
-            userService.setActiveGameForAllParticipants(lobbyDataService.getParticipantsByGameId(gameId), null);
+            List<String> participants = lobbyDataService.getParticipantsByGameId(gameId);
+            userService.setActiveGameForAllParticipants(participants, null);
             lobbyService.setGameStartToFinished(gameId);
             gameResultService.generateGameStatsForGameWithId(gameId);
             gameResultsForm.setGameStats(gameResultService.retrieveGameStatsForGameWithIdAndUsername(gameId, request.getUserPrincipal().getName()));
@@ -283,7 +287,6 @@ public class ApplicationController {
             judgementService.removeAllByGameId(gameId);
             model.addAttribute(gameResultsForm);
         }
-        model.addAttribute(gameResultsForm);
         return GAME_RESULTS_PAGE_URL;
     }
 
@@ -459,6 +462,7 @@ public class ApplicationController {
         gameBoardForm.setWineToRate(judgementsPassed + 1);
         gameBoardForm.setNumOfWinesWithRegion(gameSettingsService.getNumberOfWinesWithRegionsForGameId(gameId));
         gameBoardForm.setGameId(gameId);
+        gameBoardForm.setWineRating(null);
         model.addAttribute(gameBoardForm);
         return GAME_BOARD_PAGE_URL;
     }

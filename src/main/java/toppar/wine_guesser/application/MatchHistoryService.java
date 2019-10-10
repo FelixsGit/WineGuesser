@@ -12,7 +12,7 @@ import toppar.wine_guesser.repository.MatchHistoryRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 @Service
 public class MatchHistoryService {
 

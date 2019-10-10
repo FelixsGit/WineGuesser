@@ -132,7 +132,7 @@ function sendShowResultMessage(event) {
         gameId: gameId,
         type: 'SHOWRESULT'
     };
-    window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
+    window.location.replace("https://wineguesser.herokuapp.com/gameResults/"+gameId);
     client.unsubscribe();
     client = null;
     stompClientReg.send("/app/chat.regularGameLockComs/" + gameId, {}, JSON.stringify(chatMessage));
@@ -187,7 +187,7 @@ function onMessageReceived(payload) {
         if(message.sender === username){
 
         }else{
-            window.location.replace('http://192.168.0.100:8080/gameBoard/' + gameId + '/command/redirect');
+            window.location.replace('https://wineguesser.herokuapp.com/gameBoard/' + gameId + '/command/redirect');
         }
 
     }
@@ -196,7 +196,7 @@ function onMessageReceived(payload) {
 
 function timeFunctionEnd() {
     setTimeout(function(){
-        window.location.replace("http://192.168.0.100:8080/gameResults/"+gameId);
+        window.location.replace("https://wineguesser.herokuapp.com/gameResults/"+gameId);
         client.unsubscribe();
         client = null;
     }, 1000);

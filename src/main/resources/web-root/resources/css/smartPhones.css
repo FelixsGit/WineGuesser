@@ -2,6 +2,7 @@
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
 
+
     body {
         -webkit-background-size:cover;
         background-size:cover;
@@ -120,7 +121,7 @@
 
     #lockInResult{
         position:relative;
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         margin-top: 30px;
         margin-right: 20%;
         margin-left: 20%;
@@ -136,7 +137,7 @@
         text-align: center;
         color: #938E94;
         letter-spacing: .2em;
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         font-size: 44px;
         color: #fff;
     }
@@ -170,7 +171,7 @@
 
     userbar{
         position:absolute;
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         font-size: 44px;
         top: 180px;
         left:50px;
@@ -187,19 +188,19 @@
 
     .error {
         color: red;
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         font-size: 42px;
 
     }
 
 
-    h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 76px; font-weight: normal; line-height: 80px; margin: 0; color: #fff; }
-    h2 { color: #fff;; font-family: 'Trocchi', serif; font-size: 56px; font-weight: normal; line-height: 64px; margin: 0 0 8px; color: #fff; }
-    h3 { color: #fff; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 44px; font-weight: 400; line-height: 48px; margin: 0 0 8px; color: #fff; }
+    h1 { color: #fff; font-family: 'Trocchi', sans-serif; font-size: 76px; font-weight: normal; line-height: 80px; margin: 0; color: #fff; }
+    h2 { color: #fff;; font-family: 'Open Sans', sans-serif; font-size: 56px; font-weight: normal; line-height: 64px; margin: 0 0 8px; color: #fff; }
+    h3 { color: #fff; font-family: 'Open Sans', sans-serif; font-size: 44px; font-weight: 400; line-height: 48px; margin: 0 0 8px; color: #fff; }
 
 
     button {
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         background:rgba(0,0,0,0.65);
         color: #fff;
         padding: 32px 64px;
@@ -215,15 +216,15 @@
         border-radius: 24px;
     }
     button:hover {
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         background-color: #fff;
         color: black;
     }
 
 
     /* necessary to give position: relative to parent. */
-    input[type="text"]{font: 40px/52px 'cabin', sans-serif; color: #333; width: 40%; height:85px; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
-    input[type="password"]{font: 40px/52px 'cabin', Arial, sans-serif; color: #333; width: 40%; height:85px; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
+    input[type="text"]{font: 40px/52px 'Open Sans', sans-serif; color: #333; width: 40%; height:85px; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
+    input[type="password"]{font: 40px/52px 'Open Sans', Arial, sans-serif; color: #333; width: 40%; height:85px; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
 
     .effect-1 ~ .focus-border{position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #4caf50; transition: 0.4s;}
     .effect-1:focus ~ .focus-border{width: 20%; transition: 0.4s;}
@@ -278,7 +279,7 @@
     #res-wineDescription{
         float:left;
         text-align: left;
-        width: 450px;
+        width: 430px;
     }
 
     #res-wineName{
@@ -687,7 +688,7 @@
     #lobbyClose{
         width: 100%;
         position:relative;
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         margin-top: 80%;
         margin-bottom: 50px;
         color: #fff;
@@ -695,23 +696,23 @@
     #lobbyLeave{
         width: 100%;
         position:relative;
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         margin-top: 80%;
         margin-bottom: 50px;
         color: #fff;
     }
     #leave-club-button:hover{
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         background-color: #FF0000;
         color: white;
     }
     #lobbyLeave:hover{
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         background-color: #FF0000;
         color: white;
     }
     #lobbyClose:hover{
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         background-color: #FF0000;
         color: white;
     }

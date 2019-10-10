@@ -141,7 +141,7 @@ function onMessageReceived(payload) {
     if(message.type === 'SETUP'){
         username = message.content;
         gameId = message.gameId;
-        window.location.href = "http://192.168.0.100:8080/lobby/"+gameId +"?#";
+        window.location.href = "https://wineguesser.herokuapp.com/lobby/"+gameId +"?#";
         subscribeToSpecific(gameId);
     }
 
@@ -149,13 +149,13 @@ function onMessageReceived(payload) {
     var readyElement = document.createElement('li');
 
     if(message.type === 'START'){
-        window.location.replace("http://192.168.0.100:8080/gameBoard/"+gameId);
+        window.location.replace("https://wineguesser.herokuapp.com/gameBoard/"+gameId);
     }
     if(message.type === 'CLOSE'){
         if(message.sender === username){
 
         }else{
-            window.location.replace('http://192.168.0.100:8080/lobby/' + gameId + '/command/redirect');
+            window.location.replace('https://wineguesser.herokuapp.com/lobby/' + gameId + '/command/redirect');
         }
     }
     if(message.type === 'LEAVE_HARD'){

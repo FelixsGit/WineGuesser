@@ -4,11 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Wine Guesser</title>
+    <script>
+
+        $(function  () {
+            $("ol.example").sortable();
+        });
+
+    </script>
 </head>
 <body>
 <main layout:fragment="content">
 
     <div class="text-scale">
+
+
             <div th:unless="${gameBoardForm.doneRating}">
                 <h1>Provningen har börjat!</h1>
                 <br>
@@ -50,10 +59,9 @@
         <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
         <form id="lockResult" th:action="@{/gameBoard}" th:object="${gameBoardForm}" method="post">
             <br>
-            <ul class="description-page">
-                <li id="description-box" th:each="description, var : *{descriptions}">
+            <ul class="description-page" id="sortable">
+                <li id='description-box' th:each="description, var : *{descriptions}">
                     <div id="board-wineDescription" ><h4 th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(description),'\n','&lt;br /&gt;'))}"></h4></div>
-
                     <input id="numGuess" th:if="${gameBoardForm.doneRating}" type="number" th:field="*{guessNum[__${var.index}__]}"/>
                     <div th:if="${gameBoardForm.doneRating != null and gameBoardForm.chosenRegion != null}" id="equal-sign"><h3>&#61</h3></div>
                     <label th:if="${gameBoardForm.doneRating != null and gameBoardForm.chosenRegion != null}" class="toggle">
@@ -73,17 +81,6 @@
                 <div class="text-scale">
                     <button th:if="${gameBoardForm.doneRating}" id="lockInResult" type="submit">Lås in Resultat</button>
                 </div>
-                <div id="bottom-left" th:unless="${gameBoardForm.gameHost}">
-                    <form id="lobbyLeaveForm" th:action="@{'/gameBoard/' + ${gameBoardForm.gameId} + '/command/leave'}">
-                        <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen? Du kommer inte kunna gå med igen.');">Lämna Vinprovningen</button>
-                    </form>
-                </div>
-
-                <div id="bottom-left" th:if="${gameBoardForm.gameHost}">
-                    <form id="lobbyCloseForm" th:action="@{'/gameBoard/' + ${gameBoardForm.gameId} + '/command/quit'}">
-                        <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
-                    </form>
-                </div>
                 <br>
                 <br>
             </ul>
@@ -95,8 +92,63 @@
                     </span>
         </form>
 
+        <div id="bottom-left" th:unless="${gameBoardForm.gameHost}">
+            <form id="lobbyLeaveForm" th:action="@{'/gameBoard/' + ${gameBoardForm.gameId} + '/command/leave'}">
+                <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen? Du kommer inte kunna gå med igen.');">Lämna Vinprovningen</button>
+            </form>
+        </div>
+
+        <div id="bottom-left" th:if="${gameBoardForm.gameHost}">
+            <form id="lobbyCloseForm" th:action="@{'/gameBoard/' + ${gameBoardForm.gameId} + '/command/quit'}">
+                <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
+            </form>
+        </div>
+
     </div>
 
+    <script>
+
+        var adjustment;
+        $("ol.simple_with_animation").sortable({
+            group: 'simple_with_animation',
+            pullPlaceholder: false,
+            // animation on drop
+            onDrop: function  ($item, container, _super) {
+                var $clonedItem = $('<li/>').css({height: 0});
+                $item.before($clonedItem);
+                $clonedItem.animate({'height': $item.height()});
+
+                $item.animate($clonedItem.position(), function  () {
+                    $clonedItem.detach();
+                    _super($item, container);
+                });
+            },
+
+            // set $item relative to cursor position
+            onDragStart: function ($item, container, _super) {
+                var offset = $item.offset(),
+                    pointer = container.rootGroup.pointer;
+
+                adjustment = {
+                    left: pointer.left - offset.left,
+                    top: pointer.top - offset.top
+                };
+
+                _super($item, container);
+            },
+            onDrag: function ($item, position) {
+                $item.css({
+                    left: position.left - adjustment.left,
+                    top: position.top - adjustment.top
+                });
+            }
+        });
+
+        $(function  () {
+            $("ol.example").sortable();
+        });
+
+    </script>
 
     <script th:inline="javascript" th:if="${gameBoardForm.doneRating}">
         document.addEventListener('DOMContentLoaded', function () {
@@ -273,6 +325,7 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             connect();
+            init();
         });
 
     </script>

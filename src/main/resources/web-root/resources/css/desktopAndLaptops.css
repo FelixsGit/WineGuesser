@@ -34,7 +34,7 @@
 
     #lockInResult{
         position:relative;
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         margin-top: 30px;
         margin-right: auto;
         margin-left: auto;
@@ -172,7 +172,7 @@
         text-align: center;
         color: #938E94;
         letter-spacing: .1em;
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         font-size: 22px;
         color: #fff;
     }
@@ -207,7 +207,7 @@
 
     userbar{
         position:absolute;
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         font-size: 22px;
         top: 150px;
         left:60px;
@@ -226,18 +226,18 @@
     .error {
         margin-top: 20px;
         color: red;
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         font-size: 30px;
     }
 
 
     h1 { color: #fff; font-family: 'Trocchi', serif; font-size: 38px; font-weight: normal; line-height: 40px; margin: 0; color: #fff;}
-    h2 { color: #fff;; font-family: 'Trocchi', serif; font-size: 28px; font-weight: normal; line-height: 32px; margin: 0 0 8px; color: #fff;}
-    h3 { color: #fff; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 22px; font-weight: 400; line-height: 24px; margin: 0 0 8px; color: #fff;}
+    h2 { color: #fff;; font-family: 'Open Sans', sans-serif; font-size: 28px; font-weight: normal; line-height: 32px; margin: 0 0 8px; color: #fff;}
+    h3 { color: #fff; font-family: 'Open Sans', sans-serif; font-size: 22px; font-weight: 400; line-height: 24px; margin: 0 0 8px; color: #fff;}
 
 
     button {
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         background:rgba(0,0,0,0.65);
         color: #fff;
         padding: 16px 32px;
@@ -253,7 +253,7 @@
         border-radius: 12px;
     }
     button:hover {
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         background-color: #fff;
         color: black;
     }
@@ -265,8 +265,8 @@
 
 
     /* necessary to give position: relative to parent. */
-    input[type="text"]{font: 15px/24px 'cabin', sans-serif; color: #333; width: 20%; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
-    input[type="password"]{font: 15px/24px 'cabin', Arial, sans-serif; color: #333; width: 20%; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
+    input[type="text"]{font: 15px/24px 'Open Sans', sans-serif; color: #333; width: 20%; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
+    input[type="password"]{font: 15px/24px 'Open Sans', Arial, sans-serif; color: #333; width: 20%; font-weight: bold; box-sizing: border-box; letter-spacing: 1px;}
 
     .effect-1 ~ .focus-border{position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #4caf50; transition: 0.4s;}
     .effect-1:focus ~ .focus-border{width: 20%; transition: 0.4s;}
@@ -688,34 +688,36 @@
 
 
     #lobbyClose{
+        width: 100%;
         position:relative;
-        font-family: 'Cabin';
-        margin-top: 40px;
-        bottom: 5%;
+        font-family: 'Open Sans', sans-serif;
+        margin-top: 80%;
+        margin-bottom: 50px;
         color: #fff;
     }
     #lobbyLeave{
+        width: 100%;
         position:relative;
-        font-family: 'Cabin';
-        margin-top: 40px;
-        bottom: 5%;
+        font-family: 'Open Sans', sans-serif;
+        margin-top: 80%;
+        margin-bottom: 50px;
         color: #fff;
     }
 
 
 
     #leave-club-button:hover{
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         background-color: #FF0000;
         color: white;
     }
     #lobbyLeave:hover{
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         background-color: #FF0000;
         color: white;
     }
     #lobbyClose:hover{
-        font-family: 'Cabin';
+        font-family: 'Open Sans', sans-serif;
         background-color: #FF0000;
         color: white;
     }

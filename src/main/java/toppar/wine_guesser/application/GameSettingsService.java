@@ -249,7 +249,7 @@ public class GameSettingsService {
                 break;
             }
         }
-        return "http://192.168.0.100:8080/QR/"+gameId+"/"+sb.reverse().toString();
+        return "https://wineguesser.herokuapp.com/QR/"+gameId+"/"+sb.reverse().toString();
 
     }
     public void winesMissingServingOrder(String gameId) throws WineryException {

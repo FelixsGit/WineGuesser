@@ -50,12 +50,16 @@ public class GameResultService {
         GameSetup gameSetup = gameSetupService.getGameSetupByGameId(gameId);
         GameResult gameResult;
         if(gameSetup.getComment() != null){
-            gameResult = new GameResult(gameId, "http://192.168.0.100:8080/gameResults/"+gameId, gameSetup.getComment());
+            gameResult = new GameResult(gameId, "https://wineguesser.herokuapp.com/gameResults/"+gameId, gameSetup.getComment());
         }else{
-            gameResult = new GameResult(gameId, "http://192.168.0.100:8080/gameResults/"+gameId, null);
+            gameResult = new GameResult(gameId, "https://wineguesser.herokuapp.com/gameResults/"+gameId, null);
         }
 
-        gameResultRepository.save(gameResult);
+        if(gameResultRepository.findAllByGameId(gameId) == null) {
+            gameResultRepository.save(gameResult);
+        }else{
+            return;
+        }
 
         //Calculating points
         List<GameSettings> gameSettingsList = gameSettingsService.getAllByGameId(gameId);
@@ -75,13 +79,13 @@ public class GameResultService {
         if(isClubMatch){
             for(int j = 0; j < participants.size(); j++){
                 UserResults userResults = userResultsService.findByUsername(participants.get(j));
-                matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "http://192.168.0.100:8080/gameResults/"+gameId, gameId, clubName));
+                matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "https://wineguesser.herokuapp.com/gameResults/"+gameId, gameId, clubName));
                 userResultDataMap.put(participants.get(j), new UserResultData(participants.get(j), 0, 0));
             }
         }else{
             for(int j = 0; j < participants.size(); j++){
                 UserResults userResults = userResultsService.findByUsername(participants.get(j));
-                matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "http://192.168.0.100:8080/gameResults/"+gameId, gameId, null));
+                matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "https://wineguesser.herokuapp.com/gameResults/"+gameId, gameId, null));
                 userResultDataMap.put(participants.get(j), new UserResultData(participants.get(j), 0, 0));
             }
         }
