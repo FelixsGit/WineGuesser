@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS "public"."club" CASCADE;
 CREATE TABLE "public"."club" ("clubId" SERIAL NOT NULL, "clubName" VARCHAR(255)  NOT NULL, "clubPassword" VARCHAR(255)  NOT NULL, "numberOfTastings" INTEGER DEFAULT 0 NOT NULL, "numWinesCorrect" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00 NOT NULL, "numWinesGuessed" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00 NOT NULL, "averageWineCorrect" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00 NOT NULL, "clubCreator" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."club_clubId_seq" RESTART WITH 4 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY";
-ALTER TABLE "public"."club" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("clubId");
+ALTER TABLE "public"."club" ADD CONSTRAINT "PRIMARY" ADD PRIMARY KEY ("clubId");
 
 /*
 Dumping data for table 'public.club'
@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS "public"."club_member" CASCADE;
 CREATE TABLE "public"."club_member" ("clubMemberId" SERIAL NOT NULL, "clubId" INTEGER NOT NULL, "username" VARCHAR(255)  NOT NULL, "isBacchus" VARCHAR(255)  NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."club_member_clubMemberId_seq" RESTART WITH 25 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00000";
-ALTER TABLE "public"."club_member" ADD CONSTRAINT "PRIMARY00000" PRIMARY KEY ("clubMemberId");
+ALTER TABLE "public"."club_member" ADD CONSTRAINT "PRIMARY00000" ADD PRIMARY KEY ("clubMemberId");
 
 /*
 Dumping data for table 'public.club_member'
@@ -72,7 +72,7 @@ DROP TABLE IF EXISTS "public"."club_wine_stat" CASCADE;
 CREATE TABLE "public"."club_wine_stat" ("clubWineStatId" SERIAL NOT NULL, "clubId" INTEGER NOT NULL, "wineName" VARCHAR(255)  NOT NULL, "wineUrl" VARCHAR(8000)  NOT NULL, "numberOfServings" INTEGER NOT NULL, "averageGrade" DOUBLE PRECISION NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."club_wine_stat_clubWineStatId_seq" RESTART WITH 14 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00001";
-ALTER TABLE "public"."club_wine_stat" ADD CONSTRAINT "PRIMARY00001" PRIMARY KEY ("clubWineStatId");
+ALTER TABLE "public"."club_wine_stat" ADD CONSTRAINT "PRIMARY00001" ADD PRIMARY KEY ("clubWineStatId");
 
 /*
 Dumping data for table 'public.club_wine_stat'
@@ -100,7 +100,7 @@ DROP TABLE IF EXISTS "public"."game_point" CASCADE;
 CREATE TABLE "public"."game_point" ("gamePointId" SERIAL NOT NULL, "gameResultId" INTEGER NOT NULL, "username" VARCHAR(255)  NOT NULL, "points" INTEGER NOT NULL, "pointsNoRegion" INTEGER NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."game_point_gamePointId_seq" RESTART WITH 85 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00002";
-ALTER TABLE "public"."game_point" ADD CONSTRAINT "PRIMARY00002" PRIMARY KEY ("gamePointId");
+ALTER TABLE "public"."game_point" ADD CONSTRAINT "PRIMARY00002" ADD PRIMARY KEY ("gamePointId");
 
 /*
 Dumping data for table 'public.game_point'
@@ -165,7 +165,7 @@ DROP TABLE IF EXISTS "public"."game_result" CASCADE;
 CREATE TABLE "public"."game_result" ("gameResultId" SERIAL NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "url" VARCHAR(8000)  NOT NULL, "comment" VARCHAR(8000) ) WITH OIDS;
 ALTER SEQUENCE "public"."game_result_gameResultId_seq" RESTART WITH 55 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00003";
-ALTER TABLE "public"."game_result" ADD CONSTRAINT "PRIMARY00003" PRIMARY KEY ("gameResultId");
+ALTER TABLE "public"."game_result" ADD CONSTRAINT "PRIMARY00003" ADD PRIMARY KEY ("gameResultId");
 
 /*
 Dumping data for table 'public.game_result'
@@ -237,7 +237,7 @@ DROP TABLE IF EXISTS "public"."game_settings" CASCADE;
 CREATE TABLE "public"."game_settings" ("gameSettingsId" BIGSERIAL NOT NULL, "gameHost" VARCHAR(255)  NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "qrCode" VARCHAR(8000)  NOT NULL, "url" VARCHAR(8000)  NOT NULL, "imgSource" VARCHAR(8000)  NOT NULL, "wineName" VARCHAR(255)  NOT NULL, "region" VARCHAR(8000) , "description" VARCHAR(8000)  NOT NULL, "servingOrder" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."game_settings_gameSettingsId_seq" RESTART WITH 138 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00004";
-ALTER TABLE "public"."game_settings" ADD CONSTRAINT "PRIMARY00004" PRIMARY KEY ("gameSettingsId");
+ALTER TABLE "public"."game_settings" ADD CONSTRAINT "PRIMARY00004" ADD PRIMARY KEY ("gameSettingsId");
 
 /*
 Dumping data for table 'public.game_settings'
@@ -281,7 +281,7 @@ Table structure for table 'public.game_setup'
 DROP TABLE IF EXISTS "public"."game_setup" CASCADE;
 CREATE TABLE "public"."game_setup" ("gameHost" VARCHAR(255)  NOT NULL, "amountOfWines" VARCHAR(255)  NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "clubName" VARCHAR(255) , "comment" VARCHAR(8000) ) WITH OIDS;
 DROP INDEX IF EXISTS "PRIMARY00005";
-ALTER TABLE "public"."game_setup" ADD CONSTRAINT "PRIMARY00005" PRIMARY KEY ("gameId");
+ALTER TABLE "public"."game_setup" ADD CONSTRAINT "PRIMARY00005" ADD PRIMARY KEY ("gameId");
 
 /*
 Dumping data for table 'public.game_setup'
@@ -298,7 +298,7 @@ DROP TABLE IF EXISTS "public"."judgement" CASCADE;
 CREATE TABLE "public"."judgement" ("judgementId" SERIAL NOT NULL, "username" VARCHAR(255)  NOT NULL, "servingOrder" INTEGER NOT NULL, "personalGrade" INTEGER NOT NULL, "gameId" VARCHAR(255)  NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."judgement_judgementId_seq" RESTART WITH 61 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00006";
-ALTER TABLE "public"."judgement" ADD CONSTRAINT "PRIMARY00006" PRIMARY KEY ("judgementId");
+ALTER TABLE "public"."judgement" ADD CONSTRAINT "PRIMARY00006" ADD PRIMARY KEY ("judgementId");
 
 /*
 Dumping data for table 'public.judgement'
@@ -331,7 +331,7 @@ DROP TABLE IF EXISTS "public"."lobby" CASCADE;
 CREATE TABLE "public"."lobby" ("lobbyId" BIGSERIAL NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "gameStart" VARCHAR(255)  NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."lobby_lobbyId_seq" RESTART WITH 51 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00007";
-ALTER TABLE "public"."lobby" ADD CONSTRAINT "PRIMARY00007" PRIMARY KEY ("lobbyId");
+ALTER TABLE "public"."lobby" ADD CONSTRAINT "PRIMARY00007" ADD PRIMARY KEY ("lobbyId");
 
 /*
 Dumping data for table 'public.lobby'
@@ -395,7 +395,7 @@ Table structure for table 'public.lobby_data'
 DROP TABLE IF EXISTS "public"."lobby_data" CASCADE;
 CREATE TABLE "public"."lobby_data" ("lobbyId" BIGINT NOT NULL, "gameHost" VARCHAR(255) , "gameId" VARCHAR(255)  NOT NULL, "participants" VARCHAR(255)  NOT NULL, "score" INTEGER DEFAULT 0, "ready" INTEGER DEFAULT 0, "done" INTEGER DEFAULT 0) WITH OIDS;
 DROP INDEX IF EXISTS "PRIMARY00008";
-ALTER TABLE "public"."lobby_data" ADD CONSTRAINT "PRIMARY00008" PRIMARY KEY ("participants");
+ALTER TABLE "public"."lobby_data" ADD CONSTRAINT "PRIMARY00008" ADD PRIMARY KEY ("participants");
 
 /*
 Dumping data for table 'public.lobby_data'
@@ -409,7 +409,7 @@ Table structure for table 'public.lobby_history'
 DROP TABLE IF EXISTS "public"."lobby_history" CASCADE;
 CREATE TABLE "public"."lobby_history" ("lobbyId" BIGINT NOT NULL, "gameHost" VARCHAR(255) , "gameId" VARCHAR(255)  NOT NULL, "participants" VARCHAR(255)  NOT NULL, "score" INTEGER DEFAULT 0, "ready" INTEGER DEFAULT 0, "done" INTEGER DEFAULT 0) WITH OIDS;
 DROP INDEX IF EXISTS "PRIMARY00009";
-ALTER TABLE "public"."lobby_history" ADD CONSTRAINT "PRIMARY00009" PRIMARY KEY ("participants");
+ALTER TABLE "public"."lobby_history" ADD CONSTRAINT "PRIMARY00009" ADD PRIMARY KEY ("participants");
 
 /*
 Dumping data for table 'public.lobby_history'
@@ -429,7 +429,7 @@ DROP TABLE IF EXISTS "public"."match_history" CASCADE;
 CREATE TABLE "public"."match_history" ("matchHistoryId" SERIAL NOT NULL, "userResultsId" INTEGER NOT NULL, "datePlayed" VARCHAR(255)  NOT NULL, "url" VARCHAR(255)  NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "clubName" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."match_history_matchHistoryId_seq" RESTART WITH 88 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00010";
-ALTER TABLE "public"."match_history" ADD CONSTRAINT "PRIMARY00010" PRIMARY KEY ("matchHistoryId");
+ALTER TABLE "public"."match_history" ADD CONSTRAINT "PRIMARY00010" ADD PRIMARY KEY ("matchHistoryId");
 
 /*
 Dumping data for table 'public.match_history'
@@ -494,7 +494,7 @@ DROP TABLE IF EXISTS "public"."result_data" CASCADE;
 CREATE TABLE "public"."result_data" ("resultDataId" SERIAL NOT NULL, "gameResultId" INTEGER NOT NULL, "username" VARCHAR(255)  NOT NULL, "servingOrder" INTEGER NOT NULL, "winePicture" VARCHAR(8000)  NOT NULL, "wineName" VARCHAR(255)  NOT NULL, "wineDescription" VARCHAR(8000)  NOT NULL, "grade" INTEGER NOT NULL, "url" VARCHAR(8000)  NOT NULL, "personalGrade" INTEGER NOT NULL, "averageGrade" DOUBLE PRECISION NOT NULL, "region" VARCHAR(255) , "correctRegionGuess" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."result_data_resultDataId_seq" RESTART WITH 245 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00011";
-ALTER TABLE "public"."result_data" ADD CONSTRAINT "PRIMARY00011" PRIMARY KEY ("resultDataId");
+ALTER TABLE "public"."result_data" ADD CONSTRAINT "PRIMARY00011" ADD PRIMARY KEY ("resultDataId");
 
 /*
 Dumping data for table 'public.result_data'
@@ -821,8 +821,9 @@ DROP TABLE IF EXISTS "public"."user" CASCADE;
 CREATE TABLE "public"."user" ("userId" BIGSERIAL NOT NULL, "username" VARCHAR(255)  NOT NULL, "password" VARCHAR(255)  NOT NULL, "activeGame" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."user_userId_seq" RESTART WITH 23 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00012";
-ALTER TABLE "public"."user" ADD CONSTRAINT "PRIMARY00012" PRIMARY KEY ("userId");
+ALTER TABLE "public"."user" ADD CONSTRAINT "PRIMARY00012" ADD PRIMARY KEY ("userId");
 DROP INDEX IF EXISTS "username";
+CREATE UNIQUE INDEX "username00000" ON CREATE UNIQUE "public"."user" ("username");
 
 /*
 Dumping data for table 'public.user'
@@ -858,7 +859,7 @@ DROP TABLE IF EXISTS "public"."user_guesses" CASCADE;
 CREATE TABLE "public"."user_guesses" ("userGuessesId" BIGSERIAL NOT NULL, "username" VARCHAR(255)  NOT NULL, "servingOrderGuess" INTEGER NOT NULL, "descriptionGuess" VARCHAR(8000)  NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "regionGuess" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."user_guesses_userGuessesId_seq" RESTART WITH 1 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00013";
-ALTER TABLE "public"."user_guesses" ADD CONSTRAINT "PRIMARY00013" PRIMARY KEY ("userGuessesId");
+ALTER TABLE "public"."user_guesses" ADD CONSTRAINT "PRIMARY00013" ADD PRIMARY KEY ("userGuessesId");
 
 /*
 Dumping data for table 'public.user_guesses'
@@ -873,7 +874,7 @@ DROP TABLE IF EXISTS "public"."user_results" CASCADE;
 CREATE TABLE "public"."user_results" ("userResultsId" SERIAL NOT NULL, "username" VARCHAR(255)  NOT NULL, "playedGames" INTEGER DEFAULT 0, "numWinesGuessed" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00, "numWinesCorrect" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00, "correctPercent" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00, "wins" INTEGER DEFAULT 0, "isBacchus" VARCHAR(255)  NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."user_results_userResultsId_seq" RESTART WITH 23 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00014";
-ALTER TABLE "public"."user_results" ADD CONSTRAINT "PRIMARY00014" PRIMARY KEY ("userResultsId");
+ALTER TABLE "public"."user_results" ADD CONSTRAINT "PRIMARY00014" ADD PRIMARY KEY ("userResultsId");
 
 /*
 Dumping data for table 'public.user_results'
