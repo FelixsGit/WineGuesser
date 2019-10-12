@@ -3,7 +3,7 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "judgement", schema = "public")
+@Table(name = "judgement", schema = "wine_guess")
 public class Judgement implements JudgementDTO{
 
 
