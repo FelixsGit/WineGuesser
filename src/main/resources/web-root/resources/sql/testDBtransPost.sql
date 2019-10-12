@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS "public"."club" CASCADE;
 CREATE TABLE "public"."club" ("clubId" SERIAL NOT NULL, "clubName" VARCHAR(255)  NOT NULL, "clubPassword" VARCHAR(255)  NOT NULL, "numberOfTastings" INTEGER DEFAULT 0 NOT NULL, "numWinesCorrect" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00 NOT NULL, "numWinesGuessed" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00 NOT NULL, "averageWineCorrect" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00 NOT NULL, "clubCreator" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."club_clubId_seq" RESTART WITH 4 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY";
-ALTER TABLE "public"."club" ADD CONSTRAINT "PRIMARY" ADD PRIMARY KEY ("clubId");
+ALTER TABLE "public"."club" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("clubId");
 
 /*
 Dumping data for table 'public.club'
@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS "public"."club_member" CASCADE;
 CREATE TABLE "public"."club_member" ("clubMemberId" SERIAL NOT NULL, "clubId" INTEGER NOT NULL, "username" VARCHAR(255)  NOT NULL, "isBacchus" VARCHAR(255)  NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."club_member_clubMemberId_seq" RESTART WITH 25 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00000";
-ALTER TABLE "public"."club_member" ADD CONSTRAINT "PRIMARY00000" ADD PRIMARY KEY ("clubMemberId");
+ALTER TABLE "public"."club_member" ADD CONSTRAINT "PRIMARY00000" PRIMARY KEY ("clubMemberId");
 
 /*
 Dumping data for table 'public.club_member'
@@ -72,7 +72,7 @@ DROP TABLE IF EXISTS "public"."club_wine_stat" CASCADE;
 CREATE TABLE "public"."club_wine_stat" ("clubWineStatId" SERIAL NOT NULL, "clubId" INTEGER NOT NULL, "wineName" VARCHAR(255)  NOT NULL, "wineUrl" VARCHAR(8000)  NOT NULL, "numberOfServings" INTEGER NOT NULL, "averageGrade" DOUBLE PRECISION NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."club_wine_stat_clubWineStatId_seq" RESTART WITH 14 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00001";
-ALTER TABLE "public"."club_wine_stat" ADD CONSTRAINT "PRIMARY00001" ADD PRIMARY KEY ("clubWineStatId");
+ALTER TABLE "public"."club_wine_stat" ADD CONSTRAINT "PRIMARY00001" PRIMARY KEY ("clubWineStatId");
 
 /*
 Dumping data for table 'public.club_wine_stat'
@@ -100,7 +100,7 @@ DROP TABLE IF EXISTS "public"."game_point" CASCADE;
 CREATE TABLE "public"."game_point" ("gamePointId" SERIAL NOT NULL, "gameResultId" INTEGER NOT NULL, "username" VARCHAR(255)  NOT NULL, "points" INTEGER NOT NULL, "pointsNoRegion" INTEGER NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."game_point_gamePointId_seq" RESTART WITH 85 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00002";
-ALTER TABLE "public"."game_point" ADD CONSTRAINT "PRIMARY00002" ADD PRIMARY KEY ("gamePointId");
+ALTER TABLE "public"."game_point" ADD CONSTRAINT "PRIMARY00002" PRIMARY KEY ("gamePointId");
 
 /*
 Dumping data for table 'public.game_point'
@@ -165,69 +165,69 @@ DROP TABLE IF EXISTS "public"."game_result" CASCADE;
 CREATE TABLE "public"."game_result" ("gameResultId" SERIAL NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "url" VARCHAR(8000)  NOT NULL, "comment" VARCHAR(8000) ) WITH OIDS;
 ALTER SEQUENCE "public"."game_result_gameResultId_seq" RESTART WITH 55 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00003";
-ALTER TABLE "public"."game_result" ADD CONSTRAINT "PRIMARY00003" ADD PRIMARY KEY ("gameResultId");
+ALTER TABLE "public"."game_result" ADD CONSTRAINT "PRIMARY00003" PRIMARY KEY ("gameResultId");
 
 /*
 Dumping data for table 'public.game_result'
 */
 
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (1, '502437', 'http://192.168.0.100:8080/gameResults/502437', 'Valborg.
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (1, '502437', 'wineguesser.herokuapp.com/gameResults/502437', 'Valborg.
 Mat: Grillad kycklingfile med mangosalsa och vitlÃ¶ksbrÃ¶d, tapas snacks och gurka.
 
 NÃ¤rvarande: Hela KlubbToppar.
 
 Plats: Hemma.');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (2, '365249', 'http://192.168.0.100:8080/gameResults/365249', 'How did I escape Iraq?
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (2, '365249', 'wineguesser.herokuapp.com/gameResults/365249', 'How did I escape Iraq?
 
 Iran.');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (3, '939654', 'http://192.168.0.100:8080/gameResults/939654', 'qaasdads');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (4, '481712', 'http://192.168.0.100:8080/gameResults/481712', 'sadasd');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (5, '378335', 'http://192.168.0.100:8080/gameResults/378335', 'gggd');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (7, '598039', 'http://192.168.0.100:8080/gameResults/598039', 'asdasdda');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (8, '940586', 'http://192.168.0.100:8080/gameResults/940586', 'asadad');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (9, '769978', 'http://192.168.0.100:8080/gameResults/769978', 'asdasda');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (10, '466144', 'http://192.168.0.100:8080/gameResults/466144', 'asda');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (11, '178198', 'http://192.168.0.100:8080/gameResults/178198', 'asdasd');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (12, '200434', 'http://192.168.0.100:8080/gameResults/200434', 'FÃ¶rsta digitala provningen.
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (3, '939654', 'wineguesser.herokuapp.com/gameResults/939654', 'qaasdads');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (4, '481712', 'wineguesser.herokuapp.com/gameResults/481712', 'sadasd');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (5, '378335', 'wineguesser.herokuapp.com/gameResults/378335', 'gggd');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (7, '598039', 'wineguesser.herokuapp.com/gameResults/598039', 'asdasdda');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (8, '940586', 'wineguesser.herokuapp.com/gameResults/940586', 'asadad');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (9, '769978', 'wineguesser.herokuapp.com/gameResults/769978', 'asdasda');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (10, '466144', 'wineguesser.herokuapp.com/gameResults/466144', 'asda');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (11, '178198', 'wineguesser.herokuapp.com/gameResults/178198', 'asdasd');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (12, '200434', 'wineguesser.herokuapp.com/gameResults/200434', 'FÃ¶rsta digitala provningen.
 
 Mat: Marinerad flÃ¤skfile med potatisgratÃ¤ng, rabbarberpaj.
 
 Plats: TÃ¤by, Toppars
 
 NÃ¤rvarande: Felix, Linnea, Carina, Bernt, Tove, Hanna, Stefan, Ingalill, Viktor, Sara, Jukka.');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (13, '487431', 'http://192.168.0.100:8080/gameResults/487431', 'fÃ¶rsta test efter paus i utveckling');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (14, '292396', 'http://192.168.0.100:8080/gameResults/292396', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (15, '236610', 'http://192.168.0.100:8080/gameResults/236610', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (16, '737931', 'http://192.168.0.100:8080/gameResults/737931', 'Testar deadlock');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (18, '522373', 'http://192.168.0.100:8080/gameResults/522373', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (20, '855185', 'http://192.168.0.100:8080/gameResults/855185', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (22, '867264', 'http://192.168.0.100:8080/gameResults/867264', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (23, '867264', 'http://192.168.0.100:8080/gameResults/867264', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (24, '643737', 'http://192.168.0.100:8080/gameResults/643737', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (25, '155360', 'http://192.168.0.100:8080/gameResults/155360', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (28, '247136', 'http://192.168.0.100:8080/gameResults/247136', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (29, '167419', 'http://192.168.0.100:8080/gameResults/167419', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (31, '668422', 'http://192.168.0.100:8080/gameResults/668422', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (33, '302215', 'http://192.168.0.100:8080/gameResults/302215', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (34, '302215', 'http://192.168.0.100:8080/gameResults/302215', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (35, '187704', 'http://192.168.0.100:8080/gameResults/187704', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (36, '187704', 'http://192.168.0.100:8080/gameResults/187704', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (37, '570049', 'http://192.168.0.100:8080/gameResults/570049', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (38, '570049', 'http://192.168.0.100:8080/gameResults/570049', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (39, '554472', 'http://192.168.0.100:8080/gameResults/554472', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (40, '554472', 'http://192.168.0.100:8080/gameResults/554472', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (41, '779502', 'http://192.168.0.100:8080/gameResults/779502', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (42, '779502', 'http://192.168.0.100:8080/gameResults/779502', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (43, '129842', 'http://192.168.0.100:8080/gameResults/129842', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (44, '133971', 'http://192.168.0.100:8080/gameResults/133971', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (45, '133971', 'http://192.168.0.100:8080/gameResults/133971', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (46, '937745', 'http://192.168.0.100:8080/gameResults/937745', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (47, '937745', 'http://192.168.0.100:8080/gameResults/937745', '');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (48, '272681', 'http://192.168.0.100:8080/gameResults/272681', 'asdasd');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (50, '581985', 'http://192.168.0.100:8080/gameResults/581985', 'test');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (51, '677023', 'http://192.168.0.100:8080/gameResults/677023', '214124');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (53, '690081', 'http://192.168.0.100:8080/gameResults/690081', 'test 2 player');
-INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (54, '234922', 'http://192.168.0.100:8080/gameResults/234922', 'Potatis och ris');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (13, '487431', 'wineguesser.herokuapp.com/gameResults/487431', 'fÃ¶rsta test efter paus i utveckling');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (14, '292396', 'wineguesser.herokuapp.com/gameResults/292396', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (15, '236610', 'wineguesser.herokuapp.com/gameResults/236610', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (16, '737931', 'wineguesser.herokuapp.com/gameResults/737931', 'Testar deadlock');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (18, '522373', 'wineguesser.herokuapp.com/gameResults/522373', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (20, '855185', 'wineguesser.herokuapp.com/gameResults/855185', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (22, '867264', 'wineguesser.herokuapp.com/gameResults/867264', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (23, '867264', 'wineguesser.herokuapp.com/gameResults/867264', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (24, '643737', 'wineguesser.herokuapp.com/gameResults/643737', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (25, '155360', 'wineguesser.herokuapp.com/gameResults/155360', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (28, '247136', 'wineguesser.herokuapp.com/gameResults/247136', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (29, '167419', 'wineguesser.herokuapp.com/gameResults/167419', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (31, '668422', 'wineguesser.herokuapp.com/gameResults/668422', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (33, '302215', 'wineguesser.herokuapp.com/gameResults/302215', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (34, '302215', 'wineguesser.herokuapp.com/gameResults/302215', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (35, '187704', 'wineguesser.herokuapp.com/gameResults/187704', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (36, '187704', 'wineguesser.herokuapp.com/gameResults/187704', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (37, '570049', 'wineguesser.herokuapp.com/gameResults/570049', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (38, '570049', 'wineguesser.herokuapp.com/gameResults/570049', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (39, '554472', 'wineguesser.herokuapp.com/gameResults/554472', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (40, '554472', 'wineguesser.herokuapp.com/gameResults/554472', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (41, '779502', 'wineguesser.herokuapp.com/gameResults/779502', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (42, '779502', 'wineguesser.herokuapp.com/gameResults/779502', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (43, '129842', 'wineguesser.herokuapp.com/gameResults/129842', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (44, '133971', 'wineguesser.herokuapp.com/gameResults/133971', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (45, '133971', 'wineguesser.herokuapp.com/gameResults/133971', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (46, '937745', 'wineguesser.herokuapp.com/gameResults/937745', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (47, '937745', 'wineguesser.herokuapp.com/gameResults/937745', '');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (48, '272681', 'wineguesser.herokuapp.com/gameResults/272681', 'asdasd');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (50, '581985', 'wineguesser.herokuapp.com/gameResults/581985', 'test');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (51, '677023', 'wineguesser.herokuapp.com/gameResults/677023', '214124');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (53, '690081', 'wineguesser.herokuapp.com/gameResults/690081', 'test 2 player');
+INSERT INTO "public"."game_result"("gameResultId", "gameId", "url", "comment") VALUES (54, '234922', 'wineguesser.herokuapp.com/gameResults/234922', 'Potatis och ris');
 
 /*
 Table structure for table 'public.game_settings'
@@ -237,7 +237,7 @@ DROP TABLE IF EXISTS "public"."game_settings" CASCADE;
 CREATE TABLE "public"."game_settings" ("gameSettingsId" BIGSERIAL NOT NULL, "gameHost" VARCHAR(255)  NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "qrCode" VARCHAR(8000)  NOT NULL, "url" VARCHAR(8000)  NOT NULL, "imgSource" VARCHAR(8000)  NOT NULL, "wineName" VARCHAR(255)  NOT NULL, "region" VARCHAR(8000) , "description" VARCHAR(8000)  NOT NULL, "servingOrder" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."game_settings_gameSettingsId_seq" RESTART WITH 138 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00004";
-ALTER TABLE "public"."game_settings" ADD CONSTRAINT "PRIMARY00004" ADD PRIMARY KEY ("gameSettingsId");
+ALTER TABLE "public"."game_settings" ADD CONSTRAINT "PRIMARY00004" PRIMARY KEY ("gameSettingsId");
 
 /*
 Dumping data for table 'public.game_settings'
@@ -281,7 +281,7 @@ Table structure for table 'public.game_setup'
 DROP TABLE IF EXISTS "public"."game_setup" CASCADE;
 CREATE TABLE "public"."game_setup" ("gameHost" VARCHAR(255)  NOT NULL, "amountOfWines" VARCHAR(255)  NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "clubName" VARCHAR(255) , "comment" VARCHAR(8000) ) WITH OIDS;
 DROP INDEX IF EXISTS "PRIMARY00005";
-ALTER TABLE "public"."game_setup" ADD CONSTRAINT "PRIMARY00005" ADD PRIMARY KEY ("gameId");
+ALTER TABLE "public"."game_setup" ADD CONSTRAINT "PRIMARY00005" PRIMARY KEY ("gameId");
 
 /*
 Dumping data for table 'public.game_setup'
@@ -298,7 +298,7 @@ DROP TABLE IF EXISTS "public"."judgement" CASCADE;
 CREATE TABLE "public"."judgement" ("judgementId" SERIAL NOT NULL, "username" VARCHAR(255)  NOT NULL, "servingOrder" INTEGER NOT NULL, "personalGrade" INTEGER NOT NULL, "gameId" VARCHAR(255)  NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."judgement_judgementId_seq" RESTART WITH 61 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00006";
-ALTER TABLE "public"."judgement" ADD CONSTRAINT "PRIMARY00006" ADD PRIMARY KEY ("judgementId");
+ALTER TABLE "public"."judgement" ADD CONSTRAINT "PRIMARY00006" PRIMARY KEY ("judgementId");
 
 /*
 Dumping data for table 'public.judgement'
@@ -331,7 +331,7 @@ DROP TABLE IF EXISTS "public"."lobby" CASCADE;
 CREATE TABLE "public"."lobby" ("lobbyId" BIGSERIAL NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "gameStart" VARCHAR(255)  NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."lobby_lobbyId_seq" RESTART WITH 51 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00007";
-ALTER TABLE "public"."lobby" ADD CONSTRAINT "PRIMARY00007" ADD PRIMARY KEY ("lobbyId");
+ALTER TABLE "public"."lobby" ADD CONSTRAINT "PRIMARY00007" PRIMARY KEY ("lobbyId");
 
 /*
 Dumping data for table 'public.lobby'
@@ -395,7 +395,7 @@ Table structure for table 'public.lobby_data'
 DROP TABLE IF EXISTS "public"."lobby_data" CASCADE;
 CREATE TABLE "public"."lobby_data" ("lobbyId" BIGINT NOT NULL, "gameHost" VARCHAR(255) , "gameId" VARCHAR(255)  NOT NULL, "participants" VARCHAR(255)  NOT NULL, "score" INTEGER DEFAULT 0, "ready" INTEGER DEFAULT 0, "done" INTEGER DEFAULT 0) WITH OIDS;
 DROP INDEX IF EXISTS "PRIMARY00008";
-ALTER TABLE "public"."lobby_data" ADD CONSTRAINT "PRIMARY00008" ADD PRIMARY KEY ("participants");
+ALTER TABLE "public"."lobby_data" ADD CONSTRAINT "PRIMARY00008" PRIMARY KEY ("participants");
 
 /*
 Dumping data for table 'public.lobby_data'
@@ -409,7 +409,7 @@ Table structure for table 'public.lobby_history'
 DROP TABLE IF EXISTS "public"."lobby_history" CASCADE;
 CREATE TABLE "public"."lobby_history" ("lobbyId" BIGINT NOT NULL, "gameHost" VARCHAR(255) , "gameId" VARCHAR(255)  NOT NULL, "participants" VARCHAR(255)  NOT NULL, "score" INTEGER DEFAULT 0, "ready" INTEGER DEFAULT 0, "done" INTEGER DEFAULT 0) WITH OIDS;
 DROP INDEX IF EXISTS "PRIMARY00009";
-ALTER TABLE "public"."lobby_history" ADD CONSTRAINT "PRIMARY00009" ADD PRIMARY KEY ("participants");
+ALTER TABLE "public"."lobby_history" ADD CONSTRAINT "PRIMARY00009" PRIMARY KEY ("participants");
 
 /*
 Dumping data for table 'public.lobby_history'
@@ -429,62 +429,62 @@ DROP TABLE IF EXISTS "public"."match_history" CASCADE;
 CREATE TABLE "public"."match_history" ("matchHistoryId" SERIAL NOT NULL, "userResultsId" INTEGER NOT NULL, "datePlayed" VARCHAR(255)  NOT NULL, "url" VARCHAR(255)  NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "clubName" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."match_history_matchHistoryId_seq" RESTART WITH 88 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00010";
-ALTER TABLE "public"."match_history" ADD CONSTRAINT "PRIMARY00010" ADD PRIMARY KEY ("matchHistoryId");
+ALTER TABLE "public"."match_history" ADD CONSTRAINT "PRIMARY00010" PRIMARY KEY ("matchHistoryId");
 
 /*
 Dumping data for table 'public.match_history'
 */
 
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (1, 2, '2019-04-30', 'http://192.168.0.100:8080/gameResults/502437', '502437', 'KlubbToppar');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (2, 1, '2019-04-30', 'http://192.168.0.100:8080/gameResults/502437', '502437', 'KlubbToppar');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (3, 3, '2019-04-30', 'http://192.168.0.100:8080/gameResults/502437', '502437', 'KlubbToppar');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (4, 4, '2019-04-30', 'http://192.168.0.100:8080/gameResults/502437', '502437', 'KlubbToppar');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (5, 8, '2019-05-01', 'http://192.168.0.100:8080/gameResults/365249', '365249', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (6, 10, '2019-05-01', 'http://192.168.0.100:8080/gameResults/365249', '365249', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (7, 11, '2019-05-01', 'http://192.168.0.100:8080/gameResults/365249', '365249', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (8, 12, '2019-05-01', 'http://192.168.0.100:8080/gameResults/365249', '365249', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (9, 13, '2019-05-01', 'http://192.168.0.100:8080/gameResults/365249', '365249', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (10, 5, '2019-05-01', 'http://192.168.0.100:8080/gameResults/365249', '365249', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (11, 6, '2019-05-01', 'http://192.168.0.100:8080/gameResults/365249', '365249', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (12, 7, '2019-05-01', 'http://192.168.0.100:8080/gameResults/365249', '365249', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (13, 9, '2019-05-01', 'http://192.168.0.100:8080/gameResults/365249', '365249', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (14, 5, '2019-05-01', 'http://192.168.0.100:8080/gameResults/939654', '939654', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (15, 6, '2019-05-01', 'http://192.168.0.100:8080/gameResults/939654', '939654', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (16, 5, '2019-05-01', 'http://192.168.0.100:8080/gameResults/481712', '481712', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (17, 5, '2019-05-02', 'http://192.168.0.100:8080/gameResults/378335', '378335', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (18, 6, '2019-05-02', 'http://192.168.0.100:8080/gameResults/378335', '378335', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (19, 5, '2019-05-03', 'http://192.168.0.100:8080/gameResults/225752', '225752', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (20, 5, '2019-05-03', 'http://192.168.0.100:8080/gameResults/598039', '598039', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (21, 6, '2019-05-03', 'http://192.168.0.100:8080/gameResults/598039', '598039', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (22, 5, '2019-05-03', 'http://192.168.0.100:8080/gameResults/940586', '940586', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (23, 6, '2019-05-03', 'http://192.168.0.100:8080/gameResults/940586', '940586', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (24, 5, '2019-05-03', 'http://192.168.0.100:8080/gameResults/769978', '769978', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (25, 6, '2019-05-03', 'http://192.168.0.100:8080/gameResults/769978', '769978', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (26, 5, '2019-05-03', 'http://192.168.0.100:8080/gameResults/466144', '466144', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (27, 5, '2019-05-03', 'http://192.168.0.100:8080/gameResults/178198', '178198', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (28, 6, '2019-05-03', 'http://192.168.0.100:8080/gameResults/178198', '178198', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (29, 2, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (30, 21, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (31, 1, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (32, 19, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (33, 22, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (34, 18, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (35, 3, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (36, 16, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (37, 20, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (38, 17, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (39, 4, '2019-05-04', 'http://192.168.0.100:8080/gameResults/200434', '200434', 'RiojaKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (40, 5, '2019-09-13', 'http://192.168.0.100:8080/gameResults/487431', '487431', '');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (41, 5, '2019-09-13', 'http://192.168.0.100:8080/gameResults/292396', '292396', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (42, 6, '2019-09-13', 'http://192.168.0.100:8080/gameResults/292396', '292396', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (43, 5, '2019-09-13', 'http://192.168.0.100:8080/gameResults/236610', '236610', '');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (44, 5, '2019-09-13', 'http://192.168.0.100:8080/gameResults/737931', '737931', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (45, 5, '2019-09-13', 'http://192.168.0.100:8080/gameResults/737931', '737931', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (46, 6, '2019-09-13', 'http://192.168.0.100:8080/gameResults/737931', '737931', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (47, 6, '2019-09-13', 'http://192.168.0.100:8080/gameResults/737931', '737931', 'TestKlubben');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (48, 5, '2019-09-13', 'http://192.168.0.100:8080/gameResults/522373', '522373', '');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (49, 5, '2019-09-13', 'http://192.168.0.100:8080/gameResults/522373', '522373', '');
-INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (50, 6, '2019-09-13', 'http://192.168.0.100:8080/gameResults/522373', '522373', '');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (1, 2, '2019-04-30', 'wineguesser.herokuapp.com/gameResults/502437', '502437', 'KlubbToppar');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (2, 1, '2019-04-30', 'wineguesser.herokuapp.com/gameResults/502437', '502437', 'KlubbToppar');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (3, 3, '2019-04-30', 'wineguesser.herokuapp.com/gameResults/502437', '502437', 'KlubbToppar');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (4, 4, '2019-04-30', 'wineguesser.herokuapp.com/gameResults/502437', '502437', 'KlubbToppar');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (5, 8, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/365249', '365249', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (6, 10, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/365249', '365249', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (7, 11, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/365249', '365249', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (8, 12, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/365249', '365249', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (9, 13, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/365249', '365249', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (10, 5, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/365249', '365249', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (11, 6, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/365249', '365249', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (12, 7, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/365249', '365249', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (13, 9, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/365249', '365249', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (14, 5, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/939654', '939654', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (15, 6, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/939654', '939654', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (16, 5, '2019-05-01', 'wineguesser.herokuapp.com/gameResults/481712', '481712', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (17, 5, '2019-05-02', 'wineguesser.herokuapp.com/gameResults/378335', '378335', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (18, 6, '2019-05-02', 'wineguesser.herokuapp.com/gameResults/378335', '378335', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (19, 5, '2019-05-03', 'wineguesser.herokuapp.com/gameResults/225752', '225752', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (20, 5, '2019-05-03', 'wineguesser.herokuapp.com/gameResults/598039', '598039', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (21, 6, '2019-05-03', 'wineguesser.herokuapp.com/gameResults/598039', '598039', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (22, 5, '2019-05-03', 'wineguesser.herokuapp.com/gameResults/940586', '940586', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (23, 6, '2019-05-03', 'wineguesser.herokuapp.com/gameResults/940586', '940586', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (24, 5, '2019-05-03', 'wineguesser.herokuapp.com/gameResults/769978', '769978', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (25, 6, '2019-05-03', 'wineguesser.herokuapp.com/gameResults/769978', '769978', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (26, 5, '2019-05-03', 'wineguesser.herokuapp.com/gameResults/466144', '466144', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (27, 5, '2019-05-03', 'wineguesser.herokuapp.com/gameResults/178198', '178198', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (28, 6, '2019-05-03', 'wineguesser.herokuapp.com/gameResults/178198', '178198', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (29, 2, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (30, 21, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (31, 1, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (32, 19, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (33, 22, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (34, 18, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (35, 3, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (36, 16, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (37, 20, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (38, 17, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (39, 4, '2019-05-04', 'wineguesser.herokuapp.com/gameResults/200434', '200434', 'RiojaKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (40, 5, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/487431', '487431', '');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (41, 5, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/292396', '292396', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (42, 6, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/292396', '292396', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (43, 5, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/236610', '236610', '');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (44, 5, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/737931', '737931', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (45, 5, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/737931', '737931', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (46, 6, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/737931', '737931', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (47, 6, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/737931', '737931', 'TestKlubben');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (48, 5, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/522373', '522373', '');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (49, 5, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/522373', '522373', '');
+INSERT INTO "public"."match_history"("matchHistoryId", "userResultsId", "datePlayed", "url", "gameId", "clubName") VALUES (50, 6, '2019-09-13', 'wineguesser.herokuapp.com/gameResults/522373', '522373', '');
 
 /*
 Table structure for table 'public.result_data'
@@ -494,7 +494,7 @@ DROP TABLE IF EXISTS "public"."result_data" CASCADE;
 CREATE TABLE "public"."result_data" ("resultDataId" SERIAL NOT NULL, "gameResultId" INTEGER NOT NULL, "username" VARCHAR(255)  NOT NULL, "servingOrder" INTEGER NOT NULL, "winePicture" VARCHAR(8000)  NOT NULL, "wineName" VARCHAR(255)  NOT NULL, "wineDescription" VARCHAR(8000)  NOT NULL, "grade" INTEGER NOT NULL, "url" VARCHAR(8000)  NOT NULL, "personalGrade" INTEGER NOT NULL, "averageGrade" DOUBLE PRECISION NOT NULL, "region" VARCHAR(255) , "correctRegionGuess" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."result_data_resultDataId_seq" RESTART WITH 245 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00011";
-ALTER TABLE "public"."result_data" ADD CONSTRAINT "PRIMARY00011" ADD PRIMARY KEY ("resultDataId");
+ALTER TABLE "public"."result_data" ADD CONSTRAINT "PRIMARY00011" PRIMARY KEY ("resultDataId");
 
 /*
 Dumping data for table 'public.result_data'
@@ -818,12 +818,8 @@ Table structure for table 'public.user'
 */
 
 DROP TABLE IF EXISTS "public"."user" CASCADE;
-CREATE TABLE "public"."user" ("userId" BIGSERIAL NOT NULL, "username" VARCHAR(255)  NOT NULL, "password" VARCHAR(255)  NOT NULL, "activeGame" VARCHAR(255) ) WITH OIDS;
+CREATE TABLE "public"."user" ("userId" BIGINT NOT NULL UNIQUE PRIMARY KEY, "username" VARCHAR(255) NOT NULL UNIQUE , "password" VARCHAR(255)  NOT NULL, "activeGame" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."user_userId_seq" RESTART WITH 23 INCREMENT BY 1;
-DROP INDEX IF EXISTS "PRIMARY00012";
-ALTER TABLE "public"."user" ADD CONSTRAINT "PRIMARY00012" ADD PRIMARY KEY ("userId");
-DROP INDEX IF EXISTS "username";
-CREATE UNIQUE INDEX "username00000" ON CREATE UNIQUE "public"."user" ("username");
 
 /*
 Dumping data for table 'public.user'
@@ -859,7 +855,7 @@ DROP TABLE IF EXISTS "public"."user_guesses" CASCADE;
 CREATE TABLE "public"."user_guesses" ("userGuessesId" BIGSERIAL NOT NULL, "username" VARCHAR(255)  NOT NULL, "servingOrderGuess" INTEGER NOT NULL, "descriptionGuess" VARCHAR(8000)  NOT NULL, "gameId" VARCHAR(255)  NOT NULL, "regionGuess" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."user_guesses_userGuessesId_seq" RESTART WITH 1 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00013";
-ALTER TABLE "public"."user_guesses" ADD CONSTRAINT "PRIMARY00013" ADD PRIMARY KEY ("userGuessesId");
+ALTER TABLE "public"."user_guesses" ADD CONSTRAINT "PRIMARY00013" PRIMARY KEY ("userGuessesId");
 
 /*
 Dumping data for table 'public.user_guesses'
@@ -874,7 +870,7 @@ DROP TABLE IF EXISTS "public"."user_results" CASCADE;
 CREATE TABLE "public"."user_results" ("userResultsId" SERIAL NOT NULL, "username" VARCHAR(255)  NOT NULL, "playedGames" INTEGER DEFAULT 0, "numWinesGuessed" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00, "numWinesCorrect" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00, "correctPercent" DOUBLE PRECISION DEFAULT 0.0000000000000000e+00, "wins" INTEGER DEFAULT 0, "isBacchus" VARCHAR(255)  NOT NULL) WITH OIDS;
 ALTER SEQUENCE "public"."user_results_userResultsId_seq" RESTART WITH 23 INCREMENT BY 1;
 DROP INDEX IF EXISTS "PRIMARY00014";
-ALTER TABLE "public"."user_results" ADD CONSTRAINT "PRIMARY00014" ADD PRIMARY KEY ("userResultsId");
+ALTER TABLE "public"."user_results" ADD CONSTRAINT "PRIMARY00014" PRIMARY KEY ("userResultsId");
 
 /*
 Dumping data for table 'public.user_results'
