@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "lobby_history", schema = "wine_guess")
+@Table(name = "lobby_history", schema = "public")
 public class LobbyHistory implements LobbyHistoryDTO{
 
     private long lobbyId;

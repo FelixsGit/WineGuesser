@@ -3,11 +3,10 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user", schema = "wine_guess")
+@Table(name = "user", schema = "public")
 public class User implements UserDTO {
 
     @Id
-    @Column(name="userId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
     private String username;

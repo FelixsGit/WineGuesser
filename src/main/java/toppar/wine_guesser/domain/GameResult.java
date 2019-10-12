@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "game_result", schema = "wine_guess")
+@Table(name = "game_result", schema = "public")
 public class GameResult implements GameResultDTO{
 
     @Id

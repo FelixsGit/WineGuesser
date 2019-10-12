@@ -3,7 +3,7 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "settings_history", schema = "wine_guess")
+@Table(name = "settings_history", schema = "public")
 public class SettingsHistory implements SettingsHistoryDTO{
 
     @Id
