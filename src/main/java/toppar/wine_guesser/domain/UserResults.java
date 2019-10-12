@@ -9,7 +9,7 @@ public class UserResults implements UserResultsDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userResultsId;
+    private int userResults_id;
     private String username;
     private int playedGames;
     private double numWinesGuessed;
@@ -41,12 +41,12 @@ public class UserResults implements UserResultsDTO{
         this.isBacchus = isBacchus;
     }
 
-    public int getUserResultsId() {
-        return userResultsId;
+    public int getUserResults_id() {
+        return userResults_id;
     }
 
-    public void setUserResultsId(int userResultsId) {
-        this.userResultsId = userResultsId;
+    public void setUserResults_id(int userResults_id) {
+        this.userResults_id = userResults_id;
     }
 
 

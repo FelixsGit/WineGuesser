@@ -2,7 +2,7 @@ package toppar.wine_guesser.domain;
 
 public interface UserResultsDTO {
 
-    int getUserResultsId();
+    int getUserResults_id();
     String getUsername();
     int getPlayedGames();
     double getCorrectPercent();

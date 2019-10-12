@@ -8,9 +8,9 @@ import javax.persistence.Table;
 @Table(name = "`lobby_data`", schema = "public")
 public class LobbyData implements LobbyDataDTO{
 
-    private long lobbyId;
+    private long lobby_id;
     private String gameHost;
-    private String gameId;
+    private String game_id;
     @Id
     private String participants;
     private int score;
@@ -23,9 +23,9 @@ public class LobbyData implements LobbyDataDTO{
 
 
     public LobbyData(long lobbyId, String gameHost, String gameId, String participants, int score, int ready, int done) {
-        this.lobbyId = lobbyId;
+        this.lobby_id = lobbyId;
         this.gameHost = gameHost;
-        this.gameId = gameId;
+        this.game_id = gameId;
         this.participants = participants;
         this.score = score;
         this.ready = ready;
@@ -40,20 +40,20 @@ public class LobbyData implements LobbyDataDTO{
         this.gameHost = gameHost;
     }
 
-    public long getLobbyId() {
-        return lobbyId;
+    public long getLobby_id() {
+        return lobby_id;
     }
 
-    public String getGameId() {
-        return gameId;
+    public String getGame_id() {
+        return game_id;
     }
 
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
+    public void setGame_id(String game_id) {
+        this.game_id = game_id;
     }
 
-    public void setLobbyId(long lobbyId) {
-        this.lobbyId = lobbyId;
+    public void setLobby_id(long lobby_id) {
+        this.lobby_id = lobby_id;
     }
 
     public void setParticipants(String participants) {

@@ -8,8 +8,8 @@ public class GamePoint implements GamePointDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int gamePointId;
-    private int gameResultId;
+    private int gamePoint_id;
+    private int gameResult_id;
     private String username;
     private int points;
     private int pointsNoRegion;
@@ -19,7 +19,7 @@ public class GamePoint implements GamePointDTO{
     }
 
     public GamePoint(int gameResultId, String username, int points, int pointsNoRegion) {
-        this.gameResultId = gameResultId;
+        this.gameResult_id = gameResultId;
         this.username = username;
         this.points = points;
         this.pointsNoRegion = pointsNoRegion;
@@ -33,20 +33,20 @@ public class GamePoint implements GamePointDTO{
         this.pointsNoRegion = pointsNoRegion;
     }
 
-    public int getGamePointId() {
-        return gamePointId;
+    public int getGamePoint_id() {
+        return gamePoint_id;
     }
 
-    public void setGamePointId(int gamePointId) {
-        this.gamePointId = gamePointId;
+    public void setGamePoint_id(int gamePoint_id) {
+        this.gamePoint_id = gamePoint_id;
     }
 
-    public int getGameResultId() {
-        return gameResultId;
+    public int getGameResult_id() {
+        return gameResult_id;
     }
 
-    public void setGameResultId(int gameResultId) {
-        this.gameResultId = gameResultId;
+    public void setGameResult_id(int gameResult_id) {
+        this.gameResult_id = gameResult_id;
     }
 
     public String getUsername() {

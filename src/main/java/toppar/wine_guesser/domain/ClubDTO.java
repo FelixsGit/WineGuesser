@@ -2,7 +2,7 @@ package toppar.wine_guesser.domain;
 
 public interface ClubDTO {
 
-    int getClubId();
+    int getClub_id();
     String getClubName();
     String getClubPassword();
     int getNumberOfTastings();

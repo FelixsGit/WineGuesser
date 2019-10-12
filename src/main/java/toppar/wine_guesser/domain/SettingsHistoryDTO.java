@@ -2,7 +2,7 @@ package toppar.wine_guesser.domain;
 
 public interface SettingsHistoryDTO {
 
-    long getGameSettingsId();
+    long getGameSettings_id();
     String getGameHost();
     String getGameId();
     String getQrCode();

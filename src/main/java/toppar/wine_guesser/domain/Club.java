@@ -8,7 +8,7 @@ public class Club implements ClubDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int clubId;
+    private int club_id;
     private String clubName;
     private String clubPassword;
     private int numberOfTastings;
@@ -32,12 +32,12 @@ public class Club implements ClubDTO {
     }
 
 
-    public int getClubId() {
-        return clubId;
+    public int getClub_id() {
+        return club_id;
     }
 
-    public void setClubId(int clubId) {
-        this.clubId = clubId;
+    public void setClub_id(int club_id) {
+        this.club_id = club_id;
     }
 
     public String getClubName() {

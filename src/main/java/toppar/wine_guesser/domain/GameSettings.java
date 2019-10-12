@@ -8,9 +8,9 @@ public class GameSettings implements GameSettingsDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long gameSettingsId;
+    private long gameSettings_id;
     private String gameHost;
-    private String gameId;
+    private String game_id;
     private String qrCode;
     private String url;
     private String imgSource;
@@ -20,8 +20,8 @@ public class GameSettings implements GameSettingsDTO{
     private String servingOrder;
 
     @Override
-    public long getGameSettingsId() {
-        return gameSettingsId;
+    public long getGameSettings_id() {
+        return gameSettings_id;
     }
 
     /**
@@ -32,7 +32,7 @@ public class GameSettings implements GameSettingsDTO{
     }
 
     public GameSettings(String gameId, String gameHost, String qrCode, String url, String imgSource, String wineName, String region, String description, String servingOrder){
-        this.gameId = gameId;
+        this.game_id = gameId;
         this.gameHost = gameHost;
         this.qrCode = qrCode;
         this.url = url;
@@ -51,8 +51,8 @@ public class GameSettings implements GameSettingsDTO{
         this.region = region;
     }
 
-    public void setGameSettingsId(long gameSettingsId) {
-        this.gameSettingsId = gameSettingsId;
+    public void setGameSettings_id(long gameSettings_id) {
+        this.gameSettings_id = gameSettings_id;
     }
 
     public String getImgSource() {
@@ -88,12 +88,12 @@ public class GameSettings implements GameSettingsDTO{
         this.servingOrder = servingOrder;
     }
 
-    public String getGameId() {
-        return gameId;
+    public String getGame_id() {
+        return game_id;
     }
 
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
+    public void setGame_id(String game_id) {
+        this.game_id = game_id;
     }
 
     public String getQrCode() {

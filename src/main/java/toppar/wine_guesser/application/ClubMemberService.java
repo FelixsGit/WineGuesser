@@ -34,10 +34,10 @@ public class ClubMemberService {
         ClubDTO club = clubService.findClubByClubName(clubName);
         if(club != null){
             if(club.getClubPassword().equals(clubPassword)){
-                if(clubMemberRepository.findAllByClubIdAndUsername(club.getClubId(), username) == null){
+                if(clubMemberRepository.findAllByClubIdAndUsername(club.getClub_id(), username) == null){
                     //update club stats
                     //clubService.updateClubOnJoin(club.getClubName(), username);
-                    clubMemberRepository.save(new ClubMember(club.getClubId(), username, "false"));
+                    clubMemberRepository.save(new ClubMember(club.getClub_id(), username, "false"));
                 }else{
                     throw new ClubException("already a member of club");
                 }
@@ -73,9 +73,9 @@ public class ClubMemberService {
     public void updateForClubMember(String clubName, String gameId) throws ClubException {
         ClubDTO club = clubService.findClubByClubName(clubName);
         GameResult gameResult = gameResultService.getGameResultByGameId(gameId);
-        List<GamePointDTO> gamePoints = gamePointService.getAllByGameResultId(gameResult.getGameResultId());
+        List<GamePointDTO> gamePoints = gamePointService.getAllByGameResultId(gameResult.getGameResult_id());
         gamePoints.sort(Comparator.comparing(GamePointDTO::getPoints).reversed());
-        List<ClubMember> clubMembers = clubMemberRepository.findAllByClubId(club.getClubId());
+        List<ClubMember> clubMembers = clubMemberRepository.findAllByClubId(club.getClub_id());
 
         //Sets all clubMembers to not be Bacchus
         for(int i = 0; i < clubMembers.size(); i++){
@@ -91,11 +91,11 @@ public class ClubMemberService {
                 highest = gamePoints.get(i).getPoints();
             }
             if(gamePoints.get(i).getPoints() >= highest){
-                ClubMember clubMember = clubMemberRepository.findAllByClubIdAndUsername(club.getClubId(), currentUser);
+                ClubMember clubMember = clubMemberRepository.findAllByClubIdAndUsername(club.getClub_id(), currentUser);
                 clubMember.setIsBacchus("true");
                 clubMemberRepository.save(clubMember);
             }else{
-                ClubMember clubMember = clubMemberRepository.findAllByClubIdAndUsername(club.getClubId(), currentUser);
+                ClubMember clubMember = clubMemberRepository.findAllByClubIdAndUsername(club.getClub_id(), currentUser);
                 clubMember.setIsBacchus("false");
                 clubMemberRepository.save(clubMember);
             }

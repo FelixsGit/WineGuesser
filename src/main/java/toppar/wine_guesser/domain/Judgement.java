@@ -9,7 +9,7 @@ public class Judgement implements JudgementDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int judgementId;
+    private int judgement_id;
     private String username;
     private int servingOrder;
     private int personalGrade;
@@ -26,12 +26,12 @@ public class Judgement implements JudgementDTO{
         this.gameId = gameId;
     }
 
-    public int getJudgementId() {
-        return judgementId;
+    public int getJudgement_id() {
+        return judgement_id;
     }
 
-    public void setJudgementId(int judgementId) {
-        this.judgementId = judgementId;
+    public void setJudgement_id(int judgement_id) {
+        this.judgement_id = judgement_id;
     }
 
     public String getUsername() {

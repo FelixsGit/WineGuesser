@@ -2,8 +2,8 @@ package toppar.wine_guesser.domain;
 
 public interface GameResultDTO {
 
-    int getGameResultId();
-    String getGameId();
+    int getGameResult_id();
+    String getGame_id();
     String getUrl();
     String getComment();
 

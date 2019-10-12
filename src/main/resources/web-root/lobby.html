@@ -18,7 +18,7 @@
             <h1>Detta är ett öppet vinprovningsrum.</h1>
         </div>
         <br>
-        <h1 th:text="${lobbyForm.gameId}"></h1>
+        <h1 th:text="${lobbyForm.game_id}"></h1>
         <br>
         <h2>Deltagare i denna vinprovning måste fylla i koden ovan.</h2>
         <br>
@@ -58,12 +58,12 @@
     </div>
 
     <div id="bottom-left" th:if="${lobbyForm.gameHost}">
-        <form id="lobbyCloseForm" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/quit'}">
+        <form id="lobbyCloseForm" th:action="@{'/lobby/' + ${lobbyForm.game_id} + '/command/quit'}">
             <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
         </form>
     </div>
     <div id="bottom-left" th:unless="${lobbyForm.gameHost}">
-        <form id="lobbyLeaveForm" th:action="@{'/lobby/' + ${lobbyForm.gameId} + '/command/leave'}">
+        <form id="lobbyLeaveForm" th:action="@{'/lobby/' + ${lobbyForm.game_id} + '/command/leave'}">
             <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen?');">Lämna Vinprovningen</button>
         </form>
     </div>
@@ -75,9 +75,9 @@
         });
 
         window.onbeforeunload = function() {
-            return stompClientReg.send("/app/chat.regularLobbyComs/"+gameId,
+            return stompClientReg.send("/app/chat.regularLobbyComs/"+game_id,
                 {},
-                JSON.stringify({sender: username, content: 'specific socket communication', gameId: gameId, type: 'LEAVE'})
+                JSON.stringify({sender: username, content: 'specific socket communication', game_id: game_id, type: 'LEAVE'})
             )
         //if we return nothing here (just calling return;) then there will be no pop-up question at all
         //return;

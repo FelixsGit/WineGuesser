@@ -2,9 +2,9 @@ package toppar.wine_guesser.domain;
 
 public interface LobbyHistoryDTO {
 
-    long getLobbyId();
+    long getLobby_id();
     String getGameHost();
-    String getGameId();
+    String getGame_id();
     String getParticipants();
     int getScore();
     int getReady();

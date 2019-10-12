@@ -3,16 +3,14 @@ package toppar.wine_guesser.domain;
 
 import javax.persistence.*;
 
-import javax.persistence.*;
-
 @Entity
 @Table(name = "`game_result`", schema = "public")
 public class GameResult implements GameResultDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int gameResultId;
-    private String gameId;
+    private int gameResult_id;
+    private String game_id;
     private String url;
     private String comment;
 
@@ -21,7 +19,7 @@ public class GameResult implements GameResultDTO{
     }
 
     public GameResult(String gameId, String url, String comment) {
-        this.gameId = gameId;
+        this.game_id = gameId;
         this.url = url;
         this.comment = comment;
     }
@@ -34,20 +32,20 @@ public class GameResult implements GameResultDTO{
         this.comment = comment;
     }
 
-    public int getGameResultId() {
-        return gameResultId;
+    public int getGameResult_id() {
+        return gameResult_id;
     }
 
-    public void setGameResultId(int gameResultId) {
-        this.gameResultId = gameResultId;
+    public void setGameResult_id(int gameResult_id) {
+        this.gameResult_id = gameResult_id;
     }
 
-    public String getGameId() {
-        return gameId;
+    public String getGame_id() {
+        return game_id;
     }
 
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
+    public void setGame_id(String game_id) {
+        this.game_id = game_id;
     }
 
     public String getUrl() {

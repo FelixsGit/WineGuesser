@@ -56,7 +56,7 @@
                 <br>
                 <br>
                 <form id="bot" action=# th:action="@{/club}" th:object="${clubForm}" method="post">
-                    <input type="hidden" name="clubId" th:value="${clubForm.clubStats.clubDTO.clubId}">
+                    <input type="hidden" name="club_id" th:value="${clubForm.clubStats.clubDTO.club_id}">
                     <button id="leave-club-button" type="submit" onclick="return confirm('Är du säker, vill du verkligen lämmna klubben och svika Bacchus!?');">Lämna klubben </button>
                 </form>
             </ul>

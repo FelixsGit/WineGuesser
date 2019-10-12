@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS `club_wine_stat`;
 -- --------------------------------------------------------
 
 CREATE TABLE `club` (
- `clubId` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ `club_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
  `clubName` varchar(255) NOT NULL,
  `clubPassword` varchar(255) NOT NULL,
  `numberOfTastings` int NOT NULL DEFAULT 0,
@@ -45,15 +45,15 @@ CREATE TABLE `club` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `club_member` (
-`clubMemberId` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-`clubId` int NOT NULL,
+`clubMember_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+`club_id` int NOT NULL,
 `username` varchar(255) NOT NULL,
 `isBacchus` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `club_wine_stat` (
-   `clubWineStatId` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-   `clubId` int NOT NULL,
+   `clubWineStat_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+   `club_id` int NOT NULL,
    `wineName` varchar(255) NOT NULL,
    `wineUrl` varchar(8000) NOT NULL,
    `numberOfServings` int NOT NULL,
@@ -65,25 +65,25 @@ CREATE TABLE `club_wine_stat` (
 CREATE TABLE `game_setup` (
   `gameHost` varchar(255) NOT NULL,
   `amountOfWines` varchar (255) NOT NULL,
-  `gameId` varchar(255) NOT NULL PRIMARY KEY,
+  `game_id` varchar(255) NOT NULL PRIMARY KEY,
   `clubName` varchar (255) DEFAULT NULL,
   `comment` varchar (8000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `match_history` (
-  `matchHistoryId` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `userResultsId` int NOT NULL,
+  `matchHistory_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `userResults_id` int NOT NULL,
   `datePlayed` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
-  `gameId` varchar(255) NOT NULL,
+  `game_id` varchar(255) NOT NULL,
   `clubName` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE `settings_history` (
-    `gameSettingsId` bigint(20) NOT NULL,
+    `gameSettings_id` bigint(20) NOT NULL,
     `gameHost` varchar(255) NOT NULL,
-    `gameId` varchar(255) NOT NULL,
+    `game_id` varchar(255) NOT NULL,
     `qrCode` varchar(8000) NOT NULL,
     `url` varchar(8000) NOT NULL,
     `description` varchar(8000) NOT NULL,
@@ -95,9 +95,9 @@ CREATE TABLE `settings_history` (
 --
 
 CREATE TABLE `lobby_history` (
- `lobbyId` bigint(20) NOT NULL,
+ `lobby_id` bigint(20) NOT NULL,
  `gameHost` varchar(255) DEFAULT NULL,
- `gameId` varchar(255) NOT NULL,
+ `game_id` varchar(255) NOT NULL,
  `participants` varchar(255) NOT NULL,
  `score` int(11) DEFAULT '0',
  `ready` int(11) DEFAULT '0',
@@ -105,24 +105,24 @@ CREATE TABLE `lobby_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `game_result` (
- `gameResultId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
- `gameId` varchar(255) NOT NULL,
+ `gameResult_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ `game_id` varchar(255) NOT NULL,
  `url` varchar(8000) NOT NULL,
  `comment` varchar(8000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `user_guesses` (
-  `userGuessesId` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `userGuesses_id` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `servingOrderGuess` INTEGER NOT NULL,
   `descriptionGuess` varchar (8000) NOT NULL,
-  `gameId` varchar(255) NOT NULL,
+  `game_id` varchar(255) NOT NULL,
   `regionGuess` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE `user_results` (
-  `userResultsId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `userResults_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `playedGames` int DEFAULT 0,
   `numWinesGuessed` double DEFAULT 0.00,
@@ -134,25 +134,25 @@ CREATE TABLE `user_results` (
 
 
 CREATE TABLE `game_point` (
-  `gamePointId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `gameResultId` INTEGER NOT NULL,
+  `gamePoint_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `gameResult_id` INTEGER NOT NULL,
   `username` varchar(255) NOT NULL,
   `points` INTEGER NOT NULL,
   `pointsNoRegion` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `judgement` (
-  `judgementId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `judgement_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `servingOrder` int NOT NULL,
   `personalGrade` INTEGER NOT NULL,
-  `gameId` varchar(255) NOT NULL
+  `game_id` varchar(255) NOT NULL
 
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `result_data` (
-   `resultDataId` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-   `gameResultId` INTEGER NOT NULL,
+   `resultData_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+   `gameResult_id` INTEGER NOT NULL,
    `username` varchar(255) NOT NULL,
    `servingOrder` INTEGER NOT NULL,
    `winePicture` varchar(8000) NOT NULL,
@@ -175,9 +175,9 @@ CREATE TABLE `result_data` (
 --
 
 CREATE TABLE `game_settings` (
-  `gameSettingsId` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `gameSettings_id` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `gameHost` varchar(255) NOT NULL,
-  `gameId` varchar(255) NOT NULL,
+  `game_id` varchar(255) NOT NULL,
   `qrCode` varchar(8000) NOT NULL,
   `url` varchar(8000) NOT NULL,
   `imgSource` varchar(8000) NOT NULL,
@@ -193,8 +193,8 @@ CREATE TABLE `game_settings` (
 -- Tabellstruktur `lobby`
 --
 CREATE TABLE `lobby` (
-  `lobbyId` BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  `gameId` varchar(255) NOT NULL,
+  `lobby_id` BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  `game_id` varchar(255) NOT NULL,
   `gameStart` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -202,9 +202,9 @@ CREATE TABLE `lobby` (
 -- Tabellstruktur `lobby_data`
 --
 CREATE TABLE `lobby_data` (
-  `lobbyId` BIGINT NOT NULL,
+  `lobby_id` BIGINT NOT NULL,
   `gameHost` varchar(255) DEFAULT NULL,
-  `gameId` varchar(255) NOT NULL,
+  `game_id` varchar(255) NOT NULL,
   `participants` varchar(255) NOT NULL PRIMARY KEY,
   `score` INTEGER DEFAULT 0,
   `ready` INTEGER DEFAULT 0,

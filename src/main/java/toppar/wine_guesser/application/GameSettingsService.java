@@ -11,7 +11,6 @@ import toppar.wine_guesser.util.UrlScanner;
 import toppar.wine_guesser.util.ZXingHelper;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
 @Service
@@ -28,7 +27,7 @@ public class GameSettingsService {
         List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameHost(gameHost);
         if(gameSettings != null){
             for(int i = 0; i < gameSettings.size(); i++) {
-                if(!gameSettings.get(i).getGameId().equals(gameId)){
+                if(!gameSettings.get(i).getGame_id().equals(gameId)){
                     removeGameSettingsByGameHost(gameHost);
                     break;
                 }
@@ -62,7 +61,7 @@ public class GameSettingsService {
 
     public List<String> getQrCodesByGameHost(String username) throws AuthorizationException {
         GameSetupDTO gameSetupDTO  = gameSetupService.getGameSetupByGameHost(username);
-        List<GameSettings> gameSettingsDTOS = gameSettingsRepository.findAllByGameId(gameSetupDTO.getGameId());
+        List<GameSettings> gameSettingsDTOS = gameSettingsRepository.findAllByGameId(gameSetupDTO.getGame_id());
         List<String> qrCodes = new ArrayList<>();
         for(int i = 0; i < gameSettingsDTOS.size(); i++){
             qrCodes.add(gameSettingsDTOS.get(i).getQrCode());
@@ -136,7 +135,7 @@ public class GameSettingsService {
 
     public List<String> createGameSettings(List<String> urlList, String gameHost) throws WineryException, AuthorizationException {
         removeGameSettingsByGameHost(gameHost);
-        String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGameId();
+        String gameId = gameSetupService.getGameSetupByGameHost(gameHost).getGame_id();
         List<String> region = retrieveRegionsFromUrlList(urlList);
         List<String> qrCodes = generateQrCodesFromUrls(urlList, gameId);
         List<String> descriptions = retrieveAllDescriptionsFromUrlList(urlList);

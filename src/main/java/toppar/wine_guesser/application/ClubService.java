@@ -2,7 +2,6 @@ package toppar.wine_guesser.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.*;
@@ -54,7 +53,7 @@ public class ClubService {
             throw new ClubException("your not a member of any club");
         }
         for (ClubMember clubMember : clubMembers) {
-            clubDTOS.add(clubRepository.findByClubId(clubMember.getClubId()));
+            clubDTOS.add(clubRepository.findByClubId(clubMember.getClub_id()));
         }
         return clubDTOS;
     }
@@ -66,7 +65,7 @@ public class ClubService {
             throw new ClubException("your not a member of any club");
         }
         for (ClubMember clubMember : clubMembers) {
-            clubs.add((Club) clubRepository.findByClubId(clubMember.getClubId()));
+            clubs.add((Club) clubRepository.findByClubId(clubMember.getClub_id()));
         }
         return clubs;
     }
@@ -75,7 +74,7 @@ public class ClubService {
         List<ClubDTO> clubDTOS = new ArrayList<>();
         List<ClubMember> clubMembers = clubMemberService.findAllClubMembersByUsername(username);
         for (ClubMember clubMember : clubMembers) {
-            clubDTOS.add(clubRepository.findByClubId(clubMember.getClubId()));
+            clubDTOS.add(clubRepository.findByClubId(clubMember.getClub_id()));
         }
         return clubDTOS;
     }
@@ -83,13 +82,13 @@ public class ClubService {
     public void updateClub(String clubName, String gameId) throws ClubException {
         Club club = clubRepository.findAllByClubName(clubName);
         List<String> clubMembers = lobbyDataService.getParticipantsByGameId(gameId);
-        checkThatAllParticipantsAreClubMembers(club.getClubId(), clubMembers);
+        checkThatAllParticipantsAreClubMembers(club.getClub_id(), clubMembers);
         GameResult gameResult = gameResultService.getGameResultByGameId(gameId);
         double totalNumWinesCorrect = 0;
         double totalNumWinesGuessed = 0;
         double numberOfWines = gameSettingsService.getAllByGameId(gameId).size();
         for(int i = 0; i < clubMembers.size(); i++){
-            GamePoint gamePoint = gamePointService.getAllByGameResultIdAndUsername(gameResult.getGameResultId(), clubMembers.get(i));
+            GamePoint gamePoint = gamePointService.getAllByGameResultIdAndUsername(gameResult.getGameResult_id(), clubMembers.get(i));
             totalNumWinesCorrect += gamePoint.getPointsNoRegion();
             totalNumWinesGuessed += numberOfWines;
         }

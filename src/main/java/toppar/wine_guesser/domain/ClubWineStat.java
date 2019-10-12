@@ -9,8 +9,8 @@ public class ClubWineStat implements ClubWineStatDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int clubWineStatId;
-    private int clubId;
+    private int clubWineStat_id;
+    private int club_id;
     private String wineName;
     private String wineUrl;
     private int numberOfServings;
@@ -21,7 +21,7 @@ public class ClubWineStat implements ClubWineStatDTO {
     }
 
     public ClubWineStat(int clubId, String wineName, String wineUrl, int numberOfServings, double averageGrade) {
-        this.clubId = clubId;
+        this.club_id = clubId;
         this.wineName = wineName;
         this.numberOfServings = numberOfServings;
         this.averageGrade = averageGrade;
@@ -36,20 +36,20 @@ public class ClubWineStat implements ClubWineStatDTO {
         this.wineUrl = wineUrl;
     }
 
-    public int getClubWineStatId() {
-        return clubWineStatId;
+    public int getClubWineStat_id() {
+        return clubWineStat_id;
     }
 
-    public void setClubWineStatId(int clubWineStatId) {
-        this.clubWineStatId = clubWineStatId;
+    public void setClubWineStat_id(int clubWineStat_id) {
+        this.clubWineStat_id = clubWineStat_id;
     }
 
-    public int getClubId() {
-        return clubId;
+    public int getClub_id() {
+        return club_id;
     }
 
-    public void setClubId(int clubId) {
-        this.clubId = clubId;
+    public void setClub_id(int club_id) {
+        this.club_id = club_id;
     }
 
     public String getWineName() {

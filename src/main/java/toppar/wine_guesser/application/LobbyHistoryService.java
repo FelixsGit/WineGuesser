@@ -21,7 +21,7 @@ public class LobbyHistoryService {
 
     void saveLobbyData(List<LobbyData> lobbyDataList){
         lobbyDataList.forEach(lobbyData ->
-            lobbyHistoryRepository.save(new LobbyHistory(lobbyData.getLobbyId(), lobbyData.getGameHost(), lobbyData.getGameId(), lobbyData.getParticipants(),
+            lobbyHistoryRepository.save(new LobbyHistory(lobbyData.getLobby_id(), lobbyData.getGameHost(), lobbyData.getGame_id(), lobbyData.getParticipants(),
                     lobbyData.getScore(), lobbyData.getReady(), lobbyData.getDone())));
     }
 }

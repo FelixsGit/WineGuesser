@@ -9,9 +9,9 @@ import javax.persistence.Table;
 public class Lobby implements LobbyDTO {
 
     @Id
-    private long lobbyId;
+    private long lobby_id;
 
-    private String gameId;
+    private String game_id;
 
     private String gameStart;
 
@@ -20,7 +20,7 @@ public class Lobby implements LobbyDTO {
     }
 
     public Lobby(String gameId, String gameStart){
-        this.gameId = gameId;
+        this.game_id = gameId;
         this.gameStart = gameStart;
     }
 
@@ -32,15 +32,15 @@ public class Lobby implements LobbyDTO {
         this.gameStart = gameStart;
     }
 
-    public long getLobbyId() {
-        return lobbyId;
+    public long getLobby_id() {
+        return lobby_id;
     }
 
-    public String getGameId() {
-        return gameId;
+    public String getGame_id() {
+        return game_id;
     }
 
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
+    public void setGame_id(String game_id) {
+        this.game_id = game_id;
     }
 }

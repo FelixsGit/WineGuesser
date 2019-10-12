@@ -3,7 +3,6 @@ package toppar.wine_guesser.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.*;
@@ -37,7 +36,7 @@ public class UserResultsService {
             throw new UserException("profile not found");
         }
         UserResultsDTO userResultsDTO = userResultsRepository.findAllByUsername(username);
-        List<MatchHistory> matchHistoryList = matchHistoryService.findAllByUserResultsId(userResultsDTO.getUserResultsId());
+        List<MatchHistory> matchHistoryList = matchHistoryService.findAllByUserResultsId(userResultsDTO.getUserResults_id());
         List<ClubDTO> clubDTOS = clubService.getAllClubsByUsername(username);
         List<String> clubNameList = new ArrayList<>();
         clubDTOS.forEach(clubDTO -> clubNameList.add(clubDTO.getClubName()));

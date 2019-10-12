@@ -29,12 +29,12 @@ public class LobbyDataService {
     public void openNewLobby(String gameHost, String gameId){
         lobbyService.createGameLobby(gameId);
         Lobby lobby = lobbyService.getLobbyByGameId(gameId);
-        lobbyDataRepository.save(new LobbyData(lobby.getLobbyId(), gameHost, gameId, gameHost, 0, 0, 0));
+        lobbyDataRepository.save(new LobbyData(lobby.getLobby_id(), gameHost, gameId, gameHost, 0, 0, 0));
     }
 
     public void addParticipant(String participant, String gameId){
         Lobby lobby = lobbyService.getLobbyByGameId(gameId);
-        lobbyDataRepository.save(new LobbyData(lobby.getLobbyId(), null, gameId, participant, 0, 0, 0));
+        lobbyDataRepository.save(new LobbyData(lobby.getLobby_id(), null, gameId, participant, 0, 0, 0));
     }
 
     public boolean isGameHost(String username, String gameId){

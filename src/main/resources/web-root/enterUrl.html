@@ -16,7 +16,7 @@
             <form action="#" th:action="@{/enterUrl}" th:object="${enterUrlForm}" method="post">
                 <div th:each="String, var : *{urlList}">
                     <input type="text" th:field="*{urlList[__${var.index}__]}" />
-                    <input type="hidden" th:field="*{gameId}" />
+                    <input type="hidden" th:field="*{game_id}" />
                     <div>
                     <span class="error"
                           th:if="${#fields.hasAnyErrors()}"

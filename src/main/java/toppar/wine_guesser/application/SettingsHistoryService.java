@@ -19,7 +19,7 @@ public class SettingsHistoryService {
     private SettingsHistoryRepository settingsHistoryRepository;
 
     void saveGameSettings(List<GameSettings> gameSettings){
-        gameSettings.forEach(gameSetting -> settingsHistoryRepository.save(new SettingsHistory(gameSetting.getGameSettingsId(), gameSetting.getGameHost(), gameSetting.getGameId(),
+        gameSettings.forEach(gameSetting -> settingsHistoryRepository.save(new SettingsHistory(gameSetting.getGameSettings_id(), gameSetting.getGameHost(), gameSetting.getGame_id(),
                 gameSetting.getQrCode(), gameSetting.getUrl(), gameSetting.getDescription(), gameSetting.getServingOrder())));
     }
 }

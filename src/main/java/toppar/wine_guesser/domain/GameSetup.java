@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class GameSetup implements GameSetupDTO {
 
     @Id
-    private String gameId;
+    private String game_id;
     private String gameHost;
     private String amountOfWines;
     private String clubName;
@@ -26,7 +26,7 @@ public class GameSetup implements GameSetupDTO {
     public GameSetup(String gameHost, String amountOfWines, String gameId, String clubName, String comment){
         this.gameHost = gameHost;
         this.amountOfWines = amountOfWines;
-        this.gameId = gameId;
+        this.game_id = gameId;
         this.clubName = clubName;
         this.comment = comment;
     }
@@ -63,11 +63,11 @@ public class GameSetup implements GameSetupDTO {
         this.amountOfWines = amountOfWines;
     }
 
-    public String getGameId() {
-        return gameId;
+    public String getGame_id() {
+        return game_id;
     }
 
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
+    public void setGame_id(String game_id) {
+        this.game_id = game_id;
     }
 }

@@ -1,7 +1,6 @@
 package toppar.wine_guesser.domain;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 
 @Entity
@@ -10,8 +9,8 @@ public class MatchHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int matchHistoryId;
-    private int userResultsId;
+    private int matchHistory_id;
+    private int userResults_id;
     private String url;
     private String datePlayed;
     private String gameId;
@@ -22,7 +21,7 @@ public class MatchHistory {
     }
 
     public MatchHistory(int userResultsId, String datePlayed, String url, String gameId, String clubName) {
-        this.userResultsId = userResultsId;
+        this.userResults_id = userResultsId;
         this.url = url;
         this.datePlayed = datePlayed;
         this.gameId = gameId;
@@ -53,20 +52,20 @@ public class MatchHistory {
         this.datePlayed = datePlayed;
     }
 
-    public int getMatchHistoryId() {
-        return matchHistoryId;
+    public int getMatchHistory_id() {
+        return matchHistory_id;
     }
 
-    public void setMatchHistoryId(int matchHistoryId) {
-        this.matchHistoryId = matchHistoryId;
+    public void setMatchHistory_id(int matchHistory_id) {
+        this.matchHistory_id = matchHistory_id;
     }
 
-    public int getUserResultsId() {
-        return userResultsId;
+    public int getUserResults_id() {
+        return userResults_id;
     }
 
-    public void setUserResultsId(int userResultsId) {
-        this.userResultsId = userResultsId;
+    public void setUserResults_id(int userResults_id) {
+        this.userResults_id = userResults_id;
     }
 
     public String getUrl() {

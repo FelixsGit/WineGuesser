@@ -8,7 +8,7 @@ public class UserGuesses implements UserGuessesDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long userGuessesId;
+    private long userGuesses_id;
     private String username;
     private int servingOrderGuess;
     private String descriptionGuess;
@@ -35,12 +35,12 @@ public class UserGuesses implements UserGuessesDTO{
         this.regionGuess = regionGuess;
     }
 
-    public long getUserGuessesId() {
-        return userGuessesId;
+    public long getUserGuesses_id() {
+        return userGuesses_id;
     }
 
-    public void setUserGuessesId(long userGuessesId) {
-        this.userGuessesId = userGuessesId;
+    public void setUserGuesses_id(long userGuesses_id) {
+        this.userGuesses_id = userGuesses_id;
     }
 
     public String getUsername() {

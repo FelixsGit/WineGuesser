@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class SettingsHistory implements SettingsHistoryDTO{
 
     @Id
-    private long gameSettingsId;
+    private long gameSettings_id;
     private String gameHost;
     private String gameId;
     private String qrCode;
@@ -24,7 +24,7 @@ public class SettingsHistory implements SettingsHistoryDTO{
     }
 
     public SettingsHistory(long gameSettingsId, String gameId, String gameHost, String qrCode, String url, String description, String servingOrder){
-        this.gameSettingsId = gameSettingsId;
+        this.gameSettings_id = gameSettingsId;
         this.gameId = gameId;
         this.gameHost = gameHost;
         this.qrCode = qrCode;
@@ -33,12 +33,12 @@ public class SettingsHistory implements SettingsHistoryDTO{
         this.servingOrder = servingOrder;
     }
 
-    public long getGameSettingsId() {
-        return gameSettingsId;
+    public long getGameSettings_id() {
+        return gameSettings_id;
     }
 
-    public void setGameSettingsId(long gameSettingsId) {
-        this.gameSettingsId = gameSettingsId;
+    public void setGameSettings_id(long gameSettings_id) {
+        this.gameSettings_id = gameSettings_id;
     }
 
     public String getGameHost() {
