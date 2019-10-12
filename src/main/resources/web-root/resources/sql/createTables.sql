@@ -218,7 +218,7 @@ CREATE TABLE `lobby_data` (
 --
 
 CREATE TABLE `user` (
-  `user_Id` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(255) NOT NULL UNIQUE,
   `password` varchar(255) NOT NULL,
   `activeGame` varchar(255) DEFAULT NULL
