@@ -818,8 +818,11 @@ Table structure for table 'public.user'
 */
 
 DROP TABLE IF EXISTS "public"."user" CASCADE;
-CREATE TABLE "public"."user" ("userId" BIGINT NOT NULL UNIQUE PRIMARY KEY, "username" VARCHAR(255) NOT NULL UNIQUE , "password" VARCHAR(255)  NOT NULL, "activeGame" VARCHAR(255) ) WITH OIDS;
+CREATE TABLE "public"."user" ("userId" BIGSERIAL NOT NULL, "username" VARCHAR(255)  NOT NULL, "password" VARCHAR(255)  NOT NULL, "activeGame" VARCHAR(255) ) WITH OIDS;
 ALTER SEQUENCE "public"."user_userId_seq" RESTART WITH 23 INCREMENT BY 1;
+DROP INDEX IF EXISTS "PRIMARY00012";
+ALTER TABLE "public"."user" ADD CONSTRAINT "PRIMARY00012" PRIMARY KEY ("userId");
+DROP INDEX IF EXISTS "username";
 
 /*
 Dumping data for table 'public.user'
