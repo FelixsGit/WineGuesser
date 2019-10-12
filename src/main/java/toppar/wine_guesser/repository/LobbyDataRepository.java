@@ -21,7 +21,7 @@ public interface LobbyDataRepository extends JpaRepository<LobbyData, String> {
 
     void removeByParticipants(String participant);
 
-    void removeAllByGameId(String gameId);
+    void removeAllByGameId(String game_id);
 
-    List<LobbyData> findAllByGameId(String gameId);
+    List<LobbyData> findAllByGameId(String game_id);
 }
