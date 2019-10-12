@@ -8,7 +8,7 @@ public class User implements UserDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long userId;
+    private long user_Id;
     private String username;
     private String password;
     private String activeGame;
@@ -35,12 +35,12 @@ public class User implements UserDTO {
         this.activeGame = activeGame;
     }
 
-    public long getUserId() {
-        return userId;
+    public long getUser_Id() {
+        return user_Id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser_Id(long user_Id) {
+        this.user_Id = user_Id;
     }
 
     public String getUsername() {

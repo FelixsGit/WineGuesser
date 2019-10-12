@@ -842,7 +842,7 @@ INSERT INTO `settings_history` (`gameSettingsId`, `gameHost`, `gameId`, `qrCode`
 --
 
 CREATE TABLE `user` (
-                        `userId` bigint(20) NOT NULL,
+                        `user_Id` bigint(20) NOT NULL,
                         `username` varchar(255) NOT NULL,
                         `password` varchar(255) NOT NULL,
                         `activeGame` varchar(255) DEFAULT NULL
@@ -852,7 +852,7 @@ CREATE TABLE `user` (
 -- Dumpning av Data i tabell `user`
 --
 
-INSERT INTO `user` (`userId`, `username`, `password`, `activeGame`) VALUES
+INSERT INTO `user` (`user_Id`, `username`, `password`, `activeGame`) VALUES
 (1, 'Felix', 'hejmorma80', NULL),
 (2, 'Carina', 'qwe', NULL),
 (3, 'Linnea', 'katt', NULL),
@@ -1029,7 +1029,7 @@ ALTER TABLE `result_data`
 -- Index för tabell `user`
 --
 ALTER TABLE `user`
-    ADD PRIMARY KEY (`userId`),
+    ADD PRIMARY KEY (`user_Id`),
     ADD UNIQUE KEY `username` (`username`);
 
 --
@@ -1112,7 +1112,7 @@ ALTER TABLE `result_data`
 -- AUTO_INCREMENT för tabell `user`
 --
 ALTER TABLE `user`
-    MODIFY `userId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+    MODIFY `user_Id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT för tabell `user_guesses`

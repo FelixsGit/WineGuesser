@@ -808,36 +808,36 @@ Table structure for table 'public.user'
 */
 
 DROP TABLE IF EXISTS public."user" CASCADE;
-CREATE TABLE public."user"("userId" BIGSERIAL NOT NULL,"username" VARCHAR(255) NOT NULL,"password" VARCHAR(255) NOT NULL,"activeGame" VARCHAR(255));
+CREATE TABLE public."user"("user_Id" BIGSERIAL NOT NULL,"username" VARCHAR(255) NOT NULL,"password" VARCHAR(255) NOT NULL,"activeGame" VARCHAR(255));
 DROP INDEX IF EXISTS "PRIMARY00012";
-ALTER TABLE public."user" ADD CONSTRAINT "PRIMARY00012"  PRIMARY KEY ("userId");
+ALTER TABLE public."user" ADD CONSTRAINT "PRIMARY00012"  PRIMARY KEY ("user_Id");
 DROP INDEX IF EXISTS "username";
 
 /*
 Dumping data for table 'public.user'
 */
 
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (1, 'Felix', 'hejmorma80', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (2, 'Carina', 'qwe', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (3, 'Linnea', 'katt', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (4, 'Vinberra', 'vatrodu', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (5, 'TestFelix1', '123', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (6, 'TestFelix2', '123', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (7, 'TestFelix3', '123', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (8, 'As', 'df', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (9, 'Vinproffset', '123', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (10, 'cartop1', '123', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (11, 'cartop2', '234', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (12, 'LINTOP', 'kanin', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (13, 'lintop2', 'hÃ¤st', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (14, 'hej', '123', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (16, 'LÃ¥dvinsViktor', 'Vin', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (17, 'Tove', '19980109', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (18, 'Lillamy', '7Bubbelgum', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (19, 'Ingalill', 'lillan1448', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (20, 'steffe rfe', 'rioja', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (21, 'dagny', '123', '');
-INSERT INTO public."user"("userId", "username", "password", "activeGame")VALUES (22, 'JUKKA', 'vino', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (1, 'Felix', 'hejmorma80', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (2, 'Carina', 'qwe', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (3, 'Linnea', 'katt', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (4, 'Vinberra', 'vatrodu', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (5, 'TestFelix1', '123', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (6, 'TestFelix2', '123', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (7, 'TestFelix3', '123', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (8, 'As', 'df', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (9, 'Vinproffset', '123', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (10, 'cartop1', '123', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (11, 'cartop2', '234', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (12, 'LINTOP', 'kanin', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (13, 'lintop2', 'hÃ¤st', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (14, 'hej', '123', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (16, 'LÃ¥dvinsViktor', 'Vin', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (17, 'Tove', '19980109', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (18, 'Lillamy', '7Bubbelgum', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (19, 'Ingalill', 'lillan1448', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (20, 'steffe rfe', 'rioja', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (21, 'dagny', '123', '');
+INSERT INTO public."user"("user_Id", "username", "password", "activeGame")VALUES (22, 'JUKKA', 'vino', '');
 
 /*
 Table structure for table 'public.user_guesses'
