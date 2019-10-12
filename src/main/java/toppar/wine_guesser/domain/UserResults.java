@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "user_results", schema = "public")
+@Table(name = "user_results")
 public class UserResults implements UserResultsDTO{
 
     @Id

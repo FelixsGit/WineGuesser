@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "match_history", schema = "public")
 public class MatchHistory {
 
     @Id
