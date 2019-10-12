@@ -7,10 +7,8 @@ import javax.persistence.*;
 public class SettingsHistory implements SettingsHistoryDTO{
 
     @Id
-    @Column(name = "gameSettings_id")
     private long gameSettingsId;
     private String gameHost;
-    @Column(name = "game_id")
     private String gameId;
     private String qrCode;
     private String url;

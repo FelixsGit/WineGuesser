@@ -8,9 +8,7 @@ public class GamePoint implements GamePointDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "gamePoint_id")
     private int gamePointId;
-    @Column(name = "gameResult_id")
     private int gameResultId;
     private String username;
     private int points;

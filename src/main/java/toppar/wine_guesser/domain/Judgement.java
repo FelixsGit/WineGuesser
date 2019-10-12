@@ -9,7 +9,6 @@ public class Judgement implements JudgementDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "judgement_id")
     private int judgementId;
     private String username;
     private int servingOrder;

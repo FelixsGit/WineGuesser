@@ -8,12 +8,10 @@ public class UserGuesses implements UserGuessesDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userGuesses_id")
     private long userGuessesId;
     private String username;
     private int servingOrderGuess;
     private String descriptionGuess;
-    @Column(name = "game_id")
     private String gameId;
     private String regionGuess;
 

@@ -9,9 +9,7 @@ public class ClubWineStat implements ClubWineStatDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "clubWineStat_id")
     private int clubWineStatId;
-    @Column(name = "club_id")
     private int clubId;
     private String wineName;
     private String wineUrl;

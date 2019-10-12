@@ -8,10 +8,8 @@ public class GameSettings implements GameSettingsDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "gameSettings_id")
     private long gameSettingsId;
     private String gameHost;
-    @Column(name = "game_id")
     private String gameId;
     @Column(length = 8000)
     private String qrCode;
