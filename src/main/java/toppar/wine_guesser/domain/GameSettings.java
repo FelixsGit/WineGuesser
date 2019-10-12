@@ -11,11 +11,14 @@ public class GameSettings implements GameSettingsDTO{
     private long gameSettingsId;
     private String gameHost;
     private String gameId;
+    @Column(length = 8000)
     private String qrCode;
     private String url;
+    @Column(length = 8000)
     private String imgSource;
     private String wineName;
     private String region;
+    @Column(length = 8000)
     private String description;
     private String servingOrder;
 
