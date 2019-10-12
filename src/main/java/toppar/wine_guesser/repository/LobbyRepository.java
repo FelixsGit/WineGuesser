@@ -16,9 +16,9 @@ public interface LobbyRepository extends JpaRepository<Lobby, String> {
     @Override
     Lobby save(Lobby lobby);
 
-    long findLobbyIdBygame_id(String gameId);
+    long findLobbyIdByGameId(String gameId);
 
-    String findGameStartBygame_id(String gameId);
+    String findGameStartByGameId(String gameId);
 
     Lobby findLobbyByGameId(String gameId);
 
