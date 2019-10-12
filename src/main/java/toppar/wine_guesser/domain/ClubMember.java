@@ -10,7 +10,9 @@ public class ClubMember implements ClubMemberDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "clubMember_id")
     private int clubMemberId;
+    @Column(name = "club_id")
     private int clubId;
     private String username;
     private String isBacchus;

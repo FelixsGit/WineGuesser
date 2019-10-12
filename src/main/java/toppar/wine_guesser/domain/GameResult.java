@@ -9,7 +9,9 @@ public class GameResult implements GameResultDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "gameResult_id")
     private int gameResultId;
+    @Column(name = "game_id")
     private String gameId;
     private String url;
     private String comment;

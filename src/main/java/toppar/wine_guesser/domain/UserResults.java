@@ -9,6 +9,7 @@ public class UserResults implements UserResultsDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userResults_id")
     private int userResultsId;
     private String username;
     private int playedGames;

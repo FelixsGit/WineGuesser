@@ -8,6 +8,7 @@ public class User implements UserDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long userId;
     private String username;
     private String password;

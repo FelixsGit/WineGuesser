@@ -1,5 +1,6 @@
 package toppar.wine_guesser.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -8,8 +9,10 @@ import javax.persistence.Table;
 @Table(name = "lobby_history", schema = "public")
 public class LobbyHistory implements LobbyHistoryDTO{
 
+    @Column(name = "lobby_id")
     private long lobbyId;
     private String gameHost;
+    @Column(name = "game_id")
     private String gameId;
     @Id
     private String participants;

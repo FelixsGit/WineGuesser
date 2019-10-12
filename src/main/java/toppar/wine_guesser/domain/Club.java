@@ -8,6 +8,7 @@ public class Club implements ClubDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "club_id")
     private int clubId;
     private String clubName;
     private String clubPassword;

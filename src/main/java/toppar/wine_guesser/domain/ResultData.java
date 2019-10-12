@@ -8,7 +8,9 @@ public class ResultData implements ResultDataDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "resultData_id")
     private int resultDataId;
+    @Column(name = "gameResult_id")
     private int gameResultId;
     private String username;
     private int servingOrder;

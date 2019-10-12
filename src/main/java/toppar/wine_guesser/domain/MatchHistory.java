@@ -9,10 +9,13 @@ public class MatchHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "matchHistory_id")
     private int matchHistoryId;
+    @Column(name = "userResults_id")
     private int userResultsId;
     private String url;
     private String datePlayed;
+    @Column(name = "game_id")
     private String gameId;
     private String clubName;
 
