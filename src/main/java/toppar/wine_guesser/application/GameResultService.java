@@ -54,7 +54,7 @@ public class GameResultService {
             gameResult = new GameResult(gameId, "https://wineguesser.herokuapp.com/gameResults/"+gameId, null);
         }
 
-        if(gameResultRepository.findAllByGame_id(gameId) == null) {
+        if(gameResultRepository.findAllBygame_id(gameId) == null) {
             gameResultRepository.save(gameResult);
         }else{
             return;
@@ -191,7 +191,7 @@ public class GameResultService {
     }
 
     public GameStats retrieveGameStatsForGameWithIdAndUsername(String gameId, String username){
-        GameResult gameResult = gameResultRepository.findAllByGame_id(gameId);
+        GameResult gameResult = gameResultRepository.findAllBygame_id(gameId);
         List<GamePointDTO> gamePointList = sortGamePointListByPoints(gamePointService.getAllByGameResultId(gameResult.getGameResult_id()));
         List<ResultDataDTO> resultDataList = resultDataService.getAllByGameResultIdAndUsername(gameResult.getGameResult_id(), username);
         return new GameStats(gamePointList, resultDataList, gameId, gameResult.getComment());
@@ -204,6 +204,6 @@ public class GameResultService {
 
 
     public GameResult getGameResultByGameId(String gameId) {
-        return gameResultRepository.findAllByGame_id(gameId);
+        return gameResultRepository.findAllBygame_id(gameId);
     }
 }

@@ -13,8 +13,8 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface MatchHistoryRepository extends JpaRepository<MatchHistory, String> {
 
-    List<MatchHistory> findAllByGame_id(String game_id);
+    List<MatchHistory> findAllBygame_id(String game_id);
 
-    List<MatchHistory> findAllByUserResults_id(int userResults_id);
+    List<MatchHistory> findAllByuserResults_id(int userResults_id);
 
 }

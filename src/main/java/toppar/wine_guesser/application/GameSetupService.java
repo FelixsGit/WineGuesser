@@ -42,7 +42,7 @@ public class GameSetupService{
     }
 
     public GameSetup getGameSetupByGameId(String gameId){
-        return gameSetupRepository.findAllByGame_id(gameId);
+        return gameSetupRepository.findAllBygame_id(gameId);
     }
 
     public void updateGameSetupWithChosenClub(String gameHost, String clubName) {
@@ -52,7 +52,7 @@ public class GameSetupService{
     }
 
     public void setCommentForGameSetupWithGameId(String comment, String gameId) {
-        GameSetup gameSetup = gameSetupRepository.findAllByGame_id(gameId);
+        GameSetup gameSetup = gameSetupRepository.findAllBygame_id(gameId);
         gameSetup.setComment(comment);
         gameSetupRepository.save(gameSetup);
     }

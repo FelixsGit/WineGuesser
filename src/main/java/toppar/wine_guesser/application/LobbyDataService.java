@@ -38,7 +38,7 @@ public class LobbyDataService {
     }
 
     public boolean isGameHost(String username, String gameId){
-         List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGame_id(gameId);
+         List<LobbyData> lobbyDataList = lobbyDataRepository.findAllBygame_id(gameId);
          for(int i = 0; i < lobbyDataList.size(); i++){
              if(lobbyDataList.get(i).getGameHost() != null){
                  if(lobbyDataList.get(i).getGameHost().equals(username)){
@@ -50,13 +50,13 @@ public class LobbyDataService {
     }
 
     public void removeAllByGameId(String gameId){
-        lobbyDataRepository.removeAllByGame_id(gameId);
+        lobbyDataRepository.removeAllBygame_id(gameId);
     }
 
     public void removeAllParticipantsFromLobbyWithGameId(String gameId){
-        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGame_id(gameId);
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllBygame_id(gameId);
         lobbyHistoryService.saveLobbyData(lobbyDataList);
-        lobbyDataRepository.removeAllByGame_id(gameId);
+        lobbyDataRepository.removeAllBygame_id(gameId);
     }
 
     public void removeParticipantFromLobby(String participant){
@@ -66,7 +66,7 @@ public class LobbyDataService {
 
     public List<LobbyDataDTO> getUsersNotReadyByGameId(String gameId){
         List<LobbyDataDTO> participantsNotReadyLobbyDataList = new ArrayList<>();
-        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGame_id(gameId);
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllBygame_id(gameId);
         for (LobbyData lobbyData : lobbyDataList) {
             if (lobbyData.getReady() == 0) {
                 participantsNotReadyLobbyDataList.add(lobbyData);
@@ -77,7 +77,7 @@ public class LobbyDataService {
 
     public List<LobbyDataDTO> getUsersReadyByGameId(String gameId){
         List<LobbyDataDTO> participantsReadyLobbyDataList = new ArrayList<>();
-        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGame_id(gameId);
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllBygame_id(gameId);
         for (LobbyData lobbyData : lobbyDataList) {
             if (lobbyData.getReady() == 1) {
                 participantsReadyLobbyDataList.add(lobbyData);
@@ -100,7 +100,7 @@ public class LobbyDataService {
 
 
     public boolean checkIfAllParticipantsAreReady(String gameId){
-        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGame_id(gameId);
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllBygame_id(gameId);
         for (LobbyData lobbyData : lobbyDataList) {
             if (lobbyData.getReady() != 1) {
                 return false;
@@ -124,7 +124,7 @@ public class LobbyDataService {
     }
 
     public boolean checkIfAllParticipantsAreDone(String gameId){
-        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGame_id(gameId);
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllBygame_id(gameId);
         for (LobbyData lobbyData : lobbyDataList) {
             if (lobbyData.getDone() != 1) {
                 return false;
@@ -135,7 +135,7 @@ public class LobbyDataService {
 
     public List<LobbyDataDTO> getUsersNotDoneByGameId(String gameId){
         List<LobbyDataDTO> participantsNotDoneLobbyDataList = new ArrayList<>();
-        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGame_id(gameId);
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllBygame_id(gameId);
         for (LobbyData lobbyData : lobbyDataList) {
             if (lobbyData.getDone() == 0) {
                 participantsNotDoneLobbyDataList.add(lobbyData);
@@ -146,7 +146,7 @@ public class LobbyDataService {
 
     public List<LobbyDataDTO> getUsersDoneByGameId(String gameId){
         List<LobbyDataDTO> participantsDoneLobbyDataList = new ArrayList<>();
-        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGame_id(gameId);
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllBygame_id(gameId);
         for (LobbyData lobbyData : lobbyDataList) {
             if (lobbyData.getDone() == 1) {
                 participantsDoneLobbyDataList.add(lobbyData);
@@ -156,7 +156,7 @@ public class LobbyDataService {
     }
 
     public List<String> getParticipantsByGameId(String gameId){
-        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllByGame_id(gameId);
+        List<LobbyData> lobbyDataList = lobbyDataRepository.findAllBygame_id(gameId);
         List<String> participants = new ArrayList<>();
         lobbyDataList.forEach(lobbyData -> participants.add(lobbyData.getParticipants()));
         return participants;

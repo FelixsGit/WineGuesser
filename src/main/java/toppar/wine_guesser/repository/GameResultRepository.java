@@ -10,6 +10,6 @@ import toppar.wine_guesser.domain.GameResult;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface GameResultRepository extends JpaRepository<GameResult, String> {
 
-    GameResult findAllByGame_id(String game_id);
+    GameResult findAllBygame_id(String game_id);
 
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public interface ClubWineStatRepository extends JpaRepository<ClubWineStat, String> {
 
 
-    List<ClubWineStatDTO> findAllByClub_id(int club_id);
+    List<ClubWineStatDTO> findAllByclub_id(int club_id);
 
-    ClubWineStat findAllByClub_idAndWineName(int club_id, String wineName);
+    ClubWineStat findAllByclub_idAndWineName(int club_id, String wineName);
 }
