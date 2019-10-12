@@ -5,13 +5,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "`lobby`", schema = "public")
+@Table(name = "lobby", schema = "public")
 public class Lobby implements LobbyDTO {
 
     @Id
-    private long lobby_id;
+    private long lobbyId;
 
-    private String game_id;
+    private String gameId;
 
     private String gameStart;
 
@@ -20,7 +20,7 @@ public class Lobby implements LobbyDTO {
     }
 
     public Lobby(String gameId, String gameStart){
-        this.game_id = gameId;
+        this.gameId = gameId;
         this.gameStart = gameStart;
     }
 
@@ -32,15 +32,15 @@ public class Lobby implements LobbyDTO {
         this.gameStart = gameStart;
     }
 
-    public long getLobby_id() {
-        return lobby_id;
+    public long getLobbyId() {
+        return lobbyId;
     }
 
-    public String getGame_id() {
-        return game_id;
+    public String getGameId() {
+        return gameId;
     }
 
-    public void setGame_id(String game_id) {
-        this.game_id = game_id;
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 }

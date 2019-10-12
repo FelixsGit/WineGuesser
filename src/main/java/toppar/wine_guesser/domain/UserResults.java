@@ -4,12 +4,12 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "`user_results`", schema = "public")
+@Table(name = "user_results", schema = "public")
 public class UserResults implements UserResultsDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userResults_id;
+    private int userResultsId;
     private String username;
     private int playedGames;
     private double numWinesGuessed;
@@ -41,12 +41,12 @@ public class UserResults implements UserResultsDTO{
         this.isBacchus = isBacchus;
     }
 
-    public int getUserResults_id() {
-        return userResults_id;
+    public int getUserResultsId() {
+        return userResultsId;
     }
 
-    public void setUserResults_id(int userResults_id) {
-        this.userResults_id = userResults_id;
+    public void setUserResultsId(int userResultsId) {
+        this.userResultsId = userResultsId;
     }
 
 

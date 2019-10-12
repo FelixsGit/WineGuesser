@@ -21,14 +21,14 @@ public class MatchHistoryService {
     }
 
     public boolean isOldGame(String gameId){
-        if(matchHistoryRepository.findAllBygame_id(gameId).isEmpty()){
+        if(matchHistoryRepository.findAllByGameId(gameId).isEmpty()){
             return false;
         }
         return true;
     }
 
     public List<MatchHistory> findAllByUserResultsId(int userResultsId){
-        List<MatchHistory> matchHistoryList = matchHistoryRepository.findAllByuserResults_id(userResultsId);
+        List<MatchHistory> matchHistoryList = matchHistoryRepository.findAllByUserResultsId(userResultsId);
         return matchHistoryList;
     }
 }

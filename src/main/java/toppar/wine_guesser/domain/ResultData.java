@@ -3,13 +3,13 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "`result_data`", schema = "public")
+@Table(name = "result_data", schema = "public")
 public class ResultData implements ResultDataDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int resultData_id;
-    private int gameResult_id;
+    private int resultDataId;
+    private int gameResultId;
     private String username;
     private int servingOrder;
     private String winePicture;
@@ -28,7 +28,7 @@ public class ResultData implements ResultDataDTO{
 
     public ResultData(int gameResultId, String username, int servingOrder, String winePicture, String wineName, String wineDescription, int grade, String url, int personalGrade,
                       double averageGrade, String region, String correctRegionGuess) {
-        this.gameResult_id = gameResultId;
+        this.gameResultId = gameResultId;
         this.username = username;
         this.servingOrder = servingOrder;
         this.winePicture = winePicture;
@@ -44,21 +44,21 @@ public class ResultData implements ResultDataDTO{
 
 
 
-    public int getResultData_id() {
-        return resultData_id;
+    public int getResultDataId() {
+        return resultDataId;
     }
 
-    public void setResultData_id(int resultData_id) {
-        this.resultData_id = resultData_id;
+    public void setResultDataId(int resultDataId) {
+        this.resultDataId = resultDataId;
     }
 
 
-    public int getGameResult_id() {
-        return gameResult_id;
+    public int getGameResultId() {
+        return gameResultId;
     }
 
-    public void setGameResult_id(int gameResult_id) {
-        this.gameResult_id = gameResult_id;
+    public void setGameResultId(int gameResultId) {
+        this.gameResultId = gameResultId;
     }
 
     public String getUsername() {

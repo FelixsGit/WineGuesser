@@ -4,7 +4,7 @@ public interface GameSetupDTO {
 
     String getGameHost();
     String getAmountOfWines();
-    String getGame_id();
+    String getGameId();
     String getClubName();
     String getComment();
 }

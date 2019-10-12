@@ -3,11 +3,11 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "`settings_history`", schema = "public")
+@Table(name = "settings_history", schema = "public")
 public class SettingsHistory implements SettingsHistoryDTO{
 
     @Id
-    private long gameSettings_id;
+    private long gameSettingsId;
     private String gameHost;
     private String gameId;
     private String qrCode;
@@ -24,7 +24,7 @@ public class SettingsHistory implements SettingsHistoryDTO{
     }
 
     public SettingsHistory(long gameSettingsId, String gameId, String gameHost, String qrCode, String url, String description, String servingOrder){
-        this.gameSettings_id = gameSettingsId;
+        this.gameSettingsId = gameSettingsId;
         this.gameId = gameId;
         this.gameHost = gameHost;
         this.qrCode = qrCode;
@@ -33,12 +33,12 @@ public class SettingsHistory implements SettingsHistoryDTO{
         this.servingOrder = servingOrder;
     }
 
-    public long getGameSettings_id() {
-        return gameSettings_id;
+    public long getGameSettingsId() {
+        return gameSettingsId;
     }
 
-    public void setGameSettings_id(long gameSettings_id) {
-        this.gameSettings_id = gameSettings_id;
+    public void setGameSettingsId(long gameSettingsId) {
+        this.gameSettingsId = gameSettingsId;
     }
 
     public String getGameHost() {

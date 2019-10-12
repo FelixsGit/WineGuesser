@@ -4,13 +4,13 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "`match_history`", schema = "public")
+@Table(name = "match_history", schema = "public")
 public class MatchHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int matchHistory_id;
-    private int userResults_id;
+    private int matchHistoryId;
+    private int userResultsId;
     private String url;
     private String datePlayed;
     private String gameId;
@@ -21,7 +21,7 @@ public class MatchHistory {
     }
 
     public MatchHistory(int userResultsId, String datePlayed, String url, String gameId, String clubName) {
-        this.userResults_id = userResultsId;
+        this.userResultsId = userResultsId;
         this.url = url;
         this.datePlayed = datePlayed;
         this.gameId = gameId;
@@ -52,20 +52,20 @@ public class MatchHistory {
         this.datePlayed = datePlayed;
     }
 
-    public int getMatchHistory_id() {
-        return matchHistory_id;
+    public int getMatchHistoryId() {
+        return matchHistoryId;
     }
 
-    public void setMatchHistory_id(int matchHistory_id) {
-        this.matchHistory_id = matchHistory_id;
+    public void setMatchHistoryId(int matchHistoryId) {
+        this.matchHistoryId = matchHistoryId;
     }
 
-    public int getUserResults_id() {
-        return userResults_id;
+    public int getUserResultsId() {
+        return userResultsId;
     }
 
-    public void setUserResults_id(int userResults_id) {
-        this.userResults_id = userResults_id;
+    public void setUserResultsId(int userResultsId) {
+        this.userResultsId = userResultsId;
     }
 
     public String getUrl() {

@@ -27,7 +27,7 @@ public class ClubWineStatService {
 
 
     public List<ClubWineStatDTO> findAllByClubId(int clubId) {
-        List<ClubWineStatDTO> clubWineStatDTOS = clubWineStatRepository.findAllByclub_id(clubId);
+        List<ClubWineStatDTO> clubWineStatDTOS = clubWineStatRepository.findAllByClubId(clubId);
         clubWineStatDTOS.sort(Comparator.comparing(ClubWineStatDTO::getAverageGrade).reversed());
         return clubWineStatDTOS;
     }
@@ -35,10 +35,10 @@ public class ClubWineStatService {
     public void updateForClubWineStat(String clubName, String gameId, String username) throws ClubException {
         ClubDTO clubDTO = clubService.findClubByClubName(clubName);
         GameResult gameResult = gameResultService.getGameResultByGameId(gameId);
-        List<ResultDataDTO> resultDataList = resultDataService.getAllByGameResultIdAndUsername(gameResult.getGameResult_id(), username);
+        List<ResultDataDTO> resultDataList = resultDataService.getAllByGameResultIdAndUsername(gameResult.getGameResultId(), username);
 
         for(int i = 0; i < resultDataList.size(); i++){
-            ClubWineStat clubWineStat = clubWineStatRepository.findAllByclub_idAndWineName(clubDTO.getClub_id(), resultDataList.get(i).getWineName());
+            ClubWineStat clubWineStat = clubWineStatRepository.findAllByClubIdAndWineName(clubDTO.getClubId(), resultDataList.get(i).getWineName());
             if(clubWineStat != null){
                 //wine already had on a previous tasting
                 clubWineStat.setNumberOfServings(clubWineStat.getNumberOfServings() + 1);
@@ -50,7 +50,7 @@ public class ClubWineStatService {
                 clubWineStatRepository.save(clubWineStat);
             }else{
                 //tasting wine for first time
-                clubWineStatRepository.save(new ClubWineStat(clubDTO.getClub_id(), resultDataList.get(i).getWineName(), resultDataList.get(i).getUrl(),
+                clubWineStatRepository.save(new ClubWineStat(clubDTO.getClubId(), resultDataList.get(i).getWineName(), resultDataList.get(i).getUrl(),
                         1, resultDataList.get(i).getAverageGrade()));
             }
         }

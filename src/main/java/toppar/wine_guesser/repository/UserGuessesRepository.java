@@ -16,11 +16,11 @@ public interface UserGuessesRepository extends JpaRepository<UserGuesses, String
 
     List<UserGuesses> findAllByUsername(String username);
 
-    List<UserGuesses> findAllBygame_idAndUsername(String game_id, String username);
+    List<UserGuesses> findAllByGameIdAndUsername(String gameId, String username);
 
     List<UserGuesses> findAllByUsernameAndServingOrderGuess(String username, int servingOrderGuess);
 
-    void removeAllBygame_id(String game_id);
+    void removeAllByGameId(String gameId);
 
-    void removeAllByUsernameAndgame_id(String username, String game_id);
+    void removeAllByUsernameAndGameId(String username, String gameId);
 }

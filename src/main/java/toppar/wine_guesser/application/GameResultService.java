@@ -54,7 +54,7 @@ public class GameResultService {
             gameResult = new GameResult(gameId, "https://wineguesser.herokuapp.com/gameResults/"+gameId, null);
         }
 
-        if(gameResultRepository.findAllBygame_id(gameId) == null) {
+        if(gameResultRepository.findAllByGameId(gameId) == null) {
             gameResultRepository.save(gameResult);
         }else{
             return;
@@ -78,13 +78,13 @@ public class GameResultService {
         if(isClubMatch){
             for(int j = 0; j < participants.size(); j++){
                 UserResults userResults = userResultsService.findByUsername(participants.get(j));
-                matchHistoryService.create(new MatchHistory(userResults.getUserResults_id(), datePlayed, "https://wineguesser.herokuapp.com/gameResults/"+gameId, gameId, clubName));
+                matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "https://wineguesser.herokuapp.com/gameResults/"+gameId, gameId, clubName));
                 userResultDataMap.put(participants.get(j), new UserResultData(participants.get(j), 0, 0));
             }
         }else{
             for(int j = 0; j < participants.size(); j++){
                 UserResults userResults = userResultsService.findByUsername(participants.get(j));
-                matchHistoryService.create(new MatchHistory(userResults.getUserResults_id(), datePlayed, "https://wineguesser.herokuapp.com/gameResults/"+gameId, gameId, null));
+                matchHistoryService.create(new MatchHistory(userResults.getUserResultsId(), datePlayed, "https://wineguesser.herokuapp.com/gameResults/"+gameId, gameId, null));
                 userResultDataMap.put(participants.get(j), new UserResultData(participants.get(j), 0, 0));
             }
         }
@@ -113,13 +113,13 @@ public class GameResultService {
                 if(regionGame){
                     if(checkIfDescriptionsAreEqual(currentWineDescription, guessedDescription)) {
                         if(correctGuessOnRegion){
-                            resultDataService.createNew(new ResultData(gameResult.getGameResult_id(), participants.get(j), currentWineServingOrder,
+                            resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
                                     gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 2, gameSettings.getUrl(), userGrade, averageGrade,
                                     gameSettings.getRegion(), "rätt."));
                             userResultDataMap.get(participants.get(j)).increasePointCollectedTotal(2);
                             userResultDataMap.get(participants.get(j)).increasePointCollectedWines(1);
                         }else{
-                            resultDataService.createNew(new ResultData(gameResult.getGameResult_id(), participants.get(j), currentWineServingOrder,
+                            resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
                                     gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 1, gameSettings.getUrl(), userGrade, averageGrade,
                                     gameSettings.getRegion(), "fel."));
                             userResultDataMap.get(participants.get(j)).increasePointCollectedTotal(1);
@@ -127,12 +127,12 @@ public class GameResultService {
                         }
                     }else {
                         if(correctGuessOnRegion){
-                            resultDataService.createNew(new ResultData(gameResult.getGameResult_id(), participants.get(j), currentWineServingOrder,
+                            resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
                                     gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 1, gameSettings.getUrl(), userGrade, averageGrade,
                                     gameSettings.getRegion(), "rätt."));
                             userResultDataMap.get(participants.get(j)).increasePointCollectedTotal(1);
                         }else{
-                            resultDataService.createNew(new ResultData(gameResult.getGameResult_id(), participants.get(j), currentWineServingOrder,
+                            resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
                                     gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 0, gameSettings.getUrl(), userGrade, averageGrade,
                                     gameSettings.getRegion(), "fel."));
                             userResultDataMap.get(participants.get(j)).increasePointCollectedTotal(0);
@@ -141,14 +141,14 @@ public class GameResultService {
                 }
                 if(!regionGame){
                     if(checkIfDescriptionsAreEqual(currentWineDescription, guessedDescription)) {
-                        resultDataService.createNew(new ResultData(gameResult.getGameResult_id(), participants.get(j), currentWineServingOrder,
+                        resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
                                 gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 1, gameSettings.getUrl(), userGrade, averageGrade,
                                 gameSettings.getRegion(), null));
                         userResultDataMap.get(participants.get(j)).increasePointCollectedTotal(1);
                         userResultDataMap.get(participants.get(j)).increasePointCollectedWines(1);
 
                     }else{
-                        resultDataService.createNew(new ResultData(gameResult.getGameResult_id(), participants.get(j), currentWineServingOrder,
+                        resultDataService.createNew(new ResultData(gameResult.getGameResultId(), participants.get(j), currentWineServingOrder,
                                 gameSettings.getImgSource(), gameSettings.getWineName(), gameSettings.getDescription(), 0, gameSettings.getUrl(), userGrade, averageGrade,
                                 gameSettings.getRegion(), null));
                     }
@@ -164,7 +164,7 @@ public class GameResultService {
         for(int i = 0; i < participants.size(); i++){
             totalWinePoints = (int)userResultDataMap.get(participants.get(i)).getPointCollectedWines();
             totalPoints = (int)userResultDataMap.get(participants.get(i)).getPointCollectedTotal();
-            gamePointService.createNew(new GamePoint(gameResult.getGameResult_id(), participants.get(i), totalPoints, totalWinePoints));
+            gamePointService.createNew(new GamePoint(gameResult.getGameResultId(), participants.get(i), totalPoints, totalWinePoints));
             double pointsCollectedWines = userResultDataMap.get(participants.get(i)).getPointCollectedWines();
             userResultsService.updateUserResultsByUser(participants.get(i), numberOfWines, pointsCollectedWines);
             UserResultData userResultData = userResultDataMap.get(participants.get(i));
@@ -173,7 +173,7 @@ public class GameResultService {
 
         }
 
-        List<GamePointDTO> gamePointList = gamePointService.getAllByGameResultId(gameResult.getGameResult_id());
+        List<GamePointDTO> gamePointList = gamePointService.getAllByGameResultId(gameResult.getGameResultId());
         gamePointList.sort(Comparator.comparing(GamePointDTO::getPoints).reversed());
 
         userResultDataMap.forEach((key, value) -> {
@@ -191,9 +191,9 @@ public class GameResultService {
     }
 
     public GameStats retrieveGameStatsForGameWithIdAndUsername(String gameId, String username){
-        GameResult gameResult = gameResultRepository.findAllBygame_id(gameId);
-        List<GamePointDTO> gamePointList = sortGamePointListByPoints(gamePointService.getAllByGameResultId(gameResult.getGameResult_id()));
-        List<ResultDataDTO> resultDataList = resultDataService.getAllByGameResultIdAndUsername(gameResult.getGameResult_id(), username);
+        GameResult gameResult = gameResultRepository.findAllByGameId(gameId);
+        List<GamePointDTO> gamePointList = sortGamePointListByPoints(gamePointService.getAllByGameResultId(gameResult.getGameResultId()));
+        List<ResultDataDTO> resultDataList = resultDataService.getAllByGameResultIdAndUsername(gameResult.getGameResultId(), username);
         return new GameStats(gamePointList, resultDataList, gameId, gameResult.getComment());
     }
 
@@ -204,6 +204,6 @@ public class GameResultService {
 
 
     public GameResult getGameResultByGameId(String gameId) {
-        return gameResultRepository.findAllBygame_id(gameId);
+        return gameResultRepository.findAllByGameId(gameId);
     }
 }

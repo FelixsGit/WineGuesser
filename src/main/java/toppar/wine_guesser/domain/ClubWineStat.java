@@ -4,13 +4,13 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "`club_wine_stat`", schema = "public")
+@Table(name = "club_wine_stat", schema = "public")
 public class ClubWineStat implements ClubWineStatDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int clubWineStat_id;
-    private int club_id;
+    private int clubWineStatId;
+    private int clubId;
     private String wineName;
     private String wineUrl;
     private int numberOfServings;
@@ -21,7 +21,7 @@ public class ClubWineStat implements ClubWineStatDTO {
     }
 
     public ClubWineStat(int clubId, String wineName, String wineUrl, int numberOfServings, double averageGrade) {
-        this.club_id = clubId;
+        this.clubId = clubId;
         this.wineName = wineName;
         this.numberOfServings = numberOfServings;
         this.averageGrade = averageGrade;
@@ -36,20 +36,20 @@ public class ClubWineStat implements ClubWineStatDTO {
         this.wineUrl = wineUrl;
     }
 
-    public int getClubWineStat_id() {
-        return clubWineStat_id;
+    public int getClubWineStatId() {
+        return clubWineStatId;
     }
 
-    public void setClubWineStat_id(int clubWineStat_id) {
-        this.clubWineStat_id = clubWineStat_id;
+    public void setClubWineStatId(int clubWineStatId) {
+        this.clubWineStatId = clubWineStatId;
     }
 
-    public int getClub_id() {
-        return club_id;
+    public int getClubId() {
+        return clubId;
     }
 
-    public void setClub_id(int club_id) {
-        this.club_id = club_id;
+    public void setClubId(int clubId) {
+        this.clubId = clubId;
     }
 
     public String getWineName() {

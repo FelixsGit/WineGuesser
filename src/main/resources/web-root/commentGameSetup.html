@@ -19,7 +19,7 @@
         <form action=# th:action="@{/commentGameSetup}" th:object="${commentGameSetupForm}" method="post">
 
             <textarea name="comment" th:value="${commentGameSetupForm.comment}" autocomplete="off" aria-autocomplete="list" aria-haspopup="true"></textarea>
-            <input type="hidden" name="game_id" th:value="${commentGameSetupForm.game_id}">
+            <input type="hidden" name="gameId" th:value="${commentGameSetupForm.gameId}">
             <br>
             <p class="error" th:if ="${errorType} != null" th:text = "${errorType}"></p>
             <br>
@@ -32,7 +32,7 @@
 
         <h2>Jag vill inte kommentera.</h2>
         <br>
-        <form th:action="@{'/generateLobby/' + ${commentGameSetupForm.game_id}}">
+        <form th:action="@{'/generateLobby/' + ${commentGameSetupForm.gameId}}">
             <button id="lockInResult" type="submit">Gå Vidare till Provningen</button>
         </form>
 

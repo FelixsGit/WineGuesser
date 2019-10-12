@@ -36,7 +36,7 @@ public class UserResultsService {
             throw new UserException("profile not found");
         }
         UserResultsDTO userResultsDTO = userResultsRepository.findAllByUsername(username);
-        List<MatchHistory> matchHistoryList = matchHistoryService.findAllByUserResultsId(userResultsDTO.getUserResults_id());
+        List<MatchHistory> matchHistoryList = matchHistoryService.findAllByUserResultsId(userResultsDTO.getUserResultsId());
         List<ClubDTO> clubDTOS = clubService.getAllClubsByUsername(username);
         List<String> clubNameList = new ArrayList<>();
         clubDTOS.forEach(clubDTO -> clubNameList.add(clubDTO.getClubName()));

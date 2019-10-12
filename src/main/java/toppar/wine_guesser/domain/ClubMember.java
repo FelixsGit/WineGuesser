@@ -4,14 +4,14 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "`club_member`", schema = "public")
+@Table(name = "club_member", schema = "public")
 public class ClubMember implements ClubMemberDTO {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int clubMember_id;
-    private int club_id;
+    private int clubMemberId;
+    private int clubId;
     private String username;
     private String isBacchus;
 
@@ -20,7 +20,7 @@ public class ClubMember implements ClubMemberDTO {
     }
 
     public ClubMember(int clubId, String username, String isBacchus) {
-        this.club_id = clubId;
+        this.clubId = clubId;
         this.username = username;
         this.isBacchus = isBacchus;
     }
@@ -33,20 +33,20 @@ public class ClubMember implements ClubMemberDTO {
         this.isBacchus = isBacchus;
     }
 
-    public int getClubMember_id() {
-        return clubMember_id;
+    public int getClubMemberId() {
+        return clubMemberId;
     }
 
-    public void setClubMember_id(int clubMember_id) {
-        this.clubMember_id = clubMember_id;
+    public void setClubMemberId(int clubMemberId) {
+        this.clubMemberId = clubMemberId;
     }
 
-    public int getClub_id() {
-        return club_id;
+    public int getClubId() {
+        return clubId;
     }
 
-    public void setClub_id(int club_id) {
-        this.club_id = club_id;
+    public void setClubId(int clubId) {
+        this.clubId = clubId;
     }
 
     public String getUsername() {

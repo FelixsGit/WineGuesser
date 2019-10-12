@@ -112,7 +112,7 @@ public class ApplicationController {
         }
         CommentGameSetupForm commentGameSetupForm = new CommentGameSetupForm();
         try {
-            commentGameSetupForm.setGameId(gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName()).getGame_id());
+            commentGameSetupForm.setGameId(gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName()).getGameId());
         } catch (AuthorizationException e) {
             JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
             model.addAttribute(joinGameLobbyForm);
@@ -147,12 +147,12 @@ public class ApplicationController {
         ClubForm clubForm = new ClubForm();
         try {
             ClubDTO clubDTO = clubService.findClubByClubName(clubName);
-            if(!clubMemberService.checkIfUserIsMemberOfClubWithClubId(clubDTO.getClub_id(), request.getUserPrincipal().getName())){
+            if(!clubMemberService.checkIfUserIsMemberOfClubWithClubId(clubDTO.getClubId(), request.getUserPrincipal().getName())){
                 throw new ClubException("your not a member of that club");
             }
-            List<ClubMemberDTO> memberList = clubMemberService.findAllUsersByClubId(clubDTO.getClub_id());
+            List<ClubMemberDTO> memberList = clubMemberService.findAllUsersByClubId(clubDTO.getClubId());
             memberList.sort(Comparator.comparing(ClubMemberDTO::getIsBacchus).reversed());
-            List<ClubWineStatDTO> clubWineStatDTOList = clubWineStatService.findAllByClubId(clubDTO.getClub_id());
+            List<ClubWineStatDTO> clubWineStatDTOList = clubWineStatService.findAllByClubId(clubDTO.getClubId());
             ClubStats clubStats = new ClubStats(clubDTO, memberList, clubWineStatDTOList);
             DecimalFormat numberFormat = new DecimalFormat("#.0000");
             clubStats.getClubDTO().setAverageWineCorrect(Double.valueOf(numberFormat.format(clubStats.getClubDTO().getAverageWineCorrect() * 100)));
@@ -523,7 +523,7 @@ public class ApplicationController {
         }
         lobbyForm.setParticipantsNotReady(lobbyDataService.getUsersNotReadyByGameId(gameId));
         lobbyForm.setParticipantsReady(lobbyDataService.getUsersReadyByGameId(gameId));
-        lobbyForm.setGameId(lobbyService.getLobbyByGameId(gameId).getGame_id());
+        lobbyForm.setGameId(lobbyService.getLobbyByGameId(gameId).getGameId());
         lobbyForm.setUsername(request.getUserPrincipal().getName());
         if(lobbyDataService.isGameHost(request.getUserPrincipal().getName(), gameId)){
             lobbyForm.setGameHost(request.getUserPrincipal().getName());
@@ -587,7 +587,7 @@ public class ApplicationController {
             controlErrorHandling(e, model);
             return MENU_PAGE_URL;
         }
-        printQrCodesForm.setGameId(gameSetupDTO.getGame_id());
+        printQrCodesForm.setGameId(gameSetupDTO.getGameId());
         printQrCodesForm.setQrCodes(qrCodes);
         model.addAttribute(printQrCodesForm);
         return PRINT_QR_CODES_PAGE_URL;
@@ -768,7 +768,7 @@ public class ApplicationController {
         }
         EnterUrlForm enterUrlForm = new EnterUrlForm();
         enterUrlForm.setUrlList(amount);
-        enterUrlForm.setGameId(gameSetupDTO.getGame_id());
+        enterUrlForm.setGameId(gameSetupDTO.getGameId());
         model.addAttribute(enterUrlForm);
         return ENTER_URL_PAGE_URL;
     }
@@ -996,7 +996,7 @@ public class ApplicationController {
         gameSetupService.createGameSetup(numberOfWinesForm.getNumWines(), request.getUserPrincipal().getName());
         String gameId = null;
         try {
-            gameId = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName()).getGame_id();
+            gameId = gameSetupService.getGameSetupByGameHost(request.getUserPrincipal().getName()).getGameId();
         } catch (AuthorizationException e) {
             JoinGameLobbyForm joinGameLobbyForm = new JoinGameLobbyForm();
             model.addAttribute(joinGameLobbyForm);

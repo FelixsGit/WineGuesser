@@ -25,11 +25,11 @@ public class GamePointService {
     }
 
     public List<GamePointDTO> getAllByGameResultId(int gameResultId){
-        List<GamePoint> gamePointList = gamePointRepository.findAllBygameResult_id(gameResultId);
+        List<GamePoint> gamePointList = gamePointRepository.findAllByGameResultId(gameResultId);
         return new ArrayList<>(gamePointList);
     }
 
     public GamePoint getAllByGameResultIdAndUsername(int gameResultId, String username) {
-        return gamePointRepository.findAllBygameResult_idAndUsername(gameResultId, username);
+        return gamePointRepository.findAllByGameResultIdAndUsername(gameResultId, username);
     }
 }

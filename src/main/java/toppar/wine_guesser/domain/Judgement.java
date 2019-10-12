@@ -3,13 +3,13 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "`judgement`", schema = "public")
+@Table(name = "judgement", schema = "public")
 public class Judgement implements JudgementDTO{
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int judgement_id;
+    private int judgementId;
     private String username;
     private int servingOrder;
     private int personalGrade;
@@ -26,12 +26,12 @@ public class Judgement implements JudgementDTO{
         this.gameId = gameId;
     }
 
-    public int getJudgement_id() {
-        return judgement_id;
+    public int getJudgementId() {
+        return judgementId;
     }
 
-    public void setJudgement_id(int judgement_id) {
-        this.judgement_id = judgement_id;
+    public void setJudgementId(int judgementId) {
+        this.judgementId = judgementId;
     }
 
     public String getUsername() {

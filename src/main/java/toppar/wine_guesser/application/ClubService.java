@@ -53,7 +53,7 @@ public class ClubService {
             throw new ClubException("your not a member of any club");
         }
         for (ClubMember clubMember : clubMembers) {
-            clubDTOS.add(clubRepository.findByclub_id(clubMember.getClub_id()));
+            clubDTOS.add(clubRepository.findByClubId(clubMember.getClubId()));
         }
         return clubDTOS;
     }
@@ -65,7 +65,7 @@ public class ClubService {
             throw new ClubException("your not a member of any club");
         }
         for (ClubMember clubMember : clubMembers) {
-            clubs.add((Club) clubRepository.findByclub_id(clubMember.getClub_id()));
+            clubs.add((Club) clubRepository.findByClubId(clubMember.getClubId()));
         }
         return clubs;
     }
@@ -74,7 +74,7 @@ public class ClubService {
         List<ClubDTO> clubDTOS = new ArrayList<>();
         List<ClubMember> clubMembers = clubMemberService.findAllClubMembersByUsername(username);
         for (ClubMember clubMember : clubMembers) {
-            clubDTOS.add(clubRepository.findByclub_id(clubMember.getClub_id()));
+            clubDTOS.add(clubRepository.findByClubId(clubMember.getClubId()));
         }
         return clubDTOS;
     }
@@ -82,13 +82,13 @@ public class ClubService {
     public void updateClub(String clubName, String gameId) throws ClubException {
         Club club = clubRepository.findAllByClubName(clubName);
         List<String> clubMembers = lobbyDataService.getParticipantsByGameId(gameId);
-        checkThatAllParticipantsAreClubMembers(club.getClub_id(), clubMembers);
+        checkThatAllParticipantsAreClubMembers(club.getClubId(), clubMembers);
         GameResult gameResult = gameResultService.getGameResultByGameId(gameId);
         double totalNumWinesCorrect = 0;
         double totalNumWinesGuessed = 0;
         double numberOfWines = gameSettingsService.getAllByGameId(gameId).size();
         for(int i = 0; i < clubMembers.size(); i++){
-            GamePoint gamePoint = gamePointService.getAllByGameResultIdAndUsername(gameResult.getGameResult_id(), clubMembers.get(i));
+            GamePoint gamePoint = gamePointService.getAllByGameResultIdAndUsername(gameResult.getGameResultId(), clubMembers.get(i));
             totalNumWinesCorrect += gamePoint.getPointsNoRegion();
             totalNumWinesGuessed += numberOfWines;
         }
@@ -127,7 +127,7 @@ public class ClubService {
     public void updateClubOnLeave(int clubId, String username) {
         UserResults userResults = userResultsService.findByUsername(username);
         if(userResults.getPlayedGames() > 0){
-            Club clubToUpdate = clubRepository.findAllByclub_id(clubId);
+            Club clubToUpdate = clubRepository.findAllByClubId(clubId);
             double totalNumWinesCorrect = clubToUpdate.getNumWinesCorrect() - userResults.getNumWinesCorrect();
             double totalNumWinesGuessed = clubToUpdate.getNumWinesGuessed() - userResults.getNumWinesGuessed();
             double averageWineCorrect = 0;

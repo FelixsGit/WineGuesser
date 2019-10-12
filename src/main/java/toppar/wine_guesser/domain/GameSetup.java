@@ -6,11 +6,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "`game_setup`", schema = "public")
+@Table(name = "game_setup", schema = "public")
 public class GameSetup implements GameSetupDTO {
 
     @Id
-    private String game_id;
+    private String gameId;
     private String gameHost;
     private String amountOfWines;
     private String clubName;
@@ -26,7 +26,7 @@ public class GameSetup implements GameSetupDTO {
     public GameSetup(String gameHost, String amountOfWines, String gameId, String clubName, String comment){
         this.gameHost = gameHost;
         this.amountOfWines = amountOfWines;
-        this.game_id = gameId;
+        this.gameId = gameId;
         this.clubName = clubName;
         this.comment = comment;
     }
@@ -63,11 +63,11 @@ public class GameSetup implements GameSetupDTO {
         this.amountOfWines = amountOfWines;
     }
 
-    public String getGame_id() {
-        return game_id;
+    public String getGameId() {
+        return gameId;
     }
 
-    public void setGame_id(String game_id) {
-        this.game_id = game_id;
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 }

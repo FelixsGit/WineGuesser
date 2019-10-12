@@ -15,9 +15,9 @@ public interface ClubMemberRepository extends JpaRepository<ClubMember, String> 
 
     List<ClubMember> findAllByUsername(String username);
 
-    ClubMember findAllByclub_idAndUsername(int club_id, String username);
+    ClubMember findAllByClubIdAndUsername(int clubId, String username);
 
-    List<ClubMember> findAllByclub_id(int club_id);
+    List<ClubMember> findAllByClubId(int clubId);
 
-    void removeAllByUsernameAndclub_id(String username, int club_id);
+    void removeAllByUsernameAndClubId(String username, int clubId);
 }

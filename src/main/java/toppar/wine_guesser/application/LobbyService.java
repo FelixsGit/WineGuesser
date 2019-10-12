@@ -27,11 +27,11 @@ public class LobbyService {
     }
 
     public Lobby getLobbyByGameId(String gameId){
-        return lobbyRepository.findLobbyBygame_id(gameId);
+        return lobbyRepository.findLobbyByGameId(gameId);
     }
 
     public void checkAuthorizationByGameId(String gameId, String username) throws AuthorizationException, ClubException {
-        Lobby lobby = lobbyRepository.findLobbyBygame_id(gameId);
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
         if(lobby == null || lobby.getGameStart().equals("canceled") || lobby.getGameStart().equals("started")) {
             throw new AuthorizationException("Wrong Lobby Code");
         }
@@ -49,7 +49,7 @@ public class LobbyService {
             }
             boolean inCorrectClub = false;
             for(int i = 0; i < clubMembers.size(); i++){
-                if(clubMembers.get(i).getClub_id() == clubDTO.getClub_id()){
+                if(clubMembers.get(i).getClubId() == clubDTO.getClubId()){
                     inCorrectClub = true;
                 }
             }
@@ -60,17 +60,17 @@ public class LobbyService {
     }
 
     public String getGameStartByGameId(String gameId){
-        return lobbyRepository.findLobbyBygame_id(gameId).getGameStart();
+        return lobbyRepository.findLobbyByGameId(gameId).getGameStart();
     }
 
     public void cancelGameLobbyByGameId(String gameId){
-        Lobby lobby = lobbyRepository.findLobbyBygame_id(gameId);
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
         lobby.setGameStart("canceled");
         lobbyRepository.save(lobby);
     }
 
     public void startGameLobbyByGameId(String gameId){
-        Lobby lobby = lobbyRepository.findLobbyBygame_id(gameId);
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
         if(lobby != null){
             if(lobby.getGameStart().equals("prestart")){
                 lobby.setGameStart("started");
@@ -80,7 +80,7 @@ public class LobbyService {
     }
 
     public boolean checkIfGameHasStarted(String gameId){
-        Lobby lobby = lobbyRepository.findLobbyBygame_id(gameId);
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
         if(lobby.getGameStart().equals("started")){
            return true;
         }
@@ -88,18 +88,18 @@ public class LobbyService {
     }
 
     public void setGameStartToFinished(String gameId){
-        Lobby lobby = lobbyRepository.findLobbyBygame_id(gameId);
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
         lobby.setGameStart("finished");
         lobbyRepository.save(lobby);
     }
 
     public void setGameStartToGuessLocked(String gameId){
-        Lobby lobby = lobbyRepository.findLobbyBygame_id(gameId);
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
     }
 
 
     public void setGameStartToCompleted(String gameId){
-        Lobby lobby = lobbyRepository.findLobbyBygame_id(gameId);
+        Lobby lobby = lobbyRepository.findLobbyByGameId(gameId);
         lobby.setGameStart("completed");
         lobbyRepository.save(lobby);
     }

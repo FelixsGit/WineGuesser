@@ -16,7 +16,7 @@ public interface GameSettingsRepository extends JpaRepository<GameSettings, Stri
     @Override
     GameSettings save(GameSettings gameSettings);
 
-    List<GameSettings> findAllBygame_id(String game_id);
+    List<GameSettings> findAllByGameId(String gameId);
 
     List<GameSettings> findAllByUrl(String url);
 
@@ -26,6 +26,6 @@ public interface GameSettingsRepository extends JpaRepository<GameSettings, Stri
 
     List<GameSettings> findAll();
 
-    GameSettings findAllBygame_idAndServingOrder(String game_id, String servingOrder);
+    GameSettings findAllByGameIdAndServingOrder(String gameId, String servingOrder);
 
 }

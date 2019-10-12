@@ -49,19 +49,19 @@
     </div>
 
     <div id="resultButton" th:if="${gameBoardLockForm.gameHost}">
-        <form th:action="@{'../gameResults/'+ ${gameBoardLockForm.game_id}}" id="viewResult">
+        <form th:action="@{'../gameResults/'+ ${gameBoardLockForm.gameId}}" id="viewResult">
             <!--<button id="viewResultButton" type="submit">Visa Resultat</button>-->
         </form>
     </div>
 
     <div id="bottom-left" th:unless="${gameBoardLockForm.gameHost}">
-        <form id="lobbyLeaveForm" th:action="@{'/gameBoard/' + ${gameBoardLockForm.game_id} + '/command/leave'}">
+        <form id="lobbyLeaveForm" th:action="@{'/gameBoard/' + ${gameBoardLockForm.gameId} + '/command/leave'}">
             <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen? Du kommer inte kunna gå med igen.');">Lämna Vinprovningen</button>
         </form>
     </div>
 
     <div id="bottom-left" th:if="${gameBoardLockForm.gameHost}">
-        <form id="lobbyCloseForm" th:action="@{'/gameBoard/' + ${gameBoardLockForm.game_id} + '/command/quit'}">
+        <form id="lobbyCloseForm" th:action="@{'/gameBoard/' + ${gameBoardLockForm.gameId} + '/command/quit'}">
             <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
         </form>
     </div>

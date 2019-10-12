@@ -3,14 +3,14 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "`game_settings`", schema = "public")
+@Table(name = "game_settings", schema = "public")
 public class GameSettings implements GameSettingsDTO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long gameSettings_id;
+    private long gameSettingsId;
     private String gameHost;
-    private String game_id;
+    private String gameId;
     private String qrCode;
     private String url;
     private String imgSource;
@@ -20,8 +20,8 @@ public class GameSettings implements GameSettingsDTO{
     private String servingOrder;
 
     @Override
-    public long getGameSettings_id() {
-        return gameSettings_id;
+    public long getGameSettingsId() {
+        return gameSettingsId;
     }
 
     /**
@@ -32,7 +32,7 @@ public class GameSettings implements GameSettingsDTO{
     }
 
     public GameSettings(String gameId, String gameHost, String qrCode, String url, String imgSource, String wineName, String region, String description, String servingOrder){
-        this.game_id = gameId;
+        this.gameId = gameId;
         this.gameHost = gameHost;
         this.qrCode = qrCode;
         this.url = url;
@@ -51,8 +51,8 @@ public class GameSettings implements GameSettingsDTO{
         this.region = region;
     }
 
-    public void setGameSettings_id(long gameSettings_id) {
-        this.gameSettings_id = gameSettings_id;
+    public void setGameSettingsId(long gameSettingsId) {
+        this.gameSettingsId = gameSettingsId;
     }
 
     public String getImgSource() {
@@ -88,12 +88,12 @@ public class GameSettings implements GameSettingsDTO{
         this.servingOrder = servingOrder;
     }
 
-    public String getGame_id() {
-        return game_id;
+    public String getGameId() {
+        return gameId;
     }
 
-    public void setGame_id(String game_id) {
-        this.game_id = game_id;
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     public String getQrCode() {

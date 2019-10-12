@@ -5,12 +5,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "`lobby_data`", schema = "public")
+@Table(name = "lobby_data", schema = "public")
 public class LobbyData implements LobbyDataDTO{
 
-    private long lobby_id;
+    private long lobbyId;
     private String gameHost;
-    private String game_id;
+    private String gameId;
     @Id
     private String participants;
     private int score;
@@ -23,9 +23,9 @@ public class LobbyData implements LobbyDataDTO{
 
 
     public LobbyData(long lobbyId, String gameHost, String gameId, String participants, int score, int ready, int done) {
-        this.lobby_id = lobbyId;
+        this.lobbyId = lobbyId;
         this.gameHost = gameHost;
-        this.game_id = gameId;
+        this.gameId = gameId;
         this.participants = participants;
         this.score = score;
         this.ready = ready;
@@ -40,20 +40,20 @@ public class LobbyData implements LobbyDataDTO{
         this.gameHost = gameHost;
     }
 
-    public long getLobby_id() {
-        return lobby_id;
+    public long getLobbyId() {
+        return lobbyId;
     }
 
-    public String getGame_id() {
-        return game_id;
+    public String getGameId() {
+        return gameId;
     }
 
-    public void setGame_id(String game_id) {
-        this.game_id = game_id;
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
-    public void setLobby_id(long lobby_id) {
-        this.lobby_id = lobby_id;
+    public void setLobbyId(long lobbyId) {
+        this.lobbyId = lobbyId;
     }
 
     public void setParticipants(String participants) {

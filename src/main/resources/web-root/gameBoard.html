@@ -32,7 +32,7 @@
             <h2 th:text="'Skriv in betyg 1 - 5 för vin med serveringsordning: '+ *{wineToRate}"></h2>
             <input id="enter-grade" type="number" th:field="*{wineRating}" />
             <input type="hidden" th:field="*{wineToRate}" />
-            <input type="hidden" th:field="*{game_id}" />
+            <input type="hidden" th:field="*{gameId}" />
             <span class="error"
                   th:if="${#fields.errors('wineRating')}"
                   th:errors="*{wineRating}">
@@ -77,7 +77,7 @@
                     <input id="numGuess" type="hidden" th:field="*{doneRating}" />
                     <br>
                 </li>
-                <input type="hidden" th:field="*{game_id}"/>
+                <input type="hidden" th:field="*{gameId}"/>
                 <div class="text-scale">
                     <button th:if="${gameBoardForm.doneRating}" id="lockInResult" type="submit">Lås in Resultat</button>
                 </div>
@@ -93,13 +93,13 @@
         </form>
 
         <div id="bottom-left" th:unless="${gameBoardForm.gameHost}">
-            <form id="lobbyLeaveForm" th:action="@{'/gameBoard/' + ${gameBoardForm.game_id} + '/command/leave'}">
+            <form id="lobbyLeaveForm" th:action="@{'/gameBoard/' + ${gameBoardForm.gameId} + '/command/leave'}">
                 <button id="lobbyLeave" type="submit" onclick="return confirm('Är du säker på att du vill lämna vinprovningen? Du kommer inte kunna gå med igen.');">Lämna Vinprovningen</button>
             </form>
         </div>
 
         <div id="bottom-left" th:if="${gameBoardForm.gameHost}">
-            <form id="lobbyCloseForm" th:action="@{'/gameBoard/' + ${gameBoardForm.game_id} + '/command/quit'}">
+            <form id="lobbyCloseForm" th:action="@{'/gameBoard/' + ${gameBoardForm.gameId} + '/command/quit'}">
                 <button id="lobbyClose" type="submit" onclick="return confirm('Är du säker på att du vill avsluta vinprovningen? Alla vinprovare kommer bli utkastade och inget kommer sparas.');">Stäng Vinprovningen</button>
             </form>
         </div>

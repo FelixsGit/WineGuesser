@@ -11,7 +11,7 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface ResultDataRepository extends JpaRepository<ResultData, String> {
 
-    List<ResultData> findAllByUsernameAndgameResult_id(String username, int gameResult_id);
+    List<ResultData> findAllByUsernameAndGameResultId(String username, int gameResultId);
 
-    List<ResultData> findAllBygameResult_idAndUsername(int gameResult_id, String username);
+    List<ResultData> findAllByGameResultIdAndUsername(int gameResultId, String username);
 }

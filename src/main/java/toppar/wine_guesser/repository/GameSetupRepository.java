@@ -19,5 +19,5 @@ import toppar.wine_guesser.domain.GameSetup;
 
     void removeByGameHost(String gameHost);
 
-    GameSetup findAllBygame_id(String game_id);
+    GameSetup findAllByGameId(String gameId);
     }

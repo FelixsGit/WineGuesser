@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `club` (
-                        `club_id` int(11) NOT NULL,
+                        `clubId` int(11) NOT NULL,
                         `clubName` varchar(255) NOT NULL,
                         `clubPassword` varchar(255) NOT NULL,
                         `numberOfTastings` int(11) NOT NULL DEFAULT '0',
@@ -34,7 +34,7 @@ CREATE TABLE `club` (
 -- Dumpning av Data i tabell `club`
 --
 
-INSERT INTO `club` (`club_id`, `clubName`, `clubPassword`, `numberOfTastings`, `numWinesCorrect`, `numWinesGuessed`, `averageWineCorrect`, `clubCreator`) VALUES
+INSERT INTO `club` (`clubId`, `clubName`, `clubPassword`, `numberOfTastings`, `numWinesCorrect`, `numWinesGuessed`, `averageWineCorrect`, `clubCreator`) VALUES
 (1, 'KlubbToppar', '53q8p0127', 1, 6, 8, 0.75, 'Felix'),
 (2, 'TestKlubben', '123', 10, 32, 86, 0.37, 'TestFelix1'),
 (3, 'RiojaKlubben', 'tvåord', 1, 9, 44, 0.2, 'Felix');
@@ -46,8 +46,8 @@ INSERT INTO `club` (`club_id`, `clubName`, `clubPassword`, `numberOfTastings`, `
 --
 
 CREATE TABLE `club_member` (
-                               `clubMember_id` int(11) NOT NULL,
-                               `club_id` int(11) NOT NULL,
+                               `clubMemberId` int(11) NOT NULL,
+                               `clubId` int(11) NOT NULL,
                                `username` varchar(255) NOT NULL,
                                `isBacchus` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -56,7 +56,7 @@ CREATE TABLE `club_member` (
 -- Dumpning av Data i tabell `club_member`
 --
 
-INSERT INTO `club_member` (`clubMember_id`, `club_id`, `username`, `isBacchus`) VALUES
+INSERT INTO `club_member` (`clubMemberId`, `clubId`, `username`, `isBacchus`) VALUES
 (1, 1, 'Felix', 'true'),
 (2, 1, 'Linnea', 'false'),
 (3, 1, 'Vinberra', 'true'),
@@ -89,8 +89,8 @@ INSERT INTO `club_member` (`clubMember_id`, `club_id`, `username`, `isBacchus`) 
 --
 
 CREATE TABLE `club_wine_stat` (
-                                  `clubWineStat_id` int(11) NOT NULL,
-                                  `club_id` int(11) NOT NULL,
+                                  `clubWineStatId` int(11) NOT NULL,
+                                  `clubId` int(11) NOT NULL,
                                   `wineName` varchar(255) NOT NULL,
                                   `wineUrl` varchar(8000) NOT NULL,
                                   `numberOfServings` int(11) NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE `club_wine_stat` (
 -- Dumpning av Data i tabell `club_wine_stat`
 --
 
-INSERT INTO `club_wine_stat` (`clubWineStat_id`, `club_id`, `wineName`, `wineUrl`, `numberOfServings`, `averageGrade`) VALUES
+INSERT INTO `club_wine_stat` (`clubWineStatId`, `clubId`, `wineName`, `wineUrl`, `numberOfServings`, `averageGrade`) VALUES
 (1, 1, 'Penfolds Koonunga Hill', 'https://www.systembolaget.se/dryck/roda-viner/penfolds-koonunga-hill-625302', 1, 2.8),
 (2, 1, 'Marques De Arienzo', 'https://www.systembolaget.se/dryck/roda-viner/marques-de-arienzo-271002', 1, 3.8),
 (3, 2, 'Villa Righetti', 'https://www.systembolaget.se/dryck/roda-viner/villa-righetti-7630801', 2, 3.15),
@@ -122,8 +122,8 @@ INSERT INTO `club_wine_stat` (`clubWineStat_id`, `club_id`, `wineName`, `wineUrl
 --
 
 CREATE TABLE `game_point` (
-                              `gamePoint_id` int(11) NOT NULL,
-                              `gameResult_id` int(11) NOT NULL,
+                              `gamePointId` int(11) NOT NULL,
+                              `gameResultId` int(11) NOT NULL,
                               `username` varchar(255) NOT NULL,
                               `points` int(11) NOT NULL,
                               `pointsNoRegion` int(11) NOT NULL
@@ -133,7 +133,7 @@ CREATE TABLE `game_point` (
 -- Dumpning av Data i tabell `game_point`
 --
 
-INSERT INTO `game_point` (`gamePoint_id`, `gameResult_id`, `username`, `points`, `pointsNoRegion`) VALUES
+INSERT INTO `game_point` (`gamePointId`, `gameResultId`, `username`, `points`, `pointsNoRegion`) VALUES
 (1, 1, 'Carina', 3, 2),
 (2, 1, 'Felix', 3, 2),
 (3, 1, 'Linnea', 1, 0),
@@ -202,8 +202,8 @@ INSERT INTO `game_point` (`gamePoint_id`, `gameResult_id`, `username`, `points`,
 --
 
 CREATE TABLE `game_result` (
-                               `gameResult_id` int(11) NOT NULL,
-                               `game_id` varchar(255) NOT NULL,
+                               `gameResultId` int(11) NOT NULL,
+                               `gameId` varchar(255) NOT NULL,
                                `url` varchar(8000) NOT NULL,
                                `comment` varchar(8000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -212,7 +212,7 @@ CREATE TABLE `game_result` (
 -- Dumpning av Data i tabell `game_result`
 --
 
-INSERT INTO `game_result` (`gameResult_id`, `game_id`, `url`, `comment`) VALUES
+INSERT INTO `game_result` (`gameResultId`, `gameId`, `url`, `comment`) VALUES
 (1, '502437', 'https://wineguesser.herokuapp.com/gameResults/502437', 'Valborg.\r\nMat: Grillad kycklingfile med mangosalsa och vitlöksbröd, tapas snacks och gurka.\r\n\r\nNärvarande: Hela KlubbToppar.\r\n\r\nPlats: Hemma.'),
 (2, '365249', 'https://wineguesser.herokuapp.com/gameResults/365249', 'How did I escape Iraq?\r\n\r\nIran.'),
 (3, '939654', 'https://wineguesser.herokuapp.com/gameResults/939654', 'qaasdads'),
@@ -244,9 +244,9 @@ INSERT INTO `game_result` (`gameResult_id`, `game_id`, `url`, `comment`) VALUES
 --
 
 CREATE TABLE `game_settings` (
-                                 `gameSettings_id` bigint(20) NOT NULL,
+                                 `gameSettingsId` bigint(20) NOT NULL,
                                  `gameHost` varchar(255) NOT NULL,
-                                 `game_id` varchar(255) NOT NULL,
+                                 `gameId` varchar(255) NOT NULL,
                                  `qrCode` varchar(8000) NOT NULL,
                                  `url` varchar(8000) NOT NULL,
                                  `imgSource` varchar(8000) NOT NULL,
@@ -260,7 +260,7 @@ CREATE TABLE `game_settings` (
 -- Dumpning av Data i tabell `game_settings`
 --
 
-INSERT INTO `game_settings` (`gameSettings_id`, `gameHost`, `game_id`, `qrCode`, `url`, `imgSource`, `wineName`, `region`, `description`, `servingOrder`) VALUES
+INSERT INTO `game_settings` (`gameSettingsId`, `gameHost`, `gameId`, `qrCode`, `url`, `imgSource`, `wineName`, `region`, `description`, `servingOrder`) VALUES
 (52, 'Felix', '200434', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABK0lEQVR4Xu2VQYoFMQhEhVxL8OqC1xIyVXb4/MnMThcz8KUhydtoyjIt+5eQGzA+8Iq/CVNELHbajtqOQNupy0XUuJ2BiqOvVEBup6CuiO1YB6ExTcSVvQEpSKFbpQZEt/TEt2424BNpruvs+xCJkKDsAKljBkKLOKYtjw3AzcPy6pnbKb4JE6OVstg2R/+GoNCz4Vwq0wC0XNv1DBhuMAE5UkKloQc1HoBsGXQ21A1+BOlCSFEG4yVeiXoQjduPs+JxxARUGAEvFSXmDUagUYeS4s1gXQhrCb1Vo3uK70FGonKOVr4/Vg2YbJtV/7TyTECjJvzYvTyJmlD5k8pFWeRV/AAUZHA8AhBlDCon1vlTPYI0odG3wQUDNgTPuDpyVe0D8Gd84BX/BX4BGe/eKdCOb/gAAAAASUVORK5CYII=', 'https://www.systembolaget.se/dryck/roda-viner/governo-7252601', 'https://static.systembolaget.se/imagelibrary/publishedmedia/e2becfq78oey4ch81vul/819205.jpg', 'Governo', NULL, 'Smak: Fruktig smak med fatkaraktär, inslag av mörka körsbär, russin, choklad, sötlakrits och vanilj. \n\nDoft: Fruktig doft med fatkaraktär, inslag av mörka körsbär, russin, choklad, lakrits, vanilj och örter.', '3'),
 (53, 'Felix', '200434', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABMElEQVR4Xu2V0YrEMAhFBX8r4K8L+S0he69NOzPdfVp9mIGRkqQnEO3VWFl/mNwB7Qtv9p4wRGToCluTS2uBxgdEYxzLBjhkDHNRcCz7oM65HHMnFNBohFSBcmB4CFKETNy212z+H6Yh9KFux0sdhmQVHOVwCVKD1ABp44jNLUgRhjruAefAdeCqDrGYbg45Jj/g9F6DDBr1hZrl7nZUg4h35tVaHEkboEFbh7xA8WgsNaiuCH9I5m+ewdeg8XxkDzSFboDEcCRZr1cx1GBk80ORBfugtUAezndwbDRB1yxbypJ564CLvoKe7CqGIuT5Nn1Hf2azCI11i9xB4eiC/Iug+eHCbkV6IK8BXWQCu6Dlf0/zUzqgLTYrTkcT7IBQAbEHG78/Z7MAf9sX3uxT4A/Fiwe0w3oTUgAAAABJRU5ErkJggg==', 'https://www.systembolaget.se/dryck/roda-viner/montelciego-7843501', 'https://static.systembolaget.se/imagelibrary/publishedmedia/xabwsct26ygti8cgh9yn/1131456.jpg', 'Montelciego', 'Rioja', 'Smak: Kryddig smak med fatkaraktär, inslag av torkade körsbär, muskot, nypon och kryddpeppar. \n\nDoft: Kryddig doft med fatkaraktär, inslag av torkade körsbär, kryddpeppar, russin och nypon.', '2'),
 (54, 'Felix', '200434', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABLklEQVR4Xu2VwQrDQAhEBX9rwV9f8LcW7IxJCk172zm0UA/FfQm4HUdj9SHsDhh/eIvvhMvMIlfMmIOpBEatEdMzO9XAYWOw1gymMog6xUwJkWamEAa4Z2VNkKWB6NY446WbG5CxnLXyOAjg8gQLWMGgB8UWwAHLDodng89DAQtH6oAG+rSz0DZk2/Coph1GE8AkWHZcHqkAIkuOP3Sp1kMAKTMieE7Uk8DknQcFZlYKSMPCWPQEXtBA9Mxx56Qb4hrYTYgZ4JaGKlT5atwe5PVRi/bK9oUAQomJUXV2rfefAHap4BDAENREAHsBHrA1kcDoOk4x8MJZaBPyK8IVyAlz/hUNxKXhCGzV5+X3IZbU7B+/TLsJIUgX4EZ9Ttwm7MZBkRZYA9/jD2/xK/ABiqv4LagboWUAAAAASUVORK5CYII=', 'https://www.systembolaget.se/dryck/roda-viner/baron-de-ley-276801', 'https://static.systembolaget.se/imagelibrary/publishedmedia/fo1mjuurjp83h8uq8mqj/16065857.jpg', 'Baron De Ley', 'Rioja', 'Smak: Nyanserad, balanserad smak med fatkaraktär, inslag av torkade fikon, dill, kanel, choklad, plommon, tobak och vanilj. \n\nDoft: Nyanserad, utvecklad doft med fatkaraktär, inslag av torkade fikon, dill, kanel, choklad, russin, körsbär och vanilj.', '4'),
@@ -281,7 +281,7 @@ INSERT INTO `game_settings` (`gameSettings_id`, `gameHost`, `game_id`, `qrCode`,
 CREATE TABLE `game_setup` (
                               `gameHost` varchar(255) NOT NULL,
                               `amountOfWines` varchar(255) NOT NULL,
-                              `game_id` varchar(255) NOT NULL,
+                              `gameId` varchar(255) NOT NULL,
                               `clubName` varchar(255) DEFAULT NULL,
                               `comment` varchar(8000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -290,7 +290,7 @@ CREATE TABLE `game_setup` (
 -- Dumpning av Data i tabell `game_setup`
 --
 
-INSERT INTO `game_setup` (`gameHost`, `amountOfWines`, `game_id`, `clubName`, `comment`) VALUES
+INSERT INTO `game_setup` (`gameHost`, `amountOfWines`, `gameId`, `clubName`, `comment`) VALUES
 ('TestFelix3', '2', '167419', NULL, NULL),
 ('Felix', '2', '367782', NULL, NULL),
 ('hej', '2', '655309', NULL, 'hej');
@@ -302,18 +302,18 @@ INSERT INTO `game_setup` (`gameHost`, `amountOfWines`, `game_id`, `clubName`, `c
 --
 
 CREATE TABLE `judgement` (
-                             `judgement_id` int(11) NOT NULL,
+                             `judgementId` int(11) NOT NULL,
                              `username` varchar(255) NOT NULL,
                              `servingOrder` int(11) NOT NULL,
                              `personalGrade` int(11) NOT NULL,
-                             `game_id` varchar(255) NOT NULL
+                             `gameId` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumpning av Data i tabell `judgement`
 --
 
-INSERT INTO `judgement` (`judgement_id`, `username`, `servingOrder`, `personalGrade`, `game_id`) VALUES
+INSERT INTO `judgement` (`judgementId`, `username`, `servingOrder`, `personalGrade`, `gameId`) VALUES
 (41, 'TestFelix3', 1, 2, '167419'),
 (42, 'TestFelix3', 2, 4, '167419');
 
@@ -324,8 +324,8 @@ INSERT INTO `judgement` (`judgement_id`, `username`, `servingOrder`, `personalGr
 --
 
 CREATE TABLE `lobby` (
-                         `lobby_id` bigint(20) NOT NULL,
-                         `game_id` varchar(255) NOT NULL,
+                         `lobbyId` bigint(20) NOT NULL,
+                         `gameId` varchar(255) NOT NULL,
                          `gameStart` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -333,7 +333,7 @@ CREATE TABLE `lobby` (
 -- Dumpning av Data i tabell `lobby`
 --
 
-INSERT INTO `lobby` (`lobby_id`, `game_id`, `gameStart`) VALUES
+INSERT INTO `lobby` (`lobbyId`, `gameId`, `gameStart`) VALUES
 (1, '502437', 'finished'),
 (2, '365249', 'finished'),
 (3, '140282', 'canceled'),
@@ -374,9 +374,9 @@ INSERT INTO `lobby` (`lobby_id`, `game_id`, `gameStart`) VALUES
 --
 
 CREATE TABLE `lobby_data` (
-                              `lobby_id` bigint(20) NOT NULL,
+                              `lobbyId` bigint(20) NOT NULL,
                               `gameHost` varchar(255) DEFAULT NULL,
-                              `game_id` varchar(255) NOT NULL,
+                              `gameId` varchar(255) NOT NULL,
                               `participants` varchar(255) NOT NULL,
                               `score` int(11) DEFAULT '0',
                               `ready` int(11) DEFAULT '0',
@@ -387,7 +387,7 @@ CREATE TABLE `lobby_data` (
 -- Dumpning av Data i tabell `lobby_data`
 --
 
-INSERT INTO `lobby_data` (`lobby_id`, `gameHost`, `game_id`, `participants`, `score`, `ready`, `done`) VALUES
+INSERT INTO `lobby_data` (`lobbyId`, `gameHost`, `gameId`, `participants`, `score`, `ready`, `done`) VALUES
 (32, 'TestFelix3', '167419', 'TestFelix3', 0, 0, 1);
 
 -- --------------------------------------------------------
@@ -397,9 +397,9 @@ INSERT INTO `lobby_data` (`lobby_id`, `gameHost`, `game_id`, `participants`, `sc
 --
 
 CREATE TABLE `lobby_history` (
-                                 `lobby_id` bigint(20) NOT NULL,
+                                 `lobbyId` bigint(20) NOT NULL,
                                  `gameHost` varchar(255) DEFAULT NULL,
-                                 `game_id` varchar(255) NOT NULL,
+                                 `gameId` varchar(255) NOT NULL,
                                  `participants` varchar(255) NOT NULL,
                                  `score` int(11) DEFAULT '0',
                                  `ready` int(11) DEFAULT '0',
@@ -410,7 +410,7 @@ CREATE TABLE `lobby_history` (
 -- Dumpning av Data i tabell `lobby_history`
 --
 
-INSERT INTO `lobby_history` (`lobby_id`, `gameHost`, `game_id`, `participants`, `score`, `ready`, `done`) VALUES
+INSERT INTO `lobby_history` (`lobbyId`, `gameHost`, `gameId`, `participants`, `score`, `ready`, `done`) VALUES
 (3, NULL, '140282', 'cartop1', 0, 1, 0),
 (12, 'Felix', '180233', 'Felix', 0, 0, 0),
 (18, 'hej', '655309', 'hej', 0, 0, 0),
@@ -424,11 +424,11 @@ INSERT INTO `lobby_history` (`lobby_id`, `gameHost`, `game_id`, `participants`, 
 --
 
 CREATE TABLE `match_history` (
-                                 `matchHistory_id` int(11) NOT NULL,
-                                 `userResults_id` int(11) NOT NULL,
+                                 `matchHistoryId` int(11) NOT NULL,
+                                 `userResultsId` int(11) NOT NULL,
                                  `datePlayed` varchar(255) NOT NULL,
                                  `url` varchar(255) NOT NULL,
-                                 `game_id` varchar(255) NOT NULL,
+                                 `gameId` varchar(255) NOT NULL,
                                  `clubName` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -436,7 +436,7 @@ CREATE TABLE `match_history` (
 -- Dumpning av Data i tabell `match_history`
 --
 
-INSERT INTO `match_history` (`matchHistory_id`, `userResults_id`, `datePlayed`, `url`, `game_id`, `clubName`) VALUES
+INSERT INTO `match_history` (`matchHistoryId`, `userResultsId`, `datePlayed`, `url`, `gameId`, `clubName`) VALUES
 (1, 2, '2019-04-30', 'https://wineguesser.herokuapp.com/gameResults/502437', '502437', 'KlubbToppar'),
 (2, 1, '2019-04-30', 'https://wineguesser.herokuapp.com/gameResults/502437', '502437', 'KlubbToppar'),
 (3, 3, '2019-04-30', 'https://wineguesser.herokuapp.com/gameResults/502437', '502437', 'KlubbToppar'),
@@ -507,8 +507,8 @@ INSERT INTO `match_history` (`matchHistory_id`, `userResults_id`, `datePlayed`, 
 --
 
 CREATE TABLE `result_data` (
-                               `resultData_id` int(11) NOT NULL,
-                               `gameResult_id` int(11) NOT NULL,
+                               `resultDataId` int(11) NOT NULL,
+                               `gameResultId` int(11) NOT NULL,
                                `username` varchar(255) NOT NULL,
                                `servingOrder` int(11) NOT NULL,
                                `winePicture` varchar(8000) NOT NULL,
@@ -526,7 +526,7 @@ CREATE TABLE `result_data` (
 -- Dumpning av Data i tabell `result_data`
 --
 
-INSERT INTO `result_data` (`resultData_id`, `gameResult_id`, `username`, `servingOrder`, `winePicture`, `wineName`, `wineDescription`, `grade`, `url`, `personalGrade`, `averageGrade`, `region`, `correctRegionGuess`) VALUES
+INSERT INTO `result_data` (`resultDataId`, `gameResultId`, `username`, `servingOrder`, `winePicture`, `wineName`, `wineDescription`, `grade`, `url`, `personalGrade`, `averageGrade`, `region`, `correctRegionGuess`) VALUES
 (1, 1, 'Carina', 1, 'https://static.systembolaget.se/imagelibrary/publishedmedia/hhzjq2ymt4r5us2un7y9/256950.jpg', 'Penfolds Koonunga Hill', 'Smak: Mycket fruktig smak med fatkaraktär, inslag av svarta vinbär, plommon, kaffe, mynta, vanilj och mörk choklad. \n\nDoft: Mycket fruktig doft med fatkaraktär, inslag av svarta vinbär, plommon, eukalyptus, kaffe, vanilj och mörk choklad.', 1, 'https://www.systembolaget.se/dryck/roda-viner/penfolds-koonunga-hill-625302', 4, 2.8, NULL, 'fel.'),
 (2, 1, 'Felix', 1, 'https://static.systembolaget.se/imagelibrary/publishedmedia/hhzjq2ymt4r5us2un7y9/256950.jpg', 'Penfolds Koonunga Hill', 'Smak: Mycket fruktig smak med fatkaraktär, inslag av svarta vinbär, plommon, kaffe, mynta, vanilj och mörk choklad. \n\nDoft: Mycket fruktig doft med fatkaraktär, inslag av svarta vinbär, plommon, eukalyptus, kaffe, vanilj och mörk choklad.', 1, 'https://www.systembolaget.se/dryck/roda-viner/penfolds-koonunga-hill-625302', 2, 2.8, NULL, 'fel.'),
 (3, 1, 'Linnea', 1, 'https://static.systembolaget.se/imagelibrary/publishedmedia/hhzjq2ymt4r5us2un7y9/256950.jpg', 'Penfolds Koonunga Hill', 'Smak: Mycket fruktig smak med fatkaraktär, inslag av svarta vinbär, plommon, kaffe, mynta, vanilj och mörk choklad. \n\nDoft: Mycket fruktig doft med fatkaraktär, inslag av svarta vinbär, plommon, eukalyptus, kaffe, vanilj och mörk choklad.', 0, 'https://www.systembolaget.se/dryck/roda-viner/penfolds-koonunga-hill-625302', 2, 2.8, NULL, 'fel.'),
@@ -637,7 +637,7 @@ INSERT INTO `result_data` (`resultData_id`, `gameResult_id`, `username`, `servin
 (108, 12, 'Linnea', 2, 'https://static.systembolaget.se/imagelibrary/publishedmedia/xabwsct26ygti8cgh9yn/1131456.jpg', 'Montelciego', 'Smak: Kryddig smak med fatkaraktär, inslag av torkade körsbär, muskot, nypon och kryddpeppar. \n\nDoft: Kryddig doft med fatkaraktär, inslag av torkade körsbär, kryddpeppar, russin och nypon.', 0, 'https://www.systembolaget.se/dryck/roda-viner/montelciego-7843501', 2, 3, 'Rioja', 'fel.'),
 (109, 12, 'LådvinsViktor', 2, 'https://static.systembolaget.se/imagelibrary/publishedmedia/xabwsct26ygti8cgh9yn/1131456.jpg', 'Montelciego', 'Smak: Kryddig smak med fatkaraktär, inslag av torkade körsbär, muskot, nypon och kryddpeppar. \n\nDoft: Kryddig doft med fatkaraktär, inslag av torkade körsbär, kryddpeppar, russin och nypon.', 0, 'https://www.systembolaget.se/dryck/roda-viner/montelciego-7843501', 3, 3, 'Rioja', 'fel.'),
 (110, 12, 'steffe rfe', 2, 'https://static.systembolaget.se/imagelibrary/publishedmedia/xabwsct26ygti8cgh9yn/1131456.jpg', 'Montelciego', 'Smak: Kryddig smak med fatkaraktär, inslag av torkade körsbär, muskot, nypon och kryddpeppar. \n\nDoft: Kryddig doft med fatkaraktär, inslag av torkade körsbär, kryddpeppar, russin och nypon.', 1, 'https://www.systembolaget.se/dryck/roda-viner/montelciego-7843501', 3, 3, 'Rioja', 'rätt.');
-INSERT INTO `result_data` (`resultData_id`, `gameResult_id`, `username`, `servingOrder`, `winePicture`, `wineName`, `wineDescription`, `grade`, `url`, `personalGrade`, `averageGrade`, `region`, `correctRegionGuess`) VALUES
+INSERT INTO `result_data` (`resultDataId`, `gameResultId`, `username`, `servingOrder`, `winePicture`, `wineName`, `wineDescription`, `grade`, `url`, `personalGrade`, `averageGrade`, `region`, `correctRegionGuess`) VALUES
 (111, 12, 'Tove', 2, 'https://static.systembolaget.se/imagelibrary/publishedmedia/xabwsct26ygti8cgh9yn/1131456.jpg', 'Montelciego', 'Smak: Kryddig smak med fatkaraktär, inslag av torkade körsbär, muskot, nypon och kryddpeppar. \n\nDoft: Kryddig doft med fatkaraktär, inslag av torkade körsbär, kryddpeppar, russin och nypon.', 1, 'https://www.systembolaget.se/dryck/roda-viner/montelciego-7843501', 2, 3, 'Rioja', 'rätt.'),
 (112, 12, 'Vinberra', 2, 'https://static.systembolaget.se/imagelibrary/publishedmedia/xabwsct26ygti8cgh9yn/1131456.jpg', 'Montelciego', 'Smak: Kryddig smak med fatkaraktär, inslag av torkade körsbär, muskot, nypon och kryddpeppar. \n\nDoft: Kryddig doft med fatkaraktär, inslag av torkade körsbär, kryddpeppar, russin och nypon.', 2, 'https://www.systembolaget.se/dryck/roda-viner/montelciego-7843501', 4, 3, 'Rioja', 'rätt.'),
 (113, 12, 'Carina', 3, 'https://static.systembolaget.se/imagelibrary/publishedmedia/e2becfq78oey4ch81vul/819205.jpg', 'Governo', 'Smak: Fruktig smak med fatkaraktär, inslag av mörka körsbär, russin, choklad, sötlakrits och vanilj. \n\nDoft: Fruktig doft med fatkaraktär, inslag av mörka körsbär, russin, choklad, lakrits, vanilj och örter.', 0, 'https://www.systembolaget.se/dryck/roda-viner/governo-7252601', 5, 3.5, NULL, 'fel.'),
@@ -726,9 +726,9 @@ INSERT INTO `result_data` (`resultData_id`, `gameResult_id`, `username`, `servin
 --
 
 CREATE TABLE `settings_history` (
-                                    `gameSettings_id` bigint(20) NOT NULL,
+                                    `gameSettingsId` bigint(20) NOT NULL,
                                     `gameHost` varchar(255) NOT NULL,
-                                    `game_id` varchar(255) NOT NULL,
+                                    `gameId` varchar(255) NOT NULL,
                                     `qrCode` varchar(8000) NOT NULL,
                                     `url` varchar(8000) NOT NULL,
                                     `description` varchar(8000) NOT NULL,
@@ -739,7 +739,7 @@ CREATE TABLE `settings_history` (
 -- Dumpning av Data i tabell `settings_history`
 --
 
-INSERT INTO `settings_history` (`gameSettings_id`, `gameHost`, `game_id`, `qrCode`, `url`, `description`, `servingOrder`) VALUES
+INSERT INTO `settings_history` (`gameSettingsId`, `gameHost`, `gameId`, `qrCode`, `url`, `description`, `servingOrder`) VALUES
 (19, '378335', 'TestFelix1', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABMElEQVR4Xu2VQYpDMQxDA76WwVcP+FqGjOR8Uub/WY29aKFuKcnbyFHkdKw/atwB6wtv9Z4wxhi2poSE5rIDGr7TPNRy2QJ1KDeEuWyC2KNvdt8IBUrufZCd0+SHSwWItvWqX7dZgFmB7nGCXXWI/RR3nxCJ5HW4FtwVZoymkNZhyGa8s2mXUBnGlsjcNkHMlfkEFOichNSgYgJoND6IQwvEFhIDB4Af1GmAoXRXAlFQTkMHhAeRAWO8jnoNQsF5Z7Ic3pyJq0KmAXMAfC6uCM3zBPyhHS1QMVc7s3hhTkJKkAV7kYS0eQsVYT6AMHfyHaROBzT27wEEt4/JNch/kXypoJiGN0FYgnfAXmFogBAafAPkpv5faDQkOAJpSgvkxVnw7hyJuIRq8FlfeKtPgT+tuudN5KpLowAAAABJRU5ErkJggg==', 'https://www.systembolaget.se/dryck/roda-viner/first-edition-227801', 'Smak: Mycket fruktig, nyanserad smak med fatkaraktär, inslag av svarta vinbär, örter, blåbär, ceder, choklad, peppar och hallon. \n\nDoft: Mycket fruktig, nyanserad doft med fatkaraktär, inslag av svarta vinbär, färska örter, blåbär, choklad, peppar och hallon.', '3'),
 (20, '378335', 'TestFelix1', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABMUlEQVR4Xu2VUYoDQQhEBa8leHXBazX0VjkzSXZ2//QjgUhI9AViT1ltZP8TcgeML7zFe8IlIr7MfGelI9A3UYg50xloKFEswEqHIF66oz7HoCc6Zd66NyBObhqsmc5ATMvO+DXNBqwI6AFNjuhDNDLRzBC+5wjcTNZh2tJkArIXRhfA4SwHIKo4ZhZ0xRAUlArPalanAYgsadpQyIInGIBLl6CL0w+l8QQU5U3YbJn74ZAW5M8bDeYL356NmhBrioODElm3dgTynhLRuNfg2lC8XFtWu1TqQtjLTPEQvLrX4VuQsWgEqv26rBpwcQFCCSwWqz4T0Dk7moxrJc5GTQgHUNyAGs/tPQDrjw/WpS5TEIrg1hrxCIQgRkUwvngYrAk5OJ5fqIqPwL/xhbf4FPgD3/HRCdKJ4W4AAAAASUVORK5CYII=', 'https://www.systembolaget.se/dryck/roda-viner/apothic-red-642008', 'Smak: Generöst fruktig smak med fatkaraktär och viss sötma, inslag av katrinplommon, vanilj, blåbär och mjölkchoklad. \n\nDoft: Generöst fruktig doft med fatkaraktär, inslag av blåbärssylt, vanilj, mynta och mjölkchoklad.', '1'),
 (23, '238238', 'TestFelix1', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABNElEQVR4Xu2VS4oDMQxEDb6WwFcX+FoG55W6O5+e2UmLGYhIGvv1opRS2Wn7l2p3oPrCW/1NuFprY3tffVksK+Dg48PNRixLoDXTZgFjWQTZ07e6L4QdpTnroDrfLjuOZQWkbTvrY5oJGLX68Y3KQ9beJ24gcvACyAakjDE50TzUGSANE5u3j1MoC+fcEpqR2xrIQSWvbpxYdK4wJKFJg3fOG7sSkoPbCRga/AZXbCtgCNE6UeApSyoggIS54vUSysE+GZ6ixeN54tLQlS+mt+drmjk4cDcuKXmzz+az0OmYmOlifSYkB1XYi8lh8yGUhEsXIAFTzkKnAtK5HWMbcVdXQP2LLN1UTdfWKVQAr0hItgpKCGoKcAVERedLicDmN5cSUIPTzOSGj1MoB3/WF97qv8AHCsjrwaSLKHkAAAAASUVORK5CYII=', 'https://www.systembolaget.se/dryck/roda-viner/apothic-red-642008', 'Smak: Generöst fruktig smak med fatkaraktär och viss sötma, inslag av katrinplommon, vanilj, blåbär och mjölkchoklad. \n\nDoft: Generöst fruktig doft med fatkaraktär, inslag av blåbärssylt, vanilj, mynta och mjölkchoklad.', NULL),
@@ -802,7 +802,7 @@ INSERT INTO `settings_history` (`gameSettings_id`, `gameHost`, `game_id`, `qrCod
 (44, '769978', 'TestFelix1', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABK0lEQVR4Xu2VUQoCMQxEC7lWIFcP5FqFOhPXXa3+JR8KBt3tPoWp00kc60ONHbD+cKvvhHOMYVPVVuSyBdoiClfjsgfqUD5MwFw2Qbxked7boAWUIjb1AsTOVVxi7i4VIE5Lj3o5zQLMckEU5HioQwjpkGC6cI0eqAoz7qHNjHVAmzDEnGfm9th8DdKJoBw+YCqaIA4MccA7UqkOaYFz3y6p1gFXPBgu/EYPZCfwhiichtQgtnz0luQvaYBkma2FGXhNhipEJ8ASOnweXBkKgMGKK2BliGmC4LIhUrEBsuDtZCDm87AqwMkBCCcCnZA6HZAiRxPMdLkBKgXyP2pc07sDImSOIbBehGqQOoyEXGEoQRgCMxgG8TNgRciDg8eMWe69Ab7XH271K/AG4fLRCRjGDBEAAAAASUVORK5CYII=', 'https://www.systembolaget.se/dryck/roda-viner/first-edition-227801', 'Smak: Mycket fruktig, nyanserad smak med fatkaraktär, inslag av svarta vinbär, örter, blåbär, ceder, choklad, peppar och hallon. \n\nDoft: Mycket fruktig, nyanserad doft med fatkaraktär, inslag av svarta vinbär, färska örter, blåbär, choklad, peppar och hallon.', '1'),
 (45, '769978', 'TestFelix1', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABLklEQVR4Xu2V4WoEMQiEBV9L8NUFXyuQztjQvab9pz9aOAl7yceCuXF0Zf8ScgPGG17xN+ESEV9mvrO2I9A3UYg5tzPQcMRhAdZ2CGLpjvodg57IlHllb0Dc3DRM161SA6JaduJbNRuwIhRW0HPoQyQy0aS78MwZqIkkn6Ytjw3AnYFG8Azg8HP5JqxL7zJt0BUjEEbAUeFZzcrUhygaFEGmUMiCfzAAWThKAT9EaTwAkQKLuXbWcwIGO0ATMitfmIBlMPQsDBbPEGhCX7VlPv+qZheypSgJOJ8T0FA5XZxVbF2fgIwlvHYQj8DFAYgD+tYqzwR0LpbOfJXKA9A4p+sbJc/0HoAQGWWD1V4TNSEUFgwY4hEIQY4ZNB7X9eD58LF2dfcB+DPe8Ir/Aj8AJmjhre5GEWYAAAAASUVORK5CYII=', 'https://www.systembolaget.se/dryck/roda-viner/apothic-red-642008', 'Smak: Generöst fruktig smak med fatkaraktär och viss sötma, inslag av katrinplommon, vanilj, blåbär och mjölkchoklad. \n\nDoft: Generöst fruktig doft med fatkaraktär, inslag av blåbärssylt, vanilj, mynta och mjölkchoklad.', '3'),
 (46, '466144', 'TestFelix1', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABLklEQVR4Xu2VQYpDQQhEBa8leHXBazX0VJmfkPkzu67FDEQIdL9eWF9LY/uXsDtgfOAt/iZcZpYrd2UFjxKYe4Vlec9RA8MicPNKHmUwmwlWKOHwFsJkhjDfxW/QQHQrrvjWzQPIWOHLux8XAcRtQbgjI+rhGphgXbBY8j0VcKO4IBgG87Ir0SksVMMA+FAq6BVBRvGVEgjRTcdm76mHAK5sJhon9HotliOI4y7mKrqCbwoIZ+UKit9jXAVkdWEybIN8DuwhRHXROvhrqnw17hAiUAs+YV9tDcQV2scJNvtPABnj1mKpX2Y4go8FmIQxzVPA5G5hGjRw1Asg1l5yAvj/7PwUDQz+Js1T/Dm89DtM8Sb+AILMCqT053CdQjYOk4ByJBeCAv6MD7zFf4FfqSDlqVtlRycAAAAASUVORK5CYII=', 'https://www.systembolaget.se/dryck/roda-viner/ecoltura-7912501', 'Smak: Kryddig smak med inslag fat, körsbär, örter, choklad och hallon. \n\nDoft: Kryddig doft med inslag fat, körsbär, pinjenötter, choklad och hallon.', '2');
-INSERT INTO `settings_history` (`gameSettings_id`, `gameHost`, `game_id`, `qrCode`, `url`, `description`, `servingOrder`) VALUES
+INSERT INTO `settings_history` (`gameSettingsId`, `gameHost`, `gameId`, `qrCode`, `url`, `description`, `servingOrder`) VALUES
 (47, '466144', 'TestFelix1', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABMElEQVR4Xu2VQYrDMAxFBbqWwFcX6FoGz/+yA2mmq0qLGagorfOy+O6zlMh6U/IErC981N+EU0TGcp06LZcdcODjw81GLlugifFiAuayCeIa++buG6EiKaIPcufLqWMvOyC2badeTrMAsyZ2j3+wqw5x7RoRjpCZvA7hIFZkj+kOa4BOHzw2qB5XUA0yBxG7aZsgiagbJhY5pxnKEL8B1447djVDEdLvFCjGbeZ0QKQEBws+NJXUIaZUssHYXldQFcIufKC1+BA4QqpQSDkHStc9kI4Hv9e962rQlI9+5enJ1QxFyMKWITk176AizAcg5AYHlzkdMEVgaM1STAvcbxGOLeNOUAOE5HDG3YOqEPMKilv3oM8hhWy9E5pPUBHy4MbMs1vo3A74u77wUf8F/gCFzfe1X0FzMgAAAABJRU5ErkJggg==', 'https://www.systembolaget.se/dryck/roda-viner/apothic-red-642008', 'Smak: Generöst fruktig smak med fatkaraktär och viss sötma, inslag av katrinplommon, vanilj, blåbär och mjölkchoklad. \n\nDoft: Generöst fruktig doft med fatkaraktär, inslag av blåbärssylt, vanilj, mynta och mjölkchoklad.', '1'),
 (48, '178198', 'TestFelix1', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABLklEQVR4Xu2V4QrCMAyEA32tQF490NcK1Lt2djr9ZfJDwTBd91WW9C6tMt6EXAHjDy/xnTBERNsIG51DK4HGC6SFrmEBVFE1lwaOYR1svQ/HvRIKaBRCqkA58HUKkoQ07ohnNz+HM6DH6G7rIQ9DZheAYwFbkCRsQdugBJrB7oIk4VI2FJP4xVF8EmJnOZpWjaLcE+UgR2xaiNGWznkY5tYdW2twg5EWQI5YNCZid10WhoUuOTrSlUBpDuSKHM6pAghFoAfKVpsrqYBwDUngGlewjcvB+XKUjw8miiD6lRk6Txj6VgEHcwUz2W6GJOT7jYe0sfrtZg4arWNzIVEV5L+Iwz3RQ5EaiMfZruyHOoiqkWwupQIa+TpRzx2XhDL3VfDg90c3E/A1/vASvwJv4P8DuOEIlwUAAAAASUVORK5CYII=', 'https://www.systembolaget.se/dryck/roda-viner/ecoltura-7912501', 'Smak: Kryddig smak med inslag fat, körsbär, örter, choklad och hallon. \n\nDoft: Kryddig doft med inslag fat, körsbär, pinjenötter, choklad och hallon.', '4'),
 (55, '197151', 'felix', 'iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAABL0lEQVR4Xu2WwQrDQAhEBX9L2F8X9reEdMZN05D0pocWYkvYvhzGnVW3sn0JuQLGAy/xmzBEZLjO0DAuW+Dg18VsrGUHNDEIBSGXXdBMXYTZd0KTMWcfpAuOx82lAsRpUSnVzqdZgBmTMrr/qEOsXT1d3nkdbhMf+OBZEaR1GPRDgYwv3uo1CJGJ3COLtgkGihU6kc9PMZRgKgXzh9V2FEMJomLhCDaAAxzU6YDIGl2QfmhaUocsBY4/epJ+NECeGNNWdsPRcUUoqaB0JKu3A0IHueNdLt/JFyGs1TmRP1ri2FEJMmgK2ou7WEJFuAYgrylZNdsBaQRpcFL7aIG8RTAG6AdulV2oAdIL8FMx1GHwvwRmgJ6FCpBWSPZVpNsdMA8OQnSDHjfAezzwEv8CX7Kv0nHjIAA1AAAAAElFTkSuQmCC', 'https://www.systembolaget.se/dryck/roda-viner/ecoltura-7912501', 'Smak: Kryddig smak med inslag fat, körsbär, örter, choklad och hallon. \n\nDoft: Kryddig doft med inslag fat, körsbär, pinjenötter, choklad och hallon.', '2'),
@@ -842,7 +842,7 @@ INSERT INTO `settings_history` (`gameSettings_id`, `gameHost`, `game_id`, `qrCod
 --
 
 CREATE TABLE `user` (
-                        `user_id` bigint(20) NOT NULL,
+                        `userId` bigint(20) NOT NULL,
                         `username` varchar(255) NOT NULL,
                         `password` varchar(255) NOT NULL,
                         `activeGame` varchar(255) DEFAULT NULL
@@ -852,7 +852,7 @@ CREATE TABLE `user` (
 -- Dumpning av Data i tabell `user`
 --
 
-INSERT INTO `user` (`user_id`, `username`, `password`, `activeGame`) VALUES
+INSERT INTO `user` (`userId`, `username`, `password`, `activeGame`) VALUES
 (1, 'Felix', 'hejmorma80', NULL),
 (2, 'Carina', 'qwe', NULL),
 (3, 'Linnea', 'katt', NULL),
@@ -882,11 +882,11 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `activeGame`) VALUES
 --
 
 CREATE TABLE `user_guesses` (
-                                `userGuesses_id` bigint(20) NOT NULL,
+                                `userGuessesId` bigint(20) NOT NULL,
                                 `username` varchar(255) NOT NULL,
                                 `servingOrderGuess` int(11) NOT NULL,
                                 `descriptionGuess` varchar(8000) NOT NULL,
-                                `game_id` varchar(255) NOT NULL,
+                                `gameId` varchar(255) NOT NULL,
                                 `regionGuess` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -894,7 +894,7 @@ CREATE TABLE `user_guesses` (
 -- Dumpning av Data i tabell `user_guesses`
 --
 
-INSERT INTO `user_guesses` (`userGuesses_id`, `username`, `servingOrderGuess`, `descriptionGuess`, `game_id`, `regionGuess`) VALUES
+INSERT INTO `user_guesses` (`userGuessesId`, `username`, `servingOrderGuess`, `descriptionGuess`, `gameId`, `regionGuess`) VALUES
 (39, 'TestFelix3', 2, 'Smak: Kryddig smak med inslag fat, körsbär, örter, hallon och vanilj. \r\n\r\nDoft: Kryddig doft med inslag fat, körsbär, pinjenötter, hallon och vanilj.', '167419', 'Kalifornien'),
 (40, 'TestFelix3', 1, 'Smak: Generöst fruktig smak med fatkaraktär och viss sötma, inslag av björnbärssylt, vanilj, blåbär och mjölkchoklad. \r\n\r\nDoft: Generöst fruktig doft med fatkaraktär, inslag av blåbärssylt, vanilj, mynta, björnbär och choklad.', '167419', NULL);
 
@@ -905,7 +905,7 @@ INSERT INTO `user_guesses` (`userGuesses_id`, `username`, `servingOrderGuess`, `
 --
 
 CREATE TABLE `user_results` (
-                                `userResults_id` int(11) NOT NULL,
+                                `userResultsId` int(11) NOT NULL,
                                 `username` varchar(255) NOT NULL,
                                 `playedGames` int(11) DEFAULT '0',
                                 `numWinesGuessed` double DEFAULT '0',
@@ -919,7 +919,7 @@ CREATE TABLE `user_results` (
 -- Dumpning av Data i tabell `user_results`
 --
 
-INSERT INTO `user_results` (`userResults_id`, `username`, `playedGames`, `numWinesGuessed`, `numWinesCorrect`, `correctPercent`, `wins`, `isBacchus`) VALUES
+INSERT INTO `user_results` (`userResultsId`, `username`, `playedGames`, `numWinesGuessed`, `numWinesCorrect`, `correctPercent`, `wins`, `isBacchus`) VALUES
 (1, 'Felix', 2, 6, 4, 0.67, 1, 'false'),
 (2, 'Carina', 2, 6, 2, 0.33, 1, 'false'),
 (3, 'Linnea', 2, 6, 0, 0, 0, 'false'),
@@ -951,55 +951,55 @@ INSERT INTO `user_results` (`userResults_id`, `username`, `playedGames`, `numWin
 -- Index för tabell `club`
 --
 ALTER TABLE `club`
-    ADD PRIMARY KEY (`club_id`);
+    ADD PRIMARY KEY (`clubId`);
 
 --
 -- Index för tabell `club_member`
 --
 ALTER TABLE `club_member`
-    ADD PRIMARY KEY (`clubMember_id`);
+    ADD PRIMARY KEY (`clubMemberId`);
 
 --
 -- Index för tabell `club_wine_stat`
 --
 ALTER TABLE `club_wine_stat`
-    ADD PRIMARY KEY (`clubWineStat_id`);
+    ADD PRIMARY KEY (`clubWineStatId`);
 
 --
 -- Index för tabell `game_point`
 --
 ALTER TABLE `game_point`
-    ADD PRIMARY KEY (`gamePoint_id`);
+    ADD PRIMARY KEY (`gamePointId`);
 
 --
 -- Index för tabell `game_result`
 --
 ALTER TABLE `game_result`
-    ADD PRIMARY KEY (`gameResult_id`);
+    ADD PRIMARY KEY (`gameResultId`);
 
 --
 -- Index för tabell `game_settings`
 --
 ALTER TABLE `game_settings`
-    ADD PRIMARY KEY (`gameSettings_id`);
+    ADD PRIMARY KEY (`gameSettingsId`);
 
 --
 -- Index för tabell `game_setup`
 --
 ALTER TABLE `game_setup`
-    ADD PRIMARY KEY (`game_id`);
+    ADD PRIMARY KEY (`gameId`);
 
 --
 -- Index för tabell `judgement`
 --
 ALTER TABLE `judgement`
-    ADD PRIMARY KEY (`judgement_id`);
+    ADD PRIMARY KEY (`judgementId`);
 
 --
 -- Index för tabell `lobby`
 --
 ALTER TABLE `lobby`
-    ADD PRIMARY KEY (`lobby_id`);
+    ADD PRIMARY KEY (`lobbyId`);
 
 --
 -- Index för tabell `lobby_data`
@@ -1017,32 +1017,32 @@ ALTER TABLE `lobby_history`
 -- Index för tabell `match_history`
 --
 ALTER TABLE `match_history`
-    ADD PRIMARY KEY (`matchHistory_id`);
+    ADD PRIMARY KEY (`matchHistoryId`);
 
 --
 -- Index för tabell `result_data`
 --
 ALTER TABLE `result_data`
-    ADD PRIMARY KEY (`resultData_id`);
+    ADD PRIMARY KEY (`resultDataId`);
 
 --
 -- Index för tabell `user`
 --
 ALTER TABLE `user`
-    ADD PRIMARY KEY (`user_id`),
+    ADD PRIMARY KEY (`userId`),
     ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Index för tabell `user_guesses`
 --
 ALTER TABLE `user_guesses`
-    ADD PRIMARY KEY (`userGuesses_id`);
+    ADD PRIMARY KEY (`userGuessesId`);
 
 --
 -- Index för tabell `user_results`
 --
 ALTER TABLE `user_results`
-    ADD PRIMARY KEY (`userResults_id`);
+    ADD PRIMARY KEY (`userResultsId`);
 
 --
 -- AUTO_INCREMENT för dumpade tabeller
@@ -1052,79 +1052,79 @@ ALTER TABLE `user_results`
 -- AUTO_INCREMENT för tabell `club`
 --
 ALTER TABLE `club`
-    MODIFY `club_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+    MODIFY `clubId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT för tabell `club_member`
 --
 ALTER TABLE `club_member`
-    MODIFY `clubMember_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+    MODIFY `clubMemberId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT för tabell `club_wine_stat`
 --
 ALTER TABLE `club_wine_stat`
-    MODIFY `clubWineStat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+    MODIFY `clubWineStatId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT för tabell `game_point`
 --
 ALTER TABLE `game_point`
-    MODIFY `gamePoint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+    MODIFY `gamePointId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT för tabell `game_result`
 --
 ALTER TABLE `game_result`
-    MODIFY `gameResult_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+    MODIFY `gameResultId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT för tabell `game_settings`
 --
 ALTER TABLE `game_settings`
-    MODIFY `gameSettings_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+    MODIFY `gameSettingsId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT för tabell `judgement`
 --
 ALTER TABLE `judgement`
-    MODIFY `judgement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+    MODIFY `judgementId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT för tabell `lobby`
 --
 ALTER TABLE `lobby`
-    MODIFY `lobby_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+    MODIFY `lobbyId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT för tabell `match_history`
 --
 ALTER TABLE `match_history`
-    MODIFY `matchHistory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+    MODIFY `matchHistoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT för tabell `result_data`
 --
 ALTER TABLE `result_data`
-    MODIFY `resultData_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+    MODIFY `resultDataId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 
 --
 -- AUTO_INCREMENT för tabell `user`
 --
 ALTER TABLE `user`
-    MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+    MODIFY `userId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT för tabell `user_guesses`
 --
 ALTER TABLE `user_guesses`
-    MODIFY `userGuesses_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+    MODIFY `userGuessesId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT för tabell `user_results`
 --
 ALTER TABLE `user_results`
-    MODIFY `userResults_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+    MODIFY `userResultsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
