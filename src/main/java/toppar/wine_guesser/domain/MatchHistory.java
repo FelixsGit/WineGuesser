@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "match_history", schema = "public")
+@Table(name = "`match_history`", schema = "public")
 public class MatchHistory {
 
     @Id
