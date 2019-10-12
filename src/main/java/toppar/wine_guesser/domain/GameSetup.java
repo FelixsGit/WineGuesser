@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "game_setup")
+@Table(name = "game_setup", schema = "public")
 public class GameSetup implements GameSetupDTO {
 
     @Id

@@ -3,7 +3,7 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "game_point")
+@Table(name = "game_point", schema = "public")
 public class GamePoint implements GamePointDTO{
 
     @Id
