@@ -27,7 +27,7 @@ public class ClubWineStatService {
 
 
     public List<ClubWineStatDTO> findAllByClubId(int clubId) {
-        List<ClubWineStatDTO> clubWineStatDTOS = clubWineStatRepository.findAllByClubId(clubId);
+        List<ClubWineStatDTO> clubWineStatDTOS = clubWineStatRepository.findAllByClub_id(clubId);
         clubWineStatDTOS.sort(Comparator.comparing(ClubWineStatDTO::getAverageGrade).reversed());
         return clubWineStatDTOS;
     }
@@ -38,7 +38,7 @@ public class ClubWineStatService {
         List<ResultDataDTO> resultDataList = resultDataService.getAllByGameResultIdAndUsername(gameResult.getGameResult_id(), username);
 
         for(int i = 0; i < resultDataList.size(); i++){
-            ClubWineStat clubWineStat = clubWineStatRepository.findAllByClubIdAndWineName(clubDTO.getClub_id(), resultDataList.get(i).getWineName());
+            ClubWineStat clubWineStat = clubWineStatRepository.findAllByClub_idAndWineName(clubDTO.getClub_id(), resultDataList.get(i).getWineName());
             if(clubWineStat != null){
                 //wine already had on a previous tasting
                 clubWineStat.setNumberOfServings(clubWineStat.getNumberOfServings() + 1);

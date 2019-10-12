@@ -12,13 +12,13 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface JudgementRepository extends JpaRepository<Judgement, Integer> {
 
-    List<Judgement> findAllByUsernameAndGameId(String username, String game_id);
+    List<Judgement> findAllByUsernameAndGame_id(String username, String game_id);
 
-    Judgement findAllByUsernameAndGameIdAndServingOrder(String username, String game_id, int servingOrder);
+    Judgement findAllByUsernameAndGame_idAndServingOrder(String username, String game_id, int servingOrder);
 
-    List<Judgement> findAllByServingOrderAndGameId(int servingOrder, String game_id);
+    List<Judgement> findAllByServingOrderAndGame_id(int servingOrder, String game_id);
 
-    void removeAllByGameId(String game_id);
+    void removeAllByGame_id(String game_id);
 
-    void removeAllByUsernameAndGameId(String username, String game_id);
+    void removeAllByUsernameAndGame_id(String username, String game_id);
 }

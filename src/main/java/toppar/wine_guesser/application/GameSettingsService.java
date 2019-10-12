@@ -56,12 +56,12 @@ public class GameSettingsService {
     }
 
     public List<GameSettings> getAllByGameId(String gameId){
-        return gameSettingsRepository.findAllByGameId(gameId);
+        return gameSettingsRepository.findAllByGame_id(gameId);
     }
 
     public List<String> getQrCodesByGameHost(String username) throws AuthorizationException {
         GameSetupDTO gameSetupDTO  = gameSetupService.getGameSetupByGameHost(username);
-        List<GameSettings> gameSettingsDTOS = gameSettingsRepository.findAllByGameId(gameSetupDTO.getGame_id());
+        List<GameSettings> gameSettingsDTOS = gameSettingsRepository.findAllByGame_id(gameSetupDTO.getGame_id());
         List<String> qrCodes = new ArrayList<>();
         for(int i = 0; i < gameSettingsDTOS.size(); i++){
             qrCodes.add(gameSettingsDTOS.get(i).getQrCode());
@@ -80,7 +80,7 @@ public class GameSettingsService {
     }
     public void setServingOrderByWineId(String wineId, String servingOrder, String gameId) throws ServingOrderExcepetion {
         checkIfServingOrderIsValid(servingOrder, gameId);
-        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGame_id(gameId);
 
         for(int i = 0; i < gameSettings.size(); i++){
             if(gameSettings.get(i).getServingOrder() != null){
@@ -103,7 +103,7 @@ public class GameSettingsService {
         if(servingOrder.isEmpty()){
             throw new ServingOrderExcepetion("servorder nodata");
         }
-        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGame_id(gameId);
         try {
             if (Integer.valueOf(servingOrder) > gameSettings.size()) {
                 throw new ServingOrderExcepetion("servorder big");
@@ -123,7 +123,7 @@ public class GameSettingsService {
     }
 
     public String findChosenRegionByGameId(String gameId){
-        List<GameSettings> gameSettingsList = gameSettingsRepository.findAllByGameId(gameId);
+        List<GameSettings> gameSettingsList = gameSettingsRepository.findAllByGame_id(gameId);
         String region = null;
         for(int i = 0; i < gameSettingsList.size(); i++){
             if(gameSettingsList.get(i).getRegion() != null){
@@ -252,7 +252,7 @@ public class GameSettingsService {
 
     }
     public void winesMissingServingOrder(String gameId) throws WineryException {
-        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGame_id(gameId);
         for (GameSettings gameSetting : gameSettings) {
             if (gameSetting.getServingOrder() == null) {
                 throw new WineryException("serving order error");
@@ -261,28 +261,28 @@ public class GameSettingsService {
     }
 
     public List<String> getDescriptionsByGameId(String gameId){
-        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGame_id(gameId);
         List<String> descriptions = new ArrayList<>();
         gameSettings.forEach(gameSetting -> descriptions.add(gameSetting.getDescription()));
         return descriptions;
     }
 
     public String findCorrectDescription(String gameId, int servingOrder){
-        GameSettings gameSettings = gameSettingsRepository.findAllByGameIdAndServingOrder(gameId, String.valueOf(servingOrder));
+        GameSettings gameSettings = gameSettingsRepository.findAllByGame_idAndServingOrder(gameId, String.valueOf(servingOrder));
         return gameSettings.getDescription();
     }
 
     public GameSettings findGameSettingsByServingOrderAndGameId(String servingOrder, String gameId){
-        return gameSettingsRepository.findAllByGameIdAndServingOrder(gameId, servingOrder);
+        return gameSettingsRepository.findAllByGame_idAndServingOrder(gameId, servingOrder);
     }
 
     public int getNumberOfWinesWithRegionsForGameId(String gameId) {
-        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGame_id(gameId);
         return (int) gameSettings.stream().filter(gameSetting -> gameSetting.getRegion() != null).count();
     }
 
     public boolean checkIfServingOrderAlreadyEntered(String gameId, String id) {
-        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGameId(gameId);
+        List<GameSettings> gameSettings = gameSettingsRepository.findAllByGame_id(gameId);
         for(int i = 0; i < gameSettings.size(); i++){
             if(gameSettings.get(i).getUrl().contains(id)){
                 if(gameSettings.get(i).getServingOrder() != null){

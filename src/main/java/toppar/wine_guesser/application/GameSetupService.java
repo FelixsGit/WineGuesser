@@ -2,7 +2,6 @@ package toppar.wine_guesser.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.AuthorizationException;
@@ -43,7 +42,7 @@ public class GameSetupService{
     }
 
     public GameSetup getGameSetupByGameId(String gameId){
-        return gameSetupRepository.findAllByGameId(gameId);
+        return gameSetupRepository.findAllByGame_id(gameId);
     }
 
     public void updateGameSetupWithChosenClub(String gameHost, String clubName) {
@@ -53,7 +52,7 @@ public class GameSetupService{
     }
 
     public void setCommentForGameSetupWithGameId(String comment, String gameId) {
-        GameSetup gameSetup = gameSetupRepository.findAllByGameId(gameId);
+        GameSetup gameSetup = gameSetupRepository.findAllByGame_id(gameId);
         gameSetup.setComment(comment);
         gameSetupRepository.save(gameSetup);
     }

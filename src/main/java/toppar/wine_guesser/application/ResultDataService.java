@@ -25,11 +25,11 @@ public class ResultDataService {
     }
 
     public List<ResultData> getAllByUsernameAndGameResultId(String username, int gameResultId){
-        return resultDataRepository.findAllByUsernameAndGameResultId(username, gameResultId);
+        return resultDataRepository.findAllByUsernameAndGameResult_id(username, gameResultId);
     }
 
     public List<ResultDataDTO> getAllByGameResultIdAndUsername(int gameResultId, String username){
-        List<ResultData> resultDataList = resultDataRepository.findAllByGameResultIdAndUsername(gameResultId, username);
+        List<ResultData> resultDataList = resultDataRepository.findAllByGameResult_idAndUsername(gameResultId, username);
         return new ArrayList<>(resultDataList);
     }
 

@@ -2,14 +2,11 @@ package toppar.wine_guesser.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import toppar.wine_guesser.domain.MatchHistory;
-import toppar.wine_guesser.domain.MatchHistoryDTO;
 import toppar.wine_guesser.repository.MatchHistoryRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
@@ -24,14 +21,14 @@ public class MatchHistoryService {
     }
 
     public boolean isOldGame(String gameId){
-        if(matchHistoryRepository.findAllByGameId(gameId).isEmpty()){
+        if(matchHistoryRepository.findAllByGame_id(gameId).isEmpty()){
             return false;
         }
         return true;
     }
 
     public List<MatchHistory> findAllByUserResultsId(int userResultsId){
-        List<MatchHistory> matchHistoryList = matchHistoryRepository.findAllByUserResultsId(userResultsId);
+        List<MatchHistory> matchHistoryList = matchHistoryRepository.findAllByUserResults_id(userResultsId);
         return matchHistoryList;
     }
 }

@@ -36,20 +36,20 @@ public class JudgementService {
     }
 
     public void removeAllByGameId(String gameId){
-        judgementRepository.removeAllByGameId(gameId);
+        judgementRepository.removeAllByGame_id(gameId);
     }
 
     public int findNumberOfJudgementsForUserAndGame(String username, String gameId){
-        return judgementRepository.findAllByUsernameAndGameId(username, gameId).size();
+        return judgementRepository.findAllByUsernameAndGame_id(username, gameId).size();
     }
 
     public int findPersonalGrade(String username, String gameId, int servingOrder){
-        Judgement judgement =judgementRepository.findAllByUsernameAndGameIdAndServingOrder(username, gameId, servingOrder);
+        Judgement judgement =judgementRepository.findAllByUsernameAndGame_idAndServingOrder(username, gameId, servingOrder);
         return judgement.getPersonalGrade();
     }
 
     public double findAverageGradeByServingOrderAndGameId(int servingOrder, String gameId){
-        List<Judgement> judgementList = judgementRepository.findAllByServingOrderAndGameId(servingOrder, gameId);
+        List<Judgement> judgementList = judgementRepository.findAllByServingOrderAndGame_id(servingOrder, gameId);
         double numberOfUsers = judgementList.size();
         double totalAddedGrades = 0;
         for(int i = 0; i < judgementList.size(); i++){
@@ -61,6 +61,6 @@ public class JudgementService {
     }
 
     public void removeByUsernameAndGameId(String username, String gameId) {
-        judgementRepository.removeAllByUsernameAndGameId(username, gameId);
+        judgementRepository.removeAllByUsernameAndGame_id(username, gameId);
     }
 }

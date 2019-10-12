@@ -60,7 +60,7 @@ public class UserGuessesService {
     }
 
     public void removeAllByGameId(String gameId){
-        userGuessesRepository.removeAllByGameId(gameId);
+        userGuessesRepository.removeAllByGame_id(gameId);
     }
 
     public List<String> getDescriptionGuessesByUsername(String username){
@@ -77,7 +77,7 @@ public class UserGuessesService {
         return servingOrderGuesses;
     }
     public List<UserGuesses> getAllByGameIdAndUsername(String gameId, String username){
-        return userGuessesRepository.findAllByGameIdAndUsername(gameId, username);
+        return userGuessesRepository.findAllByGame_idAndUsername(gameId, username);
     }
 
     public String getDescriptionGuessByGameIdUsernameAndServingOrderGuess(String gameId, String username, int servingOrderGuess){
@@ -92,7 +92,7 @@ public class UserGuessesService {
     }
 
     public boolean userHasMadeAGuess(String gameId, String username){
-        if(userGuessesRepository.findAllByGameIdAndUsername(gameId, username).size() == 0){ ;
+        if(userGuessesRepository.findAllByGame_idAndUsername(gameId, username).size() == 0){ ;
             return false;
         }
         System.out.println("user has made a guess");
@@ -129,6 +129,6 @@ public class UserGuessesService {
     }
 
     public void removeByUsernameAndGameId(String username, String gameId) {
-        userGuessesRepository.removeAllByUsernameAndGameId(username, gameId);
+        userGuessesRepository.removeAllByUsernameAndGame_id(username, gameId);
     }
 }

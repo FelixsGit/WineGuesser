@@ -53,7 +53,7 @@ public class ClubService {
             throw new ClubException("your not a member of any club");
         }
         for (ClubMember clubMember : clubMembers) {
-            clubDTOS.add(clubRepository.findByClubId(clubMember.getClub_id()));
+            clubDTOS.add(clubRepository.findByClub_id(clubMember.getClub_id()));
         }
         return clubDTOS;
     }
@@ -65,7 +65,7 @@ public class ClubService {
             throw new ClubException("your not a member of any club");
         }
         for (ClubMember clubMember : clubMembers) {
-            clubs.add((Club) clubRepository.findByClubId(clubMember.getClub_id()));
+            clubs.add((Club) clubRepository.findByClub_id(clubMember.getClub_id()));
         }
         return clubs;
     }
@@ -74,7 +74,7 @@ public class ClubService {
         List<ClubDTO> clubDTOS = new ArrayList<>();
         List<ClubMember> clubMembers = clubMemberService.findAllClubMembersByUsername(username);
         for (ClubMember clubMember : clubMembers) {
-            clubDTOS.add(clubRepository.findByClubId(clubMember.getClub_id()));
+            clubDTOS.add(clubRepository.findByClub_id(clubMember.getClub_id()));
         }
         return clubDTOS;
     }
@@ -127,7 +127,7 @@ public class ClubService {
     public void updateClubOnLeave(int clubId, String username) {
         UserResults userResults = userResultsService.findByUsername(username);
         if(userResults.getPlayedGames() > 0){
-            Club clubToUpdate = clubRepository.findAllByClubId(clubId);
+            Club clubToUpdate = clubRepository.findAllByClub_id(clubId);
             double totalNumWinesCorrect = clubToUpdate.getNumWinesCorrect() - userResults.getNumWinesCorrect();
             double totalNumWinesGuessed = clubToUpdate.getNumWinesGuessed() - userResults.getNumWinesGuessed();
             double averageWineCorrect = 0;

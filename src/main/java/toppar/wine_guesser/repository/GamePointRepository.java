@@ -12,7 +12,7 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface GamePointRepository extends JpaRepository<GamePoint, String> {
 
-    List<GamePoint> findAllByGameResultId(int gameResult_id);
+    List<GamePoint> findAllByGameResult_id(int gameResult_id);
 
-    GamePoint findAllByGameResultIdAndUsername(int gameResult_id, String username);
+    GamePoint findAllByGameResult_idAndUsername(int gameResult_id, String username);
 }

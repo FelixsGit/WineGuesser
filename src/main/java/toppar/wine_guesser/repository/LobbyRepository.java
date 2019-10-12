@@ -16,10 +16,10 @@ public interface LobbyRepository extends JpaRepository<Lobby, String> {
     @Override
     Lobby save(Lobby lobby);
 
-    long findLobbyIdByGameId(String game_id);
+    long findLobbyIdByGame_id(String game_id);
 
-    String findGameStartByGameId(String game_id);
+    String findGameStartByGame_id(String game_id);
 
-    Lobby findLobbyByGameId(String game_id);
+    Lobby findLobbyByGame_id(String game_id);
 
 }
