@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
+@Table(name="lobby_data")
 public class LobbyData implements LobbyDataDTO{
 
     private long lobbyId;
