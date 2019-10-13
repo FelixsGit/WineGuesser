@@ -3,6 +3,7 @@ package toppar.wine_guesser.domain;
 import javax.persistence.*;
 
 @Entity
+@Table(name="game_settings")
 public class GameSettings implements GameSettingsDTO{
 
     @Id
